@@ -114,14 +114,26 @@ select{font:600 13px var(--f-body);padding:8px 10px;border-radius:8px;border:1.5
 .thumb.book .t{font-family:var(--f-display);font-weight:800;font-stretch:78%;font-size:15px;line-height:1.05;overflow:hidden;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical}
 .thumb.book .a{font:600 10.5px var(--f-body);opacity:.9;text-transform:uppercase;letter-spacing:.06em}
 .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:8px}
-.partner{background:var(--tag);color:var(--tag-ink)}
-.partner .wrap{padding-block:14px;display:flex;gap:12px 18px;align-items:center;flex-wrap:wrap}
-.partner strong{font-family:var(--f-display);font-weight:900;font-stretch:75%;font-size:22px;text-transform:uppercase;letter-spacing:-.01em}
-.partner .sub{font-size:13.5px}
-.partner .links{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
-.partner a{font:700 14px var(--f-body);text-decoration:none;background:var(--tag-ink);color:var(--tag);padding:9px 14px;border-radius:6px;display:inline-flex;gap:6px;align-items:center}
-.partner a svg{width:11px;height:11px}
-@media (max-width:560px){.partner .links{margin-left:0}}
+.winter .wrap{padding-block:52px}
+.winter-head{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:start}
+.winter h2{font-size:clamp(32px,4.6vw,52px);font-weight:900;font-stretch:72%;text-transform:uppercase;letter-spacing:-.01em;margin:6px 0 12px}
+.winter p.intro{color:var(--muted);max-width:60ch;margin:0 0 18px}
+.winter .cta{display:flex;gap:10px;flex-wrap:wrap}
+.winter .cta a{font:700 15px var(--f-body);text-decoration:none;padding:13px 18px;border-radius:8px;display:inline-flex;gap:8px;align-items:center;border:2px solid var(--ink)}
+.winter .cta a.primary{background:var(--red);border-color:var(--red);color:var(--red-ink)}
+.winter .cta a svg{width:11px;height:11px}
+.rules{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.rules li{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+.rules b{font-family:var(--f-display);font-weight:900;font-stretch:75%;font-size:24px;line-height:1;color:var(--red);font-variant-numeric:tabular-nums}
+.tyres{margin-top:30px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tyre{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.tyre .t{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.tyre h3{font-size:19px;font-weight:800;font-stretch:80%}
+.tyre p{margin:0 0 8px;font-size:13px;color:var(--muted)}
+.tyre a{margin-top:auto;font:600 12.5px var(--f-body);text-decoration:none;color:var(--red);display:inline-flex;gap:5px;align-items:center}
+.tyre a svg{width:10px;height:10px}
+@media (max-width:960px){.tyres{grid-template-columns:repeat(2,minmax(0,1fr))}.winter-head{grid-template-columns:1fr}}
+@media (max-width:480px){.tyres{grid-template-columns:1fr}.rules li{grid-template-columns:72px 1fr}}
 .more{display:flex;justify-content:center;margin-top:22px}
 .more button{font:700 14px var(--f-body);padding:12px 22px;border-radius:8px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
 .seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
@@ -178,7 +190,7 @@ footer p{margin:0;max-width:95ch}
 
 <header class="top"><div class="wrap">
   <div class="brand"><span class="cross" aria-hidden="true"></span>AKTION.CH</div>
-  <nav class="top" aria-label="Sections"><a href="#deals">Top 2,000</a><a href="#shops">Retailers</a><a href="#timing">Timing</a><a href="#tips">Buying rules</a></nav>
+  <nav class="top" aria-label="Sections"><a href="#winter">Winter tyres</a><a href="#deals">Top 2,000</a><a href="#shops">Retailers</a><a href="#timing">Timing</a><a href="#tips">Buying rules</a></nav>
 </div></header>
 
 <section class="hero"><div class="wrap">
@@ -207,10 +219,23 @@ footer p{margin:0;max-width:95ch}
   <div class="fact"><strong>CHF 450 Mio.</strong><span>Swiss Black Friday turnover forecast (2025)</span></div>
 </div></div>
 
-<div class="partner" id="partner" hidden><div class="wrap">
-  <strong>Winter tyres</strong><span class="sub">Time to switch: tyre offers from our partner reifen-online.ch, delivered across Switzerland</span>
-  <div class="links" id="partner-links"></div>
-</div></div>
+<section class="winter" id="winter" style="background:var(--surface);border-block:1px solid var(--line)"><div class="wrap">
+  <div class="winter-head">
+    <div>
+      <div class="eyebrow">Season · O bis O · October to Easter</div>
+      <h2>Winter tyres</h2>
+      <p class="intro">Switch before the first snow. Our tyre partner reifen-online.ch delivers winter, all-season and summer tyres across Switzerland, many to a fitting garage near you.</p>
+      <div class="cta" id="winter-cta"></div>
+    </div>
+    <ul class="rules" aria-label="Swiss winter tyre rules">
+      <li><b>O bis O</b><span>Fit winter tyres from October to Easter, or earlier if snow comes early in your region.</span></li>
+      <li><b>4 mm</b><span>Replace winter tyres at 4 mm tread, measured in the centre. The legal minimum is 1.6 mm.</span></li>
+      <li><b>No law</b><span>Winter tyres are not compulsory, but you must control your car in all conditions. After an accident on unsuitable tyres, insurers can cut payouts.</span></li>
+      <li><b>8 years</b><span>Don't use tyres older than eight years, even with enough tread.</span></li>
+    </ul>
+  </div>
+  <div class="tyres" id="tyres"></div>
+</div></section>
 
 <section class="block" id="deals"><div class="wrap">
   <div class="sec-head">
@@ -321,8 +346,22 @@ function affLink(shop, url){
 /* Featured partner links (e.g. Awin tidd.ly short links). They open a fixed landing page,
    so they appear in the "Partner offers" strip, not on product buttons. Edit labels here. */
 const PARTNER_LINKS = [
-  { label:"Shop tyres at reifen-online.ch", url:"https://tidd.ly/4yBNcmE", shop:"reifenonline" },
+  { label:"Shop winter tyres at reifen-online.ch", url:"https://tidd.ly/4yBNcmE", shop:"reifenonline" },
   { label:"More tyre offers", url:"https://tidd.ly/4z73Dss", shop:"reifenonline" }
+];
+const WINTER_TYRES = [
+  ["Winter","Michelin Alpin 7","Strong on snow and wet; long tread life"],
+  ["Winter","Continental WinterContact TS 870","Frequent test winner for compact cars"],
+  ["Winter","Bridgestone Blizzak 6","Good braking on snow and ice"],
+  ["Winter","Goodyear UltraGrip Performance 3","Balanced all-rounder, quiet"],
+  ["Winter","Pirelli Cinturato Winter 2","Comfort-oriented, low noise"],
+  ["Winter","Nokian Snowproof 2","Nordic brand built for Alpine winters"],
+  ["Winter","Hankook Winter i*cept RS3","Value pick with solid wet grip"],
+  ["Winter","Dunlop Winter Sport 5","Sporty handling on dry cold roads"],
+  ["Winter","Vredestein Wintrac Pro+","For larger cars and SUVs"],
+  ["Winter","Falken Eurowinter HS02 Pro","Budget-friendly winter tyre"],
+  ["All-season","Michelin CrossClimate 2","Year-round tyre with Alpine snow symbol"],
+  ["All-season","Continental AllSeasonContact 2","Year-round tyre for lowland drivers"]
 ];
 const enc = s => encodeURIComponent(s);
 const SHOPS = {
@@ -659,10 +698,8 @@ document.getElementById("cat").onchange = e=>{state.cat=e.target.value;reset();}
 document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{state.scope=b.dataset.scope;renderControls();reset();});
 document.getElementById("more").onclick = ()=>{shown+=PAGE;renderGrid();};
 
-if (PARTNER_LINKS.length){
-  document.getElementById("partner-links").innerHTML = PARTNER_LINKS.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="sponsored noopener">${esc(l.label)} ${ext}</a>`).join("");
-  document.getElementById("partner").hidden = false;
-}
+document.getElementById("winter-cta").innerHTML = PARTNER_LINKS.map((l,i)=>`<a class="${i===0?"primary":""}" href="${esc(l.url)}" target="_blank" rel="sponsored noopener">${esc(l.label)} ${ext}</a>`).join("");
+document.getElementById("tyres").innerHTML = WINTER_TYRES.map(([t,n,d])=>`<article class="tyre"><span class="t">${t}</span><h3>${esc(n)}</h3><p>${esc(d)}</p><a href="${esc(PARTNER_LINKS[0].url)}" target="_blank" rel="sponsored noopener">Check sizes at reifen-online.ch ${ext}</a></article>`).join("");
 renderControls(); renderGrid(); renderShops(); tick(); setInterval(tick, 30000);
 </script>
 </body>
