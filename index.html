@@ -102,7 +102,14 @@ select{font:600 13px var(--f-body);padding:8px 10px;border-radius:8px;border:1.5
 .sticker .now{font-family:var(--f-display);font-weight:900;font-stretch:70%;font-size:34px;line-height:.95;font-variant-numeric:tabular-nums}
 .sticker .off{grid-column:2;grid-row:1/3;align-self:center;background:var(--red);color:#fff;font:800 14px var(--f-display);font-stretch:80%;padding:5px 7px;border-radius:3px;transform:rotate(-4deg);white-space:nowrap}
 .pill{display:inline-block;margin:10px 14px 0;font:700 10.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:3px;border:1.5px solid currentColor;align-self:flex-start}
-.pill.buy{color:var(--good)} .pill.wait{color:var(--warn)} .pill.track{color:var(--track)} .pill.check{color:var(--info)}
+.pill.buy{color:var(--good)} .pill.wait{color:var(--warn)} .pill.track{color:var(--track)} .pill.check{color:var(--info)} .pill.live{color:var(--muted)}
+.sticker.live{background:transparent;border:2px dashed var(--tag-ink);color:var(--ink)}
+.sticker.live .now{font-size:24px}
+.more{display:flex;justify-content:center;margin-top:22px}
+.more button{font:700 14px var(--f-body);padding:12px 22px;border-radius:8px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{font:600 13px var(--f-body);border:0;background:var(--surface);color:var(--ink);padding:7px 13px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 .meta{padding:8px 14px 0;display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12.5px;margin:0}
 .meta dt{color:var(--muted)} .meta dd{margin:0;font-family:var(--f-mono);font-size:12px;font-variant-numeric:tabular-nums;text-align:right;min-width:0;overflow-wrap:anywhere}
 .meta dd.target{color:var(--red);font-weight:700}
@@ -154,14 +161,14 @@ footer p{margin:0;max-width:95ch}
 
 <header class="top"><div class="wrap">
   <div class="brand"><span class="cross" aria-hidden="true"></span>AKTION.CH</div>
-  <nav class="top" aria-label="Sections"><a href="#deals">Top 100</a><a href="#shops">Retailers</a><a href="#timing">Timing</a><a href="#tips">Buying rules</a></nav>
+  <nav class="top" aria-label="Sections"><a href="#deals">Top 1,000</a><a href="#shops">Retailers</a><a href="#timing">Timing</a><a href="#tips">Buying rules</a></nav>
 </div></header>
 
 <section class="hero"><div class="wrap">
   <div>
-    <div class="eyebrow">Black Week Schweiz 2026 · Top 100 watchlist</div>
+    <div class="eyebrow">Black Week Schweiz 2026 · Top 1,000</div>
     <h1 style="margin-top:10px">The deals worth <span class="hl">waiting for</span></h1>
-    <p class="lede">The 100 products Swiss shoppers chase most in November. For each one: today's lowest CHF price in Switzerland, what it cost in Black Week 2025, the record low, and whether to buy now or wait.</p>
+    <p class="lede">1,000 products Swiss shoppers look for in November, across 30 categories. The top 100 come with researched CHF prices, last Black Week's price and a buy-or-wait call. The other 900 link straight to live shop prices and price history.</p>
   </div>
   <div class="board" aria-label="Countdown to Black Friday">
     <div class="lbl">Black Friday · Fr 27.11.2026</div>
@@ -177,7 +184,7 @@ footer p{margin:0;max-width:95ch}
 </div></section>
 
 <div class="facts"><div class="wrap">
-  <div class="fact"><strong id="f-total">100</strong><span>Products ranked by Swiss Black Friday demand</span></div>
+  <div class="fact"><strong id="f-total">1,000</strong><span>Products in 30 categories, top 100 with researched CHF prices</span></div>
   <div class="fact"><strong id="f-buy">–</strong><span>Already at or near their best price</span></div>
   <div class="fact"><strong id="f-wait">–</strong><span>Likely cheaper in Black Week</span></div>
   <div class="fact"><strong>CHF 450 Mio.</strong><span>Swiss Black Friday turnover forecast (2025)</span></div>
@@ -185,29 +192,31 @@ footer p{margin:0;max-width:95ch}
 
 <section class="block" id="deals"><div class="wrap">
   <div class="sec-head">
-    <div class="eyebrow">Top 100 · prices as of 23.10.2026</div>
+    <div class="eyebrow">Top 1,000 · prices as of 23.10.2026</div>
     <h2>Most-wanted, best prices</h2>
-    <p>Ranked by demand: phones, laptops, consoles, headphones, TVs, Dyson and robot vacuums lead Swiss Black Friday sales year after year. A product is marked "Buy now" when today's price is within 3% of its best known price.</p>
+    <p>Products 1–100 are ranked by demand and carry researched prices; a product is marked "Buy now" when today's price is within 3% of its best known price. Products 101–1000 are a curated catalogue of popular models, grouped by category and linked to live prices.</p>
   </div>
   <div class="legend" style="margin-bottom:14px">
     <span><span class="pill buy">Buy now</span>at or near best price</span>
     <span><span class="pill wait">Wait</span>was cheaper before</span>
     <span><span class="pill track">Tracking</span>new, no price history yet</span>
     <span><span class="pill check">Check</span>no verified CHF price</span>
+    <span><span class="pill live">Live price</span>compare at the shops</span>
   </div>
   <div class="controls" role="search">
     <div class="ctl-row">
-      <input class="search" id="q" type="search" placeholder="Search 100 products, e.g. iPhone, Dyson, PS5" aria-label="Search products">
+      <input class="search" id="q" type="search" placeholder="Search 1,000 products, e.g. iPhone, LEGO, Garmin, Jura" aria-label="Search products">
       <select id="status" aria-label="Filter by status">
-        <option value="all">All statuses</option><option value="buy">Buy now</option><option value="wait">Wait for Black Week</option><option value="track">Tracking</option><option value="check">Check price</option>
+        <option value="all">All statuses</option><option value="buy">Buy now</option><option value="wait">Wait for Black Week</option><option value="track">Tracking</option><option value="check">Check price</option><option value="live">Live price</option>
       </select>
       <select id="sort" aria-label="Sort products">
         <option value="rank">Demand rank</option><option value="save">Biggest saving</option><option value="low">Lowest price</option><option value="high">Highest price</option>
       </select>
     </div>
-    <div class="ctl-row"><div id="chips" style="display:flex;gap:6px;flex-wrap:wrap"></div><span class="count" id="count"></span></div>
+    <div class="ctl-row"><div class="seg" role="group" aria-label="Scope"><button type="button" data-scope="top" id="sc-top">Top 100 priced</button><button type="button" data-scope="all" id="sc-all">All 1,000</button></div><select id="cat" aria-label="Category"></select><span class="count" id="count"></span></div>
   </div>
   <div class="grid" id="grid"></div>
+  <div class="more"><button type="button" id="more">Show more</button></div>
 </div></section>
 
 <section class="block" id="shops" style="background:var(--surface);border-block:1px solid var(--line)"><div class="wrap">
@@ -245,9 +254,10 @@ footer p{margin:0;max-width:95ch}
 <footer><div class="wrap">
   <p><strong style="color:var(--ink)">Affiliate disclosure.</strong> Links to retailers carry partner tracking. We are paid a commission on qualifying purchases at no extra cost to you. Ranking and buy/wait calls are based on demand and price history, not on commission.</p>
   <p><strong style="color:var(--ink)">About the prices.</strong> "Today" is the lowest Swiss price listed by the Black-Friday.ch price feed on 23.10.2026. "Black Week 2025" and record lows come from Preispirat deal reports and Toppreise comparisons; Amazon prices include delivery to Switzerland at the time of the report. Variants (storage, colour, bundle) can differ between shops. Prices change hourly, so confirm at the retailer. Black Friday 2026 offers have not been announced yet.</p>
-  <p>Demand ranking draws on Digitec Galaxus, Brack, Fust and Swiss Retail Federation Black Friday reports (phones, TVs, laptops, consoles, robot vacuums and coffee machines lead every year). Product names and trademarks belong to their owners.</p>
+  <p>Products 101–1000 are a curated catalogue of popular models sold in Switzerland, without researched prices; their buttons open live shop listings and Toppreise price history. Demand ranking for the top 100 draws on Digitec Galaxus, Brack, Fust and Swiss Retail Federation Black Friday reports (phones, TVs, laptops, consoles, robot vacuums and coffee machines lead every year). Product names and trademarks belong to their owners.</p>
 </div></footer>
 
+<script src="data/catalogue.js"></script>
 <script>
 /* ============ AFFILIATE CONFIG — fill in your IDs here ============
    Every outbound link goes through affLink(). Until an ID is set, the link
@@ -266,6 +276,8 @@ const AFF = {
   samsung:      { network:null, mid:"", affid:"" },
   manor:        { network:null, mid:"", affid:"" },
   fust:         { network:null, mid:"", affid:"" },
+  zalando:      { network:null, mid:"", affid:"" },
+  jumbo:        { network:null, mid:"", affid:"" },
   toppreise:    { network:null }
 };
 function affLink(shop, url){
@@ -292,6 +304,8 @@ const SHOPS = {
   samsung:{name:"Samsung", search:s=>`https://www.samsung.com/ch/search/?searchvalue=${enc(s)}`},
   fust:{name:"Fust", search:s=>`https://www.fust.ch/search?text=${enc(s)}`},
   manor:{name:"Manor", search:s=>`https://www.manor.ch/de/search?text=${enc(s)}`},
+  zalando:{name:"Zalando", search:s=>`https://www.zalando.ch/katalog/?q=${enc(s)}`},
+  jumbo:{name:"Jumbo", search:s=>`https://www.jumbo.ch/de/search?q=${enc(s)}`},
   toppreise:{name:"History", search:s=>`https://www.toppreise.ch/produktsuche?q=${enc(s)}`}
 };
 /* default retailers per category; a product can override with its own list */
@@ -307,8 +321,28 @@ const CAT_SHOPS = {
   "Beauty":["galaxus","manor","fust","interdiscount"],
   "Coffee":["fust","galaxus","interdiscount","brack"],
   "Cameras":["digitec","brack","fnac","amazon"],
-  "TV":["galaxus","mediamarkt","brack","interdiscount"]
+  "TV":["galaxus","mediamarkt","brack","interdiscount"],
+  "Monitors":["digitec","brack","interdiscount","amazon"],
+  "Smart Home":["galaxus","brack","interdiscount","amazon"],
+  "Networking":["digitec","brack","amazon"],
+  "Printers":["digitec","brack","interdiscount","amazon"],
+  "Kitchen":["galaxus","fust","manor","brack"],
+  "Appliances":["fust","galaxus","mediamarkt","interdiscount"],
+  "PC Components":["digitec","brack","amazon"],
+  "Toys & LEGO":["galaxus","manor","brack","amazon"],
+  "Sports & Outdoor":["galaxus","brack","manor","amazon"],
+  "Bikes & E-mobility":["galaxus","brack","jumbo"],
+  "Tools & DIY":["galaxus","jumbo","brack","amazon"],
+  "Garden":["jumbo","galaxus","brack"],
+  "Fashion & Shoes":["zalando","manor","galaxus"],
+  "Watches & Jewellery":["galaxus","manor","zalando"],
+  "Fragrance & Beauty":["manor","galaxus","amazon"],
+  "Personal Care":["galaxus","interdiscount","fust","amazon"],
+  "Baby & Kids":["galaxus","manor","brack","amazon"],
+  "Furniture & Office":["galaxus","brack","manor"],
+  "Travel & Car":["galaxus","brack","jumbo","amazon"]
 };
+CAT_SHOPS["Beauty"]=CAT_SHOPS["Fragrance & Beauty"];
 
 /* ===== DATA — ranked by demand =====
    [category, name, spec, today CHF, Black Week 2025 CHF, record low CHF, record-low note, search query, note]
@@ -416,8 +450,7 @@ const RAW = [
 ["TV","Samsung OLED S85D 55\"","4K · 120 Hz",null,null,null,null,"Samsung QE55S85D","Regular Black Friday OLED deal at Swiss retailers."]
 ];
 
-const CATS = ["Phones","Audio","Gaming","Computers","Tablets","Wearables","Accessories","Home","Beauty","Coffee","Cameras","TV"];
-const DEALS = RAW.map((r,i)=>{
+const TOP = RAW.map((r,i)=>{
   const [cat,name,spec,now,bw25,low,lowAt,q,note,shops] = r;
   const cands = [];
   if (bw25!=null) cands.push({p:bw25, where:"Black Week 2025"});
@@ -429,8 +462,14 @@ const DEALS = RAW.map((r,i)=>{
   else if (best) status = "wait";
   else status = "check";
   const show = now ?? best?.p ?? null;
-  return {rank:i+1,cat,name,spec,now,bw25,low,lowAt,best,status,save,show,q,note,shops:shops||CAT_SHOPS[cat]};
+  return {rank:i+1,top:true,cat:cat==="Beauty"?"Fragrance & Beauty":cat,name,spec,now,bw25,low,lowAt,best,status,save,show,q,note,shops:shops||CAT_SHOPS[cat]};
 });
+const CAT_LIST = (window.CATALOGUE||[]).map(([cat,name,spec,now],i)=>({
+  rank:TOP.length+i+1, top:false, cat, name, spec, now:now??null, bw25:null, low:null, lowAt:null, best:null,
+  status: now!=null ? "track" : "live", save:0, show:now??null, q:name.replace(/\s*\(.*?\)/g,""), note:null, shops:CAT_SHOPS[cat]||["galaxus","brack","amazon"]
+}));
+const DEALS = TOP.concat(CAT_LIST);
+const CATS = [...new Set(DEALS.map(d=>d.cat))].sort((a,b)=>a.localeCompare(b));
 
 const SHOPINFO = [
  ["galaxus","Digitec Galaxus","Electronics, household, toys. Switzerland's largest online shop","Week-long deals; first items sell out after midnight","Limited quantities per deal","https://www.galaxus.ch/en/"],
@@ -447,22 +486,27 @@ const SHOPINFO = [
 const fmt = n => Number.isInteger(n) ? `${n.toLocaleString("de-CH")}.–` : n.toLocaleString("de-CH",{minimumFractionDigits:2,maximumFractionDigits:2});
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const ext = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>';
-const LABEL = {buy:"Buy now", wait:"Wait for Black Week", track:"Tracking", check:"Check price"};
+const LABEL = {buy:"Buy now", wait:"Wait for Black Week", track:"Tracking", check:"Check price", live:"Live price"};
 
-let state = {cat:"All", sort:"rank", status:"all", q:""};
-try{ Object.assign(state, JSON.parse(localStorage.getItem("bf26v2")||"{}")); }catch(e){}
-const save = () => { try{localStorage.setItem("bf26v2",JSON.stringify(state));}catch(e){} };
+const PAGE = 48;
+let state = {cat:"All", sort:"rank", status:"all", q:"", scope:"all"}, shown = PAGE;
+try{ Object.assign(state, JSON.parse(localStorage.getItem("bf26v3")||"{}")); }catch(e){}
+const save = () => { try{localStorage.setItem("bf26v3",JSON.stringify(state));}catch(e){} };
 
-function renderChips(){
-  const cats = ["All", ...CATS];
-  const n = c => c==="All" ? DEALS.length : DEALS.filter(d=>d.cat===c).length;
-  document.getElementById("chips").innerHTML = cats.map(c=>`<button class="chip" type="button" aria-pressed="${c===state.cat}" data-c="${c}">${c}<span class="n">${n(c)}</span></button>`).join("");
-  document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{state.cat=b.dataset.c;save();renderChips();renderGrid();});
+function renderControls(){
+  const pool = DEALS.filter(d=>state.scope==="all"||d.top);
+  const n = c => c==="All" ? pool.length : pool.filter(d=>d.cat===c).length;
+  const cats = ["All", ...CATS.filter(c=>n(c))];
+  if (!cats.includes(state.cat)) state.cat = "All";
+  const sel = document.getElementById("cat");
+  sel.innerHTML = cats.map(c=>`<option value="${esc(c)}"${c===state.cat?" selected":""}>${c==="All"?"All categories":esc(c)} (${n(c)})</option>`).join("");
+  document.getElementById("sc-top").setAttribute("aria-pressed", state.scope==="top");
+  document.getElementById("sc-all").setAttribute("aria-pressed", state.scope==="all");
 }
 function card(d){
   const pct = d.now && d.save ? Math.round(d.save/d.now*100) : 0;
-  const k = d.now!=null ? "Today in CH" : d.best ? (d.best.where==="Black Week 2025" ? "Black Week 2025" : "Best seen") : "Price";
-  const price = d.show!=null ? `CHF ${fmt(d.show)}` : "TBA";
+  const k = d.now!=null ? "Today in CH" : d.best ? (d.best.where==="Black Week 2025" ? "Black Week 2025" : "Best seen") : d.status==="live" ? "Live price" : "Price";
+  const price = d.show!=null ? `CHF ${fmt(d.show)}` : d.status==="live" ? "Compare shops" : "TBA";
   const rows = [];
   if (d.bw25!=null && d.now!=null) rows.push(`<dt>Black Week 2025</dt><dd>CHF ${fmt(d.bw25)}</dd>`);
   if (d.low!=null && (d.now!=null || d.bw25!=null)) rows.push(`<dt>Record low</dt><dd>CHF ${fmt(d.low)}</dd>`);
@@ -471,9 +515,9 @@ function card(d){
   const btns = d.shops.slice(0,3).map((s,i)=>`<a class="shop${i===0?" primary":""}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS[s].name} ${ext}</a>`).join("")
     + `<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS.toppreise.name} ${ext}</a>`;
   return `<article class="deal">
-    <div class="deal-top"><span class="rank">#<b>${d.rank}</b></span><span class="cat">${d.cat}</span></div>
+    <div class="deal-top"><span class="rank">${d.top?`#<b>${d.rank}</b>`:`<b>${d.rank}</b>`}</span><span class="cat">${d.cat}</span></div>
     <h3>${esc(d.name)}</h3><div class="spec">${esc(d.spec)}</div>
-    <div class="sticker"><span class="k">${k}</span>${pct?`<span class="off">−${pct}% BW</span>`:""}<span class="now">${price}</span></div>
+    <div class="sticker${d.show==null&&d.status==="live"?" live":""}"><span class="k">${k}</span>${pct?`<span class="off">−${pct}% BW</span>`:""}<span class="now">${price}</span></div>
     <span class="pill ${d.status}">${LABEL[d.status]}</span>
     ${rows.length?`<dl class="meta">${rows.join("")}</dl>`:""}
     ${d.note?`<p class="note">${esc(d.note)}</p>`:""}
@@ -482,11 +526,15 @@ function card(d){
 }
 function renderGrid(){
   const term = state.q.trim().toLowerCase();
-  let list = DEALS.filter(d=>(state.cat==="All"||d.cat===state.cat) && (state.status==="all"||d.status===state.status) && (!term || (d.name+" "+d.spec+" "+d.cat).toLowerCase().includes(term)));
+  let list = DEALS.filter(d=>(state.scope==="all"||d.top) && (state.cat==="All"||d.cat===state.cat) && (state.status==="all"||d.status===state.status) && (!term || (d.name+" "+d.spec+" "+d.cat).toLowerCase().includes(term)));
   const by = {rank:(a,b)=>a.rank-b.rank, save:(a,b)=>b.save-a.save||a.rank-b.rank, low:(a,b)=>(a.show??1e9)-(b.show??1e9), high:(a,b)=>(b.show??-1)-(a.show??-1)};
   list.sort(by[state.sort]||by.rank);
-  document.getElementById("count").textContent = `${list.length} of ${DEALS.length}`;
-  document.getElementById("grid").innerHTML = list.length ? list.map(card).join("") : '<div class="empty">No products match. Clear the search or pick another category.</div>';
+  const vis = list.slice(0, shown);
+  document.getElementById("count").textContent = `${vis.length} of ${list.length} shown`;
+  document.getElementById("grid").innerHTML = list.length ? vis.map(card).join("") : '<div class="empty">No products match. Clear the search or pick another category.</div>';
+  const more = document.getElementById("more");
+  more.hidden = list.length <= shown;
+  more.textContent = `Show ${Math.min(PAGE, list.length-shown)} more`;
 }
 function renderShops(){
   document.getElementById("shopRows").innerHTML = SHOPINFO.map(([k,n,best,pat,warn,home])=>
@@ -499,15 +547,19 @@ function tick(){
   document.getElementById("cd-h").textContent = p(Math.floor(ms%864e5/36e5));
   document.getElementById("cd-m").textContent = p(Math.floor(ms%36e5/6e4));
 }
-document.getElementById("f-total").textContent = DEALS.length;
-document.getElementById("f-buy").textContent = DEALS.filter(d=>d.status==="buy").length;
-document.getElementById("f-wait").textContent = DEALS.filter(d=>d.status==="wait").length;
+document.getElementById("f-total").textContent = DEALS.length.toLocaleString("en-US");
+document.getElementById("f-buy").textContent = TOP.filter(d=>d.status==="buy").length;
+document.getElementById("f-wait").textContent = TOP.filter(d=>d.status==="wait").length;
 const qEl = document.getElementById("q"), sEl = document.getElementById("sort"), stEl = document.getElementById("status");
 qEl.value = state.q; sEl.value = state.sort; stEl.value = state.status;
-qEl.oninput = e=>{state.q=e.target.value;save();renderGrid();};
-sEl.onchange = e=>{state.sort=e.target.value;save();renderGrid();};
-stEl.onchange = e=>{state.status=e.target.value;save();renderGrid();};
-renderChips(); renderGrid(); renderShops(); tick(); setInterval(tick, 30000);
+const reset = () => { shown = PAGE; save(); renderGrid(); };
+qEl.oninput = e=>{state.q=e.target.value;reset();};
+sEl.onchange = e=>{state.sort=e.target.value;reset();};
+stEl.onchange = e=>{state.status=e.target.value;reset();};
+document.getElementById("cat").onchange = e=>{state.cat=e.target.value;reset();};
+document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{state.scope=b.dataset.scope;renderControls();reset();});
+document.getElementById("more").onclick = ()=>{shown+=PAGE;renderGrid();};
+renderControls(); renderGrid(); renderShops(); tick(); setInterval(tick, 30000);
 </script>
 </body>
 </html>

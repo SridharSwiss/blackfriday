@@ -1,6 +1,6 @@
 # blackfriday — Aktion.ch Black Friday Schweiz 2026
 
-A single-page, dependency-free site curating the most-wanted Black Friday products for Switzerland, with record-low CHF prices, target buy prices and affiliate links to retailers that deliver in Switzerland.
+A dependency-free static site with the **Top 1,000** Black Friday products for Switzerland across 30 categories. The top 100 carry researched CHF prices (today, Black Week 2025, record low) and a buy/wait call; products 101–1000 are a curated catalogue linked to live shop prices and Toppreise history. Every outbound link goes through the affiliate layer.
 
 - Black Friday: **Fr 27.11.2026** · Black Week from Mo 23.11. · Cyber Monday Mo 30.11.
 - Prices researched up to 23.10.2026 from Swiss price trackers (Preispirat, Toppreise) and retailer listings.
@@ -32,6 +32,13 @@ Products live in the `RAW` array, ordered by demand rank. Each row is:
 - **recordLow**: other verified Swiss-deliverable lows (Preispirat / Toppreise)
 
 Status is computed automatically: **Buy now** if today is within 3% of the best known price, **Wait** if it was cheaper before, **Tracking** if there is no history yet, **Check** if no CHF price is verified. Retailer buttons default per category (`CAT_SHOPS`); pass a `shops` list to override. Search, category, status and sort controls work client-side.
+
+## Catalogue (products 101–1000)
+
+- Source list: `data/catalogue.txt` (`## Category` headers, then `Name | spec`), ordered by importance within each category.
+- Built file loaded by the page: `data/catalogue.js` (`window.CATALOGUE = [[category, name, spec], ...]`).
+- To add a researched price, append today's CHF price as a 4th value: `["Kitchen", "Thermomix TM7", "Food processor", 1499]`; the card switches from "Live price" to "Tracking".
+- Retailer buttons per category are set in `CAT_SHOPS` in `index.html`.
 
 ## Compliance
 
