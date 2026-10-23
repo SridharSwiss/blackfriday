@@ -4,8 +4,13 @@ A fast, dependency-light web app listing Black Friday 2026 offers for Switzerlan
 
 - **Top 100 offers** with researched CHF prices (today, Black Week 2025, record low) and an automatic *Buy now / Wait* call
 - **2,000+ products** in 33 general categories, including **Winter tyres** (reifen-online.ch partner links)
-- **Retailer guide** and **buying guide**
-- One-screen layout: tabs plus a card grid that sizes itself to the window and pages with Prev/Next (← →); phones scroll normally
+- **US deals** tab: 41 US Black Friday deals (last year's USD deal price vs regular price, % off) linking to Amazon.com, Best Buy, Walmart, Target
+- **My list** watchlist (heart on every card, saved in the browser), **share** links per product, price-history bars in the details pop-up
+- **Deal calendar** (CH + US dates with countdown), **Retailers** (CH + US), **Guide & FAQ**
+- Global search (press `/`), filters for shop, price range, status and category, sort by rank / biggest saving / price / A–Z
+- One-screen desktop layout: the card grid sizes itself to the window and pages with Prev/Next (← →). Phones get a bottom tab bar, a "More" sheet, "Show more" loading and bottom-sheet details
+- Light/dark theme toggle (follows the system by default)
+- Deep links: `#top`, `#categories`, `#us`, `#list`, `#calendar`, `#retailers`, `#guide`, `#winter`, and `#p-<product-id>` (opens a product)
 - Every outbound shop link goes through the affiliate layer (Amazon PartnerNet tag active; Awin/Tradedoubler ready)
 
 Black Friday: **Fr 27.11.2026** · Black Week from Mo 23.11. · Cyber Monday Mo 30.11.
@@ -49,6 +54,8 @@ src/config/shops.js         shop search URLs + default shops per category
 src/data/top100.js          top 100 products with researched prices
 src/data/catalogue.js       products 101+ (GENERATED, do not edit by hand)
 src/data/winter-tyres.js    winter tyre models
+src/data/us.js              US deals (USD) + US retailer rows
+src/data/calendar.js        deal calendar events + FAQ
 src/data/retailers.js       retailer guide rows
 src/data/images.js          licensed product photo URLs (optional)
 src/lib/thumb.js            product pictures (photo or illustration)
@@ -60,7 +67,11 @@ public/                     favicon and static files
 
 ## Editing
 
-**Affiliate IDs** – `src/config/affiliates.js`. Amazon: `tag`. Awin: set `network: "awin"`, `mid` (merchant ID, e.g. MediaMarkt CH = 14040) and `affid` (your publisher ID). Tradedoubler: `programId` + `siteId`. Shops without an ID link directly with UTM tags.
+**Affiliate IDs** – `src/config/affiliates.js`. Amazon: `tag`. Awin: set `network: "awin"`, `mid` (merchant ID, e.g. MediaMarkt CH = 14040) and `affid` (your publisher ID). Tradedoubler: `programId` + `siteId`. Shops without an ID link directly with UTM tags. **US links:** Amazon.com needs its own Associates tag (the .de tag `blackfrida08d-21` does not work on amazon.com) – set `amazoncom.tag` once you have it; Best Buy/Walmart/Target can be added via Impact.
+
+**US deals** – `src/data/us.js`. Each row: `[category, name, spec, blackFriday2025USD, regularUSD, mainRetailer, searchQuery]`.
+
+**Calendar & FAQ** – `src/data/calendar.js`.
 
 **Top 100** – `src/data/top100.js`. Each row: `[category, name, spec, todayCHF, blackWeek2025CHF, recordLowCHF, recordLowNote, searchQuery, note, shops?]`. Status is computed: *Buy now* if today is within 3% of the best known price, *Wait* if it was cheaper before, *Tracking* without history, *Check* without a verified CHF price.
 

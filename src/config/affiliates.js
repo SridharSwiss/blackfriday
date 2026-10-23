@@ -6,6 +6,10 @@
 export const AFF = {
   site: "aktion-ch",
   amazon:       { network:"amazon", tag:"blackfrida08d-21" },  // Amazon.de PartnerNet
+  amazoncom:    { network:"amazon", tag:"" },                 // Amazon.com Associates (US) — separate tag needed
+  bestbuy:      { network:null },                             // Best Buy (Impact)
+  walmart:      { network:null },                             // Walmart (Impact)
+  target:       { network:null },                             // Target (Impact)
   galaxus:      { network:null, programId:"", siteId:"" },    // Digitec Galaxus partner programme
   digitec:      { network:null, programId:"", siteId:"" },
   brack:        { network:null, mid:"", affid:"" },

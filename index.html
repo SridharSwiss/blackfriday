@@ -18,90 +18,127 @@
 <body>
 <div class="app">
   <header class="bar gut">
-    <div class="brand"><span class="cross" aria-hidden="true"></span>Aktion.ch <small>Black Week Schweiz 2026</small></div>
-    <div class="board" aria-label="Countdown to Black Friday, 27 November 2026">
-      <span class="lbl">Black Friday 27.11.</span>
-      <b id="cd-d">35</b><span class="u">T</span><b id="cd-h">00</b><span class="u">h</span><b id="cd-m">00</b><span class="u">m</span>
+    <a class="brand" href="#top" aria-label="Aktion.ch home"><span class="cross" aria-hidden="true"></span>Aktion.ch<small>Black Friday 2026</small></a>
+    <label class="hsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search 2,000+ deals…  (press /)" aria-label="Search deals" autocomplete="off"></label>
+    <div class="hactions">
+      <div class="board" aria-label="Countdown to Black Friday, 27 November 2026" title="Black Friday · Fr 27.11.2026">
+        <span class="lbl">Black Friday</span><b id="cd-d">35</b><span class="u">d</span><b id="cd-h">00</b><span class="u">h</span><b id="cd-m">00</b><span class="u">m</span>
+      </div>
+      <button class="iconbtn" id="theme" type="button" aria-label="Switch light or dark mode" title="Light / dark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg></button>
+      <button class="iconbtn watchbtn" id="go-list" type="button" aria-label="My list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9-8.7C1.5 7.8 4 4.5 7.3 4.5c2 0 3.5 1.1 4.7 2.7 1.2-1.6 2.7-2.7 4.7-2.7 3.3 0 5.8 3.3 4.3 6.8-2 4.3-9 8.7-9 8.7z"/></svg><span class="count" id="list-count" hidden>0</span></button>
     </div>
   </header>
   <div class="disclose gut"><b>ANZEIGE</b>Shop links are affiliate links: we may earn a commission, your price stays the same. Als Amazon-Partner verdienen wir an qualifizierten Verkäufen.</div>
+
   <nav class="tabs gut" role="tablist" aria-label="Sections">
-    <button class="tab" role="tab" id="t-top" data-tab="top" aria-controls="p-products">Top 100 offers<span class="n">100</span></button>
-    <button class="tab" role="tab" id="t-categories" data-tab="categories" aria-controls="p-products">Shop by category<span class="n" id="n-cat">1,911</span></button>
-    <button class="tab" role="tab" id="t-retailers" data-tab="retailers" aria-controls="p-retailers">Retailers</button>
-    <button class="tab" role="tab" id="t-guide" data-tab="guide" aria-controls="p-guide">Buying guide</button>
+    <button class="tab" role="tab" id="t-top" data-tab="top">Top 100<span class="n">CH</span></button>
+    <button class="tab" role="tab" id="t-categories" data-tab="categories">All categories<span class="n" id="n-cat"></span></button>
+    <button class="tab" role="tab" id="t-us" data-tab="us">US deals<span class="n" id="n-us"></span></button>
+    <button class="tab" role="tab" id="t-list" data-tab="list">My list<span class="n" id="n-list">0</span></button>
+    <button class="tab" role="tab" id="t-calendar" data-tab="calendar">Deal calendar</button>
+    <button class="tab" role="tab" id="t-retailers" data-tab="retailers">Retailers</button>
+    <button class="tab" role="tab" id="t-guide" data-tab="guide">Guide &amp; FAQ</button>
   </nav>
 
-  <main class="gut" style="min-height:0;display:grid">
-    <section class="panel" id="p-products" role="tabpanel">
-      <div>
-        <div class="toolbar">
-          <span class="lead" id="lead">Top <em>100</em> offers</span>
-          <select id="catSel" aria-label="Category" hidden></select>
-          <input class="search" id="q" type="search" placeholder="Search products, e.g. iPhone, LEGO, Dyson" aria-label="Search products">
-          <select id="status" aria-label="Filter by status">
-            <option value="all">All statuses</option><option value="buy">Buy now</option><option value="wait">Wait for Black Week</option><option value="track">Tracking</option><option value="check">Check price</option>
+  <main class="gut">
+    <section class="panel" id="p-products" role="tabpanel" aria-live="polite">
+      <div class="head">
+        <div class="titlerow">
+          <h1 class="lead" id="lead">Top <em>100</em> offers</h1>
+          <span class="sub" id="leadsub"></span>
+          <button class="linkbtn" id="clear-list" type="button" hidden>Clear list</button>
+        </div>
+        <div class="filters" id="filters">
+          <select id="catSel" aria-label="Category"></select>
+          <select id="store" aria-label="Shop"></select>
+          <select id="price" aria-label="Price">
+            <option value="all">Any price</option><option value="0-50">Under 50</option><option value="50-200">50 – 200</option><option value="200-500">200 – 500</option><option value="500-1000">500 – 1,000</option><option value="1000-1e9">Over 1,000</option>
+          </select>
+          <select id="status" aria-label="Status">
+            <option value="all">All deals</option><option value="buy">Buy now</option><option value="wait">Wait for Black Week</option><option value="track">Tracking</option><option value="check">Check price</option>
           </select>
           <select id="sort" aria-label="Sort">
-            <option value="rank">Recommended</option><option value="save">Biggest saving</option><option value="low">Lowest price</option><option value="high">Highest price</option><option value="az">Name A–Z</option>
+            <option value="rank">Recommended</option><option value="save">Biggest saving</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="az">Name A–Z</option>
           </select>
+          <button class="linkbtn" id="reset" type="button" hidden>Reset filters</button>
         </div>
-        <div class="winterbar" id="winterbar" hidden>
-        <span class="wb-rules"><b>O bis O</b> October to Easter · <b>4 mm</b> minimum tread for winter · <b>8 years</b> max tyre age · not compulsory, but insurers can cut payouts</span>
-        <span class="cta" id="winter-cta"></span>
+        <div class="infobar winterbar" id="winterbar" hidden>
+          <span><b>O bis O</b> October to Easter · <b>4 mm</b> tread for winter · <b>8 years</b> max age · not compulsory, but insurers can cut payouts</span>
+          <span class="cta" id="winter-cta"></span>
+        </div>
+        <div class="infobar usbar" id="usbar" hidden>
+          <span><b>US Black Friday</b> Thu 26.11. Thanksgiving · <b>Fri 27.11.</b> · Cyber Monday 30.11. Prices are last year's US deal prices in USD, before sales tax.</span>
+          <span class="note">From Switzerland: most US shops don't ship here; import VAT 8.1% and US plugs/warranty apply.</span>
+        </div>
       </div>
-      </div>
-      <div class="grid" id="grid" tabindex="-1"></div>
-      <div class="pager">
+      <div class="grid" id="grid"></div>
+      <div class="pager" id="pager">
         <button type="button" id="prev" aria-label="Previous page">‹ Prev</button>
         <span class="info" id="info"></span>
         <button type="button" id="next" aria-label="Next page">Next ›</button>
       </div>
+      <div class="more" id="more-wrap" hidden><button type="button" id="more">Show more</button><span class="info" id="info-m"></span></div>
+    </section>
+
+    <section class="panel flow" id="p-calendar" role="tabpanel" hidden>
+      <div class="titlerow"><h1 class="lead">Deal <em>calendar</em> 2026</h1><span class="sub">Switzerland and US</span></div>
+      <ol class="cal" id="cal"></ol>
     </section>
 
     <section class="panel flow" id="p-retailers" role="tabpanel" hidden>
-      <div class="toolbar"><span class="lead">Retailers that deliver in <em>Switzerland</em></span></div>
-      <div class="tbl-wrap"><table>
-        <thead><tr><th>Retailer</th><th>Best for</th><th>Black Friday pattern</th><th>Watch out</th><th></th></tr></thead>
-        <tbody id="shopRows"></tbody>
-      </table></div>
+      <div class="titlerow"><h1 class="lead">Retailers in <em>Switzerland</em></h1></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Retailer</th><th>Best for</th><th>Black Friday pattern</th><th>Watch out</th><th></th></tr></thead><tbody id="shopRows"></tbody></table></div>
+      <div class="titlerow" style="margin-top:20px"><h2 class="lead sm">US <em>retailers</em></h2></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Retailer</th><th>Best for</th><th>Black Friday pattern</th><th>Watch out</th><th></th></tr></thead><tbody id="usShopRows"></tbody></table></div>
     </section>
 
     <section class="panel flow" id="p-guide" role="tabpanel" hidden>
       <div class="guide">
         <div>
-          <div class="eyebrow">Timing</div><h3>When prices move</h3>
-          <ol class="timeline">
-            <li><time>Now – 10.11.</time><strong>Build your list</strong><p>Set a target price per product; some record lows happened outside November.</p></li>
-            <li><time>Mi 11.11.</time><strong>Singles Day</strong><p>Smaller discounts in Switzerland, some early codes.</p></li>
-            <li><time>Mo 23.11.</time><strong>Black Week opens</strong><p>Digitec Galaxus, Brack and Interdiscount run deals all week.</p></li>
-            <li class="peak"><time>Fr 27.11.</time><strong>Black Friday</strong><p>Deals go live at midnight; limited stock goes before noon.</p></li>
-            <li><time>Mo 30.11.</time><strong>Cyber Monday</strong><p>Swiss shops mostly extend Black Friday prices until here.</p></li>
-          </ol>
-        </div>
-        <div>
-          <div class="eyebrow">Buying rules</div><h3>Don't get played</h3>
+          <div class="eyebrow">Buying rules</div><h2>Don't get played</h2>
           <ul class="tips">
             <li><b>Compare against last Black Week</b>Some shops raise prices shortly before Black Friday to inflate discounts.</li>
+            <li><b>Use My list</b>Save products with the heart and check back: they're flagged when they reach their target price.</li>
             <li><b>Join loyalty programmes early</b>Manor, H&amp;M and Ochsner Sport keep some offers for members.</li>
             <li><b>Check delivery to Switzerland</b>Foreign shops may not ship every item, or use Schuko plugs and German keyboards.</li>
-            <li><b>First-order codes count</b>Several record lows relied on newsletter or new-customer codes.</li>
             <li><b>Buy last year's model</b>The deepest cuts land on the previous generation.</li>
           </ul>
         </div>
+        <div>
+          <div class="eyebrow">Questions</div><h2>FAQ</h2>
+          <div class="faq" id="faq"></div>
+        </div>
         <div class="about">
-          <div class="eyebrow">About</div><h3>Prices &amp; disclosure</h3>
+          <div class="eyebrow">About</div><h2>Prices &amp; disclosure</h2>
           <p><strong>Affiliate links.</strong> Shop links carry partner tracking; we are paid a commission on qualifying purchases at no extra cost to you. Als Amazon-Partner verdienen wir an qualifizierten Verkäufen. Rankings and buy/wait calls are based on demand and price history, not on commission.</p>
-          <p><strong>Prices.</strong> "Today" is the lowest Swiss price listed by the Black-Friday.ch price feed on 23.10.2026; Black Week 2025 prices and record lows come from Preispirat deal reports and Toppreise comparisons. Prices change hourly, so confirm at the shop. Black Friday 2026 offers have not been announced yet.</p>
-          <p><strong>Catalogue.</strong> Products 101–2000 are a curated list of popular models sold in or delivered to Switzerland, without researched prices; their buttons open live shop listings. Pictures are illustrations until licensed shop photos are added.</p>
-          <p><strong>Sources.</strong> Black-Friday.ch, Preispirat, Toppreise, Swiss Retail Federation, TCS tyre advice. Product names and trademarks belong to their owners.</p>
+          <p><strong>Prices.</strong> Swiss "today" prices: Black-Friday.ch price feed, 23.10.2026. Black Week 2025 prices and record lows: Preispirat deal reports, Toppreise comparisons. US prices: Black Friday/Cyber Monday 2025 deal prices reported by Macworld and TechRadar. Prices change hourly; confirm at the shop.</p>
+          <p><strong>Catalogue.</strong> Products beyond the top 100 are a curated list of popular models sold in or delivered to Switzerland, without researched prices; their buttons open live shop listings. Pictures are illustrations until licensed shop photos are added.</p>
+          <p><strong>Sources.</strong> Black-Friday.ch, Preispirat, Toppreise, Swiss Retail Federation, TCS tyre advice, Macworld, TechRadar. Product names and trademarks belong to their owners.</p>
         </div>
       </div>
     </section>
   </main>
+
+  <nav class="bottomnav" aria-label="Main">
+    <button type="button" data-tab="top" id="b-top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg>Top 100</button>
+    <button type="button" data-tab="categories" id="b-categories"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Categories</button>
+    <button type="button" data-tab="us" id="b-us"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V4M4 4h13l-2 4 2 4H4"/></svg>US deals</button>
+    <button type="button" data-tab="list" id="b-list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9-8.7C1.5 7.8 4 4.5 7.3 4.5c2 0 3.5 1.1 4.7 2.7 1.2-1.6 2.7-2.7 4.7-2.7 3.3 0 5.8 3.3 4.3 6.8-2 4.3-9 8.7-9 8.7z"/></svg>My list<span class="dot" id="b-count" hidden></span></button>
+    <button type="button" id="b-more" aria-haspopup="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>More</button>
+  </nav>
 </div>
 
+<div class="moresheet" id="moresheet" hidden>
+  <div class="ms-in">
+    <button type="button" data-tab="calendar">Deal calendar</button>
+    <button type="button" data-tab="retailers">Retailers</button>
+    <button type="button" data-tab="guide">Guide &amp; FAQ</button>
+    <button type="button" data-cat="Winter tyres">Winter tyres ❄</button>
+  </div>
+</div>
 <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="m-title"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast" role="status" hidden></div>
 
 <script type="module" src="/src/main.js"></script>
 </body>

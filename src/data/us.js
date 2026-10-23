@@ -1,0 +1,53 @@
+/* US Black Friday deals (USD). Prices are the actual US Black Friday / Cyber Monday 2025 deal prices
+   reported by Macworld (1.12.2025) and TechRadar (Nov 2025), so they show what to expect in 2026.
+   Format: [category, name, spec, bf2025USD, regularUSD, retailer, searchQuery] */
+export const US_RAW = [
+["Computers","Apple MacBook Air 13\" M4","16 GB · 256 GB",749,999,"amazoncom","MacBook Air 13 M4 256GB"],
+["Computers","Apple MacBook Air 15\" M4","16 GB · 256 GB",949,1199,"amazoncom","MacBook Air 15 M4 256GB"],
+["Computers","Apple MacBook Pro 14\" M5","16 GB · 512 GB",1349,1599,"amazoncom","MacBook Pro 14 M5 512GB"],
+["Computers","Apple Mac mini M4","16 GB · 256 GB",479,599,"amazoncom","Mac mini M4 256GB"],
+["Computers","Apple iMac 24\" M4","8-core GPU · 256 GB",1149,1299,"amazoncom","iMac M4 24 inch"],
+["Audio","Apple AirPods Pro 3","ANC · heart-rate sensing",220,249,"amazoncom","AirPods Pro 3"],
+["Audio","Apple AirPods 4 (ANC)","Active noise cancellation",99,179,"amazoncom","AirPods 4 ANC"],
+["Audio","Apple AirPods 4","Open-fit",79,129,"walmart","AirPods 4"],
+["Audio","Sony WH-1000XM6","Over-ear ANC",398,459.99,"amazoncom","Sony WH-1000XM6"],
+["Audio","Sony WH-1000XM5","Over-ear ANC",248,399.99,"amazoncom","Sony WH-1000XM5"],
+["Audio","Bose QuietComfort Headphones","Over-ear ANC",199,349,"amazoncom","Bose QuietComfort Headphones"],
+["Audio","Bose QuietComfort Ultra Earbuds (2nd Gen)","True wireless ANC",249,299,"amazoncom","Bose QuietComfort Ultra Earbuds 2nd Gen"],
+["Audio","Beats Studio Pro","Over-ear ANC",170,350,"amazoncom","Beats Studio Pro"],
+["Audio","Beats Solo 4","On-ear",130,200,"amazoncom","Beats Solo 4"],
+["Wearables","Apple Watch Series 11","42 mm · GPS",329,399,"amazoncom","Apple Watch Series 11 42mm"],
+["Wearables","Apple Watch SE 3","40 mm · GPS",199,249,"amazoncom","Apple Watch SE 3 40mm"],
+["Wearables","Apple Watch Ultra 3","49 mm · titanium",699,799,"amazoncom","Apple Watch Ultra 3"],
+["Wearables","Garmin fēnix 8","47 mm · AMOLED",849.99,1099.99,"bestbuy","Garmin fenix 8 47mm"],
+["Wearables","Garmin Instinct 3","45 mm · AMOLED",349.99,449.99,"bestbuy","Garmin Instinct 3 45mm"],
+["Wearables","Garmin epix Pro (Gen 2) Sapphire","47 mm",549.99,999.99,"amazoncom","Garmin epix Pro Gen 2 47mm Sapphire"],
+["Wearables","Google Pixel Watch 3","45 mm",199.99,299.99,"amazoncom","Google Pixel Watch 3 45mm"],
+["Tablets","Apple iPad (A16)","256 GB · Wi-Fi",309,349,"amazoncom","iPad A16 256GB"],
+["Tablets","Apple iPad mini (A17 Pro)","128 GB · Wi-Fi",349,499,"amazoncom","iPad mini A17 Pro 128GB"],
+["Tablets","Apple iPad Air 11\" M3","128 GB · Wi-Fi",449,599,"amazoncom","iPad Air 11 M3 128GB"],
+["Tablets","Apple iPad Pro 11\" M5","256 GB · Wi-Fi",899,999,"amazoncom","iPad Pro 11 M5 256GB"],
+["Accessories","Apple Pencil Pro","Squeeze · haptics",95,129,"amazoncom","Apple Pencil Pro"],
+["Accessories","Apple AirTag (4-pack)","Item tracker",63,99,"amazoncom","AirTag 4 pack"],
+["TV","LG C5 65\" OLED","4K · 144 Hz",1396.99,2696.99,"amazoncom","LG OLED65C5"],
+["TV","LG B5 48\" OLED","4K",699.99,1299.99,"bestbuy","LG OLED48B5"],
+["TV","Samsung S90F 65\" OLED","4K · 2025",1499.99,2499.99,"bestbuy","Samsung QN65S90F"],
+["TV","Samsung S84F 65\" OLED","4K · 2025",949.99,1999.99,"bestbuy","Samsung QN65S84F"],
+["TV","Samsung The Frame 55\"","QLED · art mode",897.99,1197.99,"amazoncom","Samsung The Frame 55"],
+["TV","Sony BRAVIA 8 77\" OLED","4K · 2024",2199.99,3199.99,"bestbuy","Sony Bravia 8 77"],
+["TV","Hisense U6 75\" Mini-LED","4K",779.99,1299.99,"amazoncom","Hisense U6 75"],
+["TV","Roku Pro Series 65\"","Mini-LED QLED",599.99,1199.99,"bestbuy","Roku Pro Series 65"],
+["Gaming","Nintendo Switch 2","Console",449,449.99,"walmart","Nintendo Switch 2"],
+["Gaming","Nintendo Switch 2 + Mario Kart World","Bundle",499,529.99,"walmart","Nintendo Switch 2 Mario Kart World bundle"],
+["Kitchen","Ninja CREAMi","Ice cream maker",179.99,229.99,"amazoncom","Ninja Creami"],
+["Kitchen","Ninja Air Fryer Pro","5 qt",79.99,129.99,"amazoncom","Ninja Air Fryer Pro"],
+["Kitchen","Instant Vortex Plus 7-in-1","Air fryer",74.99,149.99,"amazoncom","Instant Vortex Plus 7-in-1"],
+["Home","Dyson V9 Motorbar","Cordless vacuum",269.99,599.99,"bestbuy","Dyson V9 Motorbar"]
+];
+
+export const US_SHOPINFO = [
+ ["amazoncom","Amazon.com","Apple, Amazon devices, headphones, kitchen","Black Friday Week from about a week before Thanksgiving, then Cyber Monday","Most items don't ship to Switzerland","https://www.amazon.com/"],
+ ["bestbuy","Best Buy","TVs, laptops, appliances, gaming","Early doorbusters in November; price-match guarantee","US addresses only; no shipping abroad","https://www.bestbuy.com/"],
+ ["walmart","Walmart","Consoles, AirPods, TVs, toys","Several deal waves from early November; Walmart+ members get early access","US addresses only","https://www.walmart.com/"],
+ ["target","Target","Toys, home, Apple, TVs","Week-long Black Friday sale; Target Circle deals","US addresses only","https://www.target.com/"]
+];

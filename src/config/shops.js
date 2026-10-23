@@ -16,7 +16,11 @@ export const SHOPS = {
   jumbo:{name:"Jumbo", search:s=>`https://www.jumbo.ch/de/search?q=${enc(s)}`},
   orellfuessli:{name:"Orell Füssli", search:s=>`https://www.orellfuessli.ch/suche?sq=${enc(s)}`},
   reifenonline:{name:"reifen-online.ch", search:()=>"https://tidd.ly/4yBNcmE"},
-  keepa:{name:"Keepa", search:s=>`https://keepa.com/#!search/3-${enc(s)}`},
+  amazoncom:{name:"Amazon.com", search:s=>`https://www.amazon.com/s?k=${enc(s)}`},
+  bestbuy:{name:"Best Buy", search:s=>`https://www.bestbuy.com/site/searchpage.jsp?st=${enc(s)}`},
+  walmart:{name:"Walmart", search:s=>`https://www.walmart.com/search?q=${enc(s)}`},
+  target:{name:"Target", search:s=>`https://www.target.com/s?searchTerm=${enc(s)}`},
+    keepa:{name:"Keepa", search:s=>`https://keepa.com/#!search/3-${enc(s)}`},
   toppreise:{name:"History", search:s=>`https://www.toppreise.ch/produktsuche?q=${enc(s)}`}
 };
 /* default retailers per category; a product can override with its own list */
