@@ -208,7 +208,7 @@ footer p{margin:0;max-width:95ch}
 </div></div>
 
 <div class="partner" id="partner" hidden><div class="wrap">
-  <strong>Partner offers</strong><span class="sub">Black Week deals from our partner shops</span>
+  <strong>Winter tyres</strong><span class="sub">Time to switch: tyre offers from our partner reifen-online.ch, delivered across Switzerland</span>
   <div class="links" id="partner-links"></div>
 </div></div>
 
@@ -301,7 +301,8 @@ const AFF = {
   fust:         { network:null, mid:"", affid:"" },
   zalando:      { network:null, mid:"", affid:"" },
   jumbo:        { network:null, mid:"", affid:"" },
-  keepa:        { network:"none" },                           // price tracker, not a shop
+  keepa:        { network:"none" },
+  reifenonline: { network:"none" },                           // Awin tracked short link (tidd.ly)                           // price tracker, not a shop
   orellfuessli: { network:null, mid:"", affid:"" },
   toppreise:    { network:null }
 };
@@ -320,8 +321,8 @@ function affLink(shop, url){
 /* Featured partner links (e.g. Awin tidd.ly short links). They open a fixed landing page,
    so they appear in the "Partner offers" strip, not on product buttons. Edit labels here. */
 const PARTNER_LINKS = [
-  { label:"Partner offer 1", url:"https://tidd.ly/4yBNcmE" },
-  { label:"Partner offer 2", url:"https://tidd.ly/4z73Dss" }
+  { label:"Shop tyres at reifen-online.ch", url:"https://tidd.ly/4yBNcmE", shop:"reifenonline" },
+  { label:"More tyre offers", url:"https://tidd.ly/4z73Dss", shop:"reifenonline" }
 ];
 const enc = s => encodeURIComponent(s);
 const SHOPS = {
@@ -339,6 +340,7 @@ const SHOPS = {
   zalando:{name:"Zalando", search:s=>`https://www.zalando.ch/katalog/?q=${enc(s)}`},
   jumbo:{name:"Jumbo", search:s=>`https://www.jumbo.ch/de/search?q=${enc(s)}`},
   orellfuessli:{name:"Orell Füssli", search:s=>`https://www.orellfuessli.ch/suche?sq=${enc(s)}`},
+  reifenonline:{name:"reifen-online.ch", search:()=>"https://tidd.ly/4yBNcmE"},
   keepa:{name:"Keepa", search:s=>`https://keepa.com/#!search/3-${enc(s)}`},
   toppreise:{name:"History", search:s=>`https://www.toppreise.ch/produktsuche?q=${enc(s)}`}
 };
@@ -501,6 +503,7 @@ const TOP = RAW.map((r,i)=>{
   const show = now ?? best?.p ?? null;
   return {rank:i+1,top:true,cat:cat==="Beauty"?"Fragrance & Beauty":cat,name,spec,now,bw25,low,lowAt,best,status,save,show,q,note,shops:shops||CAT_SHOPS[cat]};
 });
+const isTyre = n => /\d{3}\/\d{2} ?R\d{2}|WinterContact|Alpin \d|Reifen\b/i.test(n);  // tyres only, not accessories
 /* every catalogue product links to Amazon.de as well (large appliances excluded: not delivered to CH) */
 function withAmazon(cat, list){
   if (cat==="Appliances" || list.includes("amazon")) return list;
@@ -508,7 +511,7 @@ function withAmazon(cat, list){
 }
 const CAT_LIST = (window.CATALOGUE||[]).map(([cat,name,spec,now],i)=>({
   rank:TOP.length+i+1, top:false, cat, name, spec, now:now??null, bw25:null, low:null, lowAt:null, best:null,
-  status: now!=null ? "track" : "live", save:0, show:now??null, q:name.replace(/\s*\(.*?\)/g,""), note:null, shops:withAmazon(cat, CAT_SHOPS[cat]||["galaxus","brack"])
+  status: now!=null ? "track" : "live", save:0, show:now??null, q:name.replace(/\s*\(.*?\)/g,""), note:null, shops:isTyre(name) ? ["reifenonline","amazon"] : withAmazon(cat, CAT_SHOPS[cat]||["galaxus","brack"])
 }));
 const DEALS = TOP.concat(CAT_LIST);
 const inScope = d => state.scope==="top" ? d.top : true;
@@ -523,6 +526,7 @@ const SHOPINFO = [
  ["fnac","fnac.ch","Headphones, MacBooks, iPads","10% days and first-order codes","Codes valid once per customer","https://www.fnac.ch/"],
  ["fust","Fust","Dyson, coffee machines, appliances","Strong on household; Supercard coupons","Online and store prices can differ","https://www.fust.ch/"],
  ["manor","Manor","Beauty, fashion, home, Dyson hair tools","Started Swiss Black Friday in 2015","Many offers only for Manor members","https://www.manor.ch/"],
+ ["reifenonline","reifen-online.ch","Summer, winter and all-season tyres, rims","Tyre offers ahead of the winter switch","Check tyre size and load index before ordering","https://tidd.ly/4yBNcmE"],
  ["samsung","Samsung Store CH","Galaxy phones, tablets, TVs","Checkout codes and trade-in bonuses","Codes change often and can expire mid-day","https://www.samsung.com/ch/"]
 ];
 
