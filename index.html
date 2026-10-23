@@ -114,6 +114,14 @@ select{font:600 13px var(--f-body);padding:8px 10px;border-radius:8px;border:1.5
 .thumb.book .t{font-family:var(--f-display);font-weight:800;font-stretch:78%;font-size:15px;line-height:1.05;overflow:hidden;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical}
 .thumb.book .a{font:600 10.5px var(--f-body);opacity:.9;text-transform:uppercase;letter-spacing:.06em}
 .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:8px}
+.partner{background:var(--tag);color:var(--tag-ink)}
+.partner .wrap{padding-block:14px;display:flex;gap:12px 18px;align-items:center;flex-wrap:wrap}
+.partner strong{font-family:var(--f-display);font-weight:900;font-stretch:75%;font-size:22px;text-transform:uppercase;letter-spacing:-.01em}
+.partner .sub{font-size:13.5px}
+.partner .links{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.partner a{font:700 14px var(--f-body);text-decoration:none;background:var(--tag-ink);color:var(--tag);padding:9px 14px;border-radius:6px;display:inline-flex;gap:6px;align-items:center}
+.partner a svg{width:11px;height:11px}
+@media (max-width:560px){.partner .links{margin-left:0}}
 .more{display:flex;justify-content:center;margin-top:22px}
 .more button{font:700 14px var(--f-body);padding:12px 22px;border-radius:8px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
 .seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
@@ -197,6 +205,11 @@ footer p{margin:0;max-width:95ch}
   <div class="fact"><strong id="f-buy">–</strong><span>Already at or near their best price</span></div>
   <div class="fact"><strong id="f-wait">–</strong><span>Likely cheaper in Black Week</span></div>
   <div class="fact"><strong>CHF 450 Mio.</strong><span>Swiss Black Friday turnover forecast (2025)</span></div>
+</div></div>
+
+<div class="partner" id="partner" hidden><div class="wrap">
+  <strong>Partner offers</strong><span class="sub">Black Week deals from our partner shops</span>
+  <div class="links" id="partner-links"></div>
 </div></div>
 
 <section class="block" id="deals"><div class="wrap">
@@ -304,6 +317,12 @@ function affLink(shop, url){
   u.searchParams.set("utm_source", AFF.site); u.searchParams.set("utm_medium","affiliate"); u.searchParams.set("utm_campaign","blackfriday2026");
   return u.toString();
 }
+/* Featured partner links (e.g. Awin tidd.ly short links). They open a fixed landing page,
+   so they appear in the "Partner offers" strip, not on product buttons. Edit labels here. */
+const PARTNER_LINKS = [
+  { label:"Partner offer 1", url:"https://tidd.ly/4yBNcmE" },
+  { label:"Partner offer 2", url:"https://tidd.ly/4z73Dss" }
+];
 const enc = s => encodeURIComponent(s);
 const SHOPS = {
   galaxus:{name:"Galaxus", search:s=>`https://www.galaxus.ch/en/search?q=${enc(s)}`},
@@ -636,6 +655,10 @@ document.getElementById("cat").onchange = e=>{state.cat=e.target.value;reset();}
 document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{state.scope=b.dataset.scope;renderControls();reset();});
 document.getElementById("more").onclick = ()=>{shown+=PAGE;renderGrid();};
 
+if (PARTNER_LINKS.length){
+  document.getElementById("partner-links").innerHTML = PARTNER_LINKS.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="sponsored noopener">${esc(l.label)} ${ext}</a>`).join("");
+  document.getElementById("partner").hidden = false;
+}
 renderControls(); renderGrid(); renderShops(); tick(); setInterval(tick, 30000);
 </script>
 </body>
