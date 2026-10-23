@@ -5,6 +5,10 @@ A dependency-free static site with the **Top 2,000** Black Friday products for S
 - Black Friday: **Fr 27.11.2026** · Black Week from Mo 23.11. · Cyber Monday Mo 30.11.
 - Prices researched up to 23.10.2026 from Swiss price trackers (Preispirat, Toppreise) and retailer listings.
 
+## Layout
+
+One-screen app with tabs and paging instead of a long scroll: **Top 100 offers** (main tab), **Shop by category** (dropdown with all categories, *Winter tyres* first), **Retailers**, **Buying guide**. The card grid sizes itself to the window; Prev/Next (or ← →) changes pages, and product names open a details pop-up. Direct links: `#top`, `#categories`, `#winter`, `#retailers`, `#guide`. On phones the page scrolls normally and stays paged.
+
 ## Deploy
 
 It is a static `index.html`. Enable GitHub Pages (Settings → Pages → Deploy from branch → `main` / root) or drop it on Vercel/Netlify.

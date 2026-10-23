@@ -5,304 +5,292 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Aktion Schweiz Black Friday</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Top 100 Black Friday 2026 products in Switzerland with today's CHF prices, last Black Week prices and record lows.">
+<meta name="description" content="Black Friday 2026 Switzerland: top 100 offers with CHF prices, 2,000 products by category, winter tyres and retailer guide.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body{margin:0}img{max-width:100%}[hidden]{display:none!important}
-/* Layout: Swiss retail "Aktion" sticker language. Departure-board countdown hero, then a ranked, filterable wall of 100 price tags, then retailer + timing guides. */
+/* Layout: one-screen app. Header + tab bar, then a paged card grid sized to the viewport (no long scroll).
+   Swiss retail "Aktion" sticker language: yellow price tags, Swiss red accents, departure-board countdown. */
 :root{
-  --bg:#F8F8F6; --surface:#FFFFFF; --ink:#151314; --muted:#5E5A5B; --line:#E4E1E0;
+  --bg:#F6F5F3; --surface:#FFFFFF; --ink:#151314; --muted:#5E5A5B; --line:#E4E1E0;
   --red:#D52B1E; --red-ink:#FFFFFF; --tag:#FFD200; --tag-ink:#151314;
   --good:#1E7A46; --warn:#9A6200; --info:#2D5BA8; --track:#6B5E8A;
-  --board:#151314; --board-ink:#FFD200;
+  --board:#151314; --board-ink:#FFD200; --scrim:rgba(20,18,19,.55);
   --tile-s:52%; --tile-l:93%; --tile-ink-l:32%; --cover-l:34%;
   --f-display:"Archivo","Arial Narrow",Arial,sans-serif;
   --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --card-w:300px; --card-h:150px; --gap:10px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#141112; --surface:#1D191A; --ink:#F2EFEE; --muted:#A8A1A2; --line:#332D2E;
   --red:#E8463A; --red-ink:#FFFFFF; --tag:#FFD200; --tag-ink:#151314;
-  --good:#4CC37F; --warn:#E3A43A; --info:#7EA6EE; --track:#B4A6E0; --board:#0B0909; --board-ink:#FFD200; --tile-s:22%; --tile-l:21%; --tile-ink-l:74%; --cover-l:40%; color-scheme:dark}}
+  --good:#4CC37F; --warn:#E3A43A; --info:#7EA6EE; --track:#B4A6E0; --board:#0B0909; --board-ink:#FFD200; --scrim:rgba(0,0,0,.65);
+  --tile-s:22%; --tile-l:21%; --tile-ink-l:74%; --cover-l:40%; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#141112; --surface:#1D191A; --ink:#F2EFEE; --muted:#A8A1A2; --line:#332D2E;
   --red:#E8463A; --red-ink:#FFFFFF; --tag:#FFD200; --tag-ink:#151314;
-  --good:#4CC37F; --warn:#E3A43A; --info:#7EA6EE; --track:#B4A6E0; --board:#0B0909; --board-ink:#FFD200; --tile-s:22%; --tile-l:21%; --tile-ink-l:74%; --cover-l:40%; color-scheme:dark}
+  --good:#4CC37F; --warn:#E3A43A; --info:#7EA6EE; --track:#B4A6E0; --board:#0B0909; --board-ink:#FFD200; --scrim:rgba(0,0,0,.65);
+  --tile-s:22%; --tile-l:21%; --tile-ink-l:74%; --cover-l:40%; color-scheme:dark}
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
-.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;overflow:hidden}
 a{color:inherit}
-h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.02}
-.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.05;text-wrap:balance}
 :focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.app{height:100%;display:grid;grid-template-rows:auto auto auto 1fr;max-width:1480px;margin:0 auto}
 
-.disclose{background:var(--ink);color:var(--bg);font-size:12.5px}
-.disclose .wrap{padding-block:8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.disclose b{font-family:var(--f-mono);font-weight:700;letter-spacing:.08em;font-size:11px;background:var(--tag);color:var(--tag-ink);padding:2px 6px;border-radius:2px}
-
-header.top .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:18px;gap:16px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:22px;letter-spacing:-.01em}
-.cross{width:28px;height:28px;background:var(--red);position:relative;border-radius:3px;flex:none}
+/* header */
+.bar{display:flex;align-items:center;gap:14px 20px;padding-block:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--f-display);font-weight:900;font-stretch:78%;font-size:22px;letter-spacing:-.01em;text-transform:uppercase}
+.cross{width:26px;height:26px;background:var(--red);position:relative;border-radius:3px;flex:none}
 .cross::before,.cross::after{content:"";position:absolute;background:#fff;left:50%;top:50%;transform:translate(-50%,-50%)}
-.cross::before{width:16px;height:5px}.cross::after{width:5px;height:16px}
-nav.top{display:flex;gap:18px;font-size:14px;flex-wrap:wrap}
-nav.top a{text-decoration:none;color:var(--muted)} nav.top a:hover{color:var(--ink)}
+.cross::before{width:15px;height:5px}.cross::after{width:5px;height:15px}
+.brand small{font:600 11px var(--f-mono);letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-left:4px}
+.board{margin-left:auto;display:flex;align-items:center;gap:10px;background:var(--board);color:var(--board-ink);border-radius:6px;padding:7px 12px;font-family:var(--f-mono)}
+.board .lbl{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#D9D2CF}
+.board b{font-size:20px;font-variant-numeric:tabular-nums}
+.board span.u{font-size:10px;color:#D9D2CF;margin-right:4px}
+.disclose{font-size:11.5px;color:var(--muted);padding-bottom:8px}
+.disclose b{font:700 10px var(--f-mono);letter-spacing:.08em;background:var(--tag);color:var(--tag-ink);padding:1px 5px;border-radius:2px;margin-right:6px}
 
-.hero .wrap{padding-block:28px 40px;display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:end}
-.hero h1{font-size:clamp(46px,8.4vw,112px);font-weight:900;font-stretch:68%;letter-spacing:-.02em;text-transform:uppercase}
-.hero h1 .hl{background:var(--red);color:var(--red-ink);padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
-.hero p.lede{max-width:58ch;font-size:17px;color:var(--muted);margin:18px 0 0}
-.board{background:var(--board);color:var(--board-ink);border-radius:6px;padding:20px 20px 16px;font-family:var(--f-mono)}
-.board .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 0;border-bottom:1px dashed rgba(255,210,0,.25);font-size:13px}
-.board .row:last-child{border-bottom:0}
-.board .lbl{color:#D9D2CF;letter-spacing:.06em;text-transform:uppercase;font-size:11.5px}
-.clock{display:flex;gap:6px;margin:4px 0 14px}
-.clock div{flex:1;background:#2A2425;border-radius:4px;text-align:center;padding:10px 0 6px}
-.clock b{display:block;font-size:clamp(26px,4vw,40px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
-.clock span{font-size:10px;letter-spacing:.14em;color:#D9D2CF;text-transform:uppercase}
+/* tabs */
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--ink);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{font:700 14px var(--f-body);background:none;border:0;color:var(--muted);padding:10px 14px 9px;cursor:pointer;white-space:nowrap;border-radius:6px 6px 0 0}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.tab .n{font:600 11px var(--f-mono);opacity:.7;margin-left:5px}
+.tab.hot[aria-selected="false"]{color:var(--red)}
 
-.facts{border-block:1px solid var(--line)}
-.facts .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
-.fact{padding:18px 18px 18px 0}
-.fact+.fact{padding-left:18px;border-left:1px solid var(--line)}
-.fact strong{display:block;font-family:var(--f-display);font-stretch:75%;font-size:30px;font-weight:800;line-height:1.05;font-variant-numeric:tabular-nums}
-.fact span{font-size:13px;color:var(--muted)}
-
-section.block .wrap{padding-block:52px}
-.sec-head{margin-bottom:22px}
-.sec-head h2{font-size:clamp(32px,4.6vw,52px);font-weight:900;font-stretch:72%;text-transform:uppercase;letter-spacing:-.01em}
-.sec-head p{margin:6px 0 0;color:var(--muted);max-width:66ch}
-
-/* controls */
-.controls{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px;border-bottom:1px solid var(--line);margin-bottom:20px;display:grid;gap:10px}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-.ctl-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.chip{font:600 13px var(--f-body);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+/* panels */
+.panel{min-height:0;display:grid;grid-template-rows:auto 1fr auto;padding-block:12px 10px}
+.panel[hidden]{display:none!important}
+.panel.flow{display:block;overflow:auto}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.toolbar .lead{font-family:var(--f-display);font-weight:900;font-stretch:75%;font-size:24px;text-transform:uppercase;margin-right:6px}
+.toolbar .lead em{font-style:normal;color:var(--red)}
+.search{flex:1 1 200px;min-width:0;max-width:360px;font:500 14px var(--f-body);padding:8px 11px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+select{font:600 13px var(--f-body);padding:7px 9px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:8px;scrollbar-width:thin;width:100%}
+.chip{flex:none;font:600 12.5px var(--f-body);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:5px 11px;border-radius:999px;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.chip .n{font-family:var(--f-mono);font-size:11px;opacity:.6;margin-left:4px}
-.search{flex:1 1 220px;min-width:0;font:500 14px var(--f-body);padding:9px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
-select{font:600 13px var(--f-body);padding:8px 10px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
-.count{font:500 12.5px var(--f-mono);color:var(--muted);margin-left:auto}
+.chip .n{font:600 10.5px var(--f-mono);opacity:.6;margin-left:4px}
 
-/* cards */
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.deal{background:var(--surface);border:1px solid var(--line);border-radius:8px;display:flex;flex-direction:column;min-width:0}
-.deal-top{padding:12px 14px 0;display:flex;justify-content:space-between;gap:8px;align-items:center}
-.rank{font:700 12px var(--f-mono);color:var(--muted)}
-.rank b{color:var(--ink);font-size:15px}
-.cat{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.deal h3{font-size:20px;font-weight:800;font-stretch:80%;padding:6px 14px 0;line-height:1.08}
-.deal .spec{padding:3px 14px 0;color:var(--muted);font-size:12.5px}
-.sticker{margin:12px 14px 0;background:var(--tag);color:var(--tag-ink);border-radius:4px;padding:10px 12px;display:grid;grid-template-columns:1fr auto;gap:0 10px;align-items:end;position:relative}
-.sticker::after{content:"";position:absolute;right:10px;top:-5px;width:10px;height:10px;border-radius:50%;background:var(--surface);box-shadow:inset 0 0 0 2px var(--tag-ink)}
-.sticker .k{font:700 10px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;opacity:.75}
-.sticker .now{font-family:var(--f-display);font-weight:900;font-stretch:70%;font-size:34px;line-height:.95;font-variant-numeric:tabular-nums}
-.sticker .off{grid-column:2;grid-row:1/3;align-self:center;background:var(--red);color:#fff;font:800 14px var(--f-display);font-stretch:80%;padding:5px 7px;border-radius:3px;transform:rotate(-4deg);white-space:nowrap}
-.pill{display:inline-block;margin:10px 14px 0;font:700 10.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:3px;border:1.5px solid currentColor;align-self:flex-start}
+/* paged grid */
+.grid{min-height:0;display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));grid-auto-rows:var(--card-h);gap:var(--gap);align-content:start;overflow:hidden}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;display:grid;grid-template-columns:104px minmax(0,1fr);overflow:hidden;min-width:0}
+.card .thumb{aspect-ratio:auto;height:100%;border-radius:0}
+.card .thumb svg{width:46%}
+.card .thumb .brand{font-size:11px;left:8px;bottom:6px;right:6px}
+.card .thumb.book .cover{width:74%;margin:10px auto;padding:8px 7px}
+.card .thumb.book .t{font-size:12px;-webkit-line-clamp:4}
+.card .thumb.book .a{font-size:9px}
+.body{padding:9px 11px 9px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.top{display:flex;gap:8px;align-items:center;justify-content:space-between;font:600 10.5px var(--f-mono);letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.top .r b{color:var(--ink);font-size:12px}
+.top .c{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.name{font-family:var(--f-display);font-weight:800;font-stretch:82%;font-size:16.5px;line-height:1.1;background:none;border:0;padding:0;text-align:left;color:var(--ink);cursor:pointer;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.name:hover{text-decoration:underline}
+.priceline{display:flex;align-items:baseline;gap:8px;flex-wrap:nowrap;min-width:0}
+.price{font-family:var(--f-display);font-weight:900;font-stretch:72%;font-size:21px;font-variant-numeric:tabular-nums;background:var(--tag);color:var(--tag-ink);padding:0 6px;border-radius:3px;white-space:nowrap}
+.price.live{background:none;color:var(--muted);font-size:14px;font-weight:700;font-family:var(--f-body);padding:0}
+.best{font:500 11.5px var(--f-mono);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill{font:700 9.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:2px 5px;border-radius:3px;border:1.5px solid currentColor;white-space:nowrap}
 .pill.buy{color:var(--good)} .pill.wait{color:var(--warn)} .pill.track{color:var(--track)} .pill.check{color:var(--info)} .pill.live{color:var(--muted)}
-.sticker.live{background:transparent;border:2px dashed var(--tag-ink);color:var(--ink)}
-.sticker.live .now{font-size:24px}
-.thumb{position:relative;aspect-ratio:4/3;max-width:100%;border-radius:8px 8px 0 0;overflow:hidden;display:grid;place-items:center;background:hsl(var(--h) var(--tile-s) var(--tile-l));color:hsl(var(--h) 45% var(--tile-ink-l))}
+.btns{margin-top:auto;display:flex;gap:5px;flex-wrap:nowrap;overflow:hidden}
+.shop{font:600 11.5px var(--f-body);text-decoration:none;padding:5px 8px;border-radius:6px;border:1.5px solid var(--ink);display:inline-flex;gap:4px;align-items:center;white-space:nowrap;flex:none}
+.shop.primary{background:var(--red);border-color:var(--red);color:var(--red-ink)}
+.shop.ghost{border-color:var(--line);color:var(--muted);background:none;cursor:pointer;font-family:var(--f-body)}
+.shop.info{margin-left:auto;width:28px;justify-content:center;padding:5px 0;font:700 13px var(--f-display)}
+.shop svg{width:9px;height:9px}
+.empty{grid-column:1/-1;align-self:start;padding:28px;border:1.5px dashed var(--line);border-radius:8px;color:var(--muted);text-align:center}
+
+/* pager */
+.pager{display:flex;align-items:center;gap:10px;justify-content:center;padding-top:10px}
+.pager button{font:700 13px var(--f-body);padding:7px 14px;border-radius:8px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
+.pager button:disabled{opacity:.35;cursor:default}
+.pager .info{font:600 12.5px var(--f-mono);color:var(--muted);min-width:170px;text-align:center}
+
+/* thumbnails (shared) */
+.thumb{position:relative;aspect-ratio:4/3;max-width:100%;overflow:hidden;display:grid;place-items:center;background:hsl(var(--h) var(--tile-s) var(--tile-l));color:hsl(var(--h) 45% var(--tile-ink-l))}
 .thumb svg{width:34%;height:auto;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .thumb .brand{position:absolute;left:12px;bottom:10px;right:12px;font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:15px;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .thumb.book{place-items:stretch}
 .thumb.book .cover{margin:12px auto;width:58%;border-radius:2px 6px 6px 2px;background:hsl(var(--h) 55% var(--cover-l));color:#fff;padding:12px 10px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:inset 6px 0 0 rgba(0,0,0,.18),0 6px 14px rgba(0,0,0,.18)}
 .thumb.book .t{font-family:var(--f-display);font-weight:800;font-stretch:78%;font-size:15px;line-height:1.05;overflow:hidden;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical}
 .thumb.book .a{font:600 10.5px var(--f-body);opacity:.9;text-transform:uppercase;letter-spacing:.06em}
-.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:8px}
-.winter .wrap{padding-block:52px}
-.winter-head{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:start}
-.winter h2{font-size:clamp(32px,4.6vw,52px);font-weight:900;font-stretch:72%;text-transform:uppercase;letter-spacing:-.01em;margin:6px 0 12px}
-.winter p.intro{color:var(--muted);max-width:60ch;margin:0 0 18px}
-.winter .cta{display:flex;gap:10px;flex-wrap:wrap}
-.winter .cta a{font:700 15px var(--f-body);text-decoration:none;padding:13px 18px;border-radius:8px;display:inline-flex;gap:8px;align-items:center;border:2px solid var(--ink)}
-.winter .cta a.primary{background:var(--red);border-color:var(--red);color:var(--red-ink)}
-.winter .cta a svg{width:11px;height:11px}
+.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:6px}
+
+/* details modal */
+.modal[hidden]{display:none!important}
+.modal{position:fixed;inset:0;z-index:50;background:var(--scrim);display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.sheet{background:var(--surface);border-radius:10px;width:min(760px,100%);max-height:100%;overflow:auto;display:grid;grid-template-columns:260px minmax(0,1fr)}
+.sheet .thumb{aspect-ratio:auto;height:100%;min-height:240px;border-radius:10px 0 0 10px}
+.sheet .in{padding:18px 20px;display:flex;flex-direction:column;gap:8px;position:relative}
+.sheet h3{font-size:26px;font-weight:900;font-stretch:78%;padding-right:36px}
+.sheet .spec{color:var(--muted)}
+.sheet dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:4px 0;font-size:13px}
+.sheet dt{color:var(--muted)} .sheet dd{margin:0;font-family:var(--f-mono);font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums}
+.sheet dd.target{color:var(--red);font-weight:700}
+.sheet .note{color:var(--muted);font-size:13.5px;margin:0}
+.sheet .btns{flex-wrap:wrap;margin-top:6px}
+.sheet .shop{font-size:13px;padding:8px 12px}
+.close{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:18px;line-height:1;cursor:pointer}
+
+/* winter tyres bar (inside the category view) */
+.winterbar{display:flex;gap:8px 16px;align-items:center;flex-wrap:wrap;background:var(--tag);color:var(--tag-ink);border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:12.5px}
+.winterbar[hidden]{display:none}
+.winterbar b{font-family:var(--f-display);font-weight:900;font-stretch:78%;font-size:14px}
+.winterbar .cta{margin:0 0 0 auto}
+.winterbar .cta a{padding:7px 11px;font-size:13px;border-color:var(--tag-ink);color:var(--tag-ink)}
+.winterbar .cta a.primary{background:var(--tag-ink);color:var(--tag);border-color:var(--tag-ink)}
+#catSel{font-weight:700;max-width:240px}
+/* winter */
+.winter{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:22px;align-items:start}
+.winter h2{font-size:clamp(30px,4vw,46px);font-weight:900;font-stretch:72%;text-transform:uppercase;margin:4px 0 8px}
+.eyebrow{font:600 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.winter p.intro{color:var(--muted);margin:0 0 14px;max-width:56ch}
+.cta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.cta a{font:700 14px var(--f-body);text-decoration:none;padding:11px 15px;border-radius:8px;display:inline-flex;gap:7px;align-items:center;border:2px solid var(--ink)}
+.cta a.primary{background:var(--red);border-color:var(--red);color:var(--red-ink)}
+.cta a svg{width:10px;height:10px}
 .rules{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.rules li{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
-.rules b{font-family:var(--f-display);font-weight:900;font-stretch:75%;font-size:24px;line-height:1;color:var(--red);font-variant-numeric:tabular-nums}
-.tyres{margin-top:30px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.tyre{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:4px;min-width:0}
-.tyre .t{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.tyre h3{font-size:19px;font-weight:800;font-stretch:80%}
-.tyre p{margin:0 0 8px;font-size:13px;color:var(--muted)}
-.tyre a{margin-top:auto;font:600 12.5px var(--f-body);text-decoration:none;color:var(--red);display:inline-flex;gap:5px;align-items:center}
-.tyre a svg{width:10px;height:10px}
-@media (max-width:960px){.tyres{grid-template-columns:repeat(2,minmax(0,1fr))}.winter-head{grid-template-columns:1fr}}
-@media (max-width:480px){.tyres{grid-template-columns:1fr}.rules li{grid-template-columns:72px 1fr}}
-.more{display:flex;justify-content:center;margin-top:22px}
-.more button{font:700 14px var(--f-body);padding:12px 22px;border-radius:8px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
-.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
-.seg button{font:600 13px var(--f-body);border:0;background:var(--surface);color:var(--ink);padding:7px 13px;cursor:pointer}
-.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.meta{padding:8px 14px 0;display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12.5px;margin:0}
-.meta dt{color:var(--muted)} .meta dd{margin:0;font-family:var(--f-mono);font-size:12px;font-variant-numeric:tabular-nums;text-align:right;min-width:0;overflow-wrap:anywhere}
-.meta dd.target{color:var(--red);font-weight:700}
-.note{padding:8px 14px 0;font-size:12.5px;color:var(--muted);margin:0}
-.shops{margin-top:auto;padding:12px 14px 14px;display:flex;flex-wrap:wrap;gap:6px}
-.shop{font:600 12px var(--f-body);text-decoration:none;padding:6px 9px;border-radius:6px;border:1.5px solid var(--ink);display:inline-flex;gap:5px;align-items:center}
-.shop.primary{background:var(--red);border-color:var(--red);color:var(--red-ink)}
-.shop.ghost{border-color:var(--line);color:var(--muted)}
-.shop svg{width:10px;height:10px}
-.empty{grid-column:1/-1;padding:30px;border:1.5px dashed var(--line);border-radius:8px;color:var(--muted);text-align:center}
-.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
-.legend .pill{margin:0 6px 0 0}
+.rules li{display:grid;grid-template-columns:78px 1fr;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
+.rules b{font-family:var(--f-display);font-weight:900;font-stretch:75%;font-size:21px;line-height:1;color:var(--red)}
+.tyres{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tyre{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tyre .t{font:600 10px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.tyre h3{font-size:16px;font-weight:800;font-stretch:82%}
+.tyre p{margin:0 0 4px;font-size:12px;color:var(--muted)}
+.tyre a{margin-top:auto;font:600 12px var(--f-body);text-decoration:none;color:var(--red);display:inline-flex;gap:5px;align-items:center}
+.tyre a svg{width:9px;height:9px}
 
+/* retailers + guide */
 .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
-table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
-th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font:700 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:13px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:700 10.5px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 tr:last-child td{border-bottom:0}
-td.name{font-family:var(--f-display);font-weight:800;font-stretch:85%;font-size:17px;white-space:nowrap}
-td a.go{font-weight:600;color:var(--red);text-decoration:none;white-space:nowrap}
-
-.two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+td.nm{font-family:var(--f-display);font-weight:800;font-stretch:85%;font-size:16px;white-space:nowrap}
+td a.go{font-weight:700;color:var(--red);text-decoration:none;white-space:nowrap}
+.guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.guide h3{font-size:22px;font-weight:900;font-stretch:75%;text-transform:uppercase;margin:4px 0 10px}
 .timeline{list-style:none;margin:0;padding:0;border-left:3px solid var(--ink)}
-.timeline li{padding:0 0 18px 20px;position:relative}
-.timeline li::before{content:"";position:absolute;left:-8px;top:5px;width:13px;height:13px;border-radius:50%;background:var(--bg);border:3px solid var(--ink)}
+.timeline li{padding:0 0 11px 16px;position:relative}
+.timeline li::before{content:"";position:absolute;left:-8px;top:4px;width:13px;height:13px;border-radius:50%;background:var(--bg);border:3px solid var(--ink)}
 .timeline li.peak::before{background:var(--red);border-color:var(--red)}
-.timeline time{font:700 12px var(--f-mono);letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
-.timeline strong{display:block;font-family:var(--f-display);font-stretch:85%;font-size:19px}
-.timeline p{margin:2px 0 0;color:var(--muted);font-size:14px;max-width:52ch}
-.tips{display:grid;gap:12px;margin:0;padding:0;list-style:none}
-.tips li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
-.tips b{font-family:var(--f-display);font-stretch:85%;font-size:17px;display:block;margin-bottom:2px}
-.tips span{color:var(--muted);font-size:14px}
-h2.sub{font-size:clamp(30px,4vw,44px);font-weight:900;font-stretch:72%;text-transform:uppercase;margin:6px 0 22px}
+.timeline time{font:700 11px var(--f-mono);color:var(--muted);text-transform:uppercase}
+.timeline strong{display:block;font-family:var(--f-display);font-stretch:85%;font-size:16px}
+.timeline p{margin:1px 0 0;color:var(--muted);font-size:12.5px}
+.tips{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.tips li{border-bottom:1px solid var(--line);padding-bottom:8px;font-size:12.5px;color:var(--muted)}
+.tips b{display:block;color:var(--ink);font-family:var(--f-display);font-stretch:85%;font-size:15px}
+.about p{font-size:12.5px;color:var(--muted);margin:0 0 9px}
+.about strong{color:var(--ink)}
 
-footer{border-top:1px solid var(--line)}
-footer .wrap{padding-block:28px 40px;font-size:13px;color:var(--muted);display:grid;gap:10px}
-footer p{margin:0;max-width:95ch}
-
-@media (max-width:1100px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (max-width:860px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero .wrap{grid-template-columns:1fr}.facts .wrap{grid-template-columns:repeat(2,1fr)}.fact:nth-child(3){border-left:0;padding-left:0}.fact:nth-child(n+3){border-top:1px solid var(--line)}}
-@media (max-width:560px){.grid{grid-template-columns:1fr}.two{grid-template-columns:1fr}nav.top{display:none}.count{margin-left:0}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* small screens: allow natural page scroll, keep paging */
+@media (max-width:760px), (max-height:560px){
+  body{overflow:auto} .app{height:auto} .panel{display:block} .grid{overflow:visible}
+  .board{margin-left:0} .winter,.guide{grid-template-columns:1fr} .tyres{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sheet{grid-template-columns:1fr} .sheet .thumb{min-height:180px;border-radius:10px 10px 0 0}
+}
+@media (max-width:420px){.tyres{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
 
-<div class="disclose"><div class="wrap"><b>ANZEIGE</b><span>Retailer links on this page are affiliate links. If you buy through them we may earn a commission. Your price does not change.</span></div></div>
-
-<header class="top"><div class="wrap">
-  <div class="brand"><span class="cross" aria-hidden="true"></span>AKTION.CH</div>
-  <nav class="top" aria-label="Sections"><a href="#winter">Winter tyres</a><a href="#deals">Top 2,000</a><a href="#shops">Retailers</a><a href="#timing">Timing</a><a href="#tips">Buying rules</a></nav>
-</div></header>
-
-<section class="hero"><div class="wrap">
-  <div>
-    <div class="eyebrow">Black Week Schweiz 2026 · Top 2,000</div>
-    <h1 style="margin-top:10px">The deals worth <span class="hl">waiting for</span></h1>
-    <p class="lede">2,000 products Swiss shoppers look for in November, across 33 categories. The top 100 come with researched CHF prices, last Black Week's price and a buy-or-wait call. The rest link straight to live shop prices and price history.</p>
-  </div>
-  <div class="board" aria-label="Countdown to Black Friday">
-    <div class="lbl">Black Friday · Fr 27.11.2026</div>
-    <div class="clock">
-      <div><b id="cd-d">35</b><span>Tage</span></div>
-      <div><b id="cd-h">00</b><span>Std</span></div>
-      <div><b id="cd-m">00</b><span>Min</span></div>
+<div class="app">
+  <header class="bar gut">
+    <div class="brand"><span class="cross" aria-hidden="true"></span>Aktion.ch <small>Black Week Schweiz 2026</small></div>
+    <div class="board" aria-label="Countdown to Black Friday, 27 November 2026">
+      <span class="lbl">Black Friday 27.11.</span>
+      <b id="cd-d">35</b><span class="u">T</span><b id="cd-h">00</b><span class="u">h</span><b id="cd-m">00</b><span class="u">m</span>
     </div>
-    <div class="row"><span class="lbl">Singles Day</span><span>Mi 11.11.</span></div>
-    <div class="row"><span class="lbl">Black Week</span><span>Mo 23.11. – So 29.11.</span></div>
-    <div class="row"><span class="lbl">Cyber Monday</span><span>Mo 30.11.</span></div>
-  </div>
-</div></section>
+  </header>
+  <div class="disclose gut"><b>ANZEIGE</b>Shop links are affiliate links: we may earn a commission, your price stays the same. Als Amazon-Partner verdienen wir an qualifizierten Verkäufen.</div>
+  <nav class="tabs gut" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" id="t-top" data-tab="top" aria-controls="p-products">Top 100 offers<span class="n">100</span></button>
+    <button class="tab" role="tab" id="t-categories" data-tab="categories" aria-controls="p-products">Shop by category<span class="n" id="n-cat">1,911</span></button>
+    <button class="tab" role="tab" id="t-retailers" data-tab="retailers" aria-controls="p-retailers">Retailers</button>
+    <button class="tab" role="tab" id="t-guide" data-tab="guide" aria-controls="p-guide">Buying guide</button>
+  </nav>
 
-<div class="facts"><div class="wrap">
-  <div class="fact"><strong id="f-total">2,000</strong><span>Products in 33 categories, top 100 with researched CHF prices</span></div>
-  <div class="fact"><strong id="f-buy">–</strong><span>Already at or near their best price</span></div>
-  <div class="fact"><strong id="f-wait">–</strong><span>Likely cheaper in Black Week</span></div>
-  <div class="fact"><strong>CHF 450 Mio.</strong><span>Swiss Black Friday turnover forecast (2025)</span></div>
-</div></div>
+  <main class="gut" style="min-height:0;display:grid">
+    <section class="panel" id="p-products" role="tabpanel">
+      <div>
+        <div class="toolbar">
+          <span class="lead" id="lead">Top <em>100</em> offers</span>
+          <select id="catSel" aria-label="Category" hidden></select>
+          <input class="search" id="q" type="search" placeholder="Search products, e.g. iPhone, LEGO, Dyson" aria-label="Search products">
+          <select id="status" aria-label="Filter by status">
+            <option value="all">All statuses</option><option value="buy">Buy now</option><option value="wait">Wait for Black Week</option><option value="track">Tracking</option><option value="check">Check price</option>
+          </select>
+          <select id="sort" aria-label="Sort">
+            <option value="rank">Recommended</option><option value="save">Biggest saving</option><option value="low">Lowest price</option><option value="high">Highest price</option><option value="az">Name A–Z</option>
+          </select>
+        </div>
+        <div class="winterbar" id="winterbar" hidden>
+        <span class="wb-rules"><b>O bis O</b> October to Easter · <b>4 mm</b> minimum tread for winter · <b>8 years</b> max tyre age · not compulsory, but insurers can cut payouts</span>
+        <span class="cta" id="winter-cta"></span>
+      </div>
+      </div>
+      <div class="grid" id="grid" tabindex="-1"></div>
+      <div class="pager">
+        <button type="button" id="prev" aria-label="Previous page">‹ Prev</button>
+        <span class="info" id="info"></span>
+        <button type="button" id="next" aria-label="Next page">Next ›</button>
+      </div>
+    </section>
 
-<section class="winter" id="winter" style="background:var(--surface);border-block:1px solid var(--line)"><div class="wrap">
-  <div class="winter-head">
-    <div>
-      <div class="eyebrow">Season · O bis O · October to Easter</div>
-      <h2>Winter tyres</h2>
-      <p class="intro">Switch before the first snow. Our tyre partner reifen-online.ch delivers winter, all-season and summer tyres across Switzerland, many to a fitting garage near you.</p>
-      <div class="cta" id="winter-cta"></div>
-    </div>
-    <ul class="rules" aria-label="Swiss winter tyre rules">
-      <li><b>O bis O</b><span>Fit winter tyres from October to Easter, or earlier if snow comes early in your region.</span></li>
-      <li><b>4 mm</b><span>Replace winter tyres at 4 mm tread, measured in the centre. The legal minimum is 1.6 mm.</span></li>
-      <li><b>No law</b><span>Winter tyres are not compulsory, but you must control your car in all conditions. After an accident on unsuitable tyres, insurers can cut payouts.</span></li>
-      <li><b>8 years</b><span>Don't use tyres older than eight years, even with enough tread.</span></li>
-    </ul>
-  </div>
-  <div class="tyres" id="tyres"></div>
-</div></section>
+    <section class="panel flow" id="p-retailers" role="tabpanel" hidden>
+      <div class="toolbar"><span class="lead">Retailers that deliver in <em>Switzerland</em></span></div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Retailer</th><th>Best for</th><th>Black Friday pattern</th><th>Watch out</th><th></th></tr></thead>
+        <tbody id="shopRows"></tbody>
+      </table></div>
+    </section>
 
-<section class="block" id="deals"><div class="wrap">
-  <div class="sec-head">
-    <div class="eyebrow" id="deals-eyebrow">Top 2,000 · prices as of 23.10.2026</div>
-    <h2 id="deals-title">Most-wanted, best prices</h2>
-    <p>Products 1–100 are ranked by demand and carry researched prices; a product is marked "Buy now" when today's price is within 3% of its best known price. Products 101–2000 are a curated catalogue of popular models, grouped by category and linked to live prices.</p>
-  </div>
-  <div class="legend" style="margin-bottom:14px">
-    <span><span class="pill buy">Buy now</span>at or near best price</span>
-    <span><span class="pill wait">Wait</span>was cheaper before</span>
-    <span><span class="pill track">Tracking</span>new, no price history yet</span>
-    <span><span class="pill check">Check</span>no verified CHF price</span>
-    <span><span class="pill live">Live price</span>compare at the shops</span>
-  </div>
-  <div class="controls" role="search">
-    <div class="ctl-row">
-      <input class="search" id="q" type="search" placeholder="Search 2,000 products, e.g. iPhone, LEGO, Garmin, Jura" aria-label="Search products">
-      <select id="status" aria-label="Filter by status">
-        <option value="all">All statuses</option><option value="buy">Buy now</option><option value="wait">Wait for Black Week</option><option value="track">Tracking</option><option value="check">Check price</option><option value="live">Live price</option>
-      </select>
-      <select id="sort" aria-label="Sort products">
-        <option value="rank">Demand rank</option><option value="save">Biggest saving</option><option value="low">Lowest price</option><option value="high">Highest price</option>
-      </select>
-    </div>
-    <div class="ctl-row"><div class="seg" role="group" aria-label="Scope"><button type="button" data-scope="top" id="sc-top">Top 100 priced</button><button type="button" data-scope="all" id="sc-all">All 2,000</button></div><select id="cat" aria-label="Category"></select><span class="count" id="count"></span></div>
-  </div>
-  <div class="grid" id="grid"></div>
-  <div class="more"><button type="button" id="more">Show more</button></div>
-</div></section>
+    <section class="panel flow" id="p-guide" role="tabpanel" hidden>
+      <div class="guide">
+        <div>
+          <div class="eyebrow">Timing</div><h3>When prices move</h3>
+          <ol class="timeline">
+            <li><time>Now – 10.11.</time><strong>Build your list</strong><p>Set a target price per product; some record lows happened outside November.</p></li>
+            <li><time>Mi 11.11.</time><strong>Singles Day</strong><p>Smaller discounts in Switzerland, some early codes.</p></li>
+            <li><time>Mo 23.11.</time><strong>Black Week opens</strong><p>Digitec Galaxus, Brack and Interdiscount run deals all week.</p></li>
+            <li class="peak"><time>Fr 27.11.</time><strong>Black Friday</strong><p>Deals go live at midnight; limited stock goes before noon.</p></li>
+            <li><time>Mo 30.11.</time><strong>Cyber Monday</strong><p>Swiss shops mostly extend Black Friday prices until here.</p></li>
+          </ol>
+        </div>
+        <div>
+          <div class="eyebrow">Buying rules</div><h3>Don't get played</h3>
+          <ul class="tips">
+            <li><b>Compare against last Black Week</b>Some shops raise prices shortly before Black Friday to inflate discounts.</li>
+            <li><b>Join loyalty programmes early</b>Manor, H&amp;M and Ochsner Sport keep some offers for members.</li>
+            <li><b>Check delivery to Switzerland</b>Foreign shops may not ship every item, or use Schuko plugs and German keyboards.</li>
+            <li><b>First-order codes count</b>Several record lows relied on newsletter or new-customer codes.</li>
+            <li><b>Buy last year's model</b>The deepest cuts land on the previous generation.</li>
+          </ul>
+        </div>
+        <div class="about">
+          <div class="eyebrow">About</div><h3>Prices &amp; disclosure</h3>
+          <p><strong>Affiliate links.</strong> Shop links carry partner tracking; we are paid a commission on qualifying purchases at no extra cost to you. Als Amazon-Partner verdienen wir an qualifizierten Verkäufen. Rankings and buy/wait calls are based on demand and price history, not on commission.</p>
+          <p><strong>Prices.</strong> "Today" is the lowest Swiss price listed by the Black-Friday.ch price feed on 23.10.2026; Black Week 2025 prices and record lows come from Preispirat deal reports and Toppreise comparisons. Prices change hourly, so confirm at the shop. Black Friday 2026 offers have not been announced yet.</p>
+          <p><strong>Catalogue.</strong> Products 101–2000 are a curated list of popular models sold in or delivered to Switzerland, without researched prices; their buttons open live shop listings. Pictures are illustrations until licensed shop photos are added.</p>
+          <p><strong>Sources.</strong> Black-Friday.ch, Preispirat, Toppreise, Swiss Retail Federation, TCS tyre advice. Product names and trademarks belong to their owners.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
 
-<section class="block" id="shops" style="background:var(--surface);border-block:1px solid var(--line)"><div class="wrap">
-  <div class="sec-head"><div class="eyebrow">Where to buy</div><h2>Retailers that deliver in Switzerland</h2>
-  <p>Swiss shops include VAT, Swiss plugs and local warranty handling. Amazon.de removes German VAT for Swiss addresses and shows the final CHF price at checkout, import costs included.</p></div>
-  <div class="tbl-wrap"><table>
-    <thead><tr><th>Retailer</th><th>Best for</th><th>Black Friday pattern</th><th>Watch out</th><th></th></tr></thead>
-    <tbody id="shopRows"></tbody>
-  </table></div>
-</div></section>
-
-<section class="block" id="timing"><div class="wrap two">
-  <div>
-    <div class="eyebrow">Timing</div><h2 class="sub">When prices move</h2>
-    <ol class="timeline">
-      <li><time>Now – 10.11.</time><strong>Build your list</strong><p>Set a target price per product. Several record lows, like AirPods Pro 3 and Switch 2, happened outside November.</p></li>
-      <li><time>Mi 11.11.</time><strong>Singles Day</strong><p>Smaller discounts in Switzerland. Last year it brought the MacBook Air M4 to CHF 699 at DayDeal.</p></li>
-      <li><time>Mo 23.11.</time><strong>Black Week opens</strong><p>Digitec Galaxus, Brack and Interdiscount run deals all week. Limited stock sells out early in the morning.</p></li>
-      <li class="peak"><time>Fr 27.11.</time><strong>Black Friday</strong><p>Peak sales day. Deals go live at midnight; DayDeal and Digitec drops are usually gone before noon.</p></li>
-      <li><time>Mo 30.11.</time><strong>Cyber Monday</strong><p>Swiss shops mostly extend their Black Friday prices until here rather than launch new ones.</p></li>
-    </ol>
-  </div>
-  <div id="tips">
-    <div class="eyebrow">Buying rules</div><h2 class="sub">Don't get played</h2>
-    <ul class="tips">
-      <li><b>Compare against last Black Week</b><span>Some shops raise prices shortly before Black Friday to inflate the discount. Each tag shows what the product really cost in Black Week 2025.</span></li>
-      <li><b>Join loyalty programmes before the day</b><span>Manor, H&amp;M and Ochsner Sport reserve parts of their Black Friday offers for members.</span></li>
-      <li><b>Read the Amazon fine print</b><span>Not every Amazon.de item ships to Switzerland, some arrive with a Schuko plug or German keyboard, and Prime-only prices need Prime.</span></li>
-      <li><b>First-order codes count</b><span>Several record lows (fnac, Samsung Store) relied on a one-time newsletter or new-customer code.</span></li>
-      <li><b>Buy last year's model</b><span>The deepest cuts land on the previous generation: iPhone 16 and 17, Watch Series 10, MacBook Air M4.</span></li>
-    </ul>
-  </div>
-</div></section>
-
-<footer><div class="wrap">
-  <p><strong style="color:var(--ink)">Affiliate disclosure.</strong> Links to retailers carry partner tracking. We are paid a commission on qualifying purchases at no extra cost to you. Als Amazon-Partner verdienen wir an qualifizierten Verkäufen. Ranking and buy/wait calls are based on demand and price history, not on commission.</p>
-  <p><strong style="color:var(--ink)">About the prices.</strong> "Today" is the lowest Swiss price listed by the Black-Friday.ch price feed on 23.10.2026. "Black Week 2025" and record lows come from Preispirat deal reports and Toppreise comparisons; Amazon prices include delivery to Switzerland at the time of the report. Variants (storage, colour, bundle) can differ between shops. Prices change hourly, so confirm at the retailer. Black Friday 2026 offers have not been announced yet.</p>
-  <p>Products 101–2000 are a curated catalogue of popular models sold in or delivered to Switzerland, without researched prices; their buttons open live shop listings and Toppreise price history. Product pictures are illustrations until licensed retailer photos are added. Demand ranking for the top 100 draws on Digitec Galaxus, Brack, Fust and Swiss Retail Federation Black Friday reports (phones, TVs, laptops, consoles, robot vacuums and coffee machines lead every year). Product names and trademarks belong to their owners.</p>
-</div></footer>
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="m-title"><div class="sheet" id="sheet"></div></div>
 
 <script src="data/catalogue.js"></script>
 <script src="data/images.js"></script>
@@ -346,7 +334,7 @@ function affLink(shop, url){
 /* Featured partner links (e.g. Awin tidd.ly short links). They open a fixed landing page,
    so they appear in the "Partner offers" strip, not on product buttons. Edit labels here. */
 const PARTNER_LINKS = [
-  { label:"Shop winter tyres at reifen-online.ch", url:"https://tidd.ly/4yBNcmE", shop:"reifenonline" },
+  { label:"Shop winter tyres", url:"https://tidd.ly/4yBNcmE", shop:"reifenonline" },
   { label:"More tyre offers", url:"https://tidd.ly/4z73Dss", shop:"reifenonline" }
 ];
 const WINTER_TYRES = [
@@ -553,7 +541,6 @@ const CAT_LIST = (window.CATALOGUE||[]).map(([cat,name,spec,now],i)=>({
   status: now!=null ? "track" : "live", save:0, show:now??null, q:name.replace(/\s*\(.*?\)/g,""), note:null, shops:isTyre(name) ? ["reifenonline","amazon"] : withAmazon(cat, CAT_SHOPS[cat]||["galaxus","brack"])
 }));
 const DEALS = TOP.concat(CAT_LIST);
-const inScope = d => state.scope==="top" ? d.top : true;
 const CATS = [...new Set(DEALS.map(d=>d.cat))].sort((a,b)=>a.localeCompare(b));
 
 const SHOPINFO = [
@@ -606,9 +593,10 @@ const ICON = {
  "Books":'<path d="M7 8h15a4 4 0 0 1 4 4v29a3 3 0 0 0-3-3H7zM41 8H28a4 4 0 0 0-4 4v29a3 3 0 0 1 3-3h14z"/>',
  "Pets":'<circle cx="24" cy="31" r="8"/><circle cx="13" cy="19" r="3.5"/><circle cx="20" cy="12" r="3.5"/><circle cx="28" cy="12" r="3.5"/><circle cx="35" cy="19" r="3.5"/>',
  "Gift Cards & Travel":'<rect x="5" y="12" width="38" height="25" rx="3"/><path d="M5 20h38M13 30h9"/>',
+ "Winter tyres":'<circle cx="24" cy="24" r="18"/><circle cx="24" cy="24" r="7"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6M11 11l4 4M33 33l4 4M37 11l-4 4M15 33l-4 4"/>',
  "_":'<path d="M6 24L24 6h16v16L22 40z"/><circle cx="33" cy="13" r="2.5"/>'
 };
-const TWO = ["The Ordinary","La Roche-Posay","Ultimate Ears","Bowers & Wilkins","Black Diamond","The North Face","Under Armour","Hugo Boss","Calvin Klein","Polo Ralph Lauren","Ralph Lauren","Tommy Hilfiger","Fred Perry","Le Creuset","Big Green Egg","Home Assistant","Peak Design","Dr. Martens","New Balance","Paco Rabanne","Jean Paul Gaultier","Giorgio Armani","Carolina Herrera","Estée Lauder","Charlotte Tilbury","Rare Beauty","Beauty of Joseon","Paula's Choice","Caran d'Ache","Brändi Dog","Hot Wheels","Fisher-Price","Nintendo Switch","Hans im Glück","Bang & Olufsen","Maison Francis Kurkdjian","Le Labo","Kuhn Rikon","Betty Bossi","Amazon Basics","Amazon Essentials","Concept2","Sea to Summit","Fjällräven","Viktor & Rolf","Thierry Mugler","Narciso Rodriguez","Jil Sander","Daniel Wellington","Herman Miller","Secretlab","Lian Li","be quiet!","Western Digital","Bambu Lab","Tour de Suisse","Busch & Müller","Pegasus Spiele","Lululemon"];
+const TWO = ["The Ordinary","La Roche-Posay","Ultimate Ears","Bowers & Wilkins","Black Diamond","The North Face","Under Armour","Hugo Boss","Calvin Klein","Polo Ralph Lauren","Ralph Lauren","Tommy Hilfiger","Fred Perry","Le Creuset","Big Green Egg","Home Assistant","Peak Design","Dr. Martens","New Balance","Paco Rabanne","Jean Paul Gaultier","Giorgio Armani","Carolina Herrera","Estée Lauder","Charlotte Tilbury","Rare Beauty","Beauty of Joseon","Paula's Choice","Caran d'Ache","Brändi Dog","Hot Wheels","Fisher-Price","Hans im Glück","Bang & Olufsen","Maison Francis Kurkdjian","Le Labo","Kuhn Rikon","Betty Bossi","Amazon Basics","Amazon Essentials","Concept2","Sea to Summit","Fjällräven","Viktor & Rolf","Thierry Mugler","Narciso Rodriguez","Jil Sander","Daniel Wellington","Herman Miller","Secretlab","Lian Li","be quiet!","Western Digital","Bambu Lab","Tour de Suisse","Busch & Müller","Pegasus Spiele","Lululemon"];
 const hue = s => { let x=0; for (const c of s) x=(x*31+c.charCodeAt(0))>>>0; return x%360; };
 const brandOf = n => (TWO.find(b=>n.startsWith(b+" ")) || n.split(" ")[0]).replace(/[–:]$/,"");
 function thumb(d){
@@ -626,81 +614,160 @@ const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&g
 const ext = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>';
 const LABEL = {buy:"Buy now", wait:"Wait for Black Week", track:"Tracking", check:"Check price", live:"Live price"};
 
-const PAGE = 48;
-let state = {cat:"All", sort:"rank", status:"all", q:"", scope:"all"}, shown = PAGE;
-try{ Object.assign(state, JSON.parse(localStorage.getItem("bf26v3")||"{}")); }catch(e){}
-const save = () => { try{localStorage.setItem("bf26v3",JSON.stringify(state));}catch(e){} };
+/* ===================== UI: tabs + paged grid (fits the screen) ===================== */
+const TABS = ["top","categories","retailers","guide"];
+const WINTER = "Winter tyres";
+/* tyre products live in the "Winter tyres" category and link to reifen-online.ch */
+DEALS.forEach(d=>{ if(!d.top && isTyre(d.name)){ d.cat = WINTER; d.shops = ["reifenonline"]; } });
+WINTER_TYRES.forEach(([t,n,s])=>{
+  if (DEALS.some(d=>d.name===n)) return;
+  DEALS.push({rank:DEALS.length+1, top:false, cat:WINTER, name:n, spec:`${t} tyre · ${s}`, now:null, bw25:null, low:null, lowAt:null, best:null, status:"live", save:0, show:null, q:n, note:"Pick your size at reifen-online.ch; delivery across Switzerland, often to a fitting garage.", shops:["reifenonline"]});
+});
+const OTHERS = DEALS.filter(d=>!d.top);
+const CAT_ORDER = [WINTER, ...[...new Set(OTHERS.map(d=>d.cat))].filter(c=>c!==WINTER).sort((a,b)=>a.localeCompare(b))];
+let state = {tab:"top", cat:"All", q:"", status:"all", sort:"rank", page:0};
+try{ Object.assign(state, JSON.parse(localStorage.getItem("bf26v4")||"{}")); }catch(e){}
+const save = () => { try{ localStorage.setItem("bf26v4", JSON.stringify(state)); }catch(e){} };
+const $ = id => document.getElementById(id);
+let perPage = 12;
 
-function renderControls(){
-  const pool = DEALS.filter(inScope);
-  const n = c => c==="All" ? pool.length : pool.filter(d=>d.cat===c).length;
-  const cats = ["All", ...CATS.filter(c=>n(c))];
-  if (!cats.includes(state.cat)) state.cat = "All";
-  const sel = document.getElementById("cat");
-  sel.innerHTML = cats.map(c=>`<option value="${esc(c)}"${c===state.cat?" selected":""}>${c==="All"?"All categories":esc(c)} (${n(c)})</option>`).join("");
-  document.getElementById("sc-top").setAttribute("aria-pressed", state.scope==="top");
-  document.getElementById("sc-all").setAttribute("aria-pressed", state.scope==="all");
+function shopBtn(s, d, primary){
+  return `<a class="shop${primary?" primary":""}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS[s].name} ${ext}</a>`;
+}
+/* card shows 2 shops; Amazon stays visible when the product links to it */
+function cardShops(d){
+  const s = d.shops.slice(0,4);
+  const first = s[0];
+  const second = s.includes("amazon") && first!=="amazon" ? "amazon" : s[1];
+  return [first, second].filter(Boolean);
+}
+function priceLine(d){
+  if (d.show==null) return `<span class="price live">${d.status==="live"?"Live price at the shops":"Price to be confirmed"}</span>`;
+  const best = d.best && d.now!=null && d.best.p < d.now ? `<span class="best">best ${fmt(d.best.p)}</span>` : (d.now==null && d.best ? `<span class="best">${esc(d.best.where)}</span>` : "");
+  return `<span class="price">CHF ${fmt(d.show)}</span>${best}`;
 }
 function card(d){
-  const pct = d.now && d.save ? Math.round(d.save/d.now*100) : 0;
-  const k = d.now!=null ? "Today in CH" : d.best ? (d.best.where==="Black Week 2025" ? "Black Week 2025" : "Best seen") : d.status==="live" ? "Live price" : "Price";
-  const price = d.show!=null ? `CHF ${fmt(d.show)}` : d.status==="live" ? "Compare shops" : "TBA";
-  const rows = [];
-  if (d.bw25!=null && d.now!=null) rows.push(`<dt>Black Week 2025</dt><dd>CHF ${fmt(d.bw25)}</dd>`);
-  if (d.low!=null && (d.now!=null || d.bw25!=null)) rows.push(`<dt>Record low</dt><dd>CHF ${fmt(d.low)}</dd>`);
-  if (d.low!=null && d.lowAt) rows.push(`<dt>Where</dt><dd>${esc(d.lowAt)}</dd>`);
-  if (d.best && d.status!=="check") rows.push(`<dt>Buy at or below</dt><dd class="target">CHF ${fmt(d.best.p)}</dd>`);
-  const btns = d.shops.slice(0,4).map((s,i)=>`<a class="shop${i===0?" primary":""}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS[s].name} ${ext}</a>`).join("")
-    + `<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS.toppreise.name} ${ext}</a>`;
-  return `<article class="deal">${thumb(d)}
-    <div class="deal-top"><span class="rank">${d.top?`#<b>${d.rank}</b>`:`<b>${d.rank}</b>`}</span><span class="cat">${d.cat}</span></div>
-    <h3>${esc(d.name)}</h3><div class="spec">${esc(d.spec)}</div>
-    <div class="sticker${d.show==null&&d.status==="live"?" live":""}"><span class="k">${k}</span>${pct?`<span class="off">−${pct}% BW</span>`:""}<span class="now">${price}</span></div>
-    <span class="pill ${d.status}">${LABEL[d.status]}</span>
-    ${rows.length?`<dl class="meta">${rows.join("")}</dl>`:""}
-    ${d.note?`<p class="note">${esc(d.note)}</p>`:""}
-    <div class="shops">${btns}</div>
-  </article>`;
+  const i = DEALS.indexOf(d);
+  return `<article class="card">${thumb(d)}<div class="body">
+    <div class="top"><span class="r">${d.top?`#<b>${d.rank}</b>`:""}</span><span class="c">${esc(d.cat)}</span><span class="pill ${d.status}">${LABEL[d.status]}</span></div>
+    <button class="name" type="button" data-i="${i}" title="Details">${esc(d.name)}</button>
+    <div class="priceline">${priceLine(d)}</div>
+    <div class="btns">${cardShops(d).map((s,k)=>shopBtn(s,d,k===0)).join("")}<button class="shop ghost info" type="button" data-i="${i}" aria-label="Details" title="Details">i</button></div>
+  </div></article>`;
+}
+function list(){
+  const term = state.q.trim().toLowerCase();
+  let l = (state.tab==="top" ? DEALS.filter(d=>d.top) : OTHERS)
+    .filter(d => (state.tab==="top" || state.cat==="All" || d.cat===state.cat)
+      && (state.status==="all" || d.status===state.status)
+      && (!term || (d.name+" "+d.spec+" "+d.cat).toLowerCase().includes(term)));
+  const by = {rank:(a,b)=>a.rank-b.rank, save:(a,b)=>b.save-a.save||a.rank-b.rank,
+    low:(a,b)=>(a.show??1e9)-(b.show??1e9)||a.rank-b.rank, high:(a,b)=>(b.show??-1)-(a.show??-1)||a.rank-b.rank,
+    az:(a,b)=>a.name.localeCompare(b.name)};
+  return l.sort(by[state.sort]||by.rank);
+}
+function fit(){
+  const g = $("grid"), cs = getComputedStyle(document.documentElement);
+  const cw = parseFloat(cs.getPropertyValue("--card-w"))||300, ch = parseFloat(cs.getPropertyValue("--card-h"))||150, gap = parseFloat(cs.getPropertyValue("--gap"))||10;
+  const W = g.clientWidth || 900, H = g.clientHeight;
+  const cols = Math.max(1, Math.floor((W+gap)/(cw+gap)));
+  const scrolling = getComputedStyle(document.body).overflowY !== "hidden" || !H;
+  const rows = scrolling ? 6 : Math.max(1, Math.floor((H+gap)/(ch+gap)));
+  g.style.setProperty("--cols", cols);
+  perPage = cols*rows;
 }
 function renderGrid(){
-  const term = state.q.trim().toLowerCase();
-  let list = DEALS.filter(d=>inScope(d) && (state.cat==="All"||d.cat===state.cat) && (state.status==="all"||d.status===state.status) && (!term || (d.name+" "+d.spec+" "+d.cat).toLowerCase().includes(term)));
-  const by = {rank:(a,b)=>a.rank-b.rank, save:(a,b)=>b.save-a.save||a.rank-b.rank, low:(a,b)=>(a.show??1e9)-(b.show??1e9), high:(a,b)=>(b.show??-1)-(a.show??-1)};
-  list.sort(by[state.sort]||by.rank);
-  const vis = list.slice(0, shown);
-  document.getElementById("count").textContent = `${vis.length} of ${list.length} shown`;
-  document.getElementById("grid").innerHTML = list.length ? vis.map(card).join("") : '<div class="empty">No products match. Clear the search or pick another category.</div>';
-  const more = document.getElementById("more");
-  more.hidden = list.length <= shown;
-  more.textContent = `Show ${Math.min(PAGE, list.length-shown)} more`;
+  fit();
+  const l = list(), pages = Math.max(1, Math.ceil(l.length/perPage));
+  state.page = Math.min(Math.max(0,state.page), pages-1);
+  const vis = l.slice(state.page*perPage, (state.page+1)*perPage);
+  $("grid").innerHTML = vis.length ? vis.map(card).join("") : `<div class="empty">No products match. Clear the search or choose another category.</div>`;
+  $("info").textContent = l.length ? `Page ${state.page+1} / ${pages} · ${l.length.toLocaleString("en-US")} products` : "0 products";
+  $("prev").disabled = state.page===0; $("next").disabled = state.page>=pages-1;
 }
+function renderCats(){
+  const s = $("catSel");
+  s.hidden = state.tab!=="categories";
+  $("winterbar").hidden = !(state.tab==="categories" && state.cat===WINTER);
+  if (s.hidden) return;
+  const n = cat => cat==="All" ? OTHERS.length : OTHERS.filter(d=>d.cat===cat).length;
+  s.innerHTML = ["All",...CAT_ORDER].map(cat=>`<option value="${esc(cat)}"${cat===state.cat?" selected":""}>${cat==="All"?"All categories":esc(cat)}${cat===WINTER?" ❄":""} (${n(cat).toLocaleString("en-US")})</option>`).join("");
+}
+function showTab(t, push){
+  if (!TABS.includes(t)) t = "top";
+  state.tab = t; save();
+  TABS.forEach(x=>$("t-"+x).setAttribute("aria-selected", x===t));
+  const products = t==="top"||t==="categories";
+  $("p-products").hidden = !products; $("p-retailers").hidden = t!=="retailers"; $("p-guide").hidden = t!=="guide";
+  if (products){
+    $("lead").innerHTML = t==="top" ? "Top <em>100</em> offers" : (state.cat==="All" ? "All <em>categories</em>" : esc(state.cat));
+    $("status").hidden = t!=="top";
+    if (t!=="top") state.status = "all";
+    $("status").value = state.status;
+    renderCats(); renderGrid();
+  }
+  if (push){ try{ history.replaceState(null,"","#"+t); }catch(e){} }
+}
+function openDetails(d){
+  const rows = [];
+  if (d.now!=null) rows.push(`<dt>Today in CH</dt><dd>CHF ${fmt(d.now)}</dd>`);
+  if (d.bw25!=null) rows.push(`<dt>Black Week 2025</dt><dd>CHF ${fmt(d.bw25)}</dd>`);
+  if (d.low!=null) rows.push(`<dt>Record low</dt><dd>CHF ${fmt(d.low)}${d.lowAt?` · ${esc(d.lowAt)}`:""}</dd>`);
+  if (d.best && d.status!=="check") rows.push(`<dt>Buy at or below</dt><dd class="target">CHF ${fmt(d.best.p)}</dd>`);
+  rows.push(`<dt>Status</dt><dd>${LABEL[d.status]}</dd>`);
+  $("sheet").innerHTML = `${thumb(d)}<div class="in">
+    <button class="close" type="button" id="m-close" aria-label="Close">×</button>
+    <div class="eyebrow">${d.top?`#${d.rank} · `:""}${esc(d.cat)}</div>
+    <h3 id="m-title">${esc(d.name)}</h3><div class="spec">${esc(d.spec)}</div>
+    <dl>${rows.join("")}</dl>
+    ${d.note?`<p class="note">${esc(d.note)}</p>`:""}
+    <div class="btns">${d.shops.map((s,k)=>shopBtn(s,d,k===0)).join("")}<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored noopener">Price history ${ext}</a></div>
+  </div>`;
+  $("modal").hidden = false; $("m-close").focus();
+  $("m-close").onclick = closeDetails;
+}
+function closeDetails(){ $("modal").hidden = true; }
 function renderShops(){
-  document.getElementById("shopRows").innerHTML = SHOPINFO.map(([k,n,best,pat,warn,home])=>
-    `<tr><td class="name">${n}</td><td>${best}</td><td>${pat}</td><td>${warn}</td><td><a class="go" href="${affLink(k,home)}" target="_blank" rel="sponsored noopener">Visit ${ext}</a></td></tr>`).join("");
+  $("shopRows").innerHTML = SHOPINFO.map(([k,n,best,pat,warn,home])=>
+    `<tr><td class="nm">${n}</td><td>${best}</td><td>${pat}</td><td>${warn}</td><td><a class="go" href="${affLink(k,home)}" target="_blank" rel="sponsored noopener">Visit ${ext}</a></td></tr>`).join("");
+}
+function renderWinter(){
+  $("winter-cta").innerHTML = PARTNER_LINKS.map((l,i)=>`<a class="${i===0?"primary":""}" href="${esc(l.url)}" target="_blank" rel="sponsored noopener">${esc(l.label)} ${ext}</a>`).join("");
+  return; $("tyres").innerHTML = WINTER_TYRES.map(([t,n,d])=>`<article class="tyre"><span class="t">${t}</span><h3>${esc(n)}</h3><p>${esc(d)}</p><a href="${esc(PARTNER_LINKS[0].url)}" target="_blank" rel="sponsored noopener">Check sizes at reifen-online.ch ${ext}</a></article>`).join("");
 }
 function tick(){
   const ms = Math.max(0, new Date("2026-11-27T00:00:00+01:00").getTime() - Date.now());
   const p = n => String(n).padStart(2,"0");
-  document.getElementById("cd-d").textContent = p(Math.floor(ms/864e5));
-  document.getElementById("cd-h").textContent = p(Math.floor(ms%864e5/36e5));
-  document.getElementById("cd-m").textContent = p(Math.floor(ms%36e5/6e4));
+  $("cd-d").textContent = Math.floor(ms/864e5);
+  $("cd-h").textContent = p(Math.floor(ms%864e5/36e5));
+  $("cd-m").textContent = p(Math.floor(ms%36e5/6e4));
 }
-document.getElementById("f-total").textContent = DEALS.length.toLocaleString("en-US");
-document.getElementById("f-buy").textContent = TOP.filter(d=>d.status==="buy").length;
-document.getElementById("f-wait").textContent = TOP.filter(d=>d.status==="wait").length;
-const qEl = document.getElementById("q"), sEl = document.getElementById("sort"), stEl = document.getElementById("status");
-qEl.value = state.q; sEl.value = state.sort; stEl.value = state.status;
-const reset = () => { shown = PAGE; save(); renderGrid(); };
-qEl.oninput = e=>{state.q=e.target.value;reset();};
-sEl.onchange = e=>{state.sort=e.target.value;reset();};
-stEl.onchange = e=>{state.status=e.target.value;reset();};
-document.getElementById("cat").onchange = e=>{state.cat=e.target.value;reset();};
-document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{state.scope=b.dataset.scope;renderControls();reset();});
-document.getElementById("more").onclick = ()=>{shown+=PAGE;renderGrid();};
 
-document.getElementById("winter-cta").innerHTML = PARTNER_LINKS.map((l,i)=>`<a class="${i===0?"primary":""}" href="${esc(l.url)}" target="_blank" rel="sponsored noopener">${esc(l.label)} ${ext}</a>`).join("");
-document.getElementById("tyres").innerHTML = WINTER_TYRES.map(([t,n,d])=>`<article class="tyre"><span class="t">${t}</span><h3>${esc(n)}</h3><p>${esc(d)}</p><a href="${esc(PARTNER_LINKS[0].url)}" target="_blank" rel="sponsored noopener">Check sizes at reifen-online.ch ${ext}</a></article>`).join("");
-renderControls(); renderGrid(); renderShops(); tick(); setInterval(tick, 30000);
+/* events */
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{ state.page=0; showTab(b.dataset.tab,true); });
+$("catSel").onchange = e=>{ state.cat=e.target.value; state.page=0; save(); showTab("categories"); };
+$("q").oninput = e=>{ state.q=e.target.value; state.page=0; save(); renderGrid(); };
+$("status").onchange = e=>{ state.status=e.target.value; state.page=0; save(); renderGrid(); };
+$("sort").onchange = e=>{ state.sort=e.target.value; state.page=0; save(); renderGrid(); };
+$("prev").onclick = ()=>{ state.page--; save(); renderGrid(); };
+$("next").onclick = ()=>{ state.page++; save(); renderGrid(); };
+$("grid").onclick = e=>{ const b=e.target.closest("[data-i]"); if(b) openDetails(DEALS[+b.dataset.i]); };
+$("modal").onclick = e=>{ if(e.target.id==="modal") closeDetails(); };
+document.addEventListener("keydown", e=>{
+  if (e.key==="Escape" && !$("modal").hidden) return closeDetails();
+  if (!$("modal").hidden || /INPUT|SELECT|TEXTAREA/.test(document.activeElement?.tagName||"") || $("p-products").hidden) return;
+  if (e.key==="ArrowRight" && !$("next").disabled) $("next").click();
+  if (e.key==="ArrowLeft" && !$("prev").disabled) $("prev").click();
+});
+let rt; window.addEventListener("resize", ()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(!$("p-products").hidden) renderGrid(); },120); });
+
+/* init */
+$("q").value = state.q; $("sort").value = state.sort;
+$("n-cat").textContent = OTHERS.length.toLocaleString("en-US");
+renderShops(); renderWinter(); tick(); setInterval(tick, 30000);
+const h0 = location.hash.replace("#","");
+if (h0==="winter"){ state.cat = WINTER; state.page = 0; showTab("categories"); }
+else showTab(TABS.includes(h0) ? h0 : state.tab);
 </script>
 </body>
 </html>
