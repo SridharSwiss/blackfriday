@@ -1,6 +1,6 @@
 # blackfriday — Aktion.ch Black Friday Schweiz 2026
 
-A dependency-free static site with the **Top 1,000** Black Friday products for Switzerland across 30 categories. The top 100 carry researched CHF prices (today, Black Week 2025, record low) and a buy/wait call; products 101–1000 are a curated catalogue linked to live shop prices and Toppreise history. Every outbound link goes through the affiliate layer.
+A dependency-free static site with the **Top 1,000** Black Friday products for Switzerland across 30 categories. The top 100 carry researched CHF prices (today, Black Week 2025, record low) and a buy/wait call; products 101–1000 are a curated catalogue linked to live shop prices and Toppreise history. Every outbound link goes through the affiliate layer. A separate **Amazon.de → Schweiz** list tracks 1,000 more products Swiss shoppers order from Amazon.de (open with `#amazon`).
 
 - Black Friday: **Fr 27.11.2026** · Black Week from Mo 23.11. · Cyber Monday Mo 30.11.
 - Prices researched up to 23.10.2026 from Swiss price trackers (Preispirat, Toppreise) and retailer listings.
@@ -39,6 +39,13 @@ Status is computed automatically: **Buy now** if today is within 3% of the best 
 - Built file loaded by the page: `data/catalogue.js` (`window.CATALOGUE = [[category, name, spec], ...]`).
 - To add a researched price, append today's CHF price as a 4th value: `["Kitchen", "Thermomix TM7", "Food processor", 1499]`; the card switches from "Live price" to "Tracking".
 - Retailer buttons per category are set in `CAT_SHOPS` in `index.html`.
+
+## Amazon.de list (A1–A1000)
+
+- Source list: `data/amazon.txt`; built file: `data/amazon.js` (`window.AMAZON = [[category, name, spec], ...]`).
+- Weighted to categories Swiss shoppers buy on Amazon.de (books, toys & games, beauty, fashion, tech accessories, household, DIY) and limited to goods Amazon.de delivers to CH (no food, alcohol, plants, medical products, chemicals). Amazon publishes no per-product delivery data, so this is not a sales ranking.
+- Each card links to Amazon.de with the PartnerNet tag, Keepa (Amazon price history) and Toppreise (Swiss price comparison).
+- Append a CHF price as a 4th value to show it on the card.
 
 ## Compliance
 

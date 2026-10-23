@@ -105,6 +105,15 @@ select{font:600 13px var(--f-body);padding:8px 10px;border-radius:8px;border:1.5
 .pill.buy{color:var(--good)} .pill.wait{color:var(--warn)} .pill.track{color:var(--track)} .pill.check{color:var(--info)} .pill.live{color:var(--muted)}
 .sticker.live{background:transparent;border:2px dashed var(--tag-ink);color:var(--ink)}
 .sticker.live .now{font-size:24px}
+.pill.amazon{color:var(--warn)}
+.amz .wrap{padding-block:44px;display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:start}
+.amz h2{font-size:clamp(30px,4.4vw,48px);font-weight:900;font-stretch:72%;text-transform:uppercase;margin:6px 0 12px}
+.amz p{color:var(--muted);max-width:60ch;margin:0 0 16px}
+.amz-facts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.amz-facts li{display:grid;grid-template-columns:150px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.amz-facts b{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.btn-amz{font:700 15px var(--f-body);padding:13px 20px;border-radius:8px;border:0;background:var(--red);color:var(--red-ink);cursor:pointer}
+@media (max-width:860px){.amz .wrap{grid-template-columns:1fr}.amz-facts li{grid-template-columns:1fr;gap:2px}}
 .more{display:flex;justify-content:center;margin-top:22px}
 .more button{font:700 14px var(--f-body);padding:12px 22px;border-radius:8px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
 .seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
@@ -161,14 +170,14 @@ footer p{margin:0;max-width:95ch}
 
 <header class="top"><div class="wrap">
   <div class="brand"><span class="cross" aria-hidden="true"></span>AKTION.CH</div>
-  <nav class="top" aria-label="Sections"><a href="#deals">Top 1,000</a><a href="#shops">Retailers</a><a href="#timing">Timing</a><a href="#tips">Buying rules</a></nav>
+  <nav class="top" aria-label="Sections"><a href="#deals">Top 1,000</a><a href="#amazon">Amazon.de</a><a href="#shops">Retailers</a><a href="#timing">Timing</a><a href="#tips">Buying rules</a></nav>
 </div></header>
 
 <section class="hero"><div class="wrap">
   <div>
     <div class="eyebrow">Black Week Schweiz 2026 · Top 1,000</div>
     <h1 style="margin-top:10px">The deals worth <span class="hl">waiting for</span></h1>
-    <p class="lede">1,000 products Swiss shoppers look for in November, across 30 categories. The top 100 come with researched CHF prices, last Black Week's price and a buy-or-wait call. The other 900 link straight to live shop prices and price history.</p>
+    <p class="lede">1,000 products Swiss shoppers look for in November, across 30 categories. The top 100 come with researched CHF prices, last Black Week's price and a buy-or-wait call. The other 900 link straight to live shop prices. A separate list tracks 1,000 more products Swiss shoppers order from Amazon.de.</p>
   </div>
   <div class="board" aria-label="Countdown to Black Friday">
     <div class="lbl">Black Friday · Fr 27.11.2026</div>
@@ -184,16 +193,33 @@ footer p{margin:0;max-width:95ch}
 </div></section>
 
 <div class="facts"><div class="wrap">
-  <div class="fact"><strong id="f-total">1,000</strong><span>Products in 30 categories, top 100 with researched CHF prices</span></div>
+  <div class="fact"><strong id="f-total">2,000</strong><span>Products tracked: 1,000 at Swiss shops, 1,000 on Amazon.de</span></div>
   <div class="fact"><strong id="f-buy">–</strong><span>Already at or near their best price</span></div>
   <div class="fact"><strong id="f-wait">–</strong><span>Likely cheaper in Black Week</span></div>
   <div class="fact"><strong>CHF 450 Mio.</strong><span>Swiss Black Friday turnover forecast (2025)</span></div>
 </div></div>
 
+<section class="amz" id="amazon" style="background:var(--surface);border-block:1px solid var(--line)"><div class="wrap">
+  <div>
+    <div class="eyebrow">Amazon.de → Schweiz · 1,000 picks</div>
+    <h2>What Switzerland orders from Amazon.de</h2>
+    <p>A separate list of 1,000 products in the categories Swiss shoppers buy most on Amazon.de: books, toys and games, beauty, fashion, tech accessories, household and DIY. Everything on it is a type of product Amazon.de delivers to Swiss addresses. Amazon's Black Friday Week usually starts about a week before Black Friday.</p>
+    <button class="btn-amz" type="button" id="go-amz">Browse the 1,000 Amazon.de picks</button>
+  </div>
+  <ul class="amz-facts">
+    <li><b>Price</b><span>Shown with Swiss VAT, German VAT removed. No customs bill on items sold by Amazon.</span></li>
+    <li><b>Shipping</b><span>Free from €49 on eligible items; books always ship free. Otherwise €6.99, oversized €9.99.</span></li>
+    <li><b>Delivery</b><span>Usually 3–5 working days to Switzerland.</span></li>
+    <li><b>Not delivered</b><span>Food, alcohol, plants, medical products and some chemicals. Some marketplace sellers don't ship to CH.</span></li>
+    <li><b>Check first</b><span>Save a Swiss address in your account; the product page then shows if it ships and the final price.</span></li>
+    <li><b>What Swiss give</b><span>Toys and games 45%, fashion 41%, beauty and wellness 41% (Amazon survey, 1,513 people in CH).</span></li>
+  </ul>
+</div></section>
+
 <section class="block" id="deals"><div class="wrap">
   <div class="sec-head">
-    <div class="eyebrow">Top 1,000 · prices as of 23.10.2026</div>
-    <h2>Most-wanted, best prices</h2>
+    <div class="eyebrow" id="deals-eyebrow">Top 1,000 · prices as of 23.10.2026</div>
+    <h2 id="deals-title">Most-wanted, best prices</h2>
     <p>Products 1–100 are ranked by demand and carry researched prices; a product is marked "Buy now" when today's price is within 3% of its best known price. Products 101–1000 are a curated catalogue of popular models, grouped by category and linked to live prices.</p>
   </div>
   <div class="legend" style="margin-bottom:14px">
@@ -202,18 +228,19 @@ footer p{margin:0;max-width:95ch}
     <span><span class="pill track">Tracking</span>new, no price history yet</span>
     <span><span class="pill check">Check</span>no verified CHF price</span>
     <span><span class="pill live">Live price</span>compare at the shops</span>
+    <span><span class="pill amazon">Amazon.de</span>separate Amazon list</span>
   </div>
   <div class="controls" role="search">
     <div class="ctl-row">
       <input class="search" id="q" type="search" placeholder="Search 1,000 products, e.g. iPhone, LEGO, Garmin, Jura" aria-label="Search products">
       <select id="status" aria-label="Filter by status">
-        <option value="all">All statuses</option><option value="buy">Buy now</option><option value="wait">Wait for Black Week</option><option value="track">Tracking</option><option value="check">Check price</option><option value="live">Live price</option>
+        <option value="all">All statuses</option><option value="buy">Buy now</option><option value="wait">Wait for Black Week</option><option value="track">Tracking</option><option value="check">Check price</option><option value="live">Live price</option><option value="amazon">Amazon.de</option>
       </select>
       <select id="sort" aria-label="Sort products">
         <option value="rank">Demand rank</option><option value="save">Biggest saving</option><option value="low">Lowest price</option><option value="high">Highest price</option>
       </select>
     </div>
-    <div class="ctl-row"><div class="seg" role="group" aria-label="Scope"><button type="button" data-scope="top" id="sc-top">Top 100 priced</button><button type="button" data-scope="all" id="sc-all">All 1,000</button></div><select id="cat" aria-label="Category"></select><span class="count" id="count"></span></div>
+    <div class="ctl-row"><div class="seg" role="group" aria-label="Scope"><button type="button" data-scope="top" id="sc-top">Top 100 priced</button><button type="button" data-scope="all" id="sc-all">All 1,000</button><button type="button" data-scope="amazon" id="sc-amz">Amazon.de → CH</button></div><select id="cat" aria-label="Category"></select><span class="count" id="count"></span></div>
   </div>
   <div class="grid" id="grid"></div>
   <div class="more"><button type="button" id="more">Show more</button></div>
@@ -254,10 +281,11 @@ footer p{margin:0;max-width:95ch}
 <footer><div class="wrap">
   <p><strong style="color:var(--ink)">Affiliate disclosure.</strong> Links to retailers carry partner tracking. We are paid a commission on qualifying purchases at no extra cost to you. Als Amazon-Partner verdienen wir an qualifizierten Verkäufen. Ranking and buy/wait calls are based on demand and price history, not on commission.</p>
   <p><strong style="color:var(--ink)">About the prices.</strong> "Today" is the lowest Swiss price listed by the Black-Friday.ch price feed on 23.10.2026. "Black Week 2025" and record lows come from Preispirat deal reports and Toppreise comparisons; Amazon prices include delivery to Switzerland at the time of the report. Variants (storage, colour, bundle) can differ between shops. Prices change hourly, so confirm at the retailer. Black Friday 2026 offers have not been announced yet.</p>
-  <p>Products 101–1000 are a curated catalogue of popular models sold in Switzerland, without researched prices; their buttons open live shop listings and Toppreise price history. Demand ranking for the top 100 draws on Digitec Galaxus, Brack, Fust and Swiss Retail Federation Black Friday reports (phones, TVs, laptops, consoles, robot vacuums and coffee machines lead every year). Product names and trademarks belong to their owners.</p>
+  <p>Products 101–1000 are a curated catalogue of popular models sold in Switzerland, without researched prices; their buttons open live shop listings and Toppreise price history. The Amazon.de list (products A1–A1000) is weighted to what Swiss shoppers buy on Amazon.de and limited to goods Amazon.de delivers to Switzerland; Amazon publishes no per-product delivery figures, so it is not a sales ranking. Delivery terms: Amazon.de, schwiizerfranke.com and becomewealthy.ch guides, 2024–2025. Demand ranking for the top 100 draws on Digitec Galaxus, Brack, Fust and Swiss Retail Federation Black Friday reports (phones, TVs, laptops, consoles, robot vacuums and coffee machines lead every year). Product names and trademarks belong to their owners.</p>
 </div></footer>
 
 <script src="data/catalogue.js"></script>
+<script src="data/amazon.js"></script>
 <script>
 /* ============ AFFILIATE CONFIG — fill in your IDs here ============
    Every outbound link goes through affLink(). Until an ID is set, the link
@@ -278,10 +306,12 @@ const AFF = {
   fust:         { network:null, mid:"", affid:"" },
   zalando:      { network:null, mid:"", affid:"" },
   jumbo:        { network:null, mid:"", affid:"" },
+  keepa:        { network:"none" },                           // price tracker, not a shop
   toppreise:    { network:null }
 };
 function affLink(shop, url){
   const c = AFF[shop] || {};
+  if (c.network === "none") return url;
   const u = new URL(url);
   if (c.network === "amazon" && c.tag){ u.searchParams.set("tag", c.tag); return u.toString(); }
   if (c.network === "awin" && c.mid && c.affid)
@@ -306,6 +336,7 @@ const SHOPS = {
   manor:{name:"Manor", search:s=>`https://www.manor.ch/de/search?text=${enc(s)}`},
   zalando:{name:"Zalando", search:s=>`https://www.zalando.ch/katalog/?q=${enc(s)}`},
   jumbo:{name:"Jumbo", search:s=>`https://www.jumbo.ch/de/search?q=${enc(s)}`},
+  keepa:{name:"Keepa", search:s=>`https://keepa.com/#!search/3-${enc(s)}`},
   toppreise:{name:"History", search:s=>`https://www.toppreise.ch/produktsuche?q=${enc(s)}`}
 };
 /* default retailers per category; a product can override with its own list */
@@ -468,7 +499,12 @@ const CAT_LIST = (window.CATALOGUE||[]).map(([cat,name,spec,now],i)=>({
   rank:TOP.length+i+1, top:false, cat, name, spec, now:now??null, bw25:null, low:null, lowAt:null, best:null,
   status: now!=null ? "track" : "live", save:0, show:now??null, q:name.replace(/\s*\(.*?\)/g,""), note:null, shops:CAT_SHOPS[cat]||["galaxus","brack","amazon"]
 }));
-const DEALS = TOP.concat(CAT_LIST);
+const AMZ_LIST = (window.AMAZON||[]).map(([cat,name,spec,now],i)=>({
+  rank:i+1, top:false, amazon:true, cat, name, spec, now:now??null, bw25:null, low:null, lowAt:null, best:null,
+  status:"amazon", save:0, show:now??null, q:name.replace(/\s*\(.*?\)/g,"").replace(" – "," "), note:null, shops:["amazon","keepa"]
+}));
+const DEALS = TOP.concat(CAT_LIST, AMZ_LIST);
+const inScope = d => state.scope==="amazon" ? !!d.amazon : state.scope==="top" ? d.top : !d.amazon;
 const CATS = [...new Set(DEALS.map(d=>d.cat))].sort((a,b)=>a.localeCompare(b));
 
 const SHOPINFO = [
@@ -486,7 +522,7 @@ const SHOPINFO = [
 const fmt = n => Number.isInteger(n) ? `${n.toLocaleString("de-CH")}.–` : n.toLocaleString("de-CH",{minimumFractionDigits:2,maximumFractionDigits:2});
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const ext = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>';
-const LABEL = {buy:"Buy now", wait:"Wait for Black Week", track:"Tracking", check:"Check price", live:"Live price"};
+const LABEL = {buy:"Buy now", wait:"Wait for Black Week", track:"Tracking", check:"Check price", live:"Live price", amazon:"Amazon.de"};
 
 const PAGE = 48;
 let state = {cat:"All", sort:"rank", status:"all", q:"", scope:"all"}, shown = PAGE;
@@ -494,7 +530,7 @@ try{ Object.assign(state, JSON.parse(localStorage.getItem("bf26v3")||"{}")); }ca
 const save = () => { try{localStorage.setItem("bf26v3",JSON.stringify(state));}catch(e){} };
 
 function renderControls(){
-  const pool = DEALS.filter(d=>state.scope==="all"||d.top);
+  const pool = DEALS.filter(inScope);
   const n = c => c==="All" ? pool.length : pool.filter(d=>d.cat===c).length;
   const cats = ["All", ...CATS.filter(c=>n(c))];
   if (!cats.includes(state.cat)) state.cat = "All";
@@ -502,22 +538,26 @@ function renderControls(){
   sel.innerHTML = cats.map(c=>`<option value="${esc(c)}"${c===state.cat?" selected":""}>${c==="All"?"All categories":esc(c)} (${n(c)})</option>`).join("");
   document.getElementById("sc-top").setAttribute("aria-pressed", state.scope==="top");
   document.getElementById("sc-all").setAttribute("aria-pressed", state.scope==="all");
+  document.getElementById("sc-amz").setAttribute("aria-pressed", state.scope==="amazon");
+  const amz = state.scope==="amazon";
+  document.getElementById("deals-eyebrow").textContent = amz ? "Amazon.de → Schweiz · 1,000 picks" : "Top 1,000 · prices as of 23.10.2026";
+  document.getElementById("deals-title").textContent = amz ? "Swiss favourites on Amazon.de" : "Most-wanted, best prices";
 }
 function card(d){
   const pct = d.now && d.save ? Math.round(d.save/d.now*100) : 0;
-  const k = d.now!=null ? "Today in CH" : d.best ? (d.best.where==="Black Week 2025" ? "Black Week 2025" : "Best seen") : d.status==="live" ? "Live price" : "Price";
-  const price = d.show!=null ? `CHF ${fmt(d.show)}` : d.status==="live" ? "Compare shops" : "TBA";
+  const k = d.now!=null ? "Today in CH" : d.best ? (d.best.where==="Black Week 2025" ? "Black Week 2025" : "Best seen") : d.status==="live" ? "Live price" : d.status==="amazon" ? "Amazon.de → CH" : "Price";
+  const price = d.show!=null ? `CHF ${fmt(d.show)}` : d.status==="live" ? "Compare shops" : d.status==="amazon" ? "See price" : "TBA";
   const rows = [];
   if (d.bw25!=null && d.now!=null) rows.push(`<dt>Black Week 2025</dt><dd>CHF ${fmt(d.bw25)}</dd>`);
   if (d.low!=null && (d.now!=null || d.bw25!=null)) rows.push(`<dt>Record low</dt><dd>CHF ${fmt(d.low)}</dd>`);
   if (d.low!=null && d.lowAt) rows.push(`<dt>Where</dt><dd>${esc(d.lowAt)}</dd>`);
   if (d.best && d.status!=="check") rows.push(`<dt>Buy at or below</dt><dd class="target">CHF ${fmt(d.best.p)}</dd>`);
   const btns = d.shops.slice(0,4).map((s,i)=>`<a class="shop${i===0?" primary":""}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS[s].name} ${ext}</a>`).join("")
-    + `<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS.toppreise.name} ${ext}</a>`;
+    + `<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored noopener">${d.amazon?"CH price":SHOPS.toppreise.name} ${ext}</a>`;
   return `<article class="deal">
-    <div class="deal-top"><span class="rank">${d.top?`#<b>${d.rank}</b>`:`<b>${d.rank}</b>`}</span><span class="cat">${d.cat}</span></div>
+    <div class="deal-top"><span class="rank">${d.top?`#<b>${d.rank}</b>`:d.amazon?`A<b>${d.rank}</b>`:`<b>${d.rank}</b>`}</span><span class="cat">${d.cat}</span></div>
     <h3>${esc(d.name)}</h3><div class="spec">${esc(d.spec)}</div>
-    <div class="sticker${d.show==null&&d.status==="live"?" live":""}"><span class="k">${k}</span>${pct?`<span class="off">−${pct}% BW</span>`:""}<span class="now">${price}</span></div>
+    <div class="sticker${d.show==null&&(d.status==="live"||d.status==="amazon")?" live":""}"><span class="k">${k}</span>${pct?`<span class="off">−${pct}% BW</span>`:""}<span class="now">${price}</span></div>
     <span class="pill ${d.status}">${LABEL[d.status]}</span>
     ${rows.length?`<dl class="meta">${rows.join("")}</dl>`:""}
     ${d.note?`<p class="note">${esc(d.note)}</p>`:""}
@@ -526,7 +566,7 @@ function card(d){
 }
 function renderGrid(){
   const term = state.q.trim().toLowerCase();
-  let list = DEALS.filter(d=>(state.scope==="all"||d.top) && (state.cat==="All"||d.cat===state.cat) && (state.status==="all"||d.status===state.status) && (!term || (d.name+" "+d.spec+" "+d.cat).toLowerCase().includes(term)));
+  let list = DEALS.filter(d=>inScope(d) && (state.cat==="All"||d.cat===state.cat) && (state.status==="all"||d.status===state.status) && (!term || (d.name+" "+d.spec+" "+d.cat).toLowerCase().includes(term)));
   const by = {rank:(a,b)=>a.rank-b.rank, save:(a,b)=>b.save-a.save||a.rank-b.rank, low:(a,b)=>(a.show??1e9)-(b.show??1e9), high:(a,b)=>(b.show??-1)-(a.show??-1)};
   list.sort(by[state.sort]||by.rank);
   const vis = list.slice(0, shown);
@@ -559,6 +599,9 @@ stEl.onchange = e=>{state.status=e.target.value;reset();};
 document.getElementById("cat").onchange = e=>{state.cat=e.target.value;reset();};
 document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{state.scope=b.dataset.scope;renderControls();reset();});
 document.getElementById("more").onclick = ()=>{shown+=PAGE;renderGrid();};
+const openAmazon = (scroll)=>{ state.scope="amazon"; state.status="all"; stEl.value="all"; renderControls(); reset(); if(scroll) document.getElementById("deals").scrollIntoView({behavior:"smooth"}); };
+document.getElementById("go-amz").onclick = ()=>openAmazon(true);
+if (location.hash==="#amazon") { state.scope="amazon"; }
 renderControls(); renderGrid(); renderShops(); tick(); setInterval(tick, 30000);
 </script>
 </body>
