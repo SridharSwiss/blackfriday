@@ -512,7 +512,7 @@ function card(d){
   if (d.low!=null && (d.now!=null || d.bw25!=null)) rows.push(`<dt>Record low</dt><dd>CHF ${fmt(d.low)}</dd>`);
   if (d.low!=null && d.lowAt) rows.push(`<dt>Where</dt><dd>${esc(d.lowAt)}</dd>`);
   if (d.best && d.status!=="check") rows.push(`<dt>Buy at or below</dt><dd class="target">CHF ${fmt(d.best.p)}</dd>`);
-  const btns = d.shops.slice(0,3).map((s,i)=>`<a class="shop${i===0?" primary":""}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS[s].name} ${ext}</a>`).join("")
+  const btns = d.shops.slice(0,4).map((s,i)=>`<a class="shop${i===0?" primary":""}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS[s].name} ${ext}</a>`).join("")
     + `<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS.toppreise.name} ${ext}</a>`;
   return `<article class="deal">
     <div class="deal-top"><span class="rank">${d.top?`#<b>${d.rank}</b>`:`<b>${d.rank}</b>`}</span><span class="cat">${d.cat}</span></div>
