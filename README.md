@@ -1,59 +1,79 @@
-# blackfriday — Aktion.ch Black Friday Schweiz 2026
+# Aktion.ch – Black Friday Schweiz 2026
 
-A dependency-free static site with the **Top 2,000** Black Friday products for Switzerland across 33 general categories. The top 100 carry researched CHF prices (today, Black Week 2025, record low) and a buy/wait call; products 101–2000 are a curated catalogue linked to live shop prices and Toppreise history. Every outbound link goes through the affiliate layer.
+A fast, dependency-light web app listing Black Friday 2026 offers for Switzerland:
 
-- Black Friday: **Fr 27.11.2026** · Black Week from Mo 23.11. · Cyber Monday Mo 30.11.
-- Prices researched up to 23.10.2026 from Swiss price trackers (Preispirat, Toppreise) and retailer listings.
+- **Top 100 offers** with researched CHF prices (today, Black Week 2025, record low) and an automatic *Buy now / Wait* call
+- **2,000+ products** in 33 general categories, including **Winter tyres** (reifen-online.ch partner links)
+- **Retailer guide** and **buying guide**
+- One-screen layout: tabs plus a card grid that sizes itself to the window and pages with Prev/Next (← →); phones scroll normally
+- Every outbound shop link goes through the affiliate layer (Amazon PartnerNet tag active; Awin/Tradedoubler ready)
 
-## Layout
+Black Friday: **Fr 27.11.2026** · Black Week from Mo 23.11. · Cyber Monday Mo 30.11.
 
-One-screen app with tabs and paging instead of a long scroll: **Top 100 offers** (main tab), **Shop by category** (dropdown with all categories, *Winter tyres* first), **Retailers**, **Buying guide**. The card grid sizes itself to the window; Prev/Next (or ← →) changes pages, and product names open a details pop-up. Direct links: `#top`, `#categories`, `#winter`, `#retailers`, `#guide`. On phones the page scrolls normally and stays paged.
+## Run locally
 
-## Deploy
-
-It is a static `index.html`. Enable GitHub Pages (Settings → Pages → Deploy from branch → `main` / root) or drop it on Vercel/Netlify.
-
-## Affiliate links
-
-Every outbound link goes through `affLink()` in `index.html`. Fill in the `AFF` config at the top of the `<script>`:
-
-| Retailer | Network | Fields |
-|---|---|---|
-| Amazon.de | Amazon PartnerNet | `tag` |
-| Galaxus / Digitec | partner programme (apply via Digitec Galaxus) | `network`, `programId`, `siteId` |
-| Brack, Interdiscount, MediaMarkt, fnac, Fust, Manor, DayDeal, Samsung | set `network: "awin"` or `"tradedoubler"` once approved | `mid` + `affid` (Awin) or `programId` + `siteId` (Tradedoubler) |
-
-Until an ID is set, links go directly to the retailer with UTM tags, so nothing breaks.
-
-## Updating deals (Top 100)
-
-Products live in the `RAW` array, ordered by demand rank. Each row is:
-
-`[category, name, spec, todayCHF, blackWeek2025CHF, recordLowCHF, recordLowNote, searchQuery, note, shops?]`
-
-- **today**: lowest Swiss price (Black-Friday.ch price feed, 23.10.2026)
-- **blackWeek2025**: price from Preispirat's Black Week 2025 roundups
-- **recordLow**: other verified Swiss-deliverable lows (Preispirat / Toppreise)
-
-Status is computed automatically: **Buy now** if today is within 3% of the best known price, **Wait** if it was cheaper before, **Tracking** if there is no history yet, **Check** if no CHF price is verified. Retailer buttons default per category (`CAT_SHOPS`); pass a `shops` list to override. Search, category, status and sort controls work client-side.
-
-## Catalogue (products 101–2000)
-
-- Source list: `data/catalogue.txt` (`## Category` headers, then `Name | spec`); built file `data/catalogue.js` (`window.CATALOGUE = [[category, name, spec, priceCHF?], ...]`).
-- Includes the products Swiss shoppers commonly order from Amazon.de (books, toys & games, beauty, accessories, household, DIY), mixed into the general categories. Every catalogue product links to Amazon.de as well, except large appliances.
-- Add today's CHF price as a 4th value to switch a card from "Live price" to "Tracking".
-- Retailer buttons per category: `CAT_SHOPS` in `index.html`.
-
-## Product pictures
-
-Every product shows a picture. By default it is an illustration drawn from its category and brand (books render as a cover with title and author), so the page never shows an empty slot. To show real photos, add licensed image URLs to `data/images.js`:
-
-```js
-window.IMAGES["Apple AirPods Pro 3"] = "https://…/image.jpg";
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run build      # production build in dist/
+npm run preview    # serve dist/
 ```
 
-Licensed sources: Amazon Product Advertising API (after 3 qualifying PartnerNet sales), Awin/Tradedoubler product feeds, brand press kits. Do not copy photos from retailer pages. A broken image URL falls back to the illustration automatically.
+Requires Node 18+.
+
+## Deploy to Vercel
+
+**Dashboard:** vercel.com → Add New → Project → import `SridharSwiss/blackfriday` → Deploy. Settings are read from `vercel.json` (Vite, `npm run build`, output `dist`).
+
+**CLI:**
+
+```bash
+npm i -g vercel
+vercel          # preview deployment
+vercel --prod   # production
+```
+
+`robots.txt` and `sitemap.xml` are generated at build time from `VERCEL_PROJECT_PRODUCTION_URL` (set by Vercel automatically). For a custom domain, set the environment variable `SITE_URL=https://your-domain.ch`. Then add the live URL to Amazon PartnerNet and Awin as your promotional site.
+
+`vercel.json` also sets long-term caching for hashed assets and basic security headers.
+
+## Project structure
+
+```
+index.html                  page markup (tabs, panels, modal)
+src/main.js                 UI: tabs, paged grid, filters, details pop-up
+src/styles.css              design tokens (light/dark) and layout
+src/config/affiliates.js    affiliate IDs + affLink()          ← edit IDs here
+src/config/partners.js      featured partner links (reifen-online.ch)
+src/config/shops.js         shop search URLs + default shops per category
+src/data/top100.js          top 100 products with researched prices
+src/data/catalogue.js       products 101+ (GENERATED, do not edit by hand)
+src/data/winter-tyres.js    winter tyre models
+src/data/retailers.js       retailer guide rows
+src/data/images.js          licensed product photo URLs (optional)
+src/lib/thumb.js            product pictures (photo or illustration)
+src/lib/format.js           CHF formatting, labels
+content/catalogue.txt       source list for the catalogue
+scripts/build-catalogue.mjs content/catalogue.txt → src/data/catalogue.js
+public/                     favicon and static files
+```
+
+## Editing
+
+**Affiliate IDs** – `src/config/affiliates.js`. Amazon: `tag`. Awin: set `network: "awin"`, `mid` (merchant ID, e.g. MediaMarkt CH = 14040) and `affid` (your publisher ID). Tradedoubler: `programId` + `siteId`. Shops without an ID link directly with UTM tags.
+
+**Top 100** – `src/data/top100.js`. Each row: `[category, name, spec, todayCHF, blackWeek2025CHF, recordLowCHF, recordLowNote, searchQuery, note, shops?]`. Status is computed: *Buy now* if today is within 3% of the best known price, *Wait* if it was cheaper before, *Tracking* without history, *Check* without a verified CHF price.
+
+**Catalogue** – edit `content/catalogue.txt` (`## Category`, then `Name | spec` or `Name | spec | priceCHF`) and run `npm run catalogue`. Tyres are moved into *Winter tyres* automatically and link to reifen-online.ch.
+
+**Winter tyres / partner links** – `src/data/winter-tyres.js` and `src/config/partners.js`. Direct link to the category: `/#winter`.
+
+**Product photos** – add licensed image URLs to `src/data/images.js` (`"Exact product name": "https://…"`). Without a photo, each product shows an illustration drawn from its category and brand; books render as covers. Licensed sources: Amazon Product Advertising API (after 3 qualifying PartnerNet sales), Awin/Tradedoubler product feeds, brand press kits. Do not copy photos from shop pages.
+
+## Data sources
+
+Today's prices: Black-Friday.ch price feed (23.10.2026). Black Week 2025 prices and record lows: Preispirat deal reports, Toppreise comparisons. Winter tyre rules: TCS. Products 101+ are a curated list without researched prices; their buttons open live shop listings.
 
 ## Compliance
 
-The page shows an "Anzeige" affiliate disclosure banner and a footer disclosure (Swiss UWG transparency). Re-check prices before publishing: Black Friday 2026 offers are not yet announced.
+The page shows an "Anzeige" affiliate disclosure, the Amazon partner statement ("Als Amazon-Partner verdienen wir an qualifizierten Verkäufen") and a disclosure section in the Buying guide tab (Swiss UWG transparency). Re-check prices before Black Week: Black Friday 2026 offers are not announced yet.
