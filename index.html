@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aktion Schweiz Black Friday</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+/* Layout: Swiss retail "Aktion" sticker language — a departure-board countdown hero, then a filterable wall of price tags, then retailer + timing guides. */
+:root{
+  --bg:#F8F8F6; --surface:#FFFFFF; --ink:#151314; --muted:#5E5A5B; --line:#E4E1E0;
+  --red:#D52B1E; --red-ink:#FFFFFF; --tag:#FFD200; --tag-ink:#151314;
+  --good:#1E7A46; --warn:#9A6200; --info:#2D5BA8;
+  --board:#151314; --board-ink:#FFD200;
+  --f-display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141112; --surface:#1D191A; --ink:#F2EFEE; --muted:#A8A1A2; --line:#332D2E;
+  --red:#E8463A; --red-ink:#FFFFFF; --tag:#FFD200; --tag-ink:#151314;
+  --good:#4CC37F; --warn:#E3A43A; --info:#7EA6EE; --board:#0B0909; --board-ink:#FFD200; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141112; --surface:#1D191A; --ink:#F2EFEE; --muted:#A8A1A2; --line:#332D2E;
+  --red:#E8463A; --red-ink:#FFFFFF; --tag:#FFD200; --tag-ink:#151314;
+  --good:#4CC37F; --warn:#E3A43A; --info:#7EA6EE; --board:#0B0909; --board-ink:#FFD200; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.02}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+
+/* disclosure strip */
+.disclose{background:var(--ink);color:var(--bg);font-size:12.5px}
+.disclose .wrap{padding-block:8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.disclose b{font-family:var(--f-mono);font-weight:700;letter-spacing:.08em;font-size:11px;background:var(--tag);color:var(--tag-ink);padding:2px 6px;border-radius:2px}
+
+/* header */
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;padding-block:18px;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:22px;letter-spacing:-.01em}
+.cross{width:28px;height:28px;background:var(--red);position:relative;border-radius:3px;flex:none}
+.cross::before,.cross::after{content:"";position:absolute;background:#fff;left:50%;top:50%;transform:translate(-50%,-50%)}
+.cross::before{width:16px;height:5px}.cross::after{width:5px;height:16px}
+nav.top{display:flex;gap:18px;font-size:14px;flex-wrap:wrap}
+nav.top a{text-decoration:none;color:var(--muted)} nav.top a:hover{color:var(--ink)}
+
+/* hero */
+.hero .wrap{padding-block:28px 40px;display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:end}
+.hero h1{font-size:clamp(46px,8.4vw,112px);font-weight:900;font-stretch:68%;letter-spacing:-.02em;text-transform:uppercase}
+.hero h1 .hl{background:var(--red);color:var(--red-ink);padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hero p.lede{max-width:56ch;font-size:17px;color:var(--muted);margin:18px 0 0}
+.board{background:var(--board);color:var(--board-ink);border-radius:6px;padding:20px 20px 16px;font-family:var(--f-mono)}
+.board .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 0;border-bottom:1px dashed rgba(255,210,0,.25);font-size:13px}
+.board .row:last-child{border-bottom:0}
+.board .lbl{color:#D9D2CF;letter-spacing:.06em;text-transform:uppercase;font-size:11.5px}
+.clock{display:flex;gap:6px;margin:4px 0 14px}
+.clock div{flex:1;background:#2A2425;border-radius:4px;text-align:center;padding:10px 0 6px}
+.clock b{display:block;font-size:clamp(26px,4vw,40px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.clock span{font-size:10px;letter-spacing:.14em;color:#D9D2CF;text-transform:uppercase}
+
+/* facts strip */
+.facts{border-block:1px solid var(--line)}
+.facts .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.fact{padding:18px 18px 18px 0}
+.fact+.fact{padding-left:18px;border-left:1px solid var(--line)}
+.fact strong{display:block;font-family:var(--f-display);font-stretch:75%;font-size:30px;font-weight:800;line-height:1.05;font-variant-numeric:tabular-nums}
+.fact span{font-size:13px;color:var(--muted)}
+
+section.block .wrap{padding-block:52px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.sec-head h2{font-size:clamp(32px,4.6vw,52px);font-weight:900;font-stretch:72%;text-transform:uppercase;letter-spacing:-.01em}
+.sec-head p{margin:6px 0 0;color:var(--muted);max-width:60ch}
+
+/* controls */
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:22px}
+.chip{font:600 13px var(--f-body);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 13px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.controls select{font:600 13px var(--f-body);padding:7px 10px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);margin-left:auto}
+
+/* deal tags */
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.deal{background:var(--surface);border:1px solid var(--line);border-radius:8px;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.deal-top{padding:16px 16px 0;display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.cat{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.pill{font:700 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:3px;white-space:nowrap;border:1.5px solid currentColor}
+.pill.buy{color:var(--good)} .pill.wait{color:var(--warn)} .pill.check{color:var(--info)}
+.deal h3{font-size:24px;font-weight:800;font-stretch:80%;padding:6px 16px 0;line-height:1.08}
+.deal .spec{padding:4px 16px 0;color:var(--muted);font-size:13px}
+.sticker{margin:16px 16px 0;background:var(--tag);color:var(--tag-ink);border-radius:4px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:end;position:relative}
+.sticker::after{content:"";position:absolute;right:12px;top:-6px;width:12px;height:12px;border-radius:50%;background:var(--surface);box-shadow:inset 0 0 0 2px var(--tag-ink)}
+.sticker .k{font:700 10.5px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;opacity:.75}
+.sticker .now{font-family:var(--f-display);font-weight:900;font-stretch:70%;font-size:40px;line-height:.95;font-variant-numeric:tabular-nums}
+.sticker .was{font:500 13px var(--f-mono);text-decoration:line-through;opacity:.7;text-align:right}
+.sticker .off{grid-column:2;grid-row:1/3;align-self:center;background:var(--red);color:#fff;font:800 16px var(--f-display);font-stretch:80%;padding:6px 8px;border-radius:3px;transform:rotate(-4deg)}
+.meta{padding:12px 16px 0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px}
+.meta dt{color:var(--muted)} .meta dd{margin:0;font-family:var(--f-mono);font-size:12.5px;font-variant-numeric:tabular-nums;text-align:right}
+.meta dd.target{color:var(--red);font-weight:700}
+.note{padding:10px 16px 0;font-size:13px;color:var(--muted)}
+.shops{margin-top:auto;padding:14px 16px 16px;display:flex;flex-wrap:wrap;gap:8px}
+.shop{font:600 12.5px var(--f-body);text-decoration:none;padding:7px 11px;border-radius:6px;border:1.5px solid var(--ink);display:inline-flex;gap:6px;align-items:center}
+.shop.primary{background:var(--red);border-color:var(--red);color:var(--red-ink)}
+.shop:hover{transform:translateY(-1px)}
+.shop svg{width:11px;height:11px}
+.empty{padding:30px;border:1.5px dashed var(--line);border-radius:8px;color:var(--muted);text-align:center}
+
+/* retailer table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:700 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td.name{font-family:var(--f-display);font-weight:800;font-stretch:85%;font-size:17px;white-space:nowrap}
+td a.go{font-weight:600;color:var(--red);text-decoration:none;white-space:nowrap}
+
+/* timeline + tips */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.timeline{list-style:none;margin:0;padding:0;border-left:3px solid var(--ink)}
+.timeline li{padding:0 0 18px 20px;position:relative}
+.timeline li::before{content:"";position:absolute;left:-8px;top:5px;width:13px;height:13px;border-radius:50%;background:var(--bg);border:3px solid var(--ink)}
+.timeline li.peak::before{background:var(--red);border-color:var(--red)}
+.timeline time{font:700 12px var(--f-mono);letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.timeline strong{display:block;font-family:var(--f-display);font-stretch:85%;font-size:19px}
+.timeline p{margin:2px 0 0;color:var(--muted);font-size:14px;max-width:52ch}
+.tips{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.tips li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.tips b{font-family:var(--f-display);font-stretch:85%;font-size:17px;display:block;margin-bottom:2px}
+.tips span{color:var(--muted);font-size:14px}
+
+footer{border-top:1px solid var(--line)}
+footer .wrap{padding-block:28px 40px;font-size:13px;color:var(--muted);display:grid;gap:10px;max-width:1180px}
+footer p{margin:0;max-width:90ch}
+
+@media (max-width:960px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero .wrap{grid-template-columns:1fr}.facts .wrap{grid-template-columns:repeat(2,1fr)}.fact:nth-child(3){border-left:0;padding-left:0}.fact:nth-child(n+3){border-top:1px solid var(--line)}}
+@media (max-width:640px){.grid{grid-template-columns:1fr}.two{grid-template-columns:1fr}.controls select{margin-left:0}nav.top{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.shop:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<div class="disclose"><div class="wrap"><b>ANZEIGE</b><span>Retailer links on this page are affiliate links. If you buy through them we may earn a commission. Your price does not change.</span></div></div>
+
+<header class="top"><div class="wrap">
+  <div class="brand"><span class="cross" aria-hidden="true"></span>AKTION.CH</div>
+  <nav class="top" aria-label="Sections"><a href="#deals">Deals</a><a href="#shops">Retailers</a><a href="#timing">Timing</a><a href="#tips">Buying rules</a></nav>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div>
+    <div class="eyebrow">Black Week Schweiz 2026 · Curated watchlist</div>
+    <h1 style="margin-top:10px">The deals worth <span class="hl">waiting for</span></h1>
+    <p class="lede">The products Swiss shoppers chase every November, the lowest prices they have actually reached at shops that deliver to Switzerland, and the price you should hold out for. Checked against Swiss price-tracking reports on 23 October 2026.</p>
+  </div>
+  <div class="board" aria-label="Countdown to Black Friday">
+    <div class="lbl">Black Friday · Fr 27.11.2026</div>
+    <div class="clock" id="clock">
+      <div><b id="cd-d">35</b><span>Tage</span></div>
+      <div><b id="cd-h">00</b><span>Std</span></div>
+      <div><b id="cd-m">00</b><span>Min</span></div>
+    </div>
+    <div class="row"><span class="lbl">Singles Day</span><span>Mi 11.11.</span></div>
+    <div class="row"><span class="lbl">Black Week start</span><span>Mo 23.11.</span></div>
+    <div class="row"><span class="lbl">Cyber Monday</span><span>Mo 30.11.</span></div>
+  </div>
+</div></section>
+
+<div class="facts"><div class="wrap">
+  <div class="fact"><strong>CHF 450 Mio.</strong><span>Black Friday turnover forecast, Swiss non-food retail 2025</span></div>
+  <div class="fact"><strong>11th</strong><span>Swiss Black Friday since Manor imported it in 2015</span></div>
+  <div class="fact"><strong>5 days</strong><span>Typical Swiss deal window, Black Week to Cyber Monday</span></div>
+  <div class="fact"><strong>12</strong><span>Products tracked, each with a target buy price</span></div>
+</div></div>
+
+<section class="block" id="deals"><div class="wrap">
+  <div class="sec-head">
+    <div><div class="eyebrow">The watchlist</div><h2>Most-wanted, best prices</h2>
+    <p>Phones, TVs, laptops, consoles, headphones, robot vacuums and coffee machines lead Swiss Black Friday sales year after year. Each tag shows the record low seen in CHF and the price at which we'd buy.</p></div>
+  </div>
+  <div class="controls" role="group" aria-label="Filter deals">
+    <div id="chips" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    <select id="sort" aria-label="Sort deals">
+      <option value="off">Biggest saving first</option>
+      <option value="low">Lowest price first</option>
+      <option value="status">Buy-now first</option>
+    </select>
+  </div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section class="block" id="shops" style="background:var(--surface);border-block:1px solid var(--line)"><div class="wrap">
+  <div class="sec-head"><div><div class="eyebrow">Where to buy</div><h2>Retailers that deliver in Switzerland</h2>
+  <p>Swiss shops include VAT, Swiss plugs and local warranty handling. Amazon.de removes German VAT for Swiss addresses and shows the final CHF price at checkout, import costs included.</p></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Retailer</th><th>Best for</th><th>Black Friday pattern</th><th>Watch out</th><th></th></tr></thead>
+    <tbody id="shopRows"></tbody>
+  </table></div>
+</div></section>
+
+<section class="block" id="timing"><div class="wrap two">
+  <div>
+    <div class="eyebrow">Timing</div><h2 style="font-size:clamp(30px,4vw,44px);font-weight:900;font-stretch:72%;text-transform:uppercase;margin:6px 0 22px">When prices move</h2>
+    <ol class="timeline">
+      <li><time>Now – 10.11.</time><strong>Build your list</strong><p>Set a target price per product. Record lows on AirPods Pro 3 and Switch 2 already happened outside November.</p></li>
+      <li><time>Mi 11.11.</time><strong>Singles Day</strong><p>A minor event in Switzerland, but some shops test codes. Fewer retailers take part each year.</p></li>
+      <li><time>Mo 23.11.</time><strong>Black Week opens</strong><p>Digitec Galaxus, Brack and Interdiscount run deals across the whole week. Limited stock sells out early in the morning.</p></li>
+      <li class="peak"><time>Fr 27.11.</time><strong>Black Friday</strong><p>Peak sales day. Deals go live at midnight; DayDeal and Digitec drops are usually gone before noon.</p></li>
+      <li><time>Mo 30.11.</time><strong>Cyber Monday</strong><p>Swiss shops mostly extend their Black Friday prices until here rather than launch new ones.</p></li>
+    </ol>
+  </div>
+  <div id="tips">
+    <div class="eyebrow">Buying rules</div><h2 style="font-size:clamp(30px,4vw,44px);font-weight:900;font-stretch:72%;text-transform:uppercase;margin:6px 0 22px">Don't get played</h2>
+    <ul class="tips">
+      <li><b>Check the price history, not the strike-through</b><span>Some shops raise prices shortly before Black Friday to inflate the discount. Compare against the record low on each tag.</span></li>
+      <li><b>Join loyalty programmes before the day</b><span>Manor and Ochsner Sport reserve parts of their Black Friday offers for members.</span></li>
+      <li><b>Read the Amazon fine print</b><span>Not every Amazon.de item ships to Switzerland, some arrive with a Schuko plug, and Prime-only prices need an active Prime membership.</span></li>
+      <li><b>First-order codes count</b><span>Several record lows (fnac, Samsung Store) relied on a one-time newsletter or new-customer code.</span></li>
+      <li><b>Buy last year's model</b><span>The deepest cuts land on the previous generation once a successor ships, like iPhone 17 after the iPhone 18 Pro launch.</span></li>
+    </ul>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p><strong style="color:var(--ink)">Affiliate disclosure.</strong> Links to retailers carry partner tracking. We are paid a commission on qualifying purchases at no extra cost to you. Rankings are based on price history and demand, not on commission.</p>
+  <p><strong style="color:var(--ink)">About the prices.</strong> CHF prices are the lowest publicly reported offers from Swiss deal trackers (Preispirat, Toppreise comparisons) and retailer listings, collected up to 23.10.2026. Amazon prices include delivery to Switzerland as converted at time of report. Prices and stock change hourly; always confirm at the retailer. Black Friday 2026 offers have not been announced yet.</p>
+  <p>Black Friday market figures: Blackfridaydeals.ch / Demoscope forecast (2025). Product names and trademarks belong to their owners.</p>
+</div></footer>
+
+<script>
+/* ============ AFFILIATE CONFIG — fill in your IDs here ============
+   Every outbound link goes through affLink(). Until an ID is set, the link
+   goes straight to the retailer with UTM tags so nothing breaks.
+   network: "amazon" (PartnerNet tag) | "awin" | "tradedoubler" | null      */
+const AFF = {
+  site: "aktion-ch",
+  amazon:       { network:"amazon",       tag:"" },                 // e.g. "aktionch-21"
+  galaxus:      { network:null, programId:"", siteId:"" },            // apply: Digitec Galaxus partner programme
+  digitec:      { network:null, programId:"", siteId:"" },
+  brack:        { network:null, mid:"", affid:"" },
+  interdiscount:{ network:null, mid:"", affid:"" },
+  mediamarkt:   { network:null, mid:"", affid:"" },
+  fnac:         { network:null, mid:"", affid:"" },
+  daydeal:      { network:null, mid:"", affid:"" },
+  samsung:      { network:null, mid:"", affid:"" },
+  manor:        { network:null, mid:"", affid:"" },
+  fust:         { network:null, mid:"", affid:"" },
+  toppreise:    { network:null }
+};
+function affLink(shop, url){
+  const c = AFF[shop] || {};
+  const u = new URL(url);
+  if (c.network === "amazon" && c.tag){ u.searchParams.set("tag", c.tag); return u.toString(); }
+  if (c.network === "awin" && c.mid && c.affid)
+    return `https://www.awin1.com/cread.php?awinmid=${c.mid}&awinaffid=${c.affid}&ued=${encodeURIComponent(url)}`;
+  if (c.network === "tradedoubler" && c.programId && c.siteId)
+    return `https://clk.tradedoubler.com/click?p=${c.programId}&a=${c.siteId}&url=${encodeURIComponent(url)}`;
+  u.searchParams.set("utm_source", AFF.site); u.searchParams.set("utm_medium","affiliate"); u.searchParams.set("utm_campaign","blackfriday2026");
+  return u.toString();
+}
+const q = s => encodeURIComponent(s);
+const SHOPS = {
+  galaxus:{name:"Galaxus", search:s=>`https://www.galaxus.ch/en/search?q=${q(s)}`},
+  digitec:{name:"Digitec", search:s=>`https://www.digitec.ch/en/search?q=${q(s)}`},
+  brack:{name:"Brack", search:s=>`https://www.brack.ch/search?query=${q(s)}`},
+  interdiscount:{name:"Interdiscount", search:s=>`https://www.interdiscount.ch/de/search?search=${q(s)}`},
+  mediamarkt:{name:"MediaMarkt", search:s=>`https://www.mediamarkt.ch/de/search.html?query=${q(s)}`},
+  amazon:{name:"Amazon.de", search:s=>`https://www.amazon.de/s?k=${q(s)}`},
+  fnac:{name:"fnac", search:s=>`https://www.fnac.ch/SearchResult/ResultList.aspx?Search=${q(s)}`},
+  daydeal:{name:"DayDeal", search:()=>`https://www.daydeal.ch/`},
+  samsung:{name:"Samsung Store", search:s=>`https://www.samsung.com/ch/search/?searchvalue=${q(s)}`},
+  fust:{name:"Fust", search:s=>`https://www.fust.ch/search?text=${q(s)}`},
+  toppreise:{name:"Price history", search:s=>`https://www.toppreise.ch/produktsuche?q=${q(s)}`}
+};
+
+/* status: buy = at/near record low now · wait = Black Week likely beats today · check = no verified CHF low */
+const DEALS = [
+ {cat:"Audio", name:"Apple AirPods Pro 3", spec:"ANC, heart-rate sensing, USB-C", ref:189, low:148.70, lowAt:"Amazon.de, Prime, Jun 2026", target:155, status:"buy",
+  note:"Swiss shops sit around CHF 179–199. fnac hit CHF 159 with its CHF 10 new-customer code.", q:"AirPods Pro 3", shops:["galaxus","interdiscount","amazon","fnac"]},
+ {cat:"Gaming", name:"Nintendo Switch 2", spec:"256 GB, 7.9\" 1080p, 2025 model", ref:389, low:354.17, lowAt:"Amazon.de, 2026", target:359, status:"buy",
+  note:"DayDeal has matched CHF 359 every year. The 2026 swappable-battery variant costs about CHF 380.", q:"Nintendo Switch 2", shops:["daydeal","mediamarkt","galaxus","amazon"]},
+ {cat:"Gaming", name:"Sony PlayStation 5 Pro", spec:"2 TB, digital, PSSR upscaling", ref:709.70, low:600.35, lowAt:"Amazon.de, Prime", target:629, status:"wait",
+  note:"Sony raised the EU list price by €100 in April 2026. Expect stock to tighten ahead of GTA VI.", q:"PlayStation 5 Pro", shops:["galaxus","interdiscount","fust","amazon"]},
+ {cat:"Phones", name:"Apple iPhone 17", spec:"256 GB, A19, 120 Hz", ref:748.75, low:705.70, lowAt:"Amazon.de, May 2026", target:699, status:"wait",
+  note:"Now last year's model after the iPhone 18 Pro launched at CHF 1,199. That makes it the Apple phone to discount.", q:"iPhone 17 256GB", shops:["digitec","interdiscount","brack","amazon"]},
+ {cat:"Phones", name:"Samsung Galaxy S26 Ultra", spec:"256 GB, S Pen, 200 MP", ref:821.45, low:614.40, lowAt:"Samsung Store code, Oct 2026", target:649, status:"buy",
+  note:"Samsung's own store repeatedly undercuts Swiss retailers with checkout codes. Interdiscount ran CHF 200 cashback in June.", q:"Galaxy S26 Ultra 256GB", shops:["samsung","interdiscount","galaxus","mediamarkt"]},
+ {cat:"Audio", name:"Sony WH-1000XM6", spec:"Over-ear ANC, 30 h battery", ref:319.90, low:289, lowAt:"fnac, first-order code, Oct 2026", target:279, status:"wait",
+  note:"Digitec held CHF 299 for all colours except Sandstein. Community expects ~CHF 250–280 in Black Week.", q:"Sony WH-1000XM6", shops:["digitec","fnac","mediamarkt","brack"]},
+ {cat:"Audio", name:"Sony WF-1000XM6", spec:"True wireless, premium ANC", ref:175, low:149, lowAt:"MediaMarkt", target:149, status:"buy",
+  note:"Digitec/Galaxus list it at CHF 175. MediaMarkt's CHF 149 is the price to match.", q:"Sony WF-1000XM6", shops:["mediamarkt","galaxus","fnac"]},
+ {cat:"Computers", name:"MacBook Air 13\" M4", spec:"16 GB RAM, 512 GB SSD, Swiss layout", ref:959.95, low:849, lowAt:"fnac, one-day deal", target:849, status:"wait",
+  note:"Brack's Black Friday 2025 price was CHF 899 with Swiss keyboard. Amazon.de is cheaper but ships German layout.", q:"MacBook Air 13 M4 16GB 512GB", shops:["brack","fnac","digitec","amazon"]},
+ {cat:"Home", name:"Dyson V15 Detect", spec:"Cordless, laser dust detection", ref:599, low:429.90, lowAt:"Black Week 2025", target:429.90, status:"wait",
+  note:"Last Black Week took Dyson's whole range down: Gen5detect Absolute CHF 539.10, V12 Detect Slim CHF 381.60.", q:"Dyson V15 Detect", shops:["fust","galaxus","interdiscount","brack"]},
+ {cat:"Beauty", name:"Dyson Airwrap Origin", spec:"Multi-styler and dryer", ref:399, low:314.10, lowAt:"Black Week 2025", target:314.10, status:"wait",
+  note:"Supersonic Nural matched the same CHF 314.10 last year. A strong gift buy if it repeats.", q:"Dyson Airwrap Origin", shops:["galaxus","fust","manor","interdiscount"]},
+ {cat:"Wearables", name:"Garmin Venu 4", spec:"41 mm, AMOLED, GPS", ref:399, low:329.40, lowAt:"Christ Watches, Sep 2026", target:329, status:"buy",
+  note:"Toppreise showed no lower price before this. Hold for under CHF 330.", q:"Garmin Venu 4 41mm", shops:["galaxus","brack","interdiscount"]},
+ {cat:"TV & Home", name:"LG OLED evo C6 65\"", spec:"2026, α11 Gen3, 4× HDMI 2.1, 165 Hz", ref:null, low:null, lowEur:1678.90, lowAt:"Amazon.de, €, Oct 2026", target:null, status:"check",
+  note:"TVs top Brack's Black Friday sales every year. No verified Swiss low yet for the 2026 C6. The 2025 C5 is the value pick once stock clears.", q:"LG OLED65C6", shops:["galaxus","mediamarkt","brack","interdiscount"]}
+];
+const SHOPINFO = [
+ ["digitec","Digitec Galaxus","Electronics, household, toys — Switzerland's largest online shop","Week-long deals; first items sell out after midnight","Limited quantities per deal"],
+ ["brack","Brack · DayDeal","IT, TVs, laptops; DayDeal daily drops","Runs Black Week to Cyber Monday; TVs and notebooks lead","DayDeal offers end at midnight or sell-out"],
+ ["interdiscount","Interdiscount","Phones, TVs, Apple; Coop Supercard points","Online + 190 stores; Microspot now merged in","Some deals need a Coop code"],
+ ["mediamarkt","MediaMarkt","Price matching on Apple, consoles, audio","Often matches Amazon prices in Black Week","Check delivery vs. store pick-up"],
+ ["amazon","Amazon.de","Lowest absolute prices on Apple, Sony, Nintendo","Black Week from late Nov; Prime-only lows","Not all items ship to CH; plug type"],
+ ["fnac","fnac.ch","Headphones, MacBooks, gaming","10% days and first-order codes","Codes valid once per customer"],
+ ["fust","Fust","Dyson, coffee machines, appliances","Strong on household; Supercard coupons","Prices online and in store may differ"],
+ ["manor","Manor","Beauty, fashion, home, Dyson hair tools","Started Swiss Black Friday in 2015","Many offers only for Manor members"]
+];
+
+const fmt = n => n==null ? "—" : (Number.isInteger(n) ? `${n.toLocaleString("de-CH")}.–` : n.toLocaleString("de-CH",{minimumFractionDigits:2,maximumFractionDigits:2}));
+const ext = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>';
+const LABEL = {buy:"Buy at this price", wait:"Wait for Black Week", check:"Verify CH price"};
+const off = d => d.ref && d.low ? Math.round((1-d.low/d.ref)*100) : 0;
+
+let state = {cat:"All", sort:"off"};
+try{ const s = JSON.parse(localStorage.getItem("bf26")||"{}"); Object.assign(state, s); }catch(e){}
+
+function renderChips(){
+  const cats = ["All", ...new Set(DEALS.map(d=>d.cat))];
+  document.getElementById("chips").innerHTML = cats.map(c=>`<button class="chip" type="button" aria-pressed="${c===state.cat}" data-c="${c}">${c}</button>`).join("");
+  document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{state.cat=b.dataset.c;save();renderChips();renderGrid();});
+}
+function save(){ try{localStorage.setItem("bf26",JSON.stringify(state));}catch(e){} }
+function renderGrid(){
+  let list = DEALS.filter(d=>state.cat==="All"||d.cat===state.cat);
+  const rank={buy:0,wait:1,check:2};
+  list.sort(state.sort==="low" ? (a,b)=>(a.low??1e9)-(b.low??1e9) : state.sort==="status" ? (a,b)=>rank[a.status]-rank[b.status]||off(b)-off(a) : (a,b)=>off(b)-off(a));
+  const g = document.getElementById("grid");
+  if(!list.length){ g.innerHTML='<div class="empty">No products in this category yet.</div>'; return; }
+  g.innerHTML = list.map(d=>{
+    const o = off(d);
+    const price = d.low!=null ? `CHF ${fmt(d.low)}` : `€ ${d.lowEur.toLocaleString("de-CH",{minimumFractionDigits:2})}`;
+    const btns = d.shops.map((s,i)=>`<a class="shop${i===0?" primary":""}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS[s].name} ${ext}</a>`).join("")
+      + `<a class="shop" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored noopener">Price history ${ext}</a>`;
+    return `<article class="deal">
+      <div class="deal-top"><span class="cat">${d.cat}</span><span class="pill ${d.status}">${LABEL[d.status]}</span></div>
+      <h3>${d.name}</h3><div class="spec">${d.spec}</div>
+      <div class="sticker">
+        <span class="k">Record low seen</span>${o?`<span class="off">−${o}%</span>`:""}
+        <span class="now">${price}</span>
+        ${d.ref?`<span class="was" style="grid-column:1;text-align:left">CHF ${fmt(d.ref)} typical</span>`:""}
+      </div>
+      <dl class="meta">
+        <dt>Where</dt><dd>${d.lowAt}</dd>
+        <dt>Buy at or below</dt><dd class="target">${d.target!=null?"CHF "+fmt(d.target):"Set once CH prices post"}</dd>
+      </dl>
+      <p class="note">${d.note}</p>
+      <div class="shops">${btns}</div>
+    </article>`;
+  }).join("");
+}
+function renderShops(){
+  document.getElementById("shopRows").innerHTML = SHOPINFO.map(([k,n,best,pat,warn])=>{
+    const home = {digitec:"https://www.galaxus.ch/en/",brack:"https://www.brack.ch/",interdiscount:"https://www.interdiscount.ch/",mediamarkt:"https://www.mediamarkt.ch/",amazon:"https://www.amazon.de/",fnac:"https://www.fnac.ch/",fust:"https://www.fust.ch/",manor:"https://www.manor.ch/"}[k];
+    const key = k==="digitec"?"galaxus":k;
+    return `<tr><td class="name">${n}</td><td>${best}</td><td>${pat}</td><td>${warn}</td><td><a class="go" href="${affLink(key,home)}" target="_blank" rel="sponsored noopener">Visit ${ext}</a></td></tr>`;
+  }).join("");
+}
+function tick(){
+  const target = new Date("2026-11-27T00:00:00+01:00").getTime();
+  let ms = Math.max(0, target - Date.now());
+  const d = Math.floor(ms/864e5), h = Math.floor(ms%864e5/36e5), m = Math.floor(ms%36e5/6e4);
+  document.getElementById("cd-d").textContent = String(d).padStart(2,"0");
+  document.getElementById("cd-h").textContent = String(h).padStart(2,"0");
+  document.getElementById("cd-m").textContent = String(m).padStart(2,"0");
+}
+document.getElementById("sort").value = state.sort;
+document.getElementById("sort").onchange = e=>{state.sort=e.target.value;save();renderGrid();};
+renderChips(); renderGrid(); renderShops(); tick(); setInterval(tick, 30000);
+</script>
+</body>
+</html>
