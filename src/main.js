@@ -83,8 +83,9 @@ function pool() {
 }
 function list() {
   const term = state.q.trim().toLowerCase();
-  const l = pool().filter(d =>
-    (state.cat === "All" || d.cat === state.cat || state.tab === "top" || state.tab === "list") &&
+  const global = term && state.tab !== "list";
+  const l = (global ? ALL : pool()).filter(d =>
+    (global || state.cat === "All" || d.cat === state.cat || state.tab === "top" || state.tab === "list") &&
     (state.status === "all" || d.status === state.status) &&
     (state.store === "all" || d.shops.includes(state.store)) &&
     inRange(d) &&
@@ -109,7 +110,7 @@ function priceLine(d) {
 function card(d) {
   const badge = d.off ? `<span class="off">−${d.off}%</span>` : d.pick ? `<span class="off pick">Pick</span>` : "";
   return `<article class="card${d.pick ? " is-pick" : ""}">
-    <div class="tw">${thumb(d)}${badge}<button class="heart${watched(d) ? " on" : ""}" type="button" data-w="${d.id}" aria-pressed="${watched(d)}" aria-label="${watched(d) ? "Remove from" : "Add to"} My list">${heartSvg}</button></div>
+    <div class="tw">${thumb(d)}${badge}<button class="heart${watched(d) ? " on" : ""}" type="button" data-w="${d.id}" aria-pressed="${watched(d)}" aria-label="Save ${esc(d.name)} to My list">${heartSvg}</button></div>
     <div class="body">
       <div class="top"><span class="r">${d.top ? `#<b>${d.rank}</b>`  : ""}</span><span class="c">${esc(d.cat)}</span><span class="pill ${d.status}">${LABEL[d.status]}</span></div>
       <button class="name" type="button" data-d="${d.id}">${esc(d.name)}</button>
@@ -148,6 +149,7 @@ function renderGrid() {
     $("prev").disabled = state.page === 0; $("next").disabled = state.page >= pages - 1;
   }
   $("grid").innerHTML = vis.length ? vis.map(card).join("") : emptyState();
+  $("count").textContent = `${l.length.toLocaleString("en-US")} deals`;
   const filtered = state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && state.tab === "categories") || (state.cat !== "All" && state.tab === "us");
   $("reset").hidden = !filtered;
 }
@@ -165,6 +167,9 @@ function renderFilters() {
   if (state.store !== "all" && !stores.includes(state.store)) state.store = "all";
   $("store").innerHTML = `<option value="all">All shops</option>` + stores.sort((a, b) => SHOPS[a].name.localeCompare(SHOPS[b].name)).map(s => `<option value="${s}"${s === state.store ? " selected" : ""}>${SHOPS[s].name}</option>`).join("");
   $("status").hidden = t !== "top";
+  const priced = t !== "categories";
+  $("price").hidden = !priced;
+  if (!priced) state.price = "all";
   if (t !== "top") state.status = "all";
   $("status").value = state.status; $("price").value = state.price; $("sort").value = state.sort;
   $("winterbar").hidden = !(t === "categories" && state.cat === WINTER);
@@ -176,11 +181,14 @@ function renderFilters() {
     us: [state.cat === "All" ? "US <em>deals</em>" : `US · ${esc(state.cat)}`, "Black Friday 2025 prices in USD"],
     list: ["My <em>list</em>", `${state.watch.length} saved`]
   }[t];
+  if (state.q.trim() && t !== "list") { lead[0] = `Results for <em>“${esc(state.q.trim())}”</em>`; lead[1] = "Searching all Swiss and US deals"; }
   $("lead").innerHTML = lead[0]; $("leadsub").textContent = lead[1];
+  $("p-products").setAttribute("aria-labelledby", "t-" + t);
 }
 function updateCounts() {
   const n = state.watch.length;
   $("n-list").textContent = n; $("list-count").textContent = n; $("list-count").hidden = !n;
+  $("go-list").setAttribute("aria-label", `My list (${n} saved)`);
   $("b-count").hidden = !n; $("b-count").textContent = n;
 }
 
@@ -190,7 +198,7 @@ function showTab(t, opts = {}) {
   if (state.tab !== t && !opts.keep) { state.page = 0; mobileShown = 12; if (!opts.cat) state.cat = "All"; }
   if (opts.cat) state.cat = opts.cat;
   state.tab = t; save();
-  TABS.forEach(x => $("t-" + x).setAttribute("aria-selected", x === t));
+  TABS.forEach(x => { const b = $("t-" + x); b.setAttribute("aria-selected", x === t); b.tabIndex = x === t ? 0 : -1; });
   document.querySelectorAll(".bottomnav [data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
   $("b-more").classList.toggle("on", ["calendar", "retailers", "guide"].includes(t));
   const products = PRODUCT_TABS.includes(t);
@@ -215,7 +223,9 @@ function chart(d) {
   return `<div class="chart" aria-label="Price history"><div class="eyebrow">Price history</div>${pts.map(([l, v]) =>
     `<div class="bar-row"><span>${l}</span><span class="pbar"><i style="width:${Math.max(6, v / max * 100)}%" class="${v === min ? "lo" : ""}"></i></span><b>${money(v, d.cur)}</b></div>`).join("")}</div>`;
 }
+let opener = null;
 function openDetails(d, push = true) {
+  if ($("modal").hidden) opener = document.activeElement;
   const rows = [];
   if (d.region === "us") {
     rows.push(`<dt>Black Friday 2025</dt><dd>${money(d.bw25, "USD")}</dd>`, `<dt>Regular price</dt><dd>${money(d.reg, "USD")}</dd>`, `<dt>Saving</dt><dd class="target">−${d.off}%</dd>`);
@@ -240,13 +250,15 @@ function openDetails(d, push = true) {
       <button class="act" type="button" id="m-share"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12h.01M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0"/><path d="M15 8l-6 4 6 4"/></svg><span>Share</span></button>
     </div>
   </div>`;
-  $("modal").hidden = false; document.body.classList.add("locked"); $("m-close").focus();
+  $("modal").hidden = false; document.body.classList.add("locked"); document.querySelector(".app").inert = true; $("m-close").focus();
   $("m-close").onclick = closeDetails;
   $("m-watch").onclick = () => { toggleWatch(d.id); openDetails(d, false); };
   $("m-share").onclick = () => share(d);
   if (push) { try { history.replaceState(null, "", "#p-" + d.id); } catch (e) {} }
 }
 function closeDetails() {
+  document.querySelector(".app").inert = false;
+  if (opener && document.contains(opener)) opener.focus(); opener = null;
   $("modal").hidden = true; document.body.classList.remove("locked");
   try { history.replaceState(null, "", "#" + state.tab); } catch (e) {}
 }
@@ -266,6 +278,14 @@ function toggleWatch(id) {
 }
 
 /* ---------------- static sections ---------------- */
+function ics(e) {
+  const d = e.date.replace(/-/g, ""), next = new Date(e.date + "T12:00:00Z"); next.setUTCDate(next.getUTCDate() + 1);
+  const d2 = next.toISOString().slice(0, 10).replace(/-/g, "");
+  const body = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Aktion.ch//Black Friday 2026//EN", "BEGIN:VEVENT", `UID:${d}-${slug(e.title)}@aktion.ch`,
+    `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").slice(0, 15)}Z`, `DTSTART;VALUE=DATE:${d}`, `DTEND;VALUE=DATE:${d2}`,
+    `SUMMARY:${e.title} (${e.region})`, `DESCRIPTION:${e.text.replace(/[,;]/g, m => "\\" + m)}`, "BEGIN:VALARM", "TRIGGER:-PT12H", "ACTION:DISPLAY", `DESCRIPTION:${e.title}`, "END:VALARM", "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+  return "data:text/calendar;charset=utf-8," + encodeURIComponent(body);
+}
 function renderCalendar() {
   const now = Date.now();
   const days = d => Math.ceil((new Date(d + "T00:00:00+01:00") - now) / 864e5);
@@ -274,7 +294,8 @@ function renderCalendar() {
     const n = days(e.date);
     return `<li class="${e.peak ? "peak" : ""}${n < 0 ? " past" : ""}"><time datetime="${e.date}">${de(e.date)}</time>
       <span class="reg">${e.region}</span><strong>${esc(e.title)}</strong><p>${esc(e.text)}</p>
-      <span class="in-days">${n > 1 ? `in ${n} days` : n === 1 ? "tomorrow" : n === 0 ? "today" : "done"}</span></li>`;
+      <span class="in-days">${n > 1 ? `in ${n} days` : n === 1 ? "tomorrow" : n === 0 ? "today" : "done"}</span>
+      ${n >= 0 ? `<a class="ics" href="${ics(e)}" download="${slug(e.title)}.ics">Add to calendar</a>` : ""}</li>`;
   }).join("");
 }
 function renderRetailers() {
@@ -315,7 +336,8 @@ $("status").onchange = e => { state.status = e.target.value; refresh(); };
 $("sort").onchange = e => { state.sort = e.target.value; refresh(); };
 $("q").oninput = e => {
   state.q = e.target.value;
-  if (!PRODUCT_TABS.includes(state.tab)) showTab("categories", { keep: true });
+  if (!PRODUCT_TABS.includes(state.tab)) showTab("top", { keep: true });
+  renderFilters();
   refresh();
 };
 const resetFilters = () => { Object.assign(state, { q: "", store: "all", price: "all", status: "all", cat: state.tab === "top" || state.tab === "list" ? "All" : "All" }); $("q").value = ""; renderFilters(); refresh(); };
@@ -342,6 +364,11 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowRight" && !$("next").disabled) $("next").click();
   if (e.key === "ArrowLeft" && !$("prev").disabled) $("prev").click();
 });
+$("tabs").addEventListener("keydown", e => {
+  const i = TABS.indexOf(state.tab), k = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: TABS.length - 1 }[e.key];
+  if (k == null) return; e.preventDefault();
+  const t = TABS[(k + TABS.length) % TABS.length]; showTab(t); $("t-" + t).focus();
+});
 let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (!$("p-products").hidden) renderGrid(); }, 120); });
 window.addEventListener("hashchange", route);
 
@@ -350,7 +377,7 @@ function route() {
   const h = location.hash.replace("#", "");
   if (h.startsWith("p-") && BY_ID.has(h.slice(2))) {
     const d = BY_ID.get(h.slice(2));
-    if (!$("modal").hidden) return;
+    if (!$("modal").hidden) return openDetails(d, false);
     showTab(d.top ? "top" : d.region === "us" ? "us" : "categories", { noHash: true, cat: d.top || d.region === "us" ? undefined : d.cat });
     return openDetails(d, false);
   }

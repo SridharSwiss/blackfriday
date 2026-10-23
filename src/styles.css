@@ -346,3 +346,29 @@ main{grid-template-columns:minmax(0,1fr)}
   .head .infobar{flex-basis:100%}
 }
 .brand{text-decoration:none}
+
+/* audit fixes: a11y + clipping */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.card .btns{flex-wrap:nowrap;overflow:visible;min-width:0}
+.card .btns .shop:not(.info){min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis}
+.card .btns .shop svg{flex:none}
+.best{flex:none;text-overflow:clip}
+.shop.primary:focus-visible{outline-color:var(--ink)}
+.cal li.past{opacity:1;color:var(--muted)} .cal li.past strong,.cal li.past time{color:var(--muted)}
+.cal .ics{grid-column:1/-1;justify-self:start;font:600 12px var(--f-body);color:var(--ink);text-decoration:underline;text-underline-offset:2px;margin-top:2px}
+.close{width:40px;height:40px}
+.act{min-height:40px}
+:root{--red-bg:var(--red)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--red-bg:#C8281C;--red:#FF6B5E}}
+:root[data-theme="dark"]{--red-bg:#C8281C;--red:#FF6B5E}
+.shop.primary{background:var(--red-bg);border-color:var(--red-bg)}
+.off,.watchbtn .count,.bottomnav .dot{background:var(--red-bg)}
+.off.pick{background:#1E7A46}
+@media (max-width:760px), (max-height:560px){
+  .shop{min-height:40px} .shop.info{width:40px}
+  .heart{width:40px;height:40px}
+  .name{padding-block:3px}
+  .filters select,.hsearch input{min-height:40px}
+  .iconbtn{width:40px;height:40px}
+  .card{min-height:168px}
+}
