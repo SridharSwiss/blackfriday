@@ -21,9 +21,17 @@ Every outbound link goes through `affLink()` in `index.html`. Fill in the `AFF` 
 
 Until an ID is set, links go directly to the retailer with UTM tags, so nothing breaks.
 
-## Updating deals
+## Updating deals (Top 100)
 
-Edit the `DEALS` array: `ref` (typical CHF), `low` (record low), `target` (buy-at price), `status` (`buy` / `wait` / `check`), and `shops` (retailer keys from `SHOPS`).
+Products live in the `RAW` array, ordered by demand rank. Each row is:
+
+`[category, name, spec, todayCHF, blackWeek2025CHF, recordLowCHF, recordLowNote, searchQuery, note, shops?]`
+
+- **today**: lowest Swiss price (Black-Friday.ch price feed, 23.10.2026)
+- **blackWeek2025**: price from Preispirat's Black Week 2025 roundups
+- **recordLow**: other verified Swiss-deliverable lows (Preispirat / Toppreise)
+
+Status is computed automatically: **Buy now** if today is within 3% of the best known price, **Wait** if it was cheaper before, **Tracking** if there is no history yet, **Check** if no CHF price is verified. Retailer buttons default per category (`CAT_SHOPS`); pass a `shops` list to override. Search, category, status and sort controls work client-side.
 
 ## Compliance
 
