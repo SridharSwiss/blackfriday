@@ -1,6 +1,6 @@
 # blackfriday — Aktion.ch Black Friday Schweiz 2026
 
-A dependency-free static site with the **Top 1,000** Black Friday products for Switzerland across 30 categories. The top 100 carry researched CHF prices (today, Black Week 2025, record low) and a buy/wait call; products 101–1000 are a curated catalogue linked to live shop prices and Toppreise history. Every outbound link goes through the affiliate layer. A separate **Amazon.de → Schweiz** list tracks 1,000 more products Swiss shoppers order from Amazon.de (open with `#amazon`).
+A dependency-free static site with the **Top 2,000** Black Friday products for Switzerland across 33 general categories. The top 100 carry researched CHF prices (today, Black Week 2025, record low) and a buy/wait call; products 101–2000 are a curated catalogue linked to live shop prices and Toppreise history. Every outbound link goes through the affiliate layer.
 
 - Black Friday: **Fr 27.11.2026** · Black Week from Mo 23.11. · Cyber Monday Mo 30.11.
 - Prices researched up to 23.10.2026 from Swiss price trackers (Preispirat, Toppreise) and retailer listings.
@@ -33,19 +33,22 @@ Products live in the `RAW` array, ordered by demand rank. Each row is:
 
 Status is computed automatically: **Buy now** if today is within 3% of the best known price, **Wait** if it was cheaper before, **Tracking** if there is no history yet, **Check** if no CHF price is verified. Retailer buttons default per category (`CAT_SHOPS`); pass a `shops` list to override. Search, category, status and sort controls work client-side.
 
-## Catalogue (products 101–1000)
+## Catalogue (products 101–2000)
 
-- Source list: `data/catalogue.txt` (`## Category` headers, then `Name | spec`), ordered by importance within each category.
-- Built file loaded by the page: `data/catalogue.js` (`window.CATALOGUE = [[category, name, spec], ...]`).
-- To add a researched price, append today's CHF price as a 4th value: `["Kitchen", "Thermomix TM7", "Food processor", 1499]`; the card switches from "Live price" to "Tracking".
-- Retailer buttons per category are set in `CAT_SHOPS` in `index.html`.
+- Source list: `data/catalogue.txt` (`## Category` headers, then `Name | spec`); built file `data/catalogue.js` (`window.CATALOGUE = [[category, name, spec, priceCHF?], ...]`).
+- Includes the products Swiss shoppers commonly order from Amazon.de (books, toys & games, beauty, accessories, household, DIY), mixed into the general categories. Every catalogue product links to Amazon.de as well, except large appliances.
+- Add today's CHF price as a 4th value to switch a card from "Live price" to "Tracking".
+- Retailer buttons per category: `CAT_SHOPS` in `index.html`.
 
-## Amazon.de list (A1–A1000)
+## Product pictures
 
-- Source list: `data/amazon.txt`; built file: `data/amazon.js` (`window.AMAZON = [[category, name, spec], ...]`).
-- Weighted to categories Swiss shoppers buy on Amazon.de (books, toys & games, beauty, fashion, tech accessories, household, DIY) and limited to goods Amazon.de delivers to CH (no food, alcohol, plants, medical products, chemicals). Amazon publishes no per-product delivery data, so this is not a sales ranking.
-- Each card links to Amazon.de with the PartnerNet tag, Keepa (Amazon price history) and Toppreise (Swiss price comparison).
-- Append a CHF price as a 4th value to show it on the card.
+Every product shows a picture. By default it is an illustration drawn from its category and brand (books render as a cover with title and author), so the page never shows an empty slot. To show real photos, add licensed image URLs to `data/images.js`:
+
+```js
+window.IMAGES["Apple AirPods Pro 3"] = "https://…/image.jpg";
+```
+
+Licensed sources: Amazon Product Advertising API (after 3 qualifying PartnerNet sales), Awin/Tradedoubler product feeds, brand press kits. Do not copy photos from retailer pages. A broken image URL falls back to the illustration automatically.
 
 ## Compliance
 

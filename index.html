@@ -18,6 +18,7 @@ body{margin:0}img{max-width:100%}[hidden]{display:none!important}
   --red:#D52B1E; --red-ink:#FFFFFF; --tag:#FFD200; --tag-ink:#151314;
   --good:#1E7A46; --warn:#9A6200; --info:#2D5BA8; --track:#6B5E8A;
   --board:#151314; --board-ink:#FFD200;
+  --tile-s:52%; --tile-l:93%; --tile-ink-l:32%; --cover-l:34%;
   --f-display:"Archivo","Arial Narrow",Arial,sans-serif;
   --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
@@ -25,11 +26,11 @@ body{margin:0}img{max-width:100%}[hidden]{display:none!important}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#141112; --surface:#1D191A; --ink:#F2EFEE; --muted:#A8A1A2; --line:#332D2E;
   --red:#E8463A; --red-ink:#FFFFFF; --tag:#FFD200; --tag-ink:#151314;
-  --good:#4CC37F; --warn:#E3A43A; --info:#7EA6EE; --track:#B4A6E0; --board:#0B0909; --board-ink:#FFD200; color-scheme:dark}}
+  --good:#4CC37F; --warn:#E3A43A; --info:#7EA6EE; --track:#B4A6E0; --board:#0B0909; --board-ink:#FFD200; --tile-s:22%; --tile-l:21%; --tile-ink-l:74%; --cover-l:40%; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#141112; --surface:#1D191A; --ink:#F2EFEE; --muted:#A8A1A2; --line:#332D2E;
   --red:#E8463A; --red-ink:#FFFFFF; --tag:#FFD200; --tag-ink:#151314;
-  --good:#4CC37F; --warn:#E3A43A; --info:#7EA6EE; --track:#B4A6E0; --board:#0B0909; --board-ink:#FFD200; color-scheme:dark}
+  --good:#4CC37F; --warn:#E3A43A; --info:#7EA6EE; --track:#B4A6E0; --board:#0B0909; --board-ink:#FFD200; --tile-s:22%; --tile-l:21%; --tile-ink-l:74%; --cover-l:40%; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
@@ -105,15 +106,14 @@ select{font:600 13px var(--f-body);padding:8px 10px;border-radius:8px;border:1.5
 .pill.buy{color:var(--good)} .pill.wait{color:var(--warn)} .pill.track{color:var(--track)} .pill.check{color:var(--info)} .pill.live{color:var(--muted)}
 .sticker.live{background:transparent;border:2px dashed var(--tag-ink);color:var(--ink)}
 .sticker.live .now{font-size:24px}
-.pill.amazon{color:var(--warn)}
-.amz .wrap{padding-block:44px;display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:start}
-.amz h2{font-size:clamp(30px,4.4vw,48px);font-weight:900;font-stretch:72%;text-transform:uppercase;margin:6px 0 12px}
-.amz p{color:var(--muted);max-width:60ch;margin:0 0 16px}
-.amz-facts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.amz-facts li{display:grid;grid-template-columns:150px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
-.amz-facts b{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
-.btn-amz{font:700 15px var(--f-body);padding:13px 20px;border-radius:8px;border:0;background:var(--red);color:var(--red-ink);cursor:pointer}
-@media (max-width:860px){.amz .wrap{grid-template-columns:1fr}.amz-facts li{grid-template-columns:1fr;gap:2px}}
+.thumb{position:relative;aspect-ratio:4/3;max-width:100%;border-radius:8px 8px 0 0;overflow:hidden;display:grid;place-items:center;background:hsl(var(--h) var(--tile-s) var(--tile-l));color:hsl(var(--h) 45% var(--tile-ink-l))}
+.thumb svg{width:34%;height:auto;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.thumb .brand{position:absolute;left:12px;bottom:10px;right:12px;font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:15px;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thumb.book{place-items:stretch}
+.thumb.book .cover{margin:12px auto;width:58%;border-radius:2px 6px 6px 2px;background:hsl(var(--h) 55% var(--cover-l));color:#fff;padding:12px 10px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:inset 6px 0 0 rgba(0,0,0,.18),0 6px 14px rgba(0,0,0,.18)}
+.thumb.book .t{font-family:var(--f-display);font-weight:800;font-stretch:78%;font-size:15px;line-height:1.05;overflow:hidden;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical}
+.thumb.book .a{font:600 10.5px var(--f-body);opacity:.9;text-transform:uppercase;letter-spacing:.06em}
+.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:8px}
 .more{display:flex;justify-content:center;margin-top:22px}
 .more button{font:700 14px var(--f-body);padding:12px 22px;border-radius:8px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
 .seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
@@ -170,14 +170,14 @@ footer p{margin:0;max-width:95ch}
 
 <header class="top"><div class="wrap">
   <div class="brand"><span class="cross" aria-hidden="true"></span>AKTION.CH</div>
-  <nav class="top" aria-label="Sections"><a href="#deals">Top 1,000</a><a href="#amazon">Amazon.de</a><a href="#shops">Retailers</a><a href="#timing">Timing</a><a href="#tips">Buying rules</a></nav>
+  <nav class="top" aria-label="Sections"><a href="#deals">Top 2,000</a><a href="#shops">Retailers</a><a href="#timing">Timing</a><a href="#tips">Buying rules</a></nav>
 </div></header>
 
 <section class="hero"><div class="wrap">
   <div>
-    <div class="eyebrow">Black Week Schweiz 2026 · Top 1,000</div>
+    <div class="eyebrow">Black Week Schweiz 2026 · Top 2,000</div>
     <h1 style="margin-top:10px">The deals worth <span class="hl">waiting for</span></h1>
-    <p class="lede">1,000 products Swiss shoppers look for in November, across 30 categories. The top 100 come with researched CHF prices, last Black Week's price and a buy-or-wait call. The other 900 link straight to live shop prices. A separate list tracks 1,000 more products Swiss shoppers order from Amazon.de.</p>
+    <p class="lede">2,000 products Swiss shoppers look for in November, across 33 categories. The top 100 come with researched CHF prices, last Black Week's price and a buy-or-wait call. The rest link straight to live shop prices and price history.</p>
   </div>
   <div class="board" aria-label="Countdown to Black Friday">
     <div class="lbl">Black Friday · Fr 27.11.2026</div>
@@ -193,34 +193,17 @@ footer p{margin:0;max-width:95ch}
 </div></section>
 
 <div class="facts"><div class="wrap">
-  <div class="fact"><strong id="f-total">2,000</strong><span>Products tracked: 1,000 at Swiss shops, 1,000 on Amazon.de</span></div>
+  <div class="fact"><strong id="f-total">2,000</strong><span>Products in 33 categories, top 100 with researched CHF prices</span></div>
   <div class="fact"><strong id="f-buy">–</strong><span>Already at or near their best price</span></div>
   <div class="fact"><strong id="f-wait">–</strong><span>Likely cheaper in Black Week</span></div>
   <div class="fact"><strong>CHF 450 Mio.</strong><span>Swiss Black Friday turnover forecast (2025)</span></div>
 </div></div>
 
-<section class="amz" id="amazon" style="background:var(--surface);border-block:1px solid var(--line)"><div class="wrap">
-  <div>
-    <div class="eyebrow">Amazon.de → Schweiz · 1,000 picks</div>
-    <h2>What Switzerland orders from Amazon.de</h2>
-    <p>A separate list of 1,000 products in the categories Swiss shoppers buy most on Amazon.de: books, toys and games, beauty, fashion, tech accessories, household and DIY. Everything on it is a type of product Amazon.de delivers to Swiss addresses. Amazon's Black Friday Week usually starts about a week before Black Friday.</p>
-    <button class="btn-amz" type="button" id="go-amz">Browse the 1,000 Amazon.de picks</button>
-  </div>
-  <ul class="amz-facts">
-    <li><b>Price</b><span>Shown with Swiss VAT, German VAT removed. No customs bill on items sold by Amazon.</span></li>
-    <li><b>Shipping</b><span>Free from €49 on eligible items; books always ship free. Otherwise €6.99, oversized €9.99.</span></li>
-    <li><b>Delivery</b><span>Usually 3–5 working days to Switzerland.</span></li>
-    <li><b>Not delivered</b><span>Food, alcohol, plants, medical products and some chemicals. Some marketplace sellers don't ship to CH.</span></li>
-    <li><b>Check first</b><span>Save a Swiss address in your account; the product page then shows if it ships and the final price.</span></li>
-    <li><b>What Swiss give</b><span>Toys and games 45%, fashion 41%, beauty and wellness 41% (Amazon survey, 1,513 people in CH).</span></li>
-  </ul>
-</div></section>
-
 <section class="block" id="deals"><div class="wrap">
   <div class="sec-head">
-    <div class="eyebrow" id="deals-eyebrow">Top 1,000 · prices as of 23.10.2026</div>
+    <div class="eyebrow" id="deals-eyebrow">Top 2,000 · prices as of 23.10.2026</div>
     <h2 id="deals-title">Most-wanted, best prices</h2>
-    <p>Products 1–100 are ranked by demand and carry researched prices; a product is marked "Buy now" when today's price is within 3% of its best known price. Products 101–1000 are a curated catalogue of popular models, grouped by category and linked to live prices.</p>
+    <p>Products 1–100 are ranked by demand and carry researched prices; a product is marked "Buy now" when today's price is within 3% of its best known price. Products 101–2000 are a curated catalogue of popular models, grouped by category and linked to live prices.</p>
   </div>
   <div class="legend" style="margin-bottom:14px">
     <span><span class="pill buy">Buy now</span>at or near best price</span>
@@ -228,19 +211,18 @@ footer p{margin:0;max-width:95ch}
     <span><span class="pill track">Tracking</span>new, no price history yet</span>
     <span><span class="pill check">Check</span>no verified CHF price</span>
     <span><span class="pill live">Live price</span>compare at the shops</span>
-    <span><span class="pill amazon">Amazon.de</span>separate Amazon list</span>
   </div>
   <div class="controls" role="search">
     <div class="ctl-row">
-      <input class="search" id="q" type="search" placeholder="Search 1,000 products, e.g. iPhone, LEGO, Garmin, Jura" aria-label="Search products">
+      <input class="search" id="q" type="search" placeholder="Search 2,000 products, e.g. iPhone, LEGO, Garmin, Jura" aria-label="Search products">
       <select id="status" aria-label="Filter by status">
-        <option value="all">All statuses</option><option value="buy">Buy now</option><option value="wait">Wait for Black Week</option><option value="track">Tracking</option><option value="check">Check price</option><option value="live">Live price</option><option value="amazon">Amazon.de</option>
+        <option value="all">All statuses</option><option value="buy">Buy now</option><option value="wait">Wait for Black Week</option><option value="track">Tracking</option><option value="check">Check price</option><option value="live">Live price</option>
       </select>
       <select id="sort" aria-label="Sort products">
         <option value="rank">Demand rank</option><option value="save">Biggest saving</option><option value="low">Lowest price</option><option value="high">Highest price</option>
       </select>
     </div>
-    <div class="ctl-row"><div class="seg" role="group" aria-label="Scope"><button type="button" data-scope="top" id="sc-top">Top 100 priced</button><button type="button" data-scope="all" id="sc-all">All 1,000</button><button type="button" data-scope="amazon" id="sc-amz">Amazon.de → CH</button></div><select id="cat" aria-label="Category"></select><span class="count" id="count"></span></div>
+    <div class="ctl-row"><div class="seg" role="group" aria-label="Scope"><button type="button" data-scope="top" id="sc-top">Top 100 priced</button><button type="button" data-scope="all" id="sc-all">All 2,000</button></div><select id="cat" aria-label="Category"></select><span class="count" id="count"></span></div>
   </div>
   <div class="grid" id="grid"></div>
   <div class="more"><button type="button" id="more">Show more</button></div>
@@ -281,11 +263,11 @@ footer p{margin:0;max-width:95ch}
 <footer><div class="wrap">
   <p><strong style="color:var(--ink)">Affiliate disclosure.</strong> Links to retailers carry partner tracking. We are paid a commission on qualifying purchases at no extra cost to you. Als Amazon-Partner verdienen wir an qualifizierten Verkäufen. Ranking and buy/wait calls are based on demand and price history, not on commission.</p>
   <p><strong style="color:var(--ink)">About the prices.</strong> "Today" is the lowest Swiss price listed by the Black-Friday.ch price feed on 23.10.2026. "Black Week 2025" and record lows come from Preispirat deal reports and Toppreise comparisons; Amazon prices include delivery to Switzerland at the time of the report. Variants (storage, colour, bundle) can differ between shops. Prices change hourly, so confirm at the retailer. Black Friday 2026 offers have not been announced yet.</p>
-  <p>Products 101–1000 are a curated catalogue of popular models sold in Switzerland, without researched prices; their buttons open live shop listings and Toppreise price history. The Amazon.de list (products A1–A1000) is weighted to what Swiss shoppers buy on Amazon.de and limited to goods Amazon.de delivers to Switzerland; Amazon publishes no per-product delivery figures, so it is not a sales ranking. Delivery terms: Amazon.de, schwiizerfranke.com and becomewealthy.ch guides, 2024–2025. Demand ranking for the top 100 draws on Digitec Galaxus, Brack, Fust and Swiss Retail Federation Black Friday reports (phones, TVs, laptops, consoles, robot vacuums and coffee machines lead every year). Product names and trademarks belong to their owners.</p>
+  <p>Products 101–2000 are a curated catalogue of popular models sold in or delivered to Switzerland, without researched prices; their buttons open live shop listings and Toppreise price history. Product pictures are illustrations until licensed retailer photos are added. Demand ranking for the top 100 draws on Digitec Galaxus, Brack, Fust and Swiss Retail Federation Black Friday reports (phones, TVs, laptops, consoles, robot vacuums and coffee machines lead every year). Product names and trademarks belong to their owners.</p>
 </div></footer>
 
 <script src="data/catalogue.js"></script>
-<script src="data/amazon.js"></script>
+<script src="data/images.js"></script>
 <script>
 /* ============ AFFILIATE CONFIG — fill in your IDs here ============
    Every outbound link goes through affLink(). Until an ID is set, the link
@@ -307,6 +289,7 @@ const AFF = {
   zalando:      { network:null, mid:"", affid:"" },
   jumbo:        { network:null, mid:"", affid:"" },
   keepa:        { network:"none" },                           // price tracker, not a shop
+  orellfuessli: { network:null, mid:"", affid:"" },
   toppreise:    { network:null }
 };
 function affLink(shop, url){
@@ -336,6 +319,7 @@ const SHOPS = {
   manor:{name:"Manor", search:s=>`https://www.manor.ch/de/search?text=${enc(s)}`},
   zalando:{name:"Zalando", search:s=>`https://www.zalando.ch/katalog/?q=${enc(s)}`},
   jumbo:{name:"Jumbo", search:s=>`https://www.jumbo.ch/de/search?q=${enc(s)}`},
+  orellfuessli:{name:"Orell Füssli", search:s=>`https://www.orellfuessli.ch/suche?sq=${enc(s)}`},
   keepa:{name:"Keepa", search:s=>`https://keepa.com/#!search/3-${enc(s)}`},
   toppreise:{name:"History", search:s=>`https://www.toppreise.ch/produktsuche?q=${enc(s)}`}
 };
@@ -360,17 +344,20 @@ const CAT_SHOPS = {
   "Kitchen":["galaxus","fust","manor","brack"],
   "Appliances":["fust","galaxus","mediamarkt","interdiscount"],
   "PC Components":["digitec","brack","amazon"],
-  "Toys & LEGO":["galaxus","manor","brack","amazon"],
+  "Toys & Games":["galaxus","manor","brack","amazon"],
   "Sports & Outdoor":["galaxus","brack","manor","amazon"],
   "Bikes & E-mobility":["galaxus","brack","jumbo"],
   "Tools & DIY":["galaxus","jumbo","brack","amazon"],
   "Garden":["jumbo","galaxus","brack"],
-  "Fashion & Shoes":["zalando","manor","galaxus"],
+  "Fashion":["zalando","manor","galaxus","amazon"],
   "Watches & Jewellery":["galaxus","manor","zalando"],
   "Fragrance & Beauty":["manor","galaxus","amazon"],
   "Personal Care":["galaxus","interdiscount","fust","amazon"],
   "Baby & Kids":["galaxus","manor","brack","amazon"],
-  "Furniture & Office":["galaxus","brack","manor"],
+  "Office & Furniture":["galaxus","brack","manor","amazon"],
+  "Books":["orellfuessli","galaxus","amazon"],
+  "Pets":["galaxus","brack","amazon"],
+  "Gift Cards & Travel":["galaxus","interdiscount","amazon"],
   "Travel & Car":["galaxus","brack","jumbo","amazon"]
 };
 CAT_SHOPS["Beauty"]=CAT_SHOPS["Fragrance & Beauty"];
@@ -495,16 +482,17 @@ const TOP = RAW.map((r,i)=>{
   const show = now ?? best?.p ?? null;
   return {rank:i+1,top:true,cat:cat==="Beauty"?"Fragrance & Beauty":cat,name,spec,now,bw25,low,lowAt,best,status,save,show,q,note,shops:shops||CAT_SHOPS[cat]};
 });
+/* every catalogue product links to Amazon.de as well (large appliances excluded: not delivered to CH) */
+function withAmazon(cat, list){
+  if (cat==="Appliances" || list.includes("amazon")) return list;
+  return list.length >= 4 ? list.slice(0,3).concat("amazon") : list.concat("amazon");
+}
 const CAT_LIST = (window.CATALOGUE||[]).map(([cat,name,spec,now],i)=>({
   rank:TOP.length+i+1, top:false, cat, name, spec, now:now??null, bw25:null, low:null, lowAt:null, best:null,
-  status: now!=null ? "track" : "live", save:0, show:now??null, q:name.replace(/\s*\(.*?\)/g,""), note:null, shops:CAT_SHOPS[cat]||["galaxus","brack","amazon"]
+  status: now!=null ? "track" : "live", save:0, show:now??null, q:name.replace(/\s*\(.*?\)/g,""), note:null, shops:withAmazon(cat, CAT_SHOPS[cat]||["galaxus","brack"])
 }));
-const AMZ_LIST = (window.AMAZON||[]).map(([cat,name,spec,now],i)=>({
-  rank:i+1, top:false, amazon:true, cat, name, spec, now:now??null, bw25:null, low:null, lowAt:null, best:null,
-  status:"amazon", save:0, show:now??null, q:name.replace(/\s*\(.*?\)/g,"").replace(" – "," "), note:null, shops:["amazon","keepa"]
-}));
-const DEALS = TOP.concat(CAT_LIST, AMZ_LIST);
-const inScope = d => state.scope==="amazon" ? !!d.amazon : state.scope==="top" ? d.top : !d.amazon;
+const DEALS = TOP.concat(CAT_LIST);
+const inScope = d => state.scope==="top" ? d.top : true;
 const CATS = [...new Set(DEALS.map(d=>d.cat))].sort((a,b)=>a.localeCompare(b));
 
 const SHOPINFO = [
@@ -519,10 +507,62 @@ const SHOPINFO = [
  ["samsung","Samsung Store CH","Galaxy phones, tablets, TVs","Checkout codes and trade-in bonuses","Codes change often and can expire mid-day","https://www.samsung.com/ch/"]
 ];
 
+/* ---------- product pictures ----------
+   1) window.IMAGES["Exact product name"] = licensed photo URL (data/images.js) → shown as a photo
+   2) otherwise an illustration drawn from the category and brand, so every product has a picture */
+const ICON = {
+ "Phones":'<rect x="14" y="5" width="20" height="38" rx="4"/><path d="M21 37h6"/>',
+ "Audio":'<path d="M10 30v-4a14 14 0 0 1 28 0v4"/><rect x="7" y="28" width="9" height="13" rx="2"/><rect x="32" y="28" width="9" height="13" rx="2"/>',
+ "Gaming":'<rect x="5" y="15" width="38" height="20" rx="10"/><path d="M13 25h8M17 21v8"/><circle cx="31" cy="23" r="1.6"/><circle cx="35" cy="27" r="1.6"/>',
+ "Computers":'<rect x="10" y="9" width="28" height="21" rx="2"/><path d="M5 36h38l-3 4H8z"/>',
+ "Monitors":'<rect x="5" y="7" width="38" height="25" rx="2"/><path d="M24 32v8M16 40h16"/>',
+ "Tablets":'<rect x="10" y="5" width="28" height="38" rx="4"/><circle cx="24" cy="38" r="1.4"/>',
+ "Wearables":'<rect x="14" y="14" width="20" height="20" rx="6"/><path d="M18 14l2-8h8l2 8M18 34l2 8h8l2-8M24 19v5l3 3"/>',
+ "Accessories":'<rect x="15" y="17" width="18" height="15" rx="3"/><path d="M20 10v7M28 10v7M24 32v10"/>',
+ "Smart Home":'<path d="M7 22L24 8l17 14v19H7z"/><circle cx="24" cy="29" r="4"/>',
+ "Networking":'<rect x="6" y="26" width="36" height="12" rx="3"/><path d="M14 26l-4-14M34 26l4-14M24 26V14"/><circle cx="14" cy="32" r="1.4"/>',
+ "Printers":'<rect x="13" y="6" width="22" height="12"/><rect x="6" y="18" width="36" height="16" rx="3"/><rect x="14" y="28" width="20" height="14"/>',
+ "TV":'<rect x="4" y="8" width="40" height="26" rx="2"/><path d="M24 34v7M15 41h18"/>',
+ "Cameras":'<rect x="5" y="14" width="38" height="25" rx="4"/><circle cx="24" cy="26" r="7"/><path d="M16 14l3-5h10l3 5"/>',
+ "Home":'<path d="M19 5v27"/><rect x="10" y="32" width="20" height="8" rx="3"/><circle cx="35" cy="36" r="4"/>',
+ "Coffee":'<path d="M9 18h25v11a10 10 0 0 1-10 10h-5A10 10 0 0 1 9 29z"/><path d="M34 21h3a5 5 0 0 1 0 10h-3M17 6v6M25 6v6"/>',
+ "Kitchen":'<path d="M8 19h32v15a6 6 0 0 1-6 6H14a6 6 0 0 1-6-6z"/><path d="M4 19h40M18 19v-6h12v6"/>',
+ "Appliances":'<rect x="8" y="5" width="32" height="38" rx="3"/><circle cx="24" cy="27" r="9"/><path d="M8 14h32"/>',
+ "PC Components":'<rect x="14" y="14" width="20" height="20" rx="2"/><path d="M19 8v6M24 8v6M29 8v6M19 34v6M24 34v6M29 34v6M8 19h6M8 24h6M8 29h6M34 19h6M34 24h6M34 29h6"/>',
+ "Toys & Games":'<rect x="6" y="19" width="36" height="20" rx="2"/><rect x="11" y="12" width="9" height="7" rx="1.5"/><rect x="28" y="12" width="9" height="7" rx="1.5"/>',
+ "Sports & Outdoor":'<path d="M4 40l14-23 8 12 6-8 12 19z"/><circle cx="36" cy="10" r="3"/>',
+ "Bikes & E-mobility":'<circle cx="12" cy="32" r="8"/><circle cx="36" cy="32" r="8"/><path d="M12 32l8-14h11l5 14M20 18l-2-6h-4M31 18l-3-6h5"/>',
+ "Tools & DIY":'<path d="M6 13h26v11H6zM32 16h9v5h-9M17 24l-2 17h9l2-17"/>',
+ "Garden":'<path d="M9 39C9 19 21 8 40 8c0 19-10 31-31 31z"/><path d="M9 39l17-17"/>',
+ "Fashion":'<path d="M17 6L6 12l4 8 6-3v24h16V17l6 3 4-8-11-6a7 7 0 0 1-14 0z"/>',
+ "Watches & Jewellery":'<circle cx="24" cy="24" r="10"/><path d="M18 15l2-9h8l2 9M18 33l2 9h8l2-9M24 19v5l3 3"/>',
+ "Fragrance & Beauty":'<rect x="12" y="18" width="24" height="24" rx="6"/><rect x="19" y="10" width="10" height="8" rx="1"/><path d="M24 5v5"/>',
+ "Personal Care":'<rect x="21" y="17" width="6" height="27" rx="3"/><rect x="20" y="4" width="8" height="13" rx="2"/><path d="M22 8h4M22 12h4"/>',
+ "Baby & Kids":'<path d="M10 9a16 16 0 0 0 16 16h12V20A14 14 0 0 0 24 6"/><path d="M8 25h30"/><circle cx="14" cy="38" r="4"/><circle cx="34" cy="38" r="4"/>',
+ "Office & Furniture":'<path d="M14 6h20v18H14zM9 24h30M24 24v10M14 42l10-8 10 8"/>',
+ "Travel & Car":'<path d="M6 30l5-11h26l5 11v8H6z"/><circle cx="14" cy="38" r="3"/><circle cx="34" cy="38" r="3"/><path d="M6 30h36"/>',
+ "Books":'<path d="M7 8h15a4 4 0 0 1 4 4v29a3 3 0 0 0-3-3H7zM41 8H28a4 4 0 0 0-4 4v29a3 3 0 0 1 3-3h14z"/>',
+ "Pets":'<circle cx="24" cy="31" r="8"/><circle cx="13" cy="19" r="3.5"/><circle cx="20" cy="12" r="3.5"/><circle cx="28" cy="12" r="3.5"/><circle cx="35" cy="19" r="3.5"/>',
+ "Gift Cards & Travel":'<rect x="5" y="12" width="38" height="25" rx="3"/><path d="M5 20h38M13 30h9"/>',
+ "_":'<path d="M6 24L24 6h16v16L22 40z"/><circle cx="33" cy="13" r="2.5"/>'
+};
+const TWO = ["The Ordinary","La Roche-Posay","Ultimate Ears","Bowers & Wilkins","Black Diamond","The North Face","Under Armour","Hugo Boss","Calvin Klein","Polo Ralph Lauren","Ralph Lauren","Tommy Hilfiger","Fred Perry","Le Creuset","Big Green Egg","Home Assistant","Peak Design","Dr. Martens","New Balance","Paco Rabanne","Jean Paul Gaultier","Giorgio Armani","Carolina Herrera","Estée Lauder","Charlotte Tilbury","Rare Beauty","Beauty of Joseon","Paula's Choice","Caran d'Ache","Brändi Dog","Hot Wheels","Fisher-Price","Nintendo Switch","Hans im Glück","Bang & Olufsen","Maison Francis Kurkdjian","Le Labo","Kuhn Rikon","Betty Bossi","Amazon Basics","Amazon Essentials","Concept2","Sea to Summit","Fjällräven","Viktor & Rolf","Thierry Mugler","Narciso Rodriguez","Jil Sander","Daniel Wellington","Herman Miller","Secretlab","Lian Li","be quiet!","Western Digital","Bambu Lab","Tour de Suisse","Busch & Müller","Pegasus Spiele","Lululemon"];
+const hue = s => { let x=0; for (const c of s) x=(x*31+c.charCodeAt(0))>>>0; return x%360; };
+const brandOf = n => (TWO.find(b=>n.startsWith(b+" ")) || n.split(" ")[0]).replace(/[–:]$/,"");
+function thumb(d){
+  const photo = (window.IMAGES||{})[d.name] || d.img;
+  const img = photo ? `<img src="${esc(photo)}" alt="${esc(d.name)}" loading="lazy" onerror="this.remove()">` : "";
+  if (d.cat==="Books" && d.name.includes(" – ")){
+    const [author,title] = d.name.split(" – ");
+    return `<div class="thumb book" style="--h:${hue(title)}" role="img" aria-label="${esc(d.name)}"><div class="cover"><span class="t">${esc(title)}</span><span class="a">${esc(author)}</span></div>${img}</div>`;
+  }
+  const b = brandOf(d.name);
+  return `<div class="thumb" style="--h:${hue(b)}" role="img" aria-label="${esc(d.name)}"><svg viewBox="0 0 48 48" aria-hidden="true">${ICON[d.cat]||ICON._}</svg><span class="brand">${esc(b)}</span>${img}</div>`;
+}
 const fmt = n => Number.isInteger(n) ? `${n.toLocaleString("de-CH")}.–` : n.toLocaleString("de-CH",{minimumFractionDigits:2,maximumFractionDigits:2});
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const ext = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>';
-const LABEL = {buy:"Buy now", wait:"Wait for Black Week", track:"Tracking", check:"Check price", live:"Live price", amazon:"Amazon.de"};
+const LABEL = {buy:"Buy now", wait:"Wait for Black Week", track:"Tracking", check:"Check price", live:"Live price"};
 
 const PAGE = 48;
 let state = {cat:"All", sort:"rank", status:"all", q:"", scope:"all"}, shown = PAGE;
@@ -538,26 +578,22 @@ function renderControls(){
   sel.innerHTML = cats.map(c=>`<option value="${esc(c)}"${c===state.cat?" selected":""}>${c==="All"?"All categories":esc(c)} (${n(c)})</option>`).join("");
   document.getElementById("sc-top").setAttribute("aria-pressed", state.scope==="top");
   document.getElementById("sc-all").setAttribute("aria-pressed", state.scope==="all");
-  document.getElementById("sc-amz").setAttribute("aria-pressed", state.scope==="amazon");
-  const amz = state.scope==="amazon";
-  document.getElementById("deals-eyebrow").textContent = amz ? "Amazon.de → Schweiz · 1,000 picks" : "Top 1,000 · prices as of 23.10.2026";
-  document.getElementById("deals-title").textContent = amz ? "Swiss favourites on Amazon.de" : "Most-wanted, best prices";
 }
 function card(d){
   const pct = d.now && d.save ? Math.round(d.save/d.now*100) : 0;
-  const k = d.now!=null ? "Today in CH" : d.best ? (d.best.where==="Black Week 2025" ? "Black Week 2025" : "Best seen") : d.status==="live" ? "Live price" : d.status==="amazon" ? "Amazon.de → CH" : "Price";
-  const price = d.show!=null ? `CHF ${fmt(d.show)}` : d.status==="live" ? "Compare shops" : d.status==="amazon" ? "See price" : "TBA";
+  const k = d.now!=null ? "Today in CH" : d.best ? (d.best.where==="Black Week 2025" ? "Black Week 2025" : "Best seen") : d.status==="live" ? "Live price" : "Price";
+  const price = d.show!=null ? `CHF ${fmt(d.show)}` : d.status==="live" ? "Compare shops" : "TBA";
   const rows = [];
   if (d.bw25!=null && d.now!=null) rows.push(`<dt>Black Week 2025</dt><dd>CHF ${fmt(d.bw25)}</dd>`);
   if (d.low!=null && (d.now!=null || d.bw25!=null)) rows.push(`<dt>Record low</dt><dd>CHF ${fmt(d.low)}</dd>`);
   if (d.low!=null && d.lowAt) rows.push(`<dt>Where</dt><dd>${esc(d.lowAt)}</dd>`);
   if (d.best && d.status!=="check") rows.push(`<dt>Buy at or below</dt><dd class="target">CHF ${fmt(d.best.p)}</dd>`);
   const btns = d.shops.slice(0,4).map((s,i)=>`<a class="shop${i===0?" primary":""}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS[s].name} ${ext}</a>`).join("")
-    + `<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored noopener">${d.amazon?"CH price":SHOPS.toppreise.name} ${ext}</a>`;
-  return `<article class="deal">
-    <div class="deal-top"><span class="rank">${d.top?`#<b>${d.rank}</b>`:d.amazon?`A<b>${d.rank}</b>`:`<b>${d.rank}</b>`}</span><span class="cat">${d.cat}</span></div>
+    + `<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS.toppreise.name} ${ext}</a>`;
+  return `<article class="deal">${thumb(d)}
+    <div class="deal-top"><span class="rank">${d.top?`#<b>${d.rank}</b>`:`<b>${d.rank}</b>`}</span><span class="cat">${d.cat}</span></div>
     <h3>${esc(d.name)}</h3><div class="spec">${esc(d.spec)}</div>
-    <div class="sticker${d.show==null&&(d.status==="live"||d.status==="amazon")?" live":""}"><span class="k">${k}</span>${pct?`<span class="off">−${pct}% BW</span>`:""}<span class="now">${price}</span></div>
+    <div class="sticker${d.show==null&&d.status==="live"?" live":""}"><span class="k">${k}</span>${pct?`<span class="off">−${pct}% BW</span>`:""}<span class="now">${price}</span></div>
     <span class="pill ${d.status}">${LABEL[d.status]}</span>
     ${rows.length?`<dl class="meta">${rows.join("")}</dl>`:""}
     ${d.note?`<p class="note">${esc(d.note)}</p>`:""}
@@ -599,9 +635,7 @@ stEl.onchange = e=>{state.status=e.target.value;reset();};
 document.getElementById("cat").onchange = e=>{state.cat=e.target.value;reset();};
 document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{state.scope=b.dataset.scope;renderControls();reset();});
 document.getElementById("more").onclick = ()=>{shown+=PAGE;renderGrid();};
-const openAmazon = (scroll)=>{ state.scope="amazon"; state.status="all"; stEl.value="all"; renderControls(); reset(); if(scroll) document.getElementById("deals").scrollIntoView({behavior:"smooth"}); };
-document.getElementById("go-amz").onclick = ()=>openAmazon(true);
-if (location.hash==="#amazon") { state.scope="amazon"; }
+
 renderControls(); renderGrid(); renderShops(); tick(); setInterval(tick, 30000);
 </script>
 </body>

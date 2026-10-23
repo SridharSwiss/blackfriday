@@ -1,5 +1,4 @@
-# Curated catalogue, products 101–1000. Format: "## Category" then "Name | short spec".
-# Popular, established models sold in Switzerland. No researched price: cards show live shop prices.
+# Product catalogue, products 101–2000. Format: '## Category' then 'Name | spec'.
 ## Phones
 Apple iPhone 16e | 128 GB · A18
 Apple iPhone 17 Pro | 256 GB · A19 Pro
@@ -31,15 +30,6 @@ OnePlus 13 | 256 GB
 OnePlus 13R | 256 GB
 Nothing Phone (3) | 256 GB
 Nothing Phone (3a) | 128 GB
-Nothing Phone (3a) Pro | 256 GB
-Motorola Edge 50 Neo | 256 GB
-Motorola razr 60 Ultra | foldable
-Motorola moto g85 5G | 256 GB
-Sony Xperia 1 VII | 256 GB
-Fairphone 5 | 256 GB · repairable
-Honor Magic7 Pro | 512 GB
-Oppo Find X8 Pro | 512 GB
-Doro 8100 | senior smartphone
 ## Audio
 Apple AirPods Pro 2 Lightning | MagSafe case
 Bose QuietComfort Ultra Headphones (2nd Gen) | Over-ear ANC
@@ -88,20 +78,46 @@ Sonos Era 100 | Smart speaker
 Sonos Era 300 | Spatial audio speaker
 Sonos Move 2 | Portable smart speaker
 Sonos Roam 2 | Portable smart speaker
-Sonos Ace | Over-ear ANC
-Sonos Arc Ultra | Dolby Atmos soundbar
-Sonos Beam (Gen 2) | Soundbar
-Sonos Ray | Compact soundbar
-Sonos Sub Mini | Subwoofer
-Samsung HW-Q990D | 11.1.4 soundbar
-Samsung HW-Q800D | Dolby Atmos soundbar
-Bose Smart Ultra Soundbar | Dolby Atmos soundbar
-Sony BRAVIA Theatre Bar 8 | Dolby Atmos soundbar
-LG S95TR | 9.1.5 soundbar
-Teufel Cinebar 11 | Soundbar
-Bose Smart Soundbar | Dolby Atmos soundbar
-Apple HomePod (2nd Gen) | Smart speaker
-Apple HomePod mini | Smart speaker
+Echo Buds | True wireless
+Soundcore Liberty 4 Pro | Earbuds ANC
+Soundcore Space One | Over-ear ANC
+Soundcore Life Q30 | Over-ear ANC
+Soundcore P40i | Earbuds ANC
+Soundcore Sport X20 | Sport earbuds
+Soundcore AeroFit 2 | Open-ear
+Soundcore Motion 300 | Speaker
+Soundcore Boom 2 | Speaker
+JBL Tune 520BT | On-ear
+JBL Tune Flex 2 | Earbuds
+JBL Live Beam 3 | Earbuds ANC
+JBL Endurance Peak 3 | Sport earbuds
+JBL Xtreme 4 | Speaker
+JBL Bar 500 | Soundbar
+Sony WH-CH520 | On-ear
+Sony WF-C510 | Earbuds
+Sony SRS-XB100 | Mini speaker
+Sony SRS-XE300 | Speaker
+Sony ULT Field 1 | Speaker
+Beats Solo Buds | Earbuds
+Beats Studio Buds+ | Earbuds ANC
+Bose QuietComfort SC Headphones | Over-ear ANC
+Sennheiser HD 560S | Open-back
+Sennheiser HD 450BT | Over-ear ANC
+Audio-Technica ATH-M50x | Studio headphones
+Audio-Technica AT-LP60X | Turntable
+Audio-Technica AT-LP120XUSB | Turntable
+Teufel Rockster Go 2 | Speaker
+Teufel Airy True Wireless 2 | Earbuds
+Tribit StormBox Micro 2 | Mini speaker
+Ultimate Ears EVERBOOM | Speaker
+Marshall Middleton | Speaker
+Marshall Willen II | Mini speaker
+Yamaha SR-C20A | Compact soundbar
+Denon Home 150 | Smart speaker
+Edifier R1280T | Bookshelf speakers
+Edifier MR4 | Studio monitors
+Creative Pebble V3 | PC speakers
+Logitech Z407 | PC speakers + sub
 ## Gaming
 Sony DualSense Controller | PS5 · all colours
 Sony DualSense Edge | PS5 pro controller
@@ -142,17 +158,68 @@ Logitech G Pro X Superlight 2 | Wireless gaming mouse
 Logitech G502 X Plus | Wireless gaming mouse
 Razer DeathAdder V3 Pro | Wireless gaming mouse
 Razer BlackWidow V4 Pro | Mechanical keyboard
-Logitech G915 X Lightspeed | Low-profile keyboard
-SteelSeries Arctis Nova Pro Wireless | Gaming headset
-HyperX Cloud III Wireless | Gaming headset
-Logitech G Pro X 2 Lightspeed | Gaming headset
-Razer BlackShark V2 Pro | Gaming headset
-Corsair HS80 Max | Gaming headset
-Logitech G923 | Racing wheel
-Thrustmaster T248 | Racing wheel
-Secretlab Titan Evo | Gaming chair
-noblechairs HERO | Gaming chair
-8BitDo Ultimate 2 | Controller · Switch/PC
+PowerA Enhanced Wired Controller Switch | Controller
+PowerA Wireless Controller Switch 2 | Controller
+HORI Split Pad Pro | Switch controller
+Nintendo Switch 2 Carrying Case | Case
+Nintendo Switch 2 Screen Protector | 2-pack
+Nintendo Switch 2 All-in-One Carrying Case | Case
+Sony DualSense Charging Station | PS5
+Sony Access Controller | PS5 adaptive
+PlayStation 5 Console Cover | Slim
+Xbox Rechargeable Battery Kit | Battery
+8BitDo Pro 2 | Controller
+GameSir G7 SE | Xbox controller
+Turtle Beach Stealth 600 Gen 3 | Headset
+Turtle Beach Recon 70 | Headset
+SteelSeries Arctis Nova 1 | Headset
+SteelSeries Arctis Nova 5 | Headset
+Corsair Void Wireless v2 | Headset
+Razer Kraken V4 | Headset
+Logitech G435 | Headset
+Logitech G305 Lightspeed | Mouse
+Logitech G502 HERO | Mouse
+Logitech G213 Prodigy | Keyboard
+Logitech G29 Driving Force | Racing wheel
+Logitech G PRO Racing Wheel | Racing wheel
+Razer Viper V3 Pro | Mouse
+Razer Huntsman V3 Pro | Keyboard
+Razer Goliathus Extended | Mouse pad
+SteelSeries Apex Pro TKL | Keyboard
+Corsair K70 RGB Pro | Keyboard
+Elgato HD60 X | Capture card
+Elgato Facecam MK.2 | Webcam
+Elgato Key Light | Light
+Thrustmaster T.Flight Hotas 4 | Flight stick
+Trust GXT 707 Resto | Gaming chair
+Nintendo Switch 2 – Kirby Air Riders | Game
+Nintendo Switch 2 – Metroid Prime 4: Beyond | Game
+Nintendo Switch 2 – Pokémon Legends: Z-A Switch 2 Edition | Game
+Nintendo Switch – Super Mario Bros. Wonder | Game
+Nintendo Switch – Luigi's Mansion 3 | Game
+Nintendo Switch – Minecraft | Game
+Nintendo Switch – Pokémon Karmesin | Game
+Nintendo Switch – Pokémon Purpur | Game
+Nintendo Switch – Kirby und das vergessene Land | Game
+Nintendo Switch – Splatoon 3 | Game
+Nintendo Switch – Nintendo Switch Sports | Game
+Nintendo Switch – Just Dance 2026 Edition | Game
+PS5 – Astro Bot | Game
+PS5 – Gran Turismo 7 | Game
+PS5 – Marvel's Spider-Man 2 | Game
+PS5 – God of War Ragnarök | Game
+PS5 – The Last of Us Part II Remastered | Game
+PS5 – Death Stranding 2: On the Beach | Game
+PS5 – Elden Ring Nightreign | Game
+PS5 – Red Dead Redemption 2 | Game
+PS5 – NBA 2K26 | Game
+PS5 – F1 25 | Game
+PS5 – EA SPORTS FC 26 | Game
+PS5 – Minecraft Legends | Game
+Xbox – Forza Horizon 5 | Game
+Xbox – Indiana Jones und der Große Kreis | Game
+PC – The Sims 4 | Game
+PC – Microsoft Flight Simulator 2024 | Game
 ## Computers
 Apple MacBook Pro 14" M5 | 16 GB · 512 GB
 Apple MacBook Pro 14" M4 Pro | 24 GB · 512 GB
@@ -186,16 +253,7 @@ ASUS ROG Zephyrus G14 | Gaming laptop
 ASUS ROG Strix G16 | Gaming laptop
 ASUS TUF Gaming A15 | Budget gaming laptop
 Acer Swift Go 14 | Ultrabook
-Acer Aspire 5 | Everyday laptop
-Acer Nitro V 15 | Budget gaming laptop
-Acer Predator Helios Neo 16 | Gaming laptop
-MSI Katana 15 | Gaming laptop
-MSI Prestige 16 AI | Creator laptop
-Microsoft Surface Laptop 7 | 13.8" Copilot+ PC
-Microsoft Surface Laptop 7 15" | Copilot+ PC
-Razer Blade 16 | Gaming laptop
-Framework Laptop 13 | Repairable laptop
-Lenovo ThinkCentre M90q | Mini PC
+Raspberry Pi 5 8 GB | Single-board computer
 ## Monitors
 Dell UltraSharp U2724D | 27" QHD
 Dell UltraSharp U2723QE | 27" 4K USB-C
@@ -218,12 +276,6 @@ BenQ MOBIUZ EX2710Q | 27" QHD 165 Hz
 BenQ ScreenBar Halo | Monitor light
 AOC Q27G3XMN | 27" Mini-LED
 AOC U27G4R | 27" 4K 160 Hz
-MSI MAG 271QPX QD-OLED | 27" QD-OLED
-Philips Evnia 34M2C8600 | 34" QD-OLED
-Philips 27E1N5600AE | 27" QHD USB-C
-Gigabyte M27Q | 27" QHD 170 Hz
-iiyama G-Master GB2770QSU | 27" QHD
-Eizo FlexScan EV2740X | 27" 4K USB-C
 ## Tablets
 Apple iPad Air 11" M3 | 128 GB · Wi-Fi
 Apple iPad mini (A17 Pro) 256 GB | Wi-Fi
@@ -248,13 +300,11 @@ Amazon Kindle Paperwhite Signature Edition | 7" · 32 GB
 Amazon Kindle (2024) | 6" · 16 GB
 Amazon Kindle Colorsoft | Colour e-reader
 Amazon Kindle Scribe | 10.2" · pen
-Tolino Shine 5 | 6" e-reader
-Tolino Vision Color | Colour e-reader
-Kobo Clara BW | 6" e-reader
-Kobo Libra Colour | 7" colour e-reader
-reMarkable Paper Pro | Digital paper tablet
-reMarkable 2 | Digital paper tablet
-PocketBook Verse Pro | 6" e-reader
+Kindle Paperwhite Cover | Official fabric cover
+Kindle Paperwhite Kids | 16 GB · with cover
+Kindle Kids (2024) | 16 GB · with cover
+Fire HD 10 Kids | Kids tablet
+Fire HD 8 Kids Pro | Kids tablet
 ## Wearables
 Apple Watch Series 11 | 42 mm · GPS
 Apple Watch Series 11 Cellular | 46 mm
@@ -295,17 +345,12 @@ Polar Grit X2 Pro | Outdoor watch
 Polar Pacer Pro | Running watch
 Suunto Race S | Sport watch
 Suunto Vertical | Adventure watch
-COROS PACE 3 | Running watch
-COROS VERTIX 2S | Adventure watch
-Amazfit Balance | Smartwatch
-Amazfit T-Rex 3 | Rugged watch
-Amazfit Active 2 | Smartwatch
-Withings ScanWatch 2 | Hybrid health watch
-Oura Ring 4 | Smart ring
-WHOOP 5.0 | Fitness band
-Xiaomi Smart Band 9 | Fitness tracker
-Huawei Watch GT 5 | 46 mm
-Huawei Watch Fit 4 Pro | Smartwatch
+Garmin Forerunner 55 | Running watch
+Polar H10 | Heart-rate strap
+Wahoo TICKR | Heart-rate strap
+Fitbit Versa 4 | Smartwatch
+Amazfit Bip 6 | Smartwatch
+Xiaomi Redmi Watch 5 Active | Smartwatch
 ## Accessories
 Apple MagSafe Charger | 25 W
 Apple 35W Dual USB-C Power Adapter | Charger
@@ -345,18 +390,124 @@ Elgato Stream Deck MK.2 | Stream controller
 Elgato Wave:3 | USB microphone
 Rode NT-USB+ | USB microphone
 DJI Mic 2 | Wireless mic kit
-Spigen Ultra Hybrid MagSafe for iPhone 17 | Case
-OtterBox Defender for Galaxy S25 Ultra | Case
-Apple FineWoven Wallet with MagSafe | Wallet
-Tile Mate | Bluetooth tracker
-Chipolo ONE Spot | Find My tracker
-Samsung Galaxy SmartTag2 | Bluetooth tracker
-Google Chromecast with Google TV 4K | Streaming
-Google TV Streamer | Streaming box
-Amazon Fire TV Stick 4K Max | Streaming stick
-Amazon Fire TV Stick 4K | Streaming stick
-Roku Streaming Stick 4K | Streaming
-Nvidia Shield TV Pro | Streaming box
+Fire TV Cube | Streaming box
+Fire TV Stick HD | Streaming stick
+Fire TV Stick 4K Select | Streaming stick
+Anker Nano Power Bank 5,000 mAh | Built-in USB-C
+Anker PowerCore 10,000 mAh | Power bank
+Anker PowerCore 20,000 mAh | Power bank
+Anker 622 MagGo Power Bank | MagSafe
+Anker Zolo Power Bank 20,000 mAh | Built-in cable
+Anker Nano Charger 20 W | USB-C charger
+Anker Nano Charger 30 W | USB-C charger
+Anker 735 Charger 65 W | 3-port GaN
+Anker Prime Charger 100 W | 3-port GaN
+Anker Prime Desktop Charger 250 W | 6-port GaN
+Anker 3-in-1 Cube MagSafe | Charging station
+Anker PowerWave Pad | Wireless charger
+Anker USB-C to USB-C Cable 240 W | 1.8 m braided
+Anker USB-C to Lightning Cable | MFi · 1.8 m
+Anker 341 USB-C Hub 7-in-1 | Hub
+Anker 563 USB-C Docking Station | 10-in-1
+Ugreen Nexode 65 W | 3-port GaN
+Ugreen USB-C Cable 100 W | 2 m
+Ugreen 3-in-1 MagSafe Stand | Charger
+Ugreen USB-C Hub 5-in-1 | Hub
+Belkin BoostCharge Pro 3-in-1 Qi2 | MagSafe stand
+Belkin MagSafe Car Mount | Car holder
+Baseus 65 W GaN Charger | Charger
+Baseus Blade Power Bank 20,000 mAh | Slim
+INIU Power Bank 10,000 mAh | Slim
+Apple USB-C to MagSafe 3 Cable | 2 m
+Apple 20W USB-C Power Adapter | Charger
+Apple USB-C Woven Charge Cable 1 m | Cable
+Apple Lightning to USB-C Adapter | Adapter
+Apple iPhone 17 Silicone Case with MagSafe | Case
+Apple iPhone 17 Pro Clear Case with MagSafe | Case
+Spigen Tough Armor for iPhone 17 Pro | Case
+Spigen Liquid Air for Galaxy S25 | Case
+ESR HaloLock Case for iPhone 16 | MagSafe case
+Mous Limitless 5.0 | Rugged case
+Peak Design Mobile Everyday Case | Case
+Torras Ostand Case | Case with stand
+dbramante1928 Copenhagen Wallet | Leather case
+ESR Screen Protector iPhone 17 | 3-pack tempered glass
+Spigen GlasTR EZ Fit iPhone 17 Pro | Screen protector
+Belkin UltraGlass 2 iPhone 17 | Screen protector
+PopSockets MagSafe Grip | Phone grip
+Lamicall Phone Stand | Desk stand
+Lisen Car Phone Holder | Vent mount
+Quad Lock Bike Mount Kit | Bike mount
+SP Connect Bike Bundle | Bike mount
+Joby GripTight Pro 3 GorillaPod | Phone tripod
+Ulanzi MT-44 | Phone tripod
+DJI Mic Mini | Wireless microphone
+Rode Wireless GO III | Wireless microphone
+Hollyland Lark M2S | Wireless microphone
+Apple Pencil Tip Replacements | 4-pack
+ESR Rebound Magnetic Case for iPad Air | Case
+Logitech Combo Touch for iPad | Keyboard case
+Logitech Crayon | iPad stylus
+Paperlike Screen Protector iPad | Paper feel
+Samsung 45 W Super Fast Charger | Charger
+Samsung Galaxy S25 Silicone Case | Case
+Logitech MX Anywhere 3S | Compact mouse
+Logitech MX Keys Mini | Keyboard
+Logitech Pebble Mouse 2 M350s | Slim mouse
+Logitech POP Mouse | Mouse
+Logitech POP Keys | Keyboard
+Logitech K380 | Multi-device keyboard
+Logitech MK270 | Keyboard + mouse
+Logitech MK295 Silent | Keyboard + mouse
+Logitech M185 | Wireless mouse
+Logitech Ergo K860 | Ergonomic keyboard
+Logitech MX Ergo S | Trackball
+Logitech Zone Vibe 100 | Headset
+Logitech H390 | USB headset
+Logitech C270 HD | Webcam
+Logitech StreamCam | Webcam
+Logitech Litra Glow | Streaming light
+Microsoft Ergonomic Keyboard | Keyboard
+Microsoft Modern Webcam | Webcam
+Keychron K8 Pro | Mechanical keyboard
+Keychron V1 Max | Mechanical keyboard
+Cherry KC 1000 | Keyboard
+Cherry Stream Desktop | Keyboard + mouse
+Razer Basilisk V3 | Gaming mouse
+Razer Kiyo Pro | Webcam
+SanDisk Ultra Dual Drive Luxe 256 GB | USB-C stick
+SanDisk Ultra Flair 128 GB | USB stick
+Samsung BAR Plus 256 GB | USB stick
+Kingston DataTraveler Exodia 128 GB | USB stick
+SanDisk Ultra microSDXC 128 GB | Memory card
+SanDisk Extreme SDXC 128 GB | Memory card
+Samsung PRO Plus SDXC 256 GB | Memory card
+Lexar Professional 1066x SDXC 128 GB | Memory card
+Crucial X9 Pro 2 TB | Portable SSD
+Crucial X10 Pro 2 TB | Portable SSD
+Samsung T7 1 TB | Portable SSD
+WD Elements 4 TB | External HDD
+WD My Book 12 TB | Desktop HDD
+Seagate Expansion 5 TB | External HDD
+Toshiba Canvio Basics 2 TB | External HDD
+Crucial MX500 1 TB | SATA SSD
+Samsung 870 EVO 1 TB | SATA SSD
+WD Blue SN5000 1 TB | NVMe SSD
+Ugreen USB-C to HDMI Cable | 4K
+Amazon Basics HDMI Cable 2.1 | 2 m
+Amazon Basics Laptop Stand | Aluminium
+Rain Design mStand | Laptop stand
+Nulaxy C1 Laptop Stand | Laptop stand
+Bestand Laptop Stand | Adjustable
+HUANUO Dual Monitor Arm | Gas spring
+Ergotron LX Dual | Monitor arm
+Amazon Basics Mouse Pad XXL | Desk mat
+Satechi Aluminum Stand Hub | iPad Pro
+Satechi USB-C Multiport Pro | Hub
+Twelve South BookArc | MacBook stand
+tomtoc 360° Laptop Sleeve 14" | Sleeve
+Inateck Laptop Sleeve 13" | Sleeve
+Brother TN-2420 | Toner
 ## Smart Home
 Amazon Echo Dot (5th Gen) | Smart speaker
 Amazon Echo (4th Gen) | Smart speaker
@@ -392,16 +543,65 @@ TP-Link Tapo P110 | Smart plug 4-pack
 Shelly Plus 1PM | Smart relay
 Shelly Plug S Gen3 | Smart plug
 Nuki Smart Lock 4.0 Pro | Smart lock
-Netatmo Smart Thermostat | Thermostat
-Netatmo Smart Indoor Camera | Face recognition
-Netatmo Weather Station | Weather station
-tado° Smart Radiator Thermostat X | Starter kit
-Aqara Hub M3 | Matter hub
-Aqara Smart Lock U200 | Smart lock
-SwitchBot Hub 2 | Matter hub
-SwitchBot Curtain 3 | Curtain robot
-Somfy TaHoma Switch | Shutter hub
-Apple TV 4K (Wi-Fi) | 64 GB
+Echo Show 15 | 15.6" smart display
+Echo Show 21 | 21" smart display
+Echo Spot (2024) | Smart alarm clock
+Echo Studio | Hi-fi smart speaker
+Echo Hub | Smart home panel
+Echo Dot Kids | Smart speaker
+Blink Outdoor 4 | Security camera
+Blink Mini 2 | Indoor camera
+Blink Video Doorbell | Video doorbell
+Ring Spotlight Cam Plus | Security camera
+Ring Indoor Cam | Security camera
+Ring Alarm Security Kit | 5-piece kit
+Amazon Smart Plug | Alexa plug
+Amazon Basics Smart Bulb | Alexa bulb
+Philips Hue White & Colour E27 Bulb | Single
+Philips Hue White E27 Bulb 2-pack | Bluetooth
+Philips Hue GU10 White & Colour 3-pack | Spots
+Philips Hue Lightstrip Plus 2 m | Base kit
+Philips Hue Dimmer Switch | Remote
+Philips Hue Motion Sensor | Sensor
+Philips Hue Tap Dial Switch | Switch
+Philips Hue Iris | Table lamp
+Philips Hue Festavia String Lights | Outdoor
+Philips Hue Lily Garden Spot | Outdoor
+Philips WiZ E27 Colour 2-pack | Smart bulb
+Govee RGBIC LED Strip 10 m | LED strip
+Govee Floor Lamp 2 | RGBIC
+Govee Glide Hexa Pro | Wall lights
+Nanoleaf Lines | Smarter kit
+Nanoleaf Essentials A60 | Matter bulb
+LIFX Colour A60 | Smart bulb
+Meross Smart Plug 4-pack | HomeKit
+Eve Energy | Matter smart plug
+Eve Door & Window | Sensor
+Eve Thermo | Radiator thermostat
+Aqara Door and Window Sensor | Zigbee
+Aqara Temperature and Humidity Sensor | Zigbee
+Aqara Motion Sensor P1 | Zigbee
+Aqara Camera Hub G3 | Camera + hub
+Aqara Doorbell G4 | Video doorbell
+SwitchBot Bot | Button pusher
+SwitchBot Meter Plus | Thermo-hygrometer
+SwitchBot Lock Pro | Smart lock
+Tapo C210 | Pan/tilt camera
+Tapo C425 | Battery camera
+Tapo H200 | Smart hub
+Tapo T110 | Contact sensor
+Eufy Indoor Cam C120 | Camera
+Eufy SoloCam S220 | Solar camera
+Reolink E1 Pro | Indoor camera
+Xiaomi Mi Temperature Monitor 2 | Sensor
+Netatmo Smart Smoke Alarm | Smoke alarm
+Google Nest Protect | Smoke + CO alarm
+Ecobee SmartSensor | Room sensor
+Yale Linus L2 | Smart lock
+Bosch Smart Home Starter Set | Heating kit
+Homematic IP Heizkörperthermostat | Thermostat
+Sonoff ZBDongle-E | Zigbee stick
+Home Assistant Green | Smart home hub
 ## Networking
 AVM FRITZ!Box 7690 | Wi-Fi 7 router
 AVM FRITZ!Box 7590 AX | Wi-Fi 6 router
@@ -420,11 +620,7 @@ Ubiquiti UniFi Dream Machine Pro | Gateway
 Ubiquiti UniFi U7 Pro | Access point
 Synology DS224+ | 2-bay NAS
 Synology DS923+ | 4-bay NAS
-QNAP TS-464 | 4-bay NAS
-Ugreen NASync DXP4800 Plus | 4-bay NAS
-WD Red Plus 8 TB | NAS drive
-Seagate IronWolf 8 TB | NAS drive
-devolo Magic 2 WiFi 6 | Powerline kit
+APC Back-UPS 700VA | UPS
 ## Printers
 HP OfficeJet Pro 9125e | Inkjet multifunction
 HP Smart Tank 7305 | Ink tank printer
@@ -440,10 +636,15 @@ Epson EcoTank ET-8550 | A3 photo printer
 Brother MFC-L3760CDW | Colour LED
 Brother HL-L2445DW | Mono laser
 Brother DCP-L2660DW | Mono laser multifunction
-Brother P-touch D610BT | Label printer
-Bambu Lab A1 mini | 3D printer
-Bambu Lab P1S | 3D printer
-Prusa Core One | 3D printer
+TP-Link Archer T3U | USB Wi-Fi adapter
+TP-Link UE306 | USB-C Ethernet adapter
+TP-Link TL-SG108 | 8-port switch
+TP-Link RE705X | Wi-Fi 6 extender
+TP-Link Tapo L530E | Smart bulb
+Brother TZe-231 Tape | Label tape
+HP 305 Ink Combo | Ink cartridges
+Canon PG-545 XL | Ink cartridge
+Epson 603XL Multipack | Ink cartridges
 ## TV
 LG OLED evo C5 55" | 2025 · 4K 144 Hz
 LG OLED evo C5 65" | 2025 · 4K 144 Hz
@@ -479,20 +680,14 @@ Panasonic Z90B 55" | OLED
 TCL C855 65" | QD-Mini LED
 TCL C805 65" | QD-Mini LED
 TCL C7K 65" | QD-Mini LED
-TCL P755 55" | 4K LED
-Hisense U8N 65" | Mini-LED
-Hisense U7N 55" | Mini-LED
-Hisense A6N 55" | 4K LED
-Xiaomi TV A Pro 55" | QLED
-Samsung The Freestyle 2nd Gen | Portable projector
-Epson EH-LS650 | Laser projector
-XGIMI Horizon S Pro | 4K projector
-XGIMI MoGo 3 Pro | Portable projector
-BenQ W2720i | 4K projector
+Fire TV Omni QLED 55" | Smart TV
+Vogel's TVM 3645 | TV wall mount
+Perlegear Full Motion TV Mount | TV wall mount
+One For All Universal Remote URC7955 | Remote
+Logitech Harmony Companion | Remote
 ## Cameras
 Sony Alpha 7 IV | Full-frame · body
 Sony Alpha 7C II | Full-frame · body
-Sony Alpha 7 V | Full-frame · body
 Sony Alpha 6400 | APS-C · kit
 Sony ZV-E10 II | Vlog camera
 Sony ZV-1 II | Compact vlog
@@ -531,18 +726,6 @@ DJI RS 4 | Camera gimbal
 Insta360 X5 | 360° camera
 Insta360 Ace Pro 2 | Action camera
 Insta360 GO 3S | Mini action cam
-DJI Mini 4 Pro | Drone · under 249 g
-DJI Mini 5 Pro | Drone · 1" sensor
-DJI Air 3S | Drone
-DJI Mavic 4 Pro | Drone
-DJI Neo | Selfie drone
-DJI Flip | Foldable vlog drone
-DJI Avata 2 | FPV drone
-Sony FE 24-70mm F2.8 GM II | Lens
-Sigma 18-50mm F2.8 DC DN Contemporary | Lens
-Tamron 28-75mm F/2.8 Di III VXD G2 | Lens
-Canon RF 50mm F1.8 STM | Lens
-Peak Design Everyday Backpack 20L | Camera bag
 ## Home
 Dyson V11 Absolute | Cordless vacuum
 Dyson V15 Detect Submarine | Vacuum + wet roller
@@ -561,7 +744,6 @@ Roborock F25 Ace | Wet & dry vacuum
 Dreame L40 Ultra | Robot vacuum + mop
 Dreame L10s Ultra Gen 2 | Robot vacuum + mop
 Dreame H14 Pro | Wet & dry vacuum
-Dreame V20 | Cordless vacuum
 Ecovacs Deebot X8 Pro Omni | Robot vacuum + mop
 Ecovacs Deebot T50 Omni | Robot vacuum + mop
 Ecovacs Deebot N30 Omni | Robot vacuum + mop
@@ -587,19 +769,29 @@ Philips Air Performer 8000 | Purifier, fan + heater
 Levoit Core 400S | Air purifier
 Xiaomi Smart Air Purifier 4 Pro | Air purifier
 Stadler Form Oskar Big | Humidifier
-Stadler Form Viktor | Fan heater
-Boneco H700 | Hybrid humidifier
-Rowenta Turbo Silence Extreme+ | Pedestal fan
-De'Longhi Pinguino PAC EX100 | Portable AC
-Midea PortaSplit | Split AC
-Philips 7000 Series Dehumidifier | Dehumidifier
-Laurastar Lift Plus | Steam iron system
-Philips PerfectCare 7000 | Steam generator iron
-Tefal Pro Express Ultimate II | Steam generator iron
-Philips 3000 Series Handheld Steamer | Garment steamer
-Vileda Look & Clean | Window cleaner
-Kärcher WV 6 Plus | Window vacuum
-Leifheit Clean Twist Disc Mop | Mop set
+Lodge Cast Iron Skillet 26 cm | Pan
+ThermoPro TP19H | Meat thermometer
+Vileda Turbo Smart Mop | Mop
+Vileda UltraMax | Mop
+Leifheit Clean Twist M | Mop
+Kärcher WV 2 Plus | Window vacuum
+Swiffer Duster Starter Kit | Duster
+Rubbermaid Reveal Spray Mop | Mop
+Bissell SpotClean Pro | Carpet cleaner
+Bissell CrossWave HydroSteam | Wet & dry
+Hoover H-Free 300 | Cordless vacuum
+Rowenta X-Force Flex 9.60 | Cordless vacuum
+Philips SpeedPro Max | Cordless vacuum
+Brabantia Touch Bin 40 l | Bin
+Simplehuman Sensor Bin | Bin
+Joseph Joseph Totem Bin | Bin
+Wenko Shower Caddy | Bathroom
+Umbra Hub Mirror | Mirror
+Bosch Sensixx Iron | Iron
+Rowenta Steam Iron DW5225 | Iron
+Philips Steam Iron 3000 | Iron
+Tefal Access Steam | Garment steamer
+Leifheit Linomatic 500 | Rotary dryer
 ## Kitchen
 Nespresso Vertuo Pop | Capsule machine
 Nespresso Vertuo Next | Capsule machine
@@ -660,23 +852,74 @@ Tefal Ingenio Unlimited 13-piece | Cookware set
 WMF Profi Plus 5-piece | Cookware set
 Le Creuset Signature Cocotte 24 cm | Cast iron
 Staub Cocotte 24 cm | Cast iron
-Zwilling Pro Knife Block 7-piece | Knives
-Victorinox Swiss Classic Knife Set | Knives
-Fissler Vitavit Premium | Pressure cooker
-Brita Marella XL | Water filter jug
-Severin Raclette RG 9645 | Raclette for 8
-TTM Raclette Grill | Raclette
-Koenig Fondue Set | Fondue
-Weber Spirit EX-325S GBS | Gas grill
-Weber Genesis E-325s | Gas grill
-Weber Master-Touch GBS 57 cm | Charcoal grill
-Weber Q 2800N+ | Gas grill
-Weber Lumin Compact | Electric grill
-Traeger Pro 575 | Pellet grill
-Ooni Koda 16 | Pizza oven
-Ooni Volt 12 | Electric pizza oven
-Ninja Woodfire Pro | Outdoor grill
-Big Green Egg Large | Kamado grill
+Ninja Professional Blender | Blender
+Ninja Blast Portable Blender | Portable blender
+Ninja Foodi 11-in-1 SmartLid | Multicooker
+Cosori Air Fryer Pro LE 4.7 l | Air fryer
+Tefal Easy Fry XXL | Air fryer
+Philips Airfryer Essential XL | Air fryer
+Silit Sicomatic | Pressure cooker
+WMF Kult X Mix & Go | Blender
+WMF Lono Waffle Maker | Waffle maker
+WMF Küchenminis Toaster | Toaster
+Krups Prep&Cook | Kitchen machine
+Braun MultiQuick 7 | Hand blender
+Bosch ErgoMaster | Hand blender
+Philips Milk Frother 3000 | Frother
+Bodum Chambord French Press 1 l | Coffee
+Bialetti Moka Express 6 cups | Coffee
+Hario V60 Starter Kit | Pour-over
+AeroPress Original | Coffee maker
+Timemore C3 | Hand grinder
+Melitta Look Therm | Filter coffee
+Nespresso Barista Recipe Maker | Milk frother
+Emsa Travel Mug | Thermos
+Stanley Quencher H2.0 40 oz | Tumbler
+Stanley Classic Legendary Bottle 1 l | Thermos
+Owala FreeSip 24 oz | Bottle
+Chilly's Bottle 500 ml | Bottle
+Hydro Flask 32 oz | Bottle
+Contigo Autoseal West Loop | Travel mug
+Tupperware Eco Bottle | Bottle
+Lock&Lock Food Containers Set | Storage
+Emsa Clip & Close Set | Storage
+Joseph Joseph Nest 9 | Bowls
+Joseph Joseph Elevate Utensils | Utensils
+OXO Good Grips Salad Spinner | Kitchen tool
+OXO Good Grips POP Containers | Storage
+Microplane Classic Zester | Kitchen tool
+Victorinox Swiss Classic Paring Knife | Knife
+Victorinox Fibrox Chef's Knife | Knife
+Victorinox Tomato Knife | Knife
+Zwilling Four Star Chef's Knife | Knife
+Wüsthof Classic Chef's Knife | Knife
+Global G-2 | Knife
+Kai Shun Classic | Knife
+Tefal Ingenio Easy Plus 10-piece | Cookware
+Tefal Unlimited Frying Pan 28 cm | Pan
+WMF Devil Frying Pan | Pan
+Fissler Adamant Frying Pan | Pan
+Kuhn Rikon Hotpan | Cookware
+Kuhn Rikon Duromatic Inox 5 l | Pressure cooker
+Kuhn Rikon Can Opener | Kitchen tool
+Zyliss Garlic Press | Kitchen tool
+Emile Henry Pie Dish | Bakeware
+Kaiser Springform 26 cm | Bakeware
+Silikomart Silicone Moulds | Bakeware
+KitchenAid Mixing Bowl | Accessory
+Soehnle Page Profi 300 | Kitchen scale
+Salter Digital Scale | Kitchen scale
+Meater 2 Plus | Wireless thermometer
+Weber Grill Brush | BBQ
+Weber iGrill Mini | Thermometer
+Brita Maxtra Pro Filter 6-pack | Water filter
+Brita Style Jug | Water filter jug
+Soda Stream CO2 Quick Connect | Gas cylinder
+Severin Raclette 8 persons | Raclette
+Tefal Gourmet Raclette | Raclette
+Stöckli Fondue Set | Fondue
+Kuhn Rikon Fondue Caquelon | Fondue
+Emsa Thermo Jug | Thermos
 ## Appliances
 Bosch Serie 6 WGG244A40 | Washing machine 9 kg
 Bosch Serie 8 WAV28E44 | Washing machine 9 kg
@@ -699,18 +942,10 @@ V-ZUG Adora SL | Dishwasher
 Bosch Serie 4 KGN39VLEB | Fridge-freezer
 Liebherr CNsdd 5253 | Fridge-freezer
 Samsung RB38C7B5E22 | Fridge-freezer
-Samsung Bespoke RS90F | Side-by-side fridge
 LG GSXV90MCDE | Side-by-side fridge
 Liebherr UIKo 1550 | Under-counter fridge
 Bosch Serie 8 HBG7741B1 | Oven
 Siemens iQ700 HB978GUB1 | Oven
-Electrolux SteamPro | Steam oven
-Bosch Serie 6 PXY675DC1E | Induction hob
-Siemens iQ500 EX875LYC1E | Induction hob
-Caso Wine Comfort 66 | Wine fridge
-Severin KB 8876 | Mini fridge
-Panasonic NN-CD87 | Combi microwave
-Sharp R-860S | Combi microwave
 ## PC Components
 NVIDIA GeForce RTX 5090 | Graphics card
 NVIDIA GeForce RTX 5080 | Graphics card
@@ -740,16 +975,7 @@ ASUS ROG Strix B850-F Gaming | Motherboard
 MSI MAG B650 Tomahawk | Motherboard
 Gigabyte X870E Aorus Elite | Motherboard
 Corsair RM850x | 850 W PSU
-be quiet! Pure Power 12 M 850W | PSU
-Seasonic Focus GX-850 | PSU
-Noctua NH-D15 G2 | CPU cooler
-Arctic Liquid Freezer III 360 | AIO cooler
-be quiet! Dark Rock Pro 5 | CPU cooler
-Fractal Design North | PC case
-Lian Li O11 Dynamic EVO | PC case
-NZXT H6 Flow | PC case
-Corsair 4000D Airflow | PC case
-## Toys & LEGO
+## Toys & Games
 LEGO Technic Ferrari SF-24 F1 | 42207
 LEGO Technic Lamborghini Sián FKP 37 | 42115
 LEGO Technic Porsche 911 GT3 RS | 42156
@@ -795,19 +1021,162 @@ LOL Surprise Mega Ball | Collectible
 Pokémon TCG Elite Trainer Box | Trading cards
 Magic: The Gathering Commander Deck | Trading cards
 Catan | Board game
-Ticket to Ride Europe | Board game
-Carcassonne | Board game
-Wingspan | Board game
-UNO | Card game
-Jungle Speed | Party game
-Nerf Elite 2.0 Commander | Blaster
-Sphero BOLT+ | Coding robot
-LEGO Education SPIKE Essential | Coding kit
-VTech KidiZoom Smartwatch Max | Kids' watch
-Xplora X6 Play | Kids' smartwatch
-Micro Maxi Deluxe Scooter | Kids' scooter
-Puky Balance Bike LR M | Balance bike
-Hape Wooden Kitchen | Play kitchen
+Tonies Creative-Tonie | Kids audio figure
+Tonies Paw Patrol Tonie | Kids audio figure
+Tonies Benjamin Blümchen Tonie | Kids audio figure
+Tonies Bobo Siebenschläfer Tonie | Kids audio figure
+Tonies Die Schule der magischen Tiere Tonie | Kids audio figure
+Tonies Der Grüffelo Tonie | Kids audio figure
+LEGO Classic Grosse Bausteine-Box | 10698
+LEGO Classic Bausteine Kreativ-Box | 11034
+LEGO Duplo Zahlenzug | 10954
+LEGO Duplo Grosser Bauernhof | 10952
+LEGO Duplo Peppa Wutz Geburtstagshaus | 10433
+LEGO City Polizei-Verfolgungsjagd | Set
+LEGO City Feuerwehrauto | Set
+LEGO City Raumbasis | Set
+LEGO Technic Monster Jam | Set
+LEGO Technic Land Rover Defender 90 | 42176
+LEGO Technic Mercedes-AMG F1 W14 | 42171
+LEGO Technic Liebherr Bagger | 42100
+LEGO Friends Freundschaftsbaumhaus | 42652
+LEGO Friends Tierrettungsstation | Set
+LEGO Disney Arielles Unterwasserpalast | Set
+LEGO Disney Frozen Elsas Eispalast | Set
+LEGO Harry Potter Hogwarts Express | Set
+LEGO Harry Potter Grosse Halle | 76435
+LEGO Star Wars X-Wing Starfighter | Set
+LEGO Star Wars Mandalorian N-1 Starfighter | Set
+LEGO Star Wars R2-D2 | 75379
+LEGO Star Wars Darth Vader Helm | 75304
+LEGO Marvel Avengers Tower | 76269
+LEGO Marvel Spider-Man Figur | Set
+LEGO Ninjago Drachenstein-Tempel | Set
+LEGO Minecraft Das Bienenhäuschen | Set
+LEGO Super Mario Abenteuer mit Mario | Starter
+LEGO Icons Sukkulenten | 10309
+LEGO Icons Kirschblüten | 10369
+LEGO Icons Mini Orchidee | 10343
+LEGO Icons Porsche 911 | 10295
+LEGO Icons Lord of the Rings Rivendell | 10316
+LEGO Icons Eiffel Tower | 10307
+LEGO Art The Starry Night | 21333
+LEGO Ideas Jazz Club | 10312
+LEGO Architecture Taj Mahal | 21056
+LEGO Speed Champions Porsche 963 | 76916
+LEGO Botanicals Pretty Pink Flower Bouquet | 10342
+LEGO Creator 3in1 Weltraum-Astronaut | 31152
+LEGO Creator 3in1 Tierische Freunde | Set
+LEGO Wednesday Wednesdays und Enids Zimmer | Set
+LEGO Animal Crossing Nooks Laden | Set
+LEGO Sonic Supersonic Tornado | Set
+LEGO Advent Calendar City 2026 | Advent calendar
+LEGO Advent Calendar Star Wars 2026 | Advent calendar
+LEGO Advent Calendar Harry Potter 2026 | Advent calendar
+Playmobil Adventskalender 2026 | Advent calendar
+Playmobil City Life Moderne Schule | Play set
+Playmobil Asterix Gallisches Dorf | Play set
+Playmobil 1.2.3 Bauernhof | Play set
+Playmobil Polizei-Einsatzwagen | Play set
+Schleich Horse Club Reitschule | Play set
+Schleich Wild Life Dinosaurier Set | Play set
+Hot Wheels Track Builder Set | Track
+Hot Wheels Monster Trucks | 5-pack
+Matchbox 9-Pack | Cars
+Carrera GO!!! Nintendo Mario Kart | Race track
+Carrera First Paw Patrol | Race track
+Paw Patrol Lookout Tower | Play set
+Paw Patrol Chase Fahrzeug | Vehicle
+Peppa Pig Spielhaus | Play set
+Barbie Fashionistas Puppe | Doll
+Barbie Traum-Camper | Camper
+Rainbow High Puppe | Doll
+Baby Born Puppe | Doll
+Squishmallows 30 cm | Plush
+Steiff Teddybär Classic | Plush
+Jellycat Bashful Bunny | Plush
+Sigikid Kuscheltier | Plush
+Fisher-Price Lachen & Lernen Hündchen | Baby toy
+Fisher-Price Rock-a-Stack | Baby toy
+VTech Tut Tut Baby Flitzer Garage | Toddler toy
+VTech Kidizoom Duo DX | Kids camera
+VTech Kidizoom Studio | Kids camera
+Vtech Lernlaptop | Learning toy
+Tiptoi Buch Wir lernen Zahlen | Learning book
+Tiptoi Puzzle Weltkarte | Learning puzzle
+Kosmos Experimentierkasten Chemie C1000 | Science kit
+Kosmos Die Kristallzucht | Science kit
+Clementoni Galileo Science Lab | Science kit
+Snap Circuits Junior | Electronics kit
+Magformers Basic Set 30 | Magnetic tiles
+Geomag Classic 93 | Magnetic set
+Tegu Magnetic Wooden Blocks | Building set
+Plus-Plus Big Basic | Building set
+Hape Musical Instruments Set | Toddler toy
+Brio Railway Starter Set | Train
+Brio Smart Tech Engine | Train
+Grimm's Rainbow 12-piece | Wooden toy
+Haba My First Orchard | First game
+Djeco Puzzle | Kids puzzle
+Crayola Super Tips 100 | Markers
+Stabilo Woody 3 in 1 | Pencils
+Play-Doh Super Color Pack | Modelling dough
+Hama Beads Maxi Box | Beads
+Aquabeads Starter Set | Beads
+Kinetic Sand Sandbox Set | Sand play
+Bunch O Balloons | Water balloons
+Nerf N Series Infinite | Blaster
+Nerf Elite 2.0 Echo | Blaster
+Holy Stone HS175D | Toy drone
+DJI Tello | Toy drone
+Sphero Mini | Robot ball
+Makeblock mBot Neo | Coding robot
+Ravensburger Puzzle 1000 Teile Schweiz | Jigsaw
+Ravensburger Krypt Puzzle | 654 pieces
+Clementoni Puzzle 1000 | Jigsaw
+Schmidt Puzzle 1000 Thomas Kinkade | Jigsaw
+Ravensburger Das verrückte Labyrinth | Board game
+Ravensburger Scotland Yard | Board game
+Ravensburger Malefiz | Board game
+Ravensburger Memory | Card game
+Kosmos Die Siedler von Catan | Board game
+Kosmos Catan Erweiterung Seefahrer | Expansion
+Kosmos EXIT Das Spiel – Die verlassene Hütte | Escape game
+Kosmos Die Crew | Card game
+Kosmos Kluster | Magnetic game
+Hans im Glück Carcassonne | Board game
+Pegasus Spiele Azul | Board game
+Pegasus Spiele Codenames | Party game
+Asmodee Dixit | Party game
+Asmodee Dobble | Card game
+Asmodee 7 Wonders | Board game
+Asmodee Splendor | Board game
+Asmodee Unlock! | Escape game
+Asmodee Ticket to Ride Schweiz | Board game
+Asmodee Cascadia | Board game
+Asmodee Wingspan Europa | Expansion
+Asmodee Exploding Kittens | Card game
+Asmodee Pandemic | Co-op game
+Hasbro Monopoly Classic | Board game
+Hasbro Monopoly Schweiz | Swiss edition
+Hasbro Cluedo | Board game
+Hasbro Jenga | Stacking game
+Hasbro Twister | Party game
+Hasbro Vier gewinnt | Kids game
+Mattel UNO Flip | Card game
+Mattel UNO Show 'em No Mercy | Card game
+Mattel Phase 10 | Card game
+Mattel Pictionary Air | Party game
+Mattel Skip-Bo | Card game
+Amigo Halli Galli | Kids game
+Amigo 6 nimmt! | Card game
+Zoch Heckmeck | Dice game
+Haba Tier auf Tier | Kids game
+Haba Obstgarten | Kids game
+Jass Karten Schweizer Blatt | Swiss card game
+Jass Teppich | Swiss card mat
+Brändi Dog | Swiss board game
+Hitster | Music party game
 ## Sports & Outdoor
 Peloton Bike+ | Smart bike
 Wahoo KICKR Core | Smart trainer
@@ -821,7 +1190,6 @@ Theragun Pro Plus | Massage gun
 Theragun Mini | Massage gun
 Hyperice Normatec Go | Compression
 Bowflex SelectTech 552 | Dumbbells
-Gymondo 12 months | Fitness subscription
 WalkingPad X25 | Walking treadmill
 Decathlon Domyos T900D | Treadmill
 Black Diamond Spot 400 | Headlamp
@@ -846,17 +1214,47 @@ Burton Custom Camber | Snowboard
 Mammut Barryvox S | Avalanche transceiver
 Black Diamond Recon LT Avy Safety Set | Avalanche kit
 Ortovox Free Rider 22 Avabag | Avalanche backpack
-Petzl Corax | Climbing harness
-La Sportiva Solution | Climbing shoes
-Wilson Pro Staff 97 v14 | Tennis racket
-Head Speed MP | Tennis racket
-Babolat Pure Aero | Tennis racket
-Bullpadel Vertex 04 | Padel racket
-Adidas Metalbone 3.4 | Padel racket
-Callaway Paradym Ai Smoke Driver | Golf club
-Bushnell Pro X3 | Golf rangefinder
-Victorinox Swiss Champ | Swiss Army knife
-Victorinox Climber | Swiss Army knife
+Gaiam Yoga Mat 6 mm | Yoga
+Manduka PRO Yoga Mat | Yoga
+Lululemon The Mat 5mm | Yoga
+Blackroll Standard | Foam roller
+Blackroll Mini Flow | Foam roller
+TriggerPoint GRID | Foam roller
+Theragun Relief | Massage gun
+Renpho Massage Gun | Massage gun
+Bowflex SelectTech 1090 | Dumbbells
+TRX Home2 System | Suspension trainer
+Sportstech sBike | Cardio
+Hydro Flask Wide Mouth 32 oz | Bottle
+Nalgene Wide Mouth 1 l | Bottle
+CamelBak Chute Mag | Bottle
+Salomon Active Skin 4 | Running vest
+Nathan Running Belt | Running
+Flipbelt Classic | Running belt
+Compressport Calf Sleeves | Running
+Black Diamond Trail Poles | Hiking
+Osprey Talon 22 | Backpack
+Deuter Speed Lite 21 | Backpack
+Vaude Brenta 24 | Backpack
+Sea to Summit Ultra-Sil Day Pack | Backpack
+Therm-a-Rest Z Lite Sol | Sleeping mat
+Sea to Summit Aeros Pillow | Camping pillow
+Nordisk Sleeping Bag | Sleeping bag
+BioLite CampStove 2+ | Camping stove
+Primus Lite+ | Camping stove
+LifeStraw Personal Water Filter | Outdoor
+Garmin eTrex 22x | GPS
+Swiss Army Knife Huntsman | Pocket knife
+Opinel N°8 | Pocket knife
+Ski Wax Kit Toko | Ski care
+Smith Squad Goggles | Ski goggles
+Uvex Downhill 2000 | Ski goggles
+Uvex Wanted Visor Helmet | Ski helmet
+Hestra Army Leather Heli Ski | Ski gloves
+Reusch Ski Gloves | Ski gloves
+Odlo Active Warm Base Layer | Base layer
+Icebreaker Merino 200 Oasis | Base layer
+X-Bionic Energy Accumulator | Base layer
 ## Bikes & E-mobility
 Xiaomi Electric Scooter 4 Pro | E-scooter
 Segway Ninebot Max G2 | E-scooter
@@ -881,13 +1279,23 @@ Garmin Varia RTL515 | Radar tail light
 Lezyne Macro Drive 1300XXL | Bike light
 Sigma Buster 1100 | Bike light
 Thule EasyFold XT 2 | Bike carrier
-Thule Chariot Cross 2 | Bike trailer
-Thule Yepp 2 Maxi | Child bike seat
-Ortlieb Back-Roller Classic | Panniers
-Giro Syntax MIPS | Bike helmet
-Livall EVO21 | Smart helmet
-Wahoo ELEMNT Roam V2 | Bike computer
-Hammerhead Karoo 3 | Bike computer
+Hornit Bike Bell | Bike
+Xiaomi Mi Portable Air Pump 2 | Compressor
+Bike Pump Topeak JoeBlow Sport | Bike
+SKS Rennkompressor | Bike pump
+Topeak Mini 20 Pro | Bike tool
+Lezyne Pressure Drive | Mini pump
+Schwalbe Marathon Plus 28" | Bike tyre
+Continental Grand Prix 5000 | Bike tyre
+Abus Hyban 2.0 | Bike helmet
+Uvex Air Wing Kids | Kids helmet
+Busch & Müller IXON Core | Bike light
+Sigma Aura 80 | Bike light
+Cateye Volt 800 | Bike light
+Garmin Edge Explore 2 | Bike computer
+Ortlieb Handlebar-Pack | Bikepacking
+Rockbros Bike Bag | Bike bag
+Muc-Off Bike Cleaner | Bike care
 ## Tools & DIY
 Bosch Professional GSR 18V-55 | Cordless drill
 Bosch Professional GBH 18V-22 | Rotary hammer
@@ -923,16 +1331,65 @@ Knipex Cobra 250 | Pliers
 Knipex Pliers Wrench 180 | Pliers
 PB Swiss Tools SwissGrip Set | Screwdrivers
 Stanley FatMax 8 m | Tape measure
-Leica DISTO D2 | Laser distance meter
-Bosch Zamo IV | Laser distance meter
-Fluke 117 | Multimeter
-Kärcher K 5 Power Control | Pressure washer
-Kärcher K 4 Compact | Pressure washer
-Nilfisk Core 140 | Pressure washer
-Wolfcraft Master 750 | Workbench
-Kreg Pocket-Hole Jig 720 | Jig
-Tesa Powerstrips | Adhesive
-Wagner Flexio 590 | Paint sprayer
+Bosch Universal Drill 18V | Drill
+Bosch IXO 7 | Cordless screwdriver
+Bosch PLR 30 C | Laser distance meter
+Bosch Quigo Green | Cross-line laser
+Bosch Atino | Line laser
+Bosch UniversalDetect | Wall scanner
+Bosch Easy Impact 18V-40 | Impact drill
+Bosch PST 18 LI | Jigsaw
+Bosch PSM 18 LI | Multi sander
+Bosch UniversalMulti 12 | Multi-tool
+Bosch Universal Glue Pen | Glue pen
+Bosch 103-piece Accessory Set | Drill bits
+Makita DF331DZ | Cordless drill
+Makita DDF485Z | Cordless drill
+Makita BL1850B Battery | 18V 5 Ah
+Makita DC18RC Charger | Charger
+Makita P-90532 Accessory Set | 227-piece
+Einhell TE-CI 18 Li | Impact driver
+Einhell PXC Battery 4 Ah | Battery
+Black+Decker Dustbuster | Hand vacuum
+Black+Decker Matrix | Multi-tool
+Dremel 3000 | Multi-tool
+Dremel Versa | Cleaning tool
+Ryobi ONE+ Battery 4 Ah | Battery
+DeWalt DCD777 | Drill
+DeWalt Tough System Box | Toolbox
+Wera Kraftform Plus Lasertip | Screwdriver set
+Wera Bit-Check 30 | Bit set
+Wiha SoftFinish Set | Screwdriver set
+Knipex Pliers Set 3-piece | Pliers
+Knipex Cobra XS | Pliers
+Gedore Socket Set | Ratchet set
+Hazet Socket Set | Ratchet set
+Stanley Tool Set 142-piece | Tool set
+Stanley Cutter FatMax | Knife
+Stanley Spirit Level 60 cm | Level
+Fiskars Hatchet | Axe
+Victorinox Spirit MX | Multi-tool
+Leatherman Wave+ | Multi-tool
+Leatherman Skeletool | Multi-tool
+Gerber Dime | Multi-tool
+Tesa Klebeband Set | Tape
+Fischer Duopower Dübel Set | Wall plugs
+Pattex Montagekleber | Adhesive
+UHU Alleskleber | Glue
+WD-40 Multi-Use 400 ml | Spray
+Gardena Tool Holder | Storage
+Stanley FatMax Ladder | Ladder
+Hailo Stehleiter 3 Stufen | Ladder
+Rothenberger Pipe Wrench | Tool
+Bosch GLM 50-27 CG | Laser measure
+Wagner Wall Sprayer W 450 | Paint sprayer
+Scheppach HM100Lxu | Mitre saw
+Proxxon Micromot | Mini drill
+Storch Paint Roller Set | Painting
+Kärcher Battery Pressure Washer KHB 6 | Pressure washer
+Head Torch Ledlenser H7R Core | Head torch
+Ledlenser P7R Core | Torch
+Maglite ML150LR | Torch
 ## Garden
 Husqvarna Automower 305 | Robot mower
 Husqvarna Automower 430X NERA | Robot mower
@@ -960,15 +1417,7 @@ Stihl GTA 26 | Garden pruner saw
 Gardena AquaRoll | Hose reel set
 Gardena smart Irrigation Control | Watering system
 Gardena ClassicCut | Hand pruner
-Felco 2 | Secateurs
-Fiskars Xact | Spade
-Kärcher OC 3 | Portable pressure washer
-Weber Smokefire EX6 | Pellet grill
-Outdoorchef Arosa 570 | Charcoal grill
-Solo Stove Bonfire 2.0 | Fire pit
-Hozelock Pico Reel | Hose reel
-Keter Store-It-Out Max | Garden storage
-## Fashion & Shoes
+## Fashion
 On Cloudmonster 2 | Running shoe
 On Cloud 6 | Everyday sneaker
 On Cloudsurfer Next | Running shoe
@@ -1017,20 +1466,65 @@ Uniqlo Ultra Light Down | Down jacket
 Levi's 501 Original | Jeans
 Levi's 511 Slim | Jeans
 Ralph Lauren Custom Fit Polo | Polo
-Tommy Hilfiger Essential Cotton Sweater | Knitwear
-Calvin Klein Cotton Stretch Boxers 3-pack | Underwear
-Hugo Boss Suit Slim Fit | Suit
-Freitag F512 Bob | Messenger bag
-Rimowa Essential Cabin | Suitcase
-Samsonite Proxis Spinner 55 | Suitcase
-Samsonite Lite-Box ALU 69 | Suitcase
-Tumi Alpha Bravo Backpack | Backpack
-Herschel Little America | Backpack
-Fjällräven Kånken | Backpack
-Victorinox Werks Traveler 6.0 | Suitcase
-Ray-Ban Wayfarer | Sunglasses
-Ray-Ban Meta Wayfarer (Gen 2) | Smart glasses
-Oakley Sutro | Sport sunglasses
+Levi's Housemark Tee 2-pack | T-shirts
+Levi's 511 Slim Jeans | Jeans
+Levi's Trucker Jacket | Jacket
+Tommy Hilfiger Essential Hoodie | Hoodie
+Calvin Klein Monogram T-Shirt | T-shirt
+Calvin Klein Modern Cotton Bralette | Underwear
+Hugo Boss Cotton Boxer 3-pack | Underwear
+Puma Basic Socks 6-pack | Socks
+Falke Family Socks 3-pack | Socks
+Burlington Lord Socks | Socks
+Under Armour Tech 2.0 T-Shirt | Sportswear
+Nike Dri-FIT Running Shirt | Sportswear
+Adidas Essentials Tracksuit | Tracksuit
+Champion Reverse Weave Hoodie | Hoodie
+Carhartt WIP Chase Hoodie | Hoodie
+Carhartt Acrylic Watch Hat | Beanie
+The North Face Salty Dog Beanie | Beanie
+Columbia Bugaboo Gloves | Gloves
+Roeckl Leather Gloves | Gloves
+Barts Fleece Hat Kids | Kids beanie
+Amazon Essentials Puffer Jacket | Jacket
+Amazon Essentials Fleece Jacket | Fleece
+Wrangler Authentic Regular Fit | Jeans
+G-Star Raw 3301 Slim | Jeans
+Tommy Jeans Scanton Slim | Jeans
+Polo Ralph Lauren Cable Knit Sweater | Knitwear
+Lacoste Classic Polo L.12.12 | Polo
+Fred Perry Twin Tipped Polo | Polo
+Superdry Vintage Logo Hoodie | Hoodie
+Napapijri Rainforest Jacket | Jacket
+Jack & Jones Essentials Hoodie | Hoodie
+Only Onlemily Jeans | Jeans
+Vero Moda Blouse | Blouse
+Skechers Go Walk Slip-ins | Shoes
+Skechers D'Lites | Sneaker
+Crocs Classic Clog | Clog
+Crocs Classic Lined Clog | Clog
+Havaianas Top Flip-Flops | Sandals
+Adidas Adilette Comfort | Slides
+Nike Victori One Slides | Slides
+Vans Old Skool | Sneaker
+Converse Chuck Taylor All Star | Sneaker
+Puma Suede Classic XXI | Sneaker
+Reebok Club C 85 | Sneaker
+Asics Gel-Kayano 32 | Running shoe
+Saucony Ride 18 | Running shoe
+Merrell Moab 3 GTX | Hiking shoe
+Columbia Newton Ridge Plus | Hiking boot
+Kamik Snowbound Kids | Winter boot
+Herschel Heritage Backpack | Backpack
+Eastpak Padded Pak'r | Backpack
+Fjällräven Kånken Mini | Backpack
+Samsonite Guardit 2.0 Laptop Backpack | Backpack
+Bellroy Hide & Seek Wallet | Wallet
+Secrid Miniwallet | Wallet
+Ridge Wallet | Wallet
+Ray-Ban Clubmaster | Sunglasses
+Ray-Ban Aviator Classic | Sunglasses
+Oakley Holbrook | Sunglasses
 ## Watches & Jewellery
 Swatch MoonSwatch Mission to the Moon | Omega x Swatch
 Swatch Blancpain Scuba Fifty Fathoms | Swatch collab
@@ -1052,12 +1546,12 @@ TAG Heuer Formula 1 | Quartz
 Victorinox I.N.O.X. | Rugged watch
 Seiko 5 Sports SRPD | Automatic
 Casio G-Shock GA-2100 | Digital-analogue
-Casio G-Shock GW-M5610 | Solar radio
-Citizen Promaster Diver | Eco-Drive
-Fossil Gen 6 Hybrid | Hybrid smartwatch
-Pandora Moments Snake Chain Bracelet | Bracelet
-Swarovski Millenia Necklace | Necklace
-Thomas Sabo Charm Club Bracelet | Bracelet
+Casio F-91W | Digital watch
+Casio A168WA | Digital watch
+Casio Vintage A158WEA | Digital watch
+Timex Weekender | Watch
+Fossil Grant Chronograph | Watch
+Daniel Wellington Classic | Watch
 ## Fragrance & Beauty
 Dior Sauvage EDT 100 ml | Men's fragrance
 Dior Sauvage Elixir 60 ml | Men's fragrance
@@ -1097,17 +1591,81 @@ Dyson Airwrap i.d. | Multi-styler
 Dyson Airstrait | Wet-to-dry straightener
 Dyson Supersonic HD15 | Hair dryer
 ghd Platinum+ | Straightener
-ghd Helios | Hair dryer
-ghd Duet Style | Hot air styler
-Shark FlexStyle | Multi-styler
-Shark SpeedStyle | Hair dryer
-BaByliss Air Wand | Hot air styler
-Remington ONE Dry & Style | Hot air brush
-Philips Lumea IPL 9900 | IPL hair removal
-Braun Silk-expert Pro 5 IPL | IPL hair removal
-Foreo Luna 4 | Facial cleansing
-Foreo UFO 3 | LED face mask
-CurrentBody LED Light Therapy Mask | LED face mask
+CeraVe Hydrating Cleanser 473 ml | Cleanser
+CeraVe Foaming Cleanser 473 ml | Cleanser
+CeraVe PM Facial Moisturising Lotion | Moisturiser
+CeraVe Eye Repair Cream | Eye cream
+La Roche-Posay Toleriane Double Repair | Moisturiser
+La Roche-Posay Cicaplast Baume B5+ | Balm
+La Roche-Posay Effaclar Gel | Cleanser
+La Roche-Posay Hyalu B5 Serum | Serum
+Bioderma Sensibio H2O 500 ml | Micellar water
+Garnier Micellar Water 700 ml | Micellar water
+Eucerin Hyaluron-Filler Day | Moisturiser
+Nivea Creme 400 ml | Cream
+Vichy Minéral 89 | Serum
+Avène Cicalfate+ | Cream
+The Ordinary Hyaluronic Acid 2% + B5 | Serum
+The Ordinary Glycolic Acid 7% Toning | Toner
+The Ordinary Retinol 0.5% in Squalane | Serum
+Paula's Choice 2% BHA Liquid Exfoliant | Exfoliant
+COSRX Advanced Snail 96 Mucin Essence | K-beauty
+COSRX Low pH Good Morning Gel Cleanser | K-beauty
+Beauty of Joseon Relief Sun SPF50+ | Sunscreen
+Anua Heartleaf 77% Toner | K-beauty
+Skin1004 Centella Ampoule | K-beauty
+Laneige Lip Sleeping Mask | Lip care
+Medicube Zero Pore Pad | K-beauty
+Some By Mi AHA BHA PHA Toner | K-beauty
+Clinique Dramatically Different Moisturizing Lotion+ | Moisturiser
+Estée Lauder Double Wear Foundation | Make-up
+Maybelline Lash Sensational Sky High | Mascara
+Maybelline Fit Me Concealer | Make-up
+L'Oréal Paris Telescopic Mascara | Mascara
+NYX Butter Gloss | Lip gloss
+essence Lash Princess Mascara | Mascara
+Catrice True Skin Foundation | Make-up
+MAC Ruby Woo Lipstick | Lipstick
+Too Faced Better Than Sex Mascara | Mascara
+Urban Decay All Nighter Setting Spray | Make-up
+Huda Beauty Easy Bake Powder | Make-up
+Real Techniques Everyday Essentials | Brushes
+Beautyblender Original | Sponge
+Tangle Teezer The Original | Hairbrush
+Wet Brush Original Detangler | Hairbrush
+Olaplex No. 7 Bonding Oil | Hair oil
+Olaplex No. 4 Shampoo | Shampoo
+K18 Leave-In Molecular Repair Mask | Hair mask
+Moroccanoil Treatment 100 ml | Hair oil
+Elvital Dream Length Hair Oil | Hair oil
+Gisou Honey Infused Hair Oil | Hair oil
+Kérastase Nutritive Shampoo | Shampoo
+Batiste Dry Shampoo | Dry shampoo
+Philips Hair Straightener BHS378 | Straightener
+Remington Pro-Luxe Curling Wand | Curler
+Revlon One-Step Volumizer Plus | Hot air brush
+BaByliss Curl Secret | Auto curler
+Rowenta Pro Master | Hair dryer
+Hugo Boss The Scent EDT 100 ml | Fragrance
+Calvin Klein CK One EDT 200 ml | Fragrance
+Davidoff Cool Water EDT 125 ml | Fragrance
+Lacoste L.12.12 Blanc EDT 100 ml | Fragrance
+Versace Eros EDT 100 ml | Fragrance
+Versace Bright Crystal EDT 90 ml | Fragrance
+Azzaro The Most Wanted EDP 100 ml | Fragrance
+Paco Rabanne Invictus EDT 100 ml | Fragrance
+Paco Rabanne Phantom EDT 100 ml | Fragrance
+Viktor & Rolf Flowerbomb EDP 50 ml | Fragrance
+Gucci Bloom EDP 100 ml | Fragrance
+Gucci Guilty Pour Homme EDT 90 ml | Fragrance
+Burberry Her EDP 100 ml | Fragrance
+Montblanc Explorer EDP 100 ml | Fragrance
+Jil Sander Sun EDT 75 ml | Fragrance
+Narciso Rodriguez For Her EDP 50 ml | Fragrance
+Thierry Mugler Angel EDP 50 ml | Fragrance
+Givenchy L'Interdit EDP 80 ml | Fragrance
+Guerlain La Petite Robe Noire EDP 100 ml | Fragrance
+Clinique Happy EDP 100 ml | Fragrance
 ## Personal Care
 Philips Sonicare DiamondClean 9000 | Electric toothbrush
 Philips Sonicare 4100 | Electric toothbrush
@@ -1131,13 +1689,6 @@ Wahl Magic Clip Cordless | Hair clipper
 Braun Silk-épil 9 Flex | Epilator
 Philips Lumea Prestige | IPL hair removal
 Withings BPM Connect | Blood pressure monitor
-Omron M7 Intelligence IT | Blood pressure monitor
-Braun ThermoScan 7 | Ear thermometer
-Beurer EM 59 Heat | TENS device
-Beurer HK 125 | Heating pad
-Medisana Shiatsu Massage Seat | Massage
-Philips SmartSleep Wake-up Light | Sunrise alarm
-Loftie Clock | Sleep clock
 ## Baby & Kids
 Cybex Priam | Pram
 Cybex Gazelle S | Pram
@@ -1158,13 +1709,35 @@ Philips Avent Baby Monitor SCD923 | Baby monitor
 Nanit Pro | Smart baby monitor
 Owlet Dream Sock | Smart sock
 Philips Avent Steam Steriliser | Bottle steriliser
-Tommee Tippee Perfect Prep | Formula maker
-Medela Swing Maxi | Breast pump
-Elvie Stride | Breast pump
-Pampers Premium Protection Monthly Box | Nappies
-Hipp Organic Combiotik 4 x 600 g | Formula
-Skip Hop Activity Center | Play centre
-## Furniture & Office
+Philips Avent Natural Bottles Set | Baby
+MAM Easy Start Anti-Colic | Baby
+Tommee Tippee Closer to Nature | Baby
+Babymoov Yoyo+ Baby Monitor | Monitor
+Motorola VM65 Connect | Monitor
+Angelcare AC327 | Monitor
+Hauck Alpha+ High Chair | High chair
+Fillikid Playpen | Playpen
+Safety 1st Stair Gate | Safety
+Reer Socket Covers | Safety
+Kinderkraft Walker | Toddler
+Skip Hop Zoo Backpack | Kids bag
+Sterntaler Hat | Kids clothing
+Sterntaler Snowsuit | Kids clothing
+Playshoes Rain Suit | Kids clothing
+Sleepyhead Deluxe+ | Baby nest
+Ergobaby Embrace | Carrier
+Manduca XT | Carrier
+Lässig Changing Bag | Diaper bag
+Skip Hop Changing Pad | Diaper bag
+Joie i-Spin 360 | Car seat
+Joie Mytrax Flex | Stroller
+Hauck Rapid 4D | Stroller
+Puky Pukylino | Ride-on
+Puky Wutsch | Balance bike
+Wishbone 3-in-1 Bike | Balance bike
+Micro Mini Deluxe Scooter | Kids scooter
+Globber Primo | Kids scooter
+## Office & Furniture
 Herman Miller Aeron | Office chair
 Herman Miller Embody | Office chair
 Steelcase Gesture | Office chair
@@ -1174,18 +1747,49 @@ Flexispot E7 | Standing desk
 Flexispot E5 | Standing desk
 IKEA Bekant | Standing desk
 Ergotron LX | Monitor arm
-Logitech Mevo Start | Streaming camera
 Tempur Original Pillow | Pillow
 Emma One Mattress 90 × 200 | Mattress
 Simba Hybrid Pro 160 × 200 | Mattress
-Bico Exclusiv | Mattress
-Nespresso Gift Card CHF 50 | Gift card
-Philips Hue Signe Floor Lamp | Smart lamp
-Vitra Eames Plastic Chair | Chair
-Fatboy Original | Bean bag
-## Travel & Car
+Leitz WOW Ordner | Binder
+Leitz Click & Store Box | Storage
+Pelikan Pelikano Fountain Pen | Pen
+Lamy Safari Fountain Pen | Pen
+Lamy 2000 | Pen
+Caran d'Ache 849 Ballpoint | Swiss pen
+Caran d'Ache Prismalo 40 | Swiss colour pencils
+Caran d'Ache Neocolor II | Swiss crayons
+Faber-Castell Polychromos 36 | Colour pencils
+Stabilo Boss Original 10-pack | Highlighters
+Stabilo Point 88 Set | Fineliners
+Pilot FriXion Ball | Erasable pens
+Staedtler Mars Lumograph Set | Pencils
+Moleskine Classic Notebook | Notebook
+Leuchtturm1917 A5 Dotted | Notebook
+Rocketbook Core | Smart notebook
+Post-it Notes 12-pack | Sticky notes
+Brother P-touch H110 | Label maker
+Dymo LetraTag 200B | Label maker
+Fellowes Powershred 8Cd | Shredder
+Swingline Stapler | Stapler
+Casio fx-991DE CW | Calculator
+Texas Instruments TI-30X Pro | Calculator
+Texas Instruments TI-84 Plus CE-T | Graphing calculator
+Herlitz Schulranzen | School bag
+Ergobag Pack | School bag
+Scout Sunny II | School bag
+Satch Pack | School bag
+McNeill Ergo Primero | School bag
+TaoTronics LED Desk Lamp | Lamp
+## Gift Cards & Travel
 Swiss half-fare travelcard (Halbtax) | SBB
 Swiss motorway vignette 2027 | e-vignette
+Audible Abo 12 Monate | Audiobook subscription
+Amazon Gift Card | Gift card
+PlayStation Store Guthaben 50 CHF | Gift card
+Nintendo eShop Card 50 CHF | Gift card
+Xbox Gift Card 50 CHF | Gift card
+Nintendo Switch Online 12 Monate | Subscription
+## Travel & Car
 Thule Motion 3 XL | Roof box
 Thule Force XT L | Roof box
 Garmin DriveSmart 76 | Sat nav
@@ -1199,11 +1803,131 @@ Wallbox Pulsar Max | EV charger
 Easee Charge Lite | EV charger
 Anker SOLIX C1000 | Portable power station
 EcoFlow DELTA 3 Plus | Portable power station
-EcoFlow RIVER 3 | Portable power station
-Jackery Explorer 1000 v2 | Portable power station
-Zendure SolarFlow 800 Pro | Balcony battery
-Anker SOLIX Solarbank 2 E1600 Pro | Balcony battery
-Samsonite Travel Pillow | Travel accessory
-Bose QuietComfort Ultra Earbuds (2nd Gen) | Travel earbuds
-Apple AirTag 2 Luggage Bundle | Travel tracker
-Skross World Adapter MUV | Travel adapter
+Osram Night Breaker H7 | Headlight bulbs
+Philips X-tremeVision H7 | Headlight bulbs
+Bosch Aerotwin Wiper Blades | Wipers
+Michelin Tyre Inflator | Compressor
+Noco Boost GB50 | Jump starter
+Ctek MXS 5.0 | Battery charger
+Dashcam Garmin Mini 2 | Dash cam
+Viofo A229 Pro | Dash cam
+Garmin Dash Cam 47 | Dash cam
+Belkin Car Charger 37 W | USB-C
+Anker Car Charger 50 W | USB-C
+Hama Car Phone Holder | Mount
+Snow Chains Pewag Servo | Snow chains
+Thule Easy-fit Snow Chains | Snow chains
+Meguiar's Gold Class Car Wash | Car care
+## Books
+Joël Dicker – Die Wahrheit über den Fall Harry Quebert | Swiss author · paperback
+Joël Dicker – Das Verschwinden der Stephanie Mailer | Swiss author
+Joël Dicker – Die Affäre Alaska Sanders | Swiss author
+Joël Dicker – Ein ungezähmtes Tier | Swiss author
+Joël Dicker – Das Geheimnis von Zimmer 622 | Swiss author
+Martin Suter – Melody | Swiss author
+Martin Suter – Small World | Swiss author
+Martin Suter – Allmen und die Libellen | Swiss author
+Martin Suter – Der Koch | Swiss author
+Rolf Dobelli – Die Kunst des klaren Denkens | Swiss author
+Rolf Dobelli – Die Kunst des guten Lebens | Swiss author
+Pedro Lenz – Der Goalie bin ig | Swiss author · Mundart
+Friedrich Dürrenmatt – Der Besuch der alten Dame | Swiss classic
+Friedrich Dürrenmatt – Der Richter und sein Henker | Swiss classic
+Max Frisch – Homo faber | Swiss classic
+Johanna Spyri – Heidi | Swiss classic
+James Clear – Die 1%-Methode | Atomic Habits (German)
+James Clear – Atomic Habits | English
+Morgan Housel – The Psychology of Money | English
+Morgan Housel – Über die Psychologie des Geldes | German
+Yuval Noah Harari – Eine kurze Geschichte der Menschheit | Sapiens (German)
+Yuval Noah Harari – Nexus | German
+Daniel Kahneman – Schnelles Denken, langsames Denken | German
+Paulo Coelho – Der Alchimist | German
+Antoine de Saint-Exupéry – Der kleine Prinz | German
+John Strelecky – Das Café am Rande der Welt | German
+Héctor García – Ikigai | German
+Mel Robbins – The Let Them Theory | English
+Simon Sinek – Start with Why | English
+Robert T. Kiyosaki – Rich Dad Poor Dad | German
+Bodo Schäfer – Ein Hund namens Money | Kids' finance
+Rebecca Yarros – Fourth Wing | German · Flammengeküsst
+Rebecca Yarros – Iron Flame | German · Flammengeküsst
+Rebecca Yarros – Onyx Storm | German · Flammengeküsst
+Sarah J. Maas – Das Reich der sieben Höfe | Romantasy
+Colleen Hoover – Nur noch ein einziges Mal | It Ends with Us
+Colleen Hoover – Verity | Thriller
+Freida McFadden – The Housemaid | Thriller
+Freida McFadden – Wenn sie wüsste | The Housemaid (German)
+Sebastian Fitzek – Der Heimweg | Thriller
+Sebastian Fitzek – Das Geschenk | Thriller
+Sebastian Fitzek – Die Einladung | Thriller
+Sebastian Fitzek – Der Insasse | Thriller
+Sebastian Fitzek – Mimik | Thriller
+Charlotte Link – Die Suche | Crime
+Nele Neuhaus – Monster | Crime
+Delia Owens – Der Gesang der Flusskrebse | Novel
+Bonnie Garmus – Eine Frage der Chemie | Novel
+Gabrielle Zevin – Morgen, morgen und wieder morgen | Novel
+Sally Rooney – Intermezzo | Novel
+Daniel Kehlmann – Lichtspiel | Novel
+Juli Zeh – Unterleuten | Novel
+Dan Brown – The Secret of Secrets | English
+Stephen King – Holly | German
+Andy Weir – Der Astronaut | Project Hail Mary (German)
+Frank Herbert – Dune | German
+J. R. R. Tolkien – Der Herr der Ringe | Box set
+J. R. R. Tolkien – Der Hobbit | German
+George Orwell – 1984 | German
+J. K. Rowling – Harry Potter und der Stein der Weisen | German
+J. K. Rowling – Harry Potter Gesamtausgabe | 7-book box set
+Michael Ende – Die unendliche Geschichte | German
+Michael Ende – Momo | German
+Cornelia Funke – Tintenherz | German
+Jeff Kinney – Gregs Tagebuch 1 | Kids
+Jeff Kinney – Gregs Tagebuch 19 | Kids
+Rachel Renée Russell – Dork Diaries 1 | Kids
+Margit Auer – Die Schule der magischen Tiere 1 | Kids
+Ingo Siegner – Der kleine Drache Kokosnuss | Kids
+Julia Donaldson – Der Grüffelo | Picture book
+Eric Carle – Die kleine Raupe Nimmersatt | Picture book
+Ali Mitgutsch – Rundherum in meiner Stadt | Wimmelbuch
+Rotraut Susanne Berner – Winter-Wimmelbuch | Wimmelbuch
+Asterix – Band 1: Asterix der Gallier | Comic
+Asterix – Band 41 | Comic
+Lucky Luke – Band 1 | Comic
+Eiichiro Oda – One Piece 1 | Manga
+Masashi Kishimoto – Naruto 1 | Manga
+Koyoharu Gotouge – Demon Slayer 1 | Manga
+Hajime Isayama – Attack on Titan 1 | Manga
+Gege Akutami – Jujutsu Kaisen 1 | Manga
+Tatsuya Endo – Spy x Family 1 | Manga
+Tatsuki Fujimoto – Chainsaw Man 1 | Manga
+Yotam Ottolenghi – Simple | Cookbook (German)
+Jamie Oliver – 5 Zutaten | Cookbook (German)
+Betty Bossi – Das grosse Betty Bossi Kochbuch | Swiss cookbook
+Tiptopf | Swiss school cookbook
+Duden – Die deutsche Rechtschreibung | 29th edition
+Langenscheidt Schulwörterbuch Englisch | Dictionary
+Marco Polo Reiseführer Schweiz | Travel guide
+Lonely Planet Switzerland | Travel guide
+DuMont Bildatlas Schweiz | Travel guide
+Guinness World Records 2026 | Reference
+## Pets
+Kong Classic Dog Toy | Dog toy
+Chuckit! Ball Launcher | Dog toy
+Hunter Dog Collar | Dog
+Flexi New Classic Leash | Dog leash
+Ruffwear Front Range Harness | Dog harness
+Julius-K9 IDC Harness | Dog harness
+Trixie Dog Bed | Dog bed
+Petlibro Automatic Feeder | Feeder
+Petsafe Drinkwell Fountain | Water fountain
+Catit Flower Fountain | Cat fountain
+Trixie Cat Scratching Post | Cat
+Litter-Robot 4 | Litter box
+Petkit Pura Max | Litter box
+Furminator deShedding Tool | Grooming
+Tractive GPS Tracker 4 | Pet tracker
+Furbo 360° Dog Camera | Pet camera
+Kurgo Dog Car Seat Cover | Car
+Ferplast Atlas Transport Box | Carrier
