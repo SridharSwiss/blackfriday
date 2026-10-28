@@ -3,7 +3,7 @@
 A fast, dependency-light web app listing Black Friday 2026 offers for Switzerland:
 
 - **Top 100 offers** with researched CHF prices (today, Black Week 2025, record low) and an automatic *Buy now / Wait* call
-- **2,000+ products** in 33 general categories, including **Winter tyres** (reifen-online.ch partner links)
+- **2,400+ products** in 33 general categories, including **Winter tyres** (reifen-online.ch partner links)
 - **US deals** tab: 41 US Black Friday deals (last year's USD deal price vs regular price, % off) linking to Amazon.com, Best Buy, Walmart, Target
 - **My list** watchlist (heart on every card, saved in the browser), **share** links per product, price-history bars in the details pop-up
 - **Deal calendar** (CH + US dates with countdown), **Retailers** (CH + US), **Guide & FAQ**

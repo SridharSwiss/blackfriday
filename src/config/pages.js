@@ -12,7 +12,7 @@ export const PAGES = [
     title: "Black Friday Switzerland 2026: Best Deals in CHF | Aktion.ch",
     description: "Black Friday 2026 is 27 Nov. Top 100 Swiss deals in CHF with price history and a buy-or-wait call. Black Week, Cyber Monday and US deals.",
     h1: "Black Friday Switzerland 2026: the best deals in CHF",
-    intro: "Black Friday is on Friday 27 November 2026, with Black Week from Monday 23 November and Cyber Monday on 30 November. We track the 100 most-wanted products at Swiss shops, compare today's price with Black Week 2025 and the record low, and tell you whether to buy now or wait. Plus 2,000+ products by category, winter tyres and US deals." },
+    intro: "Black Friday is on Friday 27 November 2026, with Black Week from Monday 23 November and Cyber Monday on 30 November. We track the 100 most-wanted products at Swiss shops, compare today's price with Black Week 2025 and the record low, and tell you whether to buy now or wait. Plus 2,400+ products by category, winter tyres and US deals." },
 
   { path: "/de/black-friday-schweiz-2026/", lang: "de", group: "home", tab: "top", priority: 1.0,
     title: "Black Friday Schweiz 2026: Beste Deals in CHF | Aktion.ch",
