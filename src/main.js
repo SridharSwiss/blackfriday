@@ -144,35 +144,60 @@ function fit() {
   const g = $("grid");
   if (!g) return;
   const gap = 10;
-  // Use the panel width (grid's parent) — always has real width even before grid renders
-  const panel = g.closest(".panel") || g.parentElement;
-  const vw = (panel ? panel.clientWidth : 0) || window.innerWidth || 900;
-  const vh = (window.visualViewport ? window.visualViewport.height : 0) || window.innerHeight || 800;
   const mob = mobile();
 
-  // Determine target column count from available width
+  // Width: panel always has correct width from the outer CSS grid
+  const panel = g.closest(".panel") || g.parentElement;
+  const vw = (panel ? panel.clientWidth : 0) || window.innerWidth || 900;
+
+  // Viewport height: use visualViewport to handle mobile browser chrome
+  const vh = (window.visualViewport ? window.visualViewport.height : 0) || window.innerHeight || 800;
+
+  // Column count from width breakpoints
   let targetCols;
   if (vw < 480) targetCols = 1;
   else if (vw < 700) targetCols = 2;
-  else if (vw < 1000) targetCols = 3;
-  else if (vw < 1350) targetCols = 4;
-  else if (vw < 1700) targetCols = 5;
+  else if (vw < 960) targetCols = 3;
+  else if (vw < 1300) targetCols = 4;
+  else if (vw < 1650) targetCols = 5;
   else targetCols = 6;
 
-  // Card width fills the available width exactly
-  const cardW = Math.max(180, Math.floor((vw - gap * (targetCols - 1)) / targetCols));
+  // Card width: fill available width with gap between columns
+  const cardW = Math.max(160, Math.floor((vw - gap * (targetCols - 1)) / targetCols));
 
-  // Card height: fixed readable minimum, scale gently with card width
-  // 2:1 aspect ratio baseline; keep cards between 130px and 200px tall
-  const cardH = Math.min(200, Math.max(130, Math.round(cardW / 2.1)));
+  // Card height: aspect ratio ~2:1, clamped for readability
+  const cardH = Math.min(200, Math.max(120, Math.round(cardW / 2.05)));
 
-  // Rows: measure actual available grid height from the panel's 1fr slot
-  // Panel height is reliable after first layout; fall back to vh estimate
-  const panelH = (panel ? panel.clientHeight : 0) || (vh - (mob ? 160 : 210));
-  const gridH = Math.max(cardH + gap, panelH - (mob ? 0 : 60)); // pager ~50px
-  const rows = mob ? 6 : Math.max(2, Math.floor((gridH + gap) / (cardH + gap)));
+  // On mobile: infinite scroll, perPage not used for layout — use generous default
+  if (mob) {
+    const root = document.documentElement;
+    root.style.setProperty("--card-w", cardW + "px");
+    root.style.setProperty("--card-h", cardH + "px");
+    root.style.setProperty("--gap", gap + "px");
+    g.style.setProperty("--cols", targetCols);
+    perPage = targetCols * 6;
+    return;
+  }
 
-  // Apply to DOM
+  // Desktop: measure actual chrome heights from DOM for precise row calculation
+  const barEl = document.querySelector(".bar");
+  const pageheadEl = document.querySelector(".pagehead");
+  const tabsEl = document.querySelector(".tabs");
+  const headEl = panel ? panel.querySelector(".head") : null;
+  const pagerEl = $("pager");
+
+  const barH = barEl ? barEl.offsetHeight : 52;
+  const pageheadH = (pageheadEl && !pageheadEl.hidden) ? pageheadEl.offsetHeight : 0;
+  const tabsH = (tabsEl && getComputedStyle(tabsEl).display !== "none") ? tabsEl.offsetHeight : 0;
+  const headH = headEl ? headEl.offsetHeight : 0;
+  const pagerH = (pagerEl && !pagerEl.hidden) ? pagerEl.offsetHeight + 8 : 0;
+  const panelPad = 22; // padding-block sum for desktop
+
+  // Available height for the grid
+  const availH = Math.max(cardH + gap, vh - barH - pageheadH - tabsH - headH - pagerH - panelPad);
+  const rows = Math.max(2, Math.floor((availH + gap) / (cardH + gap)));
+
+  // Apply CSS custom properties
   const root = document.documentElement;
   root.style.setProperty("--card-w", cardW + "px");
   root.style.setProperty("--card-h", cardH + "px");
