@@ -10,6 +10,7 @@ A fast, dependency-light web app listing Black Friday 2026 offers for Switzerlan
 - Global search (press `/`), filters for shop, price range, status and category, sort by rank / biggest saving / price / A–Z
 - One-screen desktop layout: the card grid sizes itself to the window and pages with Prev/Next (← →). Phones get a bottom tab bar, a "More" sheet, "Show more" loading and bottom-sheet details
 - Light/dark theme toggle (follows the system by default)
+- **SEO landing pages** (static HTML, readable without JavaScript): 15 pages in DE/FR/IT/EN, e.g. `/de/black-friday-schweiz-2026/`, `/fr/black-friday-suisse-2026/`, `/de/black-week-schweiz-2026/`, `/de/black-friday-fernseher-schweiz/`, `/de/black-friday-usa-schweiz/`. Each has its own title, description, canonical, hreflang, H1, intro and JSON-LD (WebPage, ItemList, Event, FAQPage) and opens the matching view. Add or edit them in `src/config/pages.js`.
 - Deep links: `#top`, `#categories`, `#us`, `#list`, `#calendar`, `#retailers`, `#guide`, `#winter`, and `#p-<product-id>` (opens a product)
 - Every outbound shop link goes through the affiliate layer (Amazon PartnerNet tag active; Awin/Tradedoubler ready)
 
@@ -38,7 +39,7 @@ vercel          # preview deployment
 vercel --prod   # production
 ```
 
-`robots.txt` and `sitemap.xml` are generated at build time from `VERCEL_PROJECT_PRODUCTION_URL` (set by Vercel automatically). For a custom domain, set the environment variable `SITE_URL=https://your-domain.ch`. Then add the live URL to Amazon PartnerNet and Awin as your promotional site.
+`robots.txt`, `sitemap.xml` (with hreflang alternates) and the landing pages' canonical URLs are generated at build time from `SITE_URL`, else `VERCEL_PROJECT_PRODUCTION_URL` (set by Vercel automatically), else `https://aktion.ch`. **Set `SITE_URL=https://your-domain.ch` in Vercel → Settings → Environment Variables** once the domain is final. Then add the live URL to Amazon PartnerNet and Awin as your promotional site.
 
 `vercel.json` also sets long-term caching for hashed assets and basic security headers.
 
@@ -50,6 +51,7 @@ src/main.js                 UI: tabs, paged grid, filters, details pop-up
 src/styles.css              design tokens (light/dark) and layout
 src/config/affiliates.js    affiliate IDs + affLink()          ← edit IDs here
 src/config/partners.js      featured partner links (reifen-online.ch)
+src/config/pages.js         SEO landing pages (DE/FR/IT/EN)
 src/config/shops.js         shop search URLs + default shops per category
 src/data/top100.js          top 100 products with researched prices
 src/data/catalogue.js       products 101+ (GENERATED, do not edit by hand)
@@ -83,7 +85,7 @@ public/                     favicon and static files
 
 ## Data sources
 
-Today's prices: Black-Friday.ch price feed (23.10.2026). Black Week 2025 prices and record lows: Preispirat deal reports, Toppreise comparisons. Winter tyre rules: TCS. Products 101+ are a curated list without researched prices; their buttons open live shop listings.
+Today's prices: Digitec/Galaxus checked 28.10.2026 for 35 of ranks 1–50, otherwise Black-Friday.ch price feed (23.10.2026). Black Week 2025 prices and record lows: Preispirat deal reports, Toppreise comparisons. Winter tyre rules: TCS. Products 101+ are a curated list without researched prices; their buttons open live shop listings.
 
 ## Compliance
 

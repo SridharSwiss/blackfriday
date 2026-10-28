@@ -1,5 +1,6 @@
 /* US Black Friday deals (USD). Prices are the actual US Black Friday / Cyber Monday 2025 deal prices
    reported by Macworld (1.12.2025) and TechRadar (Nov 2025), so they show what to expect in 2026.
+   Rows marked 2026 at the end use early-deal prices seen in October 2026 (Prime Big Deal Days 6–7 Oct, Best Buy, Target).
    Format: [category, name, spec, bf2025USD, regularUSD, retailer, searchQuery] */
 export const US_RAW = [
 ["Computers","Apple MacBook Air 13\" M4","16 GB · 256 GB",749,999,"amazoncom","MacBook Air 13 M4 256GB"],
@@ -42,7 +43,13 @@ export const US_RAW = [
 ["Kitchen","Ninja CREAMi","Ice cream maker",179.99,229.99,"amazoncom","Ninja Creami"],
 ["Kitchen","Ninja Air Fryer Pro","5 qt",79.99,129.99,"amazoncom","Ninja Air Fryer Pro"],
 ["Kitchen","Instant Vortex Plus 7-in-1","Air fryer",74.99,149.99,"amazoncom","Instant Vortex Plus 7-in-1"],
-["Home","Dyson V9 Motorbar","Cordless vacuum",269.99,599.99,"bestbuy","Dyson V9 Motorbar"]
+["Home","Dyson V9 Motorbar","Cordless vacuum",269.99,599.99,"bestbuy","Dyson V9 Motorbar"],
+["Audio","Apple AirPods Max","USB-C · Starlight · Prime Big Deal Days 2026",429,549,"amazoncom","AirPods Max USB-C"],
+["TV","Insignia 70\" 4K Fire TV","Early deal Oct 2026",299.99,500,"bestbuy","Insignia 70 inch 4K Fire TV"],
+["TV","Pioneer 55\" 4K Smart TV","Early deal Oct 2026",179.99,360,"bestbuy","Pioneer 55 inch 4K TV"],
+["Home","Shark WandVac Handheld Vacuum Set","Cordless · early deal Oct 2026",39.98,128,"amazoncom","Shark WandVac"],
+["Home","Bissell Little Green Mini (cordless)","Portable carpet cleaner · Oct 2026",64.98,130,"amazoncom","Bissell Little Green Mini cordless"],
+["Kitchen","Cuisinart 7-in-1 Air Fryer Toaster Oven","Target Circle Deal Days 2026",99.99,229.99,"target","Cuisinart 7-in-1 Air Fryer Toaster Oven"]
 ];
 
 export const US_SHOPINFO = [

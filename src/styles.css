@@ -372,3 +372,19 @@ main{grid-template-columns:minmax(0,1fr)}
   .iconbtn{width:40px;height:40px}
   .card{min-height:168px}
 }
+
+/* landing-page header (H1 + intro, one line on desktop) */
+.app{grid-template-rows:auto auto auto auto 1fr}
+.pagehead{display:flex;align-items:baseline;gap:4px 12px;padding-bottom:8px;min-width:0}
+.pagehead h1{font-family:var(--f-display);font-weight:800;font-stretch:85%;font-size:15px;line-height:1.3;white-space:nowrap;flex:none;text-transform:none}
+.pagehead p{margin:0;font-size:12.5px;color:var(--muted);min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;flex:1}
+.pagehead .linkbtn{flex:none;font-size:12px}
+.pagehead.open{flex-wrap:wrap}
+.pagehead.open p{white-space:normal;flex-basis:100%;order:3}
+@media (max-width:1100px){ .pagehead{flex-wrap:wrap} .pagehead h1{white-space:normal;flex:1 1 100%} }
+@media (max-width:760px), (max-height:560px){
+  .pagehead p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;white-space:normal}
+  .pagehead.open p{display:block}
+}
+.pill.early{color:var(--good)}
+@media (max-height:780px) and (min-height:561px){ :root{--card-h:144px} .pagehead{padding-bottom:4px} .disclose{padding-bottom:4px} .bar{padding-block:8px} }

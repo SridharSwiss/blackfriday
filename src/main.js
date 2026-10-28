@@ -28,7 +28,7 @@ const US = US_RAW.map(([cat, name, spec, bf, reg, retailer, q], i) => {
   const others = ["amazoncom", "bestbuy", "walmart", "target"].filter(s => s !== retailer);
   return { region: "us", cur: "USD", id: "us-" + slug(name), rank: i + 1, top: false, cat, name, spec, q,
     now: null, bw25: bf, reg, low: null, lowAt: null, best: { p: bf, where: "Black Friday 2025" }, show: bf,
-    save: reg - bf, off: Math.round((1 - bf / reg) * 100), status: "lastyear", note: null, pick: (1 - bf / reg) >= 0.35,
+    save: reg - bf, off: Math.round((1 - bf / reg) * 100), status: /2026/.test(spec) ? "early" : "lastyear", note: null, pick: (1 - bf / reg) >= 0.35,
     shops: [retailer, ...others.slice(0, 2)] };
 });
 const ALL = DEALS.concat(US);
@@ -39,7 +39,7 @@ const POOLS = {
   us: US
 };
 const CAT_ORDER = cats => [...new Set(cats)].sort((a, b) => a === WINTER ? -1 : b === WINTER ? 1 : a.localeCompare(b));
-const LABEL = { buy: "Buy now", wait: "Wait for Black Week", track: "Tracking", check: "Check price", live: "Live price", lastyear: "BF 2025 price" };
+const LABEL = { buy: "Buy now", wait: "Wait for Black Week", track: "Tracking", check: "Check price", live: "Live price", lastyear: "BF 2025 price", early: "Early deal 2026" };
 
 /* ---------------- state ---------------- */
 const PRODUCT_TABS = ["top", "categories", "us", "list"];
@@ -62,7 +62,7 @@ function toast(msg) {
   clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2200);
 }
 function shopBtn(s, d, primary) {
-  return `<a class="shop${primary ? " primary" : ""}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored noopener">${SHOPS[s].name} ${ext}</a>`;
+  return `<a class="shop${primary ? " primary" : ""}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored nofollow noopener">${SHOPS[s].name} ${ext}</a>`;
 }
 function cardShops(d) {
   const s = d.shops.slice(0, 4), first = s[0];
@@ -178,7 +178,7 @@ function renderFilters() {
   const lead = {
     top: ["Top <em>100</em> offers", "Researched Swiss prices · buy-or-wait calls"],
     categories: [state.cat === "All" ? "All <em>categories</em>" : esc(state.cat), `${POOLS.categories.length.toLocaleString("en-US")} products in Switzerland`],
-    us: [state.cat === "All" ? "US <em>deals</em>" : `US · ${esc(state.cat)}`, "Black Friday 2025 prices in USD"],
+    us: [state.cat === "All" ? "US <em>deals</em>" : `US · ${esc(state.cat)}`, "Black Friday 2025 prices + early 2026 deals, in USD"],
     list: ["My <em>list</em>", `${state.watch.length} saved`]
   }[t];
   if (state.q.trim() && t !== "list") { lead[0] = `Results for <em>“${esc(state.q.trim())}”</em>`; lead[1] = "Searching all Swiss and US deals"; }
@@ -214,7 +214,7 @@ function showTab(t, opts = {}) {
 function chart(d) {
   const pts = [];
   if (d.reg) pts.push(["Regular price", d.reg]);
-  if (d.bw25 != null) pts.push([d.region === "us" ? "Black Friday 2025" : "Black Week 2025", d.bw25]);
+  if (d.bw25 != null) pts.push([d.region === "us" ? (d.status === "early" ? "Early deal 2026" : "Black Friday 2025") : "Black Week 2025", d.bw25]);
   if (d.low != null) pts.push(["Record low", d.low]);
   if (d.now != null) pts.push(["Today", d.now]);
   if (pts.length < 2) return "";
@@ -228,14 +228,14 @@ function openDetails(d, push = true) {
   if ($("modal").hidden) opener = document.activeElement;
   const rows = [];
   if (d.region === "us") {
-    rows.push(`<dt>Black Friday 2025</dt><dd>${money(d.bw25, "USD")}</dd>`, `<dt>Regular price</dt><dd>${money(d.reg, "USD")}</dd>`, `<dt>Saving</dt><dd class="target">−${d.off}%</dd>`);
+    rows.push(`<dt>${d.status === "early" ? "Early deal Oct 2026" : "Black Friday 2025"}</dt><dd>${money(d.bw25, "USD")}</dd>`, `<dt>Regular price</dt><dd>${money(d.reg, "USD")}</dd>`, `<dt>Saving</dt><dd class="target">−${d.off}%</dd>`);
   } else {
     if (d.best && d.status !== "check") rows.push(`<dt>Target price</dt><dd class="target">CHF ${fmt(d.best.p)}</dd>`);
     if (d.lowAt) rows.push(`<dt>Record low at</dt><dd>${esc(d.lowAt)}</dd>`);
   }
   rows.push(`<dt>Status</dt><dd>${LABEL[d.status]}</dd>`);
   const shops = d.shops.map((s, k) => shopBtn(s, d, k === 0)).join("");
-  const hist = d.region === "ch" ? `<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored noopener">Swiss price history ${ext}</a>` : "";
+  const hist = d.region === "ch" ? `<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored nofollow noopener">Swiss price history ${ext}</a>` : "";
   $("sheet").innerHTML = `${thumb(d)}<div class="in">
     <button class="close" type="button" id="m-close" aria-label="Close">×</button>
     <div class="eyebrow">${d.top ? `#${d.rank} · ` : ""}${d.region === "us" ? "US deal · " : ""}${esc(d.cat)}</div>
@@ -299,12 +299,12 @@ function renderCalendar() {
   }).join("");
 }
 function renderRetailers() {
-  const row = ([k, n, best, pat, warn, home]) => `<tr><td class="nm">${n}</td><td>${best}</td><td>${pat}</td><td>${warn}</td><td><a class="go" href="${affLink(k, home)}" target="_blank" rel="sponsored noopener">Visit ${ext}</a></td></tr>`;
+  const row = ([k, n, best, pat, warn, home]) => `<tr><td class="nm">${n}</td><td>${best}</td><td>${pat}</td><td>${warn}</td><td><a class="go" href="${affLink(k, home)}" target="_blank" rel="sponsored nofollow noopener">Visit ${ext}</a></td></tr>`;
   $("shopRows").innerHTML = SHOPINFO.map(row).join("");
   $("usShopRows").innerHTML = US_SHOPINFO.map(row).join("");
 }
 function renderStatic() {
-  $("winter-cta").innerHTML = PARTNER_LINKS.map((l, i) => `<a class="${i === 0 ? "primary" : ""}" href="${esc(l.url)}" target="_blank" rel="sponsored noopener">${esc(l.label)} ${ext}</a>`).join("");
+  $("winter-cta").innerHTML = PARTNER_LINKS.map((l, i) => `<a class="${i === 0 ? "primary" : ""}" href="${esc(l.url)}" target="_blank" rel="sponsored nofollow noopener">${esc(l.label)} ${ext}</a>`).join("");
   $("faq").innerHTML = FAQ.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
   $("n-cat").textContent = POOLS.categories.length.toLocaleString("en-US");
   $("n-us").textContent = US.length;
@@ -387,4 +387,10 @@ function route() {
 applyTheme();
 $("q").value = state.q;
 renderStatic(); updateCounts(); tick(); setInterval(tick, 30000);
-if (location.hash) route(); else showTab(state.tab, { keep: true });
+const PAGE = window.__PAGE__ || null;
+$("pmore").onclick = () => { const o = $("pagehead").classList.toggle("open"); $("pmore").setAttribute("aria-expanded", o); $("pmore").textContent = o ? "Less" : "More"; };
+if (location.hash) route();
+else if (PAGE && PAGE.path !== "/") {
+  state.q = PAGE.q || ""; $("q").value = state.q;
+  showTab(PAGE.tab, { cat: PAGE.cat || undefined, noHash: true });
+} else showTab(state.tab, { keep: true });
