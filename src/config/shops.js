@@ -6,7 +6,7 @@ export const SHOPS = {
   brack:{name:"Brack", search:s=>`https://www.brack.ch/search?query=${enc(s)}`},
   interdiscount:{name:"Interdiscount", search:s=>`https://www.interdiscount.ch/de/search?search=${enc(s)}`},
   mediamarkt:{name:"MediaMarkt", search:s=>`https://www.mediamarkt.ch/de/search.html?query=${enc(s)}`},
-  amazon:{name:"Amazon.de", search:s=>`https://www.amazon.de/s?k=${enc(s)}`},
+  amazon:{name:"Amazon", search:s=>`https://www.amazon.de/s?k=${enc(s)}`},
   fnac:{name:"fnac", search:s=>`https://www.fnac.ch/SearchResult/ResultList.aspx?Search=${enc(s)}`},
   daydeal:{name:"DayDeal", search:()=>`https://www.daydeal.ch/`},
   samsung:{name:"Samsung", search:s=>`https://www.samsung.com/ch/search/?searchvalue=${enc(s)}`},

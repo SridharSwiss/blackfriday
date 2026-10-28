@@ -84,7 +84,7 @@ function toast(msg) {
   clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2200);
 }
 function shopBtn(s, d, primary) {
-  const cls = ["shop", primary ? "primary" : "", s === "amazon" ? "amz" : ""].filter(Boolean).join(" ");
+  const cls = ["shop", primary ? "primary" : ""].filter(Boolean).join(" ");
   return `<a class="${cls}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored nofollow noopener">${SHOPS[s].name} ${ext}</a>`;
 }
 function cardShops(d) {
