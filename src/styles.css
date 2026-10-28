@@ -42,8 +42,6 @@ h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.05;text-wrap:balanc
 .board .lbl{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#D9D2CF}
 .board b{font-size:20px;font-variant-numeric:tabular-nums}
 .board span.u{font-size:10px;color:#D9D2CF;margin-right:4px}
-.disclose{font-size:11.5px;color:var(--muted);padding-bottom:8px}
-.disclose b{font:700 10px var(--f-mono);letter-spacing:.08em;background:var(--tag);color:var(--tag-ink);padding:1px 5px;border-radius:2px;margin-right:6px}
 
 /* tabs */
 .tabs{display:flex;gap:4px;border-bottom:2px solid var(--ink);overflow-x:auto;scrollbar-width:none}
@@ -301,7 +299,7 @@ body.locked{overflow:hidden}
   .hactions{margin-left:auto}
   .board{padding:5px 9px;gap:6px} .board b{font-size:16px}
   .hsearch{order:3;flex:1 1 100%;max-width:none}
-  .disclose{font-size:11px}
+ 
   .tabs{display:none}
   .panel{padding-block:10px 0}
   .lead{font-size:22px}
@@ -387,4 +385,4 @@ main{grid-template-columns:minmax(0,1fr)}
   .pagehead.open p{display:block}
 }
 .pill.early{color:var(--good)}
-@media (max-height:780px) and (min-height:561px){ :root{--card-h:144px} .pagehead{padding-bottom:4px} .disclose{padding-bottom:4px} .bar{padding-block:8px} }
+@media (max-height:780px) and (min-height:561px){ :root{--card-h:144px} .pagehead{padding-bottom:4px} .bar{padding-block:8px} }
