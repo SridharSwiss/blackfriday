@@ -9,6 +9,28 @@ import { US_RAW, US_SHOPINFO } from "./data/us.js";
 import { EVENTS, FAQ } from "./data/calendar.js";
 import { fmt, esc, ext } from "./lib/format.js";
 import { thumb } from "./lib/thumb.js";
+import { STRINGS, detectLang, LANG_PATHS } from "./i18n.js";
+
+/* ---------------- i18n ---------------- */
+const PAGE = window.__PAGE__ || null;
+const LANG = (PAGE?.lang) || detectLang();
+const S = STRINGS[LANG] || STRINGS.en;
+const T = key => S[key] ?? STRINGS.en[key] ?? key;
+
+/* Language switcher paths (for SEO pages that have equivalents) */
+function buildLangSwitcher() {
+  const path = location.pathname;
+  // Find the matching paths map — walk LANG_PATHS keys for a match
+  const map = LANG_PATHS[path];
+  if (!map) return ""; // root or unknown: always map to homepage variants
+  const langs = ["en", "de", "fr", "it"];
+  const labels = { en: "EN", de: "DE", fr: "FR", it: "IT" };
+  return langs.map(l => {
+    const href = (map[l]) || (LANG_PATHS["/"] || {})[l] || "/";
+    const cur = l === LANG;
+    return `<a class="lang-sw${cur ? " cur" : ""}" href="${href}" hreflang="${l}"${cur ? ' aria-current="true"' : ""}>${labels[l]}</a>`;
+  }).join("");
+}
 
 /* ---------------- data model ---------------- */
 const WINTER = "Winter tyres";
@@ -39,7 +61,7 @@ const POOLS = {
   us: US
 };
 const CAT_ORDER = cats => [...new Set(cats)].sort((a, b) => a === WINTER ? -1 : b === WINTER ? 1 : a.localeCompare(b));
-const LABEL = { buy: "Buy now", wait: "Wait for Black Week", track: "Tracking", check: "Check price", live: "Live price", lastyear: "BF 2025 price", early: "Early deal 2026" };
+const LABEL = { buy: T("statusBuy"), wait: T("statusWait"), track: T("statusTrack"), check: T("statusCheck"), live: T("statusLive"), lastyear: T("statusLY"), early: T("statusEarly") };
 
 /* ---------------- state ---------------- */
 const PRODUCT_TABS = ["top", "categories", "us", "list"];
@@ -100,7 +122,7 @@ function list() {
   return l.sort(by[state.sort] || by.rank);
 }
 function priceLine(d) {
-  if (d.show == null) return `<span class="price live">${d.status === "live" ? "Live price at the shops" : "Price to be confirmed"}</span>`;
+  if (d.show == null) return `<span class="price live">${d.status === "live" ? T("statusLive") : T("statusCheck")}</span>`;
   let extra = "";
   if (d.region === "us") extra = `<span class="was">${money(d.reg, "USD")}</span>`;
   else if (d.best && d.now != null && d.best.p < d.now) extra = `<span class="best">best ${fmt(d.best.p)}</span>`;
@@ -122,14 +144,15 @@ function fit() {
   const g = $("grid"), cs = getComputedStyle(document.documentElement);
   const cw = parseFloat(cs.getPropertyValue("--card-w")) || 300, ch = parseFloat(cs.getPropertyValue("--card-h")) || 156, gap = parseFloat(cs.getPropertyValue("--gap")) || 10;
   const cols = Math.max(1, Math.floor(((g.clientWidth || 900) + gap) / (cw + gap)));
-  const rows = mobile() ? 6 : Math.max(1, Math.floor(((g.clientHeight || 600) + gap) / (ch + gap)));
+  const vh = window.innerHeight || 800;
+  const rows = mobile() ? 6 : Math.max(3, Math.floor((vh * 0.65 + gap) / (ch + gap)));
   g.style.setProperty("--cols", cols);
   perPage = cols * rows;
 }
 function emptyState() {
   if (state.tab === "list" && !state.watch.length)
-    return `<div class="empty"><b>Your list is empty</b>Tap the heart on any product to save it here. We'll show when it reaches its target price.</div>`;
-  return `<div class="empty"><b>No deals match</b>Try another search, category or price range. <button class="linkbtn" type="button" data-reset>Reset filters</button></div>`;
+    return `<div class="empty"><b>${T("emptyList")}</b>${T("emptyListSub")}</div>`;
+  return `<div class="empty"><b>${T("emptySearch")}</b>${T("emptySearchSub")} <button class="linkbtn" type="button" data-reset>${T("resetFilters")}</button></div>`;
 }
 function renderGrid() {
   fit();
@@ -145,11 +168,11 @@ function renderGrid() {
     state.page = Math.min(Math.max(0, state.page), pages - 1);
     vis = l.slice(state.page * perPage, (state.page + 1) * perPage);
     $("pager").hidden = false; $("more-wrap").hidden = true;
-    $("info").textContent = l.length ? `Page ${state.page + 1} / ${pages} · ${l.length.toLocaleString("en-US")} deals` : "0 deals";
+    $("info").textContent = l.length ? S.pageInfo(state.page + 1, pages, l.length.toLocaleString(LANG === "en" ? "en-US" : LANG)) : `0 ${T("deals")}`;
     $("prev").disabled = state.page === 0; $("next").disabled = state.page >= pages - 1;
   }
   $("grid").innerHTML = vis.length ? vis.map(card).join("") : emptyState();
-  $("count").textContent = `${l.length.toLocaleString("en-US")} deals`;
+  $("count").textContent = `${l.length.toLocaleString(LANG === "en" ? "en-US" : LANG)} ${T("deals")}`;
   const filtered = state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && state.tab === "categories") || (state.cat !== "All" && state.tab === "us");
   $("reset").hidden = !filtered;
 }
@@ -161,11 +184,11 @@ function renderFilters() {
     const cats = CAT_ORDER(p.map(d => d.cat));
     if (!cats.includes(state.cat)) state.cat = "All";
     const n = c => c === "All" ? p.length : p.filter(d => d.cat === c).length;
-    $("catSel").innerHTML = ["All", ...cats].map(c => `<option value="${esc(c)}"${c === state.cat ? " selected" : ""}>${c === "All" ? "All categories" : esc(c)}${c === WINTER ? " ❄" : ""} (${n(c).toLocaleString("en-US")})</option>`).join("");
+    $("catSel").innerHTML = ["All", ...cats].map(c => `<option value="${esc(c)}"${c === state.cat ? " selected" : ""}>${c === "All" ? T("allCats") : esc(c)}${c === WINTER ? " ❄" : ""} (${n(c).toLocaleString(LANG === "en" ? "en-US" : LANG)})</option>`).join("");
   }
   const stores = [...new Set(p.flatMap(d => d.shops))].filter(s => SHOPS[s]);
   if (state.store !== "all" && !stores.includes(state.store)) state.store = "all";
-  $("store").innerHTML = `<option value="all">All shops</option>` + stores.sort((a, b) => SHOPS[a].name.localeCompare(SHOPS[b].name)).map(s => `<option value="${s}"${s === state.store ? " selected" : ""}>${SHOPS[s].name}</option>`).join("");
+  $("store").innerHTML = `<option value="all">${T("allShops")}</option>` + stores.sort((a, b) => SHOPS[a].name.localeCompare(SHOPS[b].name)).map(s => `<option value="${s}"${s === state.store ? " selected" : ""}>${SHOPS[s].name}</option>`).join("");
   $("status").hidden = t !== "top";
   const priced = t !== "categories";
   $("price").hidden = !priced;
@@ -175,13 +198,14 @@ function renderFilters() {
   $("winterbar").hidden = !(t === "categories" && state.cat === WINTER);
   $("usbar").hidden = t !== "us";
   $("clear-list").hidden = !(t === "list" && state.watch.length);
+  const locN = n => n.toLocaleString(LANG === "en" ? "en-US" : LANG);
   const lead = {
-    top: ["Top <em>100</em> offers", "Researched Swiss prices · buy-or-wait calls"],
-    categories: [state.cat === "All" ? "All <em>categories</em>" : esc(state.cat), `${POOLS.categories.length.toLocaleString("en-US")} products in Switzerland`],
-    us: [state.cat === "All" ? "US <em>deals</em>" : `US · ${esc(state.cat)}`, "Black Friday 2025 prices + early 2026 deals, in USD"],
-    list: ["My <em>list</em>", `${state.watch.length} saved`]
+    top: [T("leadTop"), T("leadTopSub")],
+    categories: [state.cat === "All" ? T("leadCat") : esc(state.cat), S.leadCatSub(locN(POOLS.categories.length))],
+    us: [state.cat === "All" ? T("leadUS") : `US · ${esc(state.cat)}`, T("leadUSSub")],
+    list: [T("leadList"), S.leadListSub(state.watch.length)]
   }[t];
-  if (state.q.trim() && t !== "list") { lead[0] = `Results for <em>“${esc(state.q.trim())}”</em>`; lead[1] = "Searching all Swiss and US deals"; }
+  if (state.q.trim() && t !== "list") { lead[0] = `${T("leadSearchPrefix")}${esc(state.q.trim())}${T("leadSearchSuffix")}`; lead[1] = T("leadSearchSub"); }
   $("lead").innerHTML = lead[0]; $("leadsub").textContent = lead[1];
   $("p-products").setAttribute("aria-labelledby", "t-" + t);
 }
@@ -220,7 +244,7 @@ function chart(d) {
   if (pts.length < 2) return "";
   const max = Math.max(...pts.map(p => p[1]));
   const min = Math.min(...pts.map(p => p[1]));
-  return `<div class="chart" aria-label="Price history"><div class="eyebrow">Price history</div>${pts.map(([l, v]) =>
+  return `<div class="chart" aria-label="${T("priceHistory")}"><div class="eyebrow">${T("priceHistory")}</div>${pts.map(([l, v]) =>
     `<div class="bar-row"><span>${l}</span><span class="pbar"><i style="width:${Math.max(6, v / max * 100)}%" class="${v === min ? "lo" : ""}"></i></span><b>${money(v, d.cur)}</b></div>`).join("")}</div>`;
 }
 let opener = null;
@@ -228,14 +252,14 @@ function openDetails(d, push = true) {
   if ($("modal").hidden) opener = document.activeElement;
   const rows = [];
   if (d.region === "us") {
-    rows.push(`<dt>${d.status === "early" ? "Early deal Oct 2026" : "Black Friday 2025"}</dt><dd>${money(d.bw25, "USD")}</dd>`, `<dt>Regular price</dt><dd>${money(d.reg, "USD")}</dd>`, `<dt>Saving</dt><dd class="target">−${d.off}%</dd>`);
+    rows.push(`<dt>${d.status === "early" ? T("earlyDeal") : T("bfPrice")}</dt><dd>${money(d.bw25, "USD")}</dd>`, `<dt>${T("regularPrice")}</dt><dd>${money(d.reg, "USD")}</dd>`, `<dt>${T("saving")}</dt><dd class="target">−${d.off}%</dd>`);
   } else {
-    if (d.best && d.status !== "check") rows.push(`<dt>Target price</dt><dd class="target">CHF ${fmt(d.best.p)}</dd>`);
-    if (d.lowAt) rows.push(`<dt>Record low at</dt><dd>${esc(d.lowAt)}</dd>`);
+    if (d.best && d.status !== "check") rows.push(`<dt>${T("targetPrice")}</dt><dd class="target">CHF ${fmt(d.best.p)}</dd>`);
+    if (d.lowAt) rows.push(`<dt>${T("recordLowAt")}</dt><dd>${esc(d.lowAt)}</dd>`);
   }
-  rows.push(`<dt>Status</dt><dd>${LABEL[d.status]}</dd>`);
+  rows.push(`<dt>${T("status")}</dt><dd>${LABEL[d.status]}</dd>`);
   const shops = d.shops.map((s, k) => shopBtn(s, d, k === 0)).join("");
-  const hist = d.region === "ch" ? `<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored nofollow noopener">Swiss price history ${ext}</a>` : "";
+  const hist = d.region === "ch" ? `<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored nofollow noopener">${T("swissPriceHist")} ${ext}</a>` : "";
   $("sheet").innerHTML = `${thumb(d)}<div class="in">
     <button class="close" type="button" id="m-close" aria-label="Close">×</button>
     <div class="eyebrow">${d.top ? `#${d.rank} · ` : ""}${d.region === "us" ? "US deal · " : ""}${esc(d.cat)}</div>
@@ -246,8 +270,8 @@ function openDetails(d, push = true) {
     ${d.note ? `<p class="note">${esc(d.note)}</p>` : ""}
     <div class="btns wrap">${shops}${hist}</div>
     <div class="actions">
-      <button class="act" type="button" id="m-watch" aria-pressed="${watched(d)}">${heartSvg}<span>${watched(d) ? "Saved to My list" : "Save to My list"}</span></button>
-      <button class="act" type="button" id="m-share"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12h.01M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0"/><path d="M15 8l-6 4 6 4"/></svg><span>Share</span></button>
+      <button class="act" type="button" id="m-watch" aria-pressed="${watched(d)}">${heartSvg}<span>${watched(d) ? T("savedToList") : T("saveToList")}</span></button>
+      <button class="act" type="button" id="m-share"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12h.01M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0"/><path d="M15 8l-6 4 6 4"/></svg><span>${T("share")}</span></button>
     </div>
   </div>`;
   $("modal").hidden = false; document.body.classList.add("locked"); document.querySelector(".app").inert = true; $("m-close").focus();
@@ -266,14 +290,14 @@ async function share(d) {
   const url = location.href.split("#")[0] + "#p-" + d.id;
   const text = `${d.name}${d.show != null ? " – " + money(d.show, d.cur) : ""}`;
   try { if (navigator.share) { await navigator.share({ title: d.name, text, url }); return; } } catch (e) { return; }
-  try { await navigator.clipboard.writeText(url); toast("Link copied"); }
+  try { await navigator.clipboard.writeText(url); toast(T("linkCopied")); }
   catch (e) { toast(url); }
 }
 function toggleWatch(id) {
   const i = state.watch.indexOf(id);
   if (i >= 0) state.watch.splice(i, 1); else state.watch.unshift(id);
   save(); updateCounts();
-  toast(i >= 0 ? "Removed from My list" : "Saved to My list");
+  toast(i >= 0 ? T("removedToast") : T("savedToast"));
   if (PRODUCT_TABS.includes(state.tab)) { if (state.tab === "list") renderFilters(); renderGrid(); }
 }
 
@@ -294,12 +318,12 @@ function renderCalendar() {
     const n = days(e.date);
     return `<li class="${e.peak ? "peak" : ""}${n < 0 ? " past" : ""}"><time datetime="${e.date}">${de(e.date)}</time>
       <span class="reg">${e.region}</span><strong>${esc(e.title)}</strong><p>${esc(e.text)}</p>
-      <span class="in-days">${n > 1 ? `in ${n} days` : n === 1 ? "tomorrow" : n === 0 ? "today" : "done"}</span>
-      ${n >= 0 ? `<a class="ics" href="${ics(e)}" download="${slug(e.title)}.ics">Add to calendar</a>` : ""}</li>`;
+      <span class="in-days">${n > 1 ? S.inDays(n) : n === 1 ? T("tomorrow") : n === 0 ? T("today") : T("done")}</span>
+      ${n >= 0 ? `<a class="ics" href="${ics(e)}" download="${slug(e.title)}.ics">${T("addToCal")}</a>` : ""}</li>`;
   }).join("");
 }
 function renderRetailers() {
-  const row = ([k, n, best, pat, warn, home]) => `<tr><td class="nm">${n}</td><td>${best}</td><td>${pat}</td><td>${warn}</td><td><a class="go" href="${affLink(k, home)}" target="_blank" rel="sponsored nofollow noopener">Visit ${ext}</a></td></tr>`;
+  const row = ([k, n, best, pat, warn, home]) => `<tr><td class="nm">${n}</td><td>${best}</td><td>${pat}</td><td>${warn}</td><td><a class="go" href="${affLink(k, home)}" target="_blank" rel="sponsored nofollow noopener">${T("visitShop")} ${ext}</a></td></tr>`;
   $("shopRows").innerHTML = SHOPINFO.map(row).join("");
   $("usShopRows").innerHTML = US_SHOPINFO.map(row).join("");
 }
@@ -342,7 +366,7 @@ $("q").oninput = e => {
 };
 const resetFilters = () => { Object.assign(state, { q: "", store: "all", price: "all", status: "all", cat: state.tab === "top" || state.tab === "list" ? "All" : "All" }); $("q").value = ""; renderFilters(); refresh(); };
 $("reset").onclick = resetFilters;
-$("clear-list").onclick = () => { state.watch = []; save(); updateCounts(); renderFilters(); renderGrid(); toast("List cleared"); };
+$("clear-list").onclick = () => { state.watch = []; save(); updateCounts(); renderFilters(); renderGrid(); toast(T("clearedToast")); };
 $("prev").onclick = () => { state.page--; save(); renderGrid(); };
 $("next").onclick = () => { state.page++; save(); renderGrid(); };
 $("more").onclick = () => { mobileShown += 12; renderGrid(); };
@@ -386,9 +410,77 @@ function route() {
 }
 applyTheme();
 $("q").value = state.q;
+$("q").placeholder = T("searchPlaceholder");
+// Inject language switcher into header
+const langHtml = buildLangSwitcher();
+if (langHtml) {
+  const sw = document.createElement("div");
+  sw.className = "lang-switcher";
+  sw.innerHTML = langHtml;
+  $("theme").insertAdjacentElement("beforebegin", sw);
+}
+// Translate static HTML labels when not English
+if (LANG !== "en") {
+  // Tab bar
+  const tabMap = { "t-top": "tabTop", "t-categories": "tabCat", "t-us": "tabUS",
+    "t-list": "tabList", "t-calendar": "tabCal", "t-retailers": "tabRetailers", "t-guide": "tabGuide" };
+  for (const [id, key] of Object.entries(tabMap)) {
+    const el = $(id); if (!el) continue;
+    const badge = el.querySelector(".n");
+    el.childNodes[0].textContent = T(key);
+    if (badge) el.appendChild(badge);
+  }
+  // Price select
+  const priceEl = $("price");
+  if (priceEl) priceEl.innerHTML = `<option value="all">${T("anyPrice")}</option>
+    <option value="0-50">${T("under50")}</option>
+    <option value="50-200">${T("price50_200")}</option>
+    <option value="200-500">${T("price200_500")}</option>
+    <option value="500-1000">${T("price500_1000")}</option>
+    <option value="1000-1e9">${T("over1000")}</option>`;
+  // Status select
+  const statusEl = $("status");
+  if (statusEl) statusEl.innerHTML = `<option value="all">${T("allDeals")}</option>
+    <option value="buy">${T("buyNow")}</option>
+    <option value="wait">${T("waitBW")}</option>
+    <option value="track">${T("tracking")}</option>
+    <option value="check">${T("checkPrice")}</option>`;
+  // Sort select
+  const sortEl = $("sort");
+  if (sortEl) sortEl.innerHTML = `<option value="rank">${T("sortRec")}</option>
+    <option value="save">${T("sortSave")}</option>
+    <option value="low">${T("sortLow")}</option>
+    <option value="high">${T("sortHigh")}</option>
+    <option value="az">${T("sortAZ")}</option>`;
+  // Bottom nav text nodes
+  const bnMap = { "b-top": "tabTop", "b-categories": "tabCat", "b-us": "tabUS", "b-list": "tabList", "b-more": "moreLabel" };
+  for (const [id, key] of Object.entries(bnMap)) {
+    const el = $(id); if (!el) continue;
+    const dot = el.querySelector(".dot");
+    const svg = el.querySelector("svg");
+    // Replace text node after svg
+    for (const n of [...el.childNodes]) {
+      if (n.nodeType === 3) n.textContent = T(key);
+    }
+    if (dot) el.appendChild(dot);
+  }
+  // Moresheet buttons
+  const msButtons = document.querySelectorAll(".ms-in [data-tab]");
+  const msTabKeys = { calendar: "tabCal", retailers: "tabRetailers", guide: "tabGuide" };
+  msButtons.forEach(btn => { const k = msTabKeys[btn.dataset.tab]; if (k) btn.textContent = T(k); });
+  const msWinter = document.querySelector(".ms-in [data-cat='Winter tyres']");
+  if (msWinter) msWinter.textContent = T("winterMore");
+  // More button
+  const moreBtn = $("more"); if (moreBtn) moreBtn.textContent = T("showMore");
+  // Prev/Next pager
+  const prevBtn = $("prev"); if (prevBtn) prevBtn.textContent = T("prevPage");
+  const nextBtn = $("next"); if (nextBtn) nextBtn.textContent = T("nextPage");
+  // pmore initial label
+  $("pmore").textContent = T("showMore");
+}
 renderStatic(); updateCounts(); tick(); setInterval(tick, 30000);
-const PAGE = window.__PAGE__ || null;
-$("pmore").onclick = () => { const o = $("pagehead").classList.toggle("open"); $("pmore").setAttribute("aria-expanded", o); $("pmore").textContent = o ? "Less" : "More"; };
+// PAGE already declared at top (i18n block) — reuse it here
+$("pmore").onclick = () => { const o = $("pagehead").classList.toggle("open"); $("pmore").setAttribute("aria-expanded", o); $("pmore").textContent = o ? T("showLess") : T("showMore"); };
 if (location.hash) route();
 else if (PAGE && PAGE.path !== "/") {
   state.q = PAGE.q || ""; $("q").value = state.q;
