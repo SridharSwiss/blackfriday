@@ -141,13 +141,44 @@ function card(d) {
     </div></article>`;
 }
 function fit() {
-  const g = $("grid"), cs = getComputedStyle(document.documentElement);
-  const cw = parseFloat(cs.getPropertyValue("--card-w")) || 300, ch = parseFloat(cs.getPropertyValue("--card-h")) || 156, gap = parseFloat(cs.getPropertyValue("--gap")) || 10;
-  const cols = Math.max(1, Math.floor(((g.clientWidth || 900) + gap) / (cw + gap)));
-  const vh = window.innerHeight || 800;
-  const rows = mobile() ? 6 : Math.max(3, Math.floor((vh * 0.65 + gap) / (ch + gap)));
-  g.style.setProperty("--cols", cols);
-  perPage = cols * rows;
+  const g = $("grid");
+  if (!g) return;
+  const gap = 10;
+  const vw = g.clientWidth || window.innerWidth || 900;
+  const vh = window.visualViewport ? window.visualViewport.height : (window.innerHeight || 800);
+  const mob = mobile();
+
+  // Determine target column count from available width
+  let targetCols;
+  if (vw < 480) targetCols = 1;
+  else if (vw < 700) targetCols = 2;
+  else if (vw < 1000) targetCols = 3;
+  else if (vw < 1350) targetCols = 4;
+  else if (vw < 1700) targetCols = 5;
+  else targetCols = 6;
+
+  // Card width fills the available width exactly
+  const cardW = Math.floor((vw - gap * (targetCols - 1)) / targetCols);
+
+  // Card height from aspect ratio: landscape wide = flatter cards, portrait = taller
+  // Base ratio 2.1:1 (wide), shrink toward 1.7:1 on narrow/portrait
+  const ar = Math.max(1.6, Math.min(2.4, vw / vh * 2.8 + 1.4));
+  const cardH = Math.round(cardW / ar);
+
+  // How much vertical space is available for the grid?
+  // panel = 1fr in .app grid; estimate chrome height (bar + tabs + toolbar + pager)
+  const chromeEst = mob ? 160 : 200;
+  const gridH = Math.max(cardH + gap, vh - chromeEst);
+  const rows = mob ? 6 : Math.max(2, Math.floor((gridH + gap) / (cardH + gap)));
+
+  // Apply to DOM
+  const root = document.documentElement;
+  root.style.setProperty("--card-w", cardW + "px");
+  root.style.setProperty("--card-h", cardH + "px");
+  root.style.setProperty("--gap", gap + "px");
+  g.style.setProperty("--cols", targetCols);
+
+  perPage = targetCols * rows;
 }
 function emptyState() {
   if (state.tab === "list" && !state.watch.length)
@@ -479,6 +510,21 @@ if (LANG !== "en") {
   $("pmore").textContent = T("showMore");
 }
 renderStatic(); updateCounts(); tick(); setInterval(tick, 30000);
+
+// Reactive layout: re-fit + re-render when viewport size changes
+let _fitTimer;
+function debouncedRefit() {
+  clearTimeout(_fitTimer);
+  _fitTimer = setTimeout(() => { fit(); renderGrid(); }, 80);
+}
+if (typeof ResizeObserver !== "undefined") {
+  const ro = new ResizeObserver(debouncedRefit);
+  const g = $("grid");
+  if (g) ro.observe(g.parentElement || g);
+}
+window.addEventListener("resize", debouncedRefit, { passive: true });
+window.addEventListener("orientationchange", debouncedRefit, { passive: true });
+if (window.visualViewport) window.visualViewport.addEventListener("resize", debouncedRefit, { passive: true });
 // PAGE already declared at top (i18n block) — reuse it here
 $("pmore").onclick = () => { const o = $("pagehead").classList.toggle("open"); $("pmore").setAttribute("aria-expanded", o); $("pmore").textContent = o ? T("showLess") : T("showMore"); };
 if (location.hash) route();
