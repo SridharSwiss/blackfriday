@@ -84,12 +84,17 @@ function toast(msg) {
   clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2200);
 }
 function shopBtn(s, d, primary) {
-  return `<a class="shop${primary ? " primary" : ""}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored nofollow noopener">${SHOPS[s].name} ${ext}</a>`;
+  const cls = ["shop", primary ? "primary" : "", s === "amazon" ? "amz" : ""].filter(Boolean).join(" ");
+  return `<a class="${cls}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored nofollow noopener">${SHOPS[s].name} ${ext}</a>`;
 }
 function cardShops(d) {
-  const s = d.shops.slice(0, 4), first = s[0];
-  const second = d.region === "ch" && s.includes("amazon") && first !== "amazon" ? "amazon" : s[1];
-  return [first, second].filter(Boolean);
+  const s = d.shops.slice(0, 5);
+  // Amazon.de first for CH products (affiliate revenue + widest CH-deliverable range)
+  if (d.region === "ch" && s.includes("amazon") && s[0] !== "amazon") {
+    const rest = s.filter(x => x !== "amazon");
+    return ["amazon", ...rest].slice(0, 3);
+  }
+  return s.slice(0, 3);
 }
 function inRange(d) {
   if (state.price === "all") return true;

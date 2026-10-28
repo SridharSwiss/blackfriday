@@ -17,10 +17,11 @@ export const TOP = RAW.map((r,i)=>{
   return {rank:i+1,top:true,cat:cat==="Beauty"?"Fragrance & Beauty":cat,name,spec,now,bw25,low,lowAt,best,status,save,show,q,note,shops:shops||CAT_SHOPS[cat]};
 });
 export const isTyre = n => /\d{3}\/\d{2} ?R\d{2}|WinterContact|Alpin \d|Reifen\b/i.test(n);  // tyres only, not accessories
-/* every catalogue product links to Amazon.de as well (large appliances excluded: not delivered to CH) */
+/* every catalogue product links to Amazon.de first (large appliances excluded: not delivered to CH) */
 export function withAmazon(cat, list){
   if (cat==="Appliances" || list.includes("amazon")) return list;
-  return list.length >= 4 ? list.slice(0,3).concat("amazon") : list.concat("amazon");
+  // prepend Amazon so it appears as the primary shop button
+  return ["amazon", ...list].slice(0, 4);
 }
 export const CAT_LIST = CATALOGUE.map(([cat,name,spec,now],i)=>({
   rank:TOP.length+i+1, top:false, cat, name, spec, now:now??null, bw25:null, low:null, lowAt:null, best:null,
