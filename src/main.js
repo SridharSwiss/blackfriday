@@ -144,8 +144,10 @@ function fit() {
   const g = $("grid");
   if (!g) return;
   const gap = 10;
-  const vw = g.clientWidth || window.innerWidth || 900;
-  const vh = window.visualViewport ? window.visualViewport.height : (window.innerHeight || 800);
+  // Use the panel width (grid's parent) — always has real width even before grid renders
+  const panel = g.closest(".panel") || g.parentElement;
+  const vw = (panel ? panel.clientWidth : 0) || window.innerWidth || 900;
+  const vh = (window.visualViewport ? window.visualViewport.height : 0) || window.innerHeight || 800;
   const mob = mobile();
 
   // Determine target column count from available width
@@ -158,17 +160,16 @@ function fit() {
   else targetCols = 6;
 
   // Card width fills the available width exactly
-  const cardW = Math.floor((vw - gap * (targetCols - 1)) / targetCols);
+  const cardW = Math.max(180, Math.floor((vw - gap * (targetCols - 1)) / targetCols));
 
-  // Card height from aspect ratio: landscape wide = flatter cards, portrait = taller
-  // Base ratio 2.1:1 (wide), shrink toward 1.7:1 on narrow/portrait
-  const ar = Math.max(1.6, Math.min(2.4, vw / vh * 2.8 + 1.4));
-  const cardH = Math.round(cardW / ar);
+  // Card height: fixed readable minimum, scale gently with card width
+  // 2:1 aspect ratio baseline; keep cards between 130px and 200px tall
+  const cardH = Math.min(200, Math.max(130, Math.round(cardW / 2.1)));
 
-  // How much vertical space is available for the grid?
-  // panel = 1fr in .app grid; estimate chrome height (bar + tabs + toolbar + pager)
-  const chromeEst = mob ? 160 : 200;
-  const gridH = Math.max(cardH + gap, vh - chromeEst);
+  // Rows: measure actual available grid height from the panel's 1fr slot
+  // Panel height is reliable after first layout; fall back to vh estimate
+  const panelH = (panel ? panel.clientHeight : 0) || (vh - (mob ? 160 : 210));
+  const gridH = Math.max(cardH + gap, panelH - (mob ? 0 : 60)); // pager ~50px
   const rows = mob ? 6 : Math.max(2, Math.floor((gridH + gap) / (cardH + gap)));
 
   // Apply to DOM
