@@ -1,5 +1,6 @@
 /* Shops: search URL builders and default shops per category. */
 import { TRAVEL_SHOPS } from "./travel.js";
+import { US_SHOPS } from "./us-shops.js";
 const enc = s => encodeURIComponent(s);
 export const SHOPS = {
   galaxus:{name:"Galaxus", search:s=>`https://www.galaxus.ch/en/search?q=${enc(s)}`},
@@ -23,7 +24,8 @@ export const SHOPS = {
   target:{name:"Target", search:s=>`https://www.target.com/s?searchTerm=${enc(s)}`},
     keepa:{name:"Keepa", search:s=>`https://keepa.com/#!search/3-${enc(s)}`},
   toppreise:{name:"History", search:s=>`https://www.toppreise.ch/produktsuche?q=${enc(s)}`},
-  ...TRAVEL_SHOPS
+  ...TRAVEL_SHOPS,
+  ...US_SHOPS
 };
 /* default retailers per category; a product can override with its own list */
 export const CAT_SHOPS = {

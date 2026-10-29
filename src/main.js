@@ -49,7 +49,7 @@ DEALS.forEach(d => { d.region = "ch"; d.cur = "CHF"; d.id = "ch-" + slug(d.name)
 const US = US_RAW.map(([cat, name, spec, bf, reg, retailer, q], i) => {
   const others = ["amazoncom", "bestbuy", "walmart", "target"].filter(s => s !== retailer);
   return { region: "us", cur: "USD", id: "us-" + slug(name), rank: i + 1, top: false, cat, name, spec, q,
-    now: null, bw25: bf, reg, low: null, lowAt: null, best: { p: bf, where: "Black Friday 2025" }, show: bf,
+    now: null, bw25: bf, reg, low: null, lowAt: null, best: { p: bf, where: /2026/.test(spec) ? "2026 ad / early deal" : "Black Friday 2025" }, show: bf,
     save: reg - bf, off: Math.round((1 - bf / reg) * 100), status: /2026/.test(spec) ? "early" : "lastyear", note: null, pick: (1 - bf / reg) >= 0.35,
     shops: [retailer, ...others.slice(0, 2)] };
 });
