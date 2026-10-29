@@ -1,6 +1,7 @@
 import { RAW } from "./top100.js";
 import CATALOGUE from "./catalogue.js";
 import { CAT_SHOPS } from "../config/shops.js";
+import { travelShops } from "../config/travel.js";
 
 export const TOP = RAW.map((r,i)=>{
   const [cat,name,spec,now,bw25,low,lowAt,q,note,shops] = r;
@@ -19,13 +20,13 @@ export const TOP = RAW.map((r,i)=>{
 export const isTyre = n => /\d{3}\/\d{2} ?R\d{2}|WinterContact|Alpin \d|Reifen\b/i.test(n);  // tyres only, not accessories
 /* every catalogue product links to Amazon.de first (large appliances excluded: not delivered to CH) */
 export function withAmazon(cat, list){
-  if (cat==="Appliances" || list.includes("amazon")) return list;
+  if (cat==="Appliances" || cat==="Travel & Holidays" || list.includes("amazon")) return list;
   // prepend Amazon so it appears as the primary shop button
   return ["amazon", ...list].slice(0, 4);
 }
 export const CAT_LIST = CATALOGUE.map(([cat,name,spec,now],i)=>({
   rank:TOP.length+i+1, top:false, cat, name, spec, now:now??null, bw25:null, low:null, lowAt:null, best:null,
-  status: now!=null ? "track" : "live", save:0, show:now??null, q:name.replace(/\s*\(.*?\)/g,""), note:null, shops:isTyre(name) ? ["reifenonline","amazon"] : withAmazon(cat, CAT_SHOPS[cat]||["galaxus","brack"])
+  status: now!=null ? "track" : "live", save:0, show:now??null, q:name.replace(/\s*\(.*?\)/g,""), note:null, shops:isTyre(name) ? ["reifenonline","amazon"] : cat==="Travel & Holidays" ? travelShops(name) : withAmazon(cat, CAT_SHOPS[cat]||["galaxus","brack"])
 }));
 export const DEALS = TOP.concat(CAT_LIST);
 export const CATS = [...new Set(DEALS.map(d=>d.cat))].sort((a,b)=>a.localeCompare(b));

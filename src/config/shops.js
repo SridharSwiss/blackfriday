@@ -1,4 +1,5 @@
 /* Shops: search URL builders and default shops per category. */
+import { TRAVEL_SHOPS } from "./travel.js";
 const enc = s => encodeURIComponent(s);
 export const SHOPS = {
   galaxus:{name:"Galaxus", search:s=>`https://www.galaxus.ch/en/search?q=${enc(s)}`},
@@ -21,7 +22,8 @@ export const SHOPS = {
   walmart:{name:"Walmart", search:s=>`https://www.walmart.com/search?q=${enc(s)}`},
   target:{name:"Target", search:s=>`https://www.target.com/s?searchTerm=${enc(s)}`},
     keepa:{name:"Keepa", search:s=>`https://keepa.com/#!search/3-${enc(s)}`},
-  toppreise:{name:"History", search:s=>`https://www.toppreise.ch/produktsuche?q=${enc(s)}`}
+  toppreise:{name:"History", search:s=>`https://www.toppreise.ch/produktsuche?q=${enc(s)}`},
+  ...TRAVEL_SHOPS
 };
 /* default retailers per category; a product can override with its own list */
 export const CAT_SHOPS = {
@@ -58,7 +60,14 @@ export const CAT_SHOPS = {
   "Bikes & E-mobility":["galaxus","brack","jumbo"],
   "Tools & DIY":["galaxus","jumbo","brack","amazon"],
   "Garden":["jumbo","galaxus","brack"],
-  "Fashion":["zalando","manor","galaxus","amazon"],
+  "Apparel":["amazon","zalando","manor","galaxus"],
+  "Shoes & Sneakers":["amazon","zalando","galaxus","manor"],
+  "Bags & Luggage":["amazon","galaxus","manor","zalando"],
+  "Eyewear & Sunglasses":["amazon","galaxus","manor","zalando"],
+  "Ski & Winter Sports":["amazon","galaxus","brack","manor"],
+  "Musical Instruments":["amazon","galaxus","brack"],
+  "Health & Sports Nutrition":["amazon","galaxus","manor"],
+  "Mattresses & Sleep":["amazon","galaxus","brack","manor"],
   "Watches & Jewellery":["galaxus","manor","zalando"],
   "Fragrance & Beauty":["manor","galaxus","amazon"],
 };
