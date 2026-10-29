@@ -391,3 +391,88 @@ main{grid-template-columns:minmax(0,1fr);align-items:start}
 }
 .pill.early{color:var(--good)}
 @media (max-height:780px) and (min-height:561px){ :root{--card-h:144px} .pagehead{padding-bottom:4px} .bar{padding-block:8px} }
+
+/* ================= v6 redesign: calmer cards, clear CTA, quick category chips =================
+   Patterns borrowed from Slickdeals / mydealz / Idealo / Galaxus: one obvious price, one obvious action,
+   savings vs. the best known price, quick category chips, generous touch targets. Tokens first, so it themes cleanly. */
+:root{
+  --r-sm:8px; --r-md:12px; --r-lg:16px;
+  --sh-1:0 1px 2px rgba(20,18,19,.05),0 1px 1px rgba(20,18,19,.03);
+  --sh-2:0 8px 24px rgba(20,18,19,.10),0 2px 6px rgba(20,18,19,.06);
+  --save:#1E7A46;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sh-1:none;--sh-2:0 8px 24px rgba(0,0,0,.5);--save:#4CC37F}}
+:root[data-theme="dark"]{--sh-1:none;--sh-2:0 8px 24px rgba(0,0,0,.5);--save:#4CC37F}
+
+/* tabs: quiet pills instead of a heavy rule */
+.tabs{border-bottom:1px solid var(--line);gap:6px;padding-bottom:8px}
+.tab{border-radius:999px;padding:8px 14px;font-weight:600;color:var(--muted);transition:background .15s,color .15s}
+.tab:hover{color:var(--ink);background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.board{border-radius:var(--r-sm)}
+.hsearch{border-radius:12px;box-shadow:var(--sh-1)}
+select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
+.lead{font-size:24px}
+
+/* quick category chips */
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0;padding:2px 0 4px;width:100%;flex-basis:100%;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chips[hidden]{display:none!important}
+.chip{border-radius:999px;padding:6px 13px;border:1px solid var(--line);font-weight:600;transition:border-color .15s,background .15s}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* cards */
+.grid{gap:12px}
+.card{grid-template-columns:96px minmax(0,1fr);border-radius:var(--r-md);box-shadow:var(--sh-1);transition:box-shadow .18s,transform .18s,border-color .18s}
+.card:hover{box-shadow:var(--sh-2);transform:translateY(-2px)}
+.card .tw{padding:7px 0 7px 7px}
+.card .tw .thumb{border-radius:var(--r-sm)}
+.card .thumb .brand{font-size:10.5px;left:7px;bottom:6px;right:6px}
+.card .body{padding:9px 11px 9px 11px;gap:3px}
+.top{font-size:10px;gap:6px}
+.top .c{flex:1;min-width:0;text-align:left}
+.top .r{flex:none}
+.pill{flex:none;border:0;border-radius:999px;padding:3px 8px;font:700 10px var(--f-body);letter-spacing:.02em;text-transform:none;background:color-mix(in srgb,currentColor 13%,transparent)}
+.name{font-size:16px;font-stretch:88%;line-height:1.12}
+.priceline{gap:8px;align-items:center;margin-top:1px}
+.price{font-size:21px;border-radius:5px;padding:1px 7px}
+.best{font:500 11px var(--f-body);color:var(--muted);display:flex;gap:5px;align-items:baseline;min-width:0;overflow:hidden;white-space:nowrap}
+.best b{color:var(--save);font:700 11px var(--f-mono)}
+.btns{gap:6px;align-items:stretch}
+.card .btns{gap:6px}
+.card .btns .shop:not(.info){flex:1 1 0;min-width:0;justify-content:center;padding:0 8px;min-height:34px;font-size:12.5px;font-weight:700;border-radius:9px;border-width:1.5px}
+.card .btns .shop.primary{flex:1.35 1 0;box-shadow:0 1px 0 rgba(0,0,0,.12)}
+.card .btns .shop.primary:hover{filter:brightness(1.07)}
+.card .btns .shop:not(.primary):not(.info):hover{border-color:var(--ink)}
+.card .btns .shop.info{flex:none;width:auto;min-width:34px;padding:0 8px;margin-left:0;min-height:34px;border-radius:9px;font:700 12px var(--f-mono);color:var(--ink);border:1.5px solid var(--line)}
+.card .btns .shop.info:hover{border-color:var(--ink)}
+.heart{top:12px;right:5px}
+.off{top:11px;left:11px}
+
+/* modal polish */
+.sheet{border-radius:var(--r-lg);box-shadow:var(--sh-2)}
+.sheet .btns .shop{min-height:40px;border-radius:10px;font-size:13.5px}
+
+@media (max-width:760px), (max-height:560px){
+  .card{grid-template-columns:92px minmax(0,1fr);min-height:150px}
+  .card .tw{padding:8px 0 8px 8px}
+  .card .btns .shop:not(.info){min-height:42px;font-size:13px}
+  .card .btns .shop.info{min-height:42px;min-width:42px}
+  .chips{margin-inline:-16px;padding-inline:16px}
+  .grid{gap:10px}
+}
+.shop .sn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.best{flex:0 1 auto;min-width:0;text-overflow:ellipsis}
+.best .lo{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.best b{flex:none}
+/* roomier price block: low-price line sits under the price tag; filters share the title row */
+.priceline{flex-wrap:wrap;row-gap:1px}
+.best{flex:1 1 100%}
+.card .tw{padding:7px 0 7px 7px}
+.card{grid-template-columns:88px minmax(0,1fr)}
+.card .btns .shop:not(.primary) svg{display:none}
+.card .btns .shop:not(.info){padding:0 6px;font-size:12px}
+.card .btns .shop.primary{font-size:12.5px}
+.card .body{padding:8px 10px}
+@media (min-width:1000px) and (min-height:561px){ .head .chips{order:3} }

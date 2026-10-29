@@ -61,7 +61,7 @@ const POOLS = {
   us: US
 };
 const CAT_ORDER = cats => [...new Set(cats)].sort((a, b) => a === WINTER ? -1 : b === WINTER ? 1 : a.localeCompare(b));
-const LABEL = { buy: T("statusBuy"), wait: T("statusWait"), track: T("statusTrack"), check: T("statusCheck"), live: T("statusLive"), lastyear: T("statusLY"), early: T("statusEarly") };
+const LABEL = { buy: T("statusBuy"), wait: T("statusWaitS"), track: T("statusTrack"), check: T("statusCheck"), live: T("statusLive"), lastyear: T("statusLY"), early: T("statusEarly") };
 
 /* ---------------- state ---------------- */
 const PRODUCT_TABS = ["top", "categories", "us", "list"];
@@ -85,16 +85,13 @@ function toast(msg) {
 }
 function shopBtn(s, d, primary) {
   const cls = ["shop", primary ? "primary" : ""].filter(Boolean).join(" ");
-  return `<a class="${cls}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored nofollow noopener">${SHOPS[s].name} ${ext}</a>`;
+  return `<a class="${cls}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored nofollow noopener"><span class="sn">${SHOPS[s].name}</span> ${ext}</a>`;
 }
 function cardShops(d) {
-  const s = d.shops.slice(0, 5);
+  const s = d.shops.slice(0, 6);
   // Amazon.de first for CH products (affiliate revenue + widest CH-deliverable range)
-  if (d.region === "ch" && s.includes("amazon") && s[0] !== "amazon") {
-    const rest = s.filter(x => x !== "amazon");
-    return ["amazon", ...rest].slice(0, 3);
-  }
-  return s.slice(0, 3);
+  if (d.region === "ch" && s.includes("amazon") && s[0] !== "amazon") return ["amazon", ...s.filter(x => x !== "amazon")];
+  return s;
 }
 function inRange(d) {
   if (state.price === "all") return true;
@@ -112,7 +109,7 @@ function list() {
   const term = state.q.trim().toLowerCase();
   const global = term && state.tab !== "list";
   const l = (global ? ALL : pool()).filter(d =>
-    (global || state.cat === "All" || d.cat === state.cat || state.tab === "top" || state.tab === "list") &&
+    (global || state.cat === "All" || d.cat === state.cat || state.tab === "list") &&
     (state.status === "all" || d.status === state.status) &&
     (state.store === "all" || d.shops.includes(state.store)) &&
     inRange(d) &&
@@ -130,7 +127,7 @@ function priceLine(d) {
   if (d.show == null) return `<span class="price live">${d.status === "live" ? T("statusLive") : T("statusCheck")}</span>`;
   let extra = "";
   if (d.region === "us") extra = `<span class="was">${money(d.reg, "USD")}</span>`;
-  else if (d.best && d.now != null && d.best.p < d.now) extra = `<span class="best">best ${fmt(d.best.p)}</span>`;
+  else if (d.best && d.now != null && d.best.p < d.now) extra = `<span class="best" title="${esc(d.best.where || "")}"><span class="lo">${T("lowLabel")} ${fmt(d.best.p)}</span> <b>−${Math.round((d.now - d.best.p) / d.now * 100)}%</b></span>`;
   else if (d.now == null && d.best) extra = `<span class="best">${esc(d.best.where)}</span>`;
   return `<span class="price">${money(d.show, d.cur)}</span>${extra}`;
 }
@@ -142,7 +139,8 @@ function card(d) {
       <div class="top"><span class="r">${d.top ? `#<b>${d.rank}</b>`  : ""}</span><span class="c">${esc(d.cat)}</span><span class="pill ${d.status}">${LABEL[d.status]}</span></div>
       <button class="name" type="button" data-d="${d.id}">${esc(d.name)}</button>
       <div class="priceline">${priceLine(d)}</div>
-      <div class="btns">${cardShops(d).map((s, k) => shopBtn(s, d, k === 0)).join("")}<button class="shop ghost info" type="button" data-d="${d.id}" aria-label="Details for ${esc(d.name)}">i</button></div>
+      <div class="btns">${(() => { const all = cardShops(d), vis = all.slice(0, 2), more = all.length - vis.length;
+        return vis.map((s, k) => shopBtn(s, d, k === 0)).join("") + `<button class="shop ghost info" type="button" data-d="${d.id}" aria-label="${T("allSellers")}: ${esc(d.name)}">${more > 0 ? "+" + more : "i"}</button>`; })()}</div>
     </div></article>`;
 }
 function fit() {
@@ -160,18 +158,14 @@ function fit() {
 
   // Column count from width breakpoints
   let targetCols;
-  if (vw < 480) targetCols = 1;
-  else if (vw < 700) targetCols = 2;
-  else if (vw < 960) targetCols = 3;
-  else if (vw < 1300) targetCols = 4;
-  else if (vw < 1650) targetCols = 5;
-  else targetCols = 6;
+  // aim for cards of at least ~310px so names, prices and buttons never truncate
+  targetCols = Math.max(1, Math.min(5, Math.floor((vw + gap) / (310 + gap))));
 
   // Card width: fill available width with gap between columns
   const cardW = Math.max(160, Math.floor((vw - gap * (targetCols - 1)) / targetCols));
 
   // Card height: aspect ratio ~2:1, clamped for readability
-  const cardH = Math.min(200, Math.max(120, Math.round(cardW / 2.05)));
+  const cardH = vh < 760 ? 156 : 168;
 
   // On mobile: infinite scroll, perPage not used for layout — use generous default
   if (mob) {
@@ -235,7 +229,7 @@ function renderGrid() {
   }
   $("grid").innerHTML = vis.length ? vis.map(card).join("") : emptyState();
   $("count").textContent = `${l.length.toLocaleString(LANG === "en" ? "en-US" : LANG)} ${T("deals")}`;
-  const filtered = state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && state.tab === "categories") || (state.cat !== "All" && state.tab === "us");
+  const filtered = state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && (state.tab === "categories" || state.tab === "top")) || (state.cat !== "All" && state.tab === "us");
   $("reset").hidden = !filtered;
 }
 function renderFilters() {
@@ -247,6 +241,15 @@ function renderFilters() {
     if (!cats.includes(state.cat)) state.cat = "All";
     const n = c => c === "All" ? p.length : p.filter(d => d.cat === c).length;
     $("catSel").innerHTML = ["All", ...cats].map(c => `<option value="${esc(c)}"${c === state.cat ? " selected" : ""}>${c === "All" ? T("allCats") : esc(c)}${c === WINTER ? " ❄" : ""} (${n(c).toLocaleString(LANG === "en" ? "en-US" : LANG)})</option>`).join("");
+  }
+  const cc = $("catChips");
+  if (cc) {
+    cc.hidden = t !== "top";
+    if (t === "top") {
+      const cats = CAT_ORDER(p.map(d => d.cat));
+      if (!cats.includes(state.cat)) state.cat = "All";
+      cc.innerHTML = ["All", ...cats].map(c => `<button class="chip" type="button" data-chip="${esc(c)}" aria-pressed="${c === state.cat}">${c === "All" ? T("allCats") : esc(c)}</button>`).join("");
+    }
   }
   const stores = [...new Set(p.flatMap(d => d.shops))].filter(s => SHOPS[s]);
   if (state.store !== "all" && !stores.includes(state.store)) state.store = "all";
@@ -415,6 +418,7 @@ document.querySelectorAll("[data-cat]").forEach(b => b.addEventListener("click",
 $("go-list").onclick = () => showTab("list");
 $("b-more").onclick = e => { e.stopPropagation(); $("moresheet").hidden = !$("moresheet").hidden; };
 $("moresheet").onclick = e => { if (e.target.id === "moresheet") $("moresheet").hidden = true; };
+$("catChips").onclick = e => { const b = e.target.closest("[data-chip]"); if (!b) return; state.cat = b.dataset.chip; state.page = 0; mobileShown = 12; renderFilters(); renderGrid(); save(); };
 $("catSel").onchange = e => { state.cat = e.target.value; state.page = 0; mobileShown = 12; renderFilters(); renderGrid(); save(); try { history.replaceState(null, "", "#" + (state.cat === WINTER ? "winter" : state.tab)); } catch (er) {} };
 $("store").onchange = e => { state.store = e.target.value; refresh(); };
 $("price").onchange = e => { state.price = e.target.value; refresh(); };
