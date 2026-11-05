@@ -101,5 +101,6 @@ export const RAW = [
 ["Cameras","Fujifilm X-T5","40 MP APS-C · body only",1507,null,null,null,"Fujifilm X-T5 Body"],
 ["Cameras","GoPro HERO13 Black","5.3K action cam",389.90,null,null,null,"GoPro HERO13 Black"],
 ["TV","LG OLED evo C6 65\"","2026 · α11 Gen3 · 165 Hz",null,null,null,null,"LG OLED65C6","Lowest seen €1,678.90 in Germany. TVs top Brack's Black Friday sales every year."],
-["TV","Samsung OLED S85D 55\"","4K · 120 Hz",null,null,null,null,"Samsung QE55S85D","Regular Black Friday OLED deal at Swiss retailers."]
+["TV","Samsung OLED S85D 55\"","4K · 120 Hz",null,null,null,null,"Samsung QE55S85D","Regular Black Friday OLED deal at Swiss retailers."],
+["Home","AEG WA4B50F washing machine","Front loader · Fust Black Week offer",699.95,null,null,null,"AEG WA4B50F","Fust shows CHF 1,999.95 crossed out (-65%) on its own product page, checked 05.11.2026. The crossed-out price is Fust's own, so compare other shops before buying.",["fust","galaxus","brack","mediamarkt"]]
 ];
