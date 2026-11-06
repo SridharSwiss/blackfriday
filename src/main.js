@@ -46,11 +46,12 @@ WINTER_TYRES.forEach(([t, n, s]) => {
 DEALS.forEach(d => { d.region = "ch"; d.cur = "CHF"; d.id = "ch-" + slug(d.name); d.pick = d.top && d.status === "buy"; });
 
 // US products: last year's Black Friday price vs regular price, in USD
-const US = US_RAW.map(([cat, name, spec, bf, reg, retailer, q], i) => {
+const TODAY = new Date().toISOString().slice(0, 10);
+const US = US_RAW.filter(r => !r[7] || r[7] >= TODAY).map(([cat, name, spec, bf, reg, retailer, q], i) => {
   const others = ["amazoncom", "bestbuy", "walmart", "target"].filter(s => s !== retailer);
   return { region: "us", cur: "USD", id: "us-" + slug(name), rank: i + 1, top: false, cat, name, spec, q,
-    now: null, bw25: bf, reg, low: null, lowAt: null, best: { p: bf, where: /2026/.test(spec) ? "2026 ad / early deal" : "Black Friday 2025" }, show: bf,
-    save: reg - bf, off: Math.round((1 - bf / reg) * 100), status: /2026/.test(spec) ? "early" : "lastyear", note: null, pick: (1 - bf / reg) >= 0.35,
+    now: null, bw25: bf, reg, low: null, lowAt: null, best: { p: bf, where: "Live deal" }, show: bf,
+    save: reg - bf, off: Math.round((1 - bf / reg) * 100), status: "live", note: null, pick: (1 - bf / reg) >= 0.35,
     shops: [retailer, ...others.slice(0, 2)] };
 });
 const ALL = DEALS.concat(US);
@@ -303,7 +304,7 @@ function showTab(t, opts = {}) {
 function chart(d) {
   const pts = [];
   if (d.reg) pts.push(["Regular price", d.reg]);
-  if (d.bw25 != null) pts.push([d.region === "us" ? (d.status === "early" ? "Early deal 2026" : "Black Friday 2025") : "Black Week 2025", d.bw25]);
+  if (d.bw25 != null) pts.push([d.region === "us" ? "Live deal" : "Black Week 2025", d.bw25]);
   if (d.low != null) pts.push(["Record low", d.low]);
   if (d.now != null) pts.push(["Today", d.now]);
   if (pts.length < 2) return "";
@@ -317,7 +318,7 @@ function openDetails(d, push = true) {
   if ($("modal").hidden) opener = document.activeElement;
   const rows = [];
   if (d.region === "us") {
-    rows.push(`<dt>${d.status === "early" ? T("earlyDeal") : T("bfPrice")}</dt><dd>${money(d.bw25, "USD")}</dd>`, `<dt>${T("regularPrice")}</dt><dd>${money(d.reg, "USD")}</dd>`, `<dt>${T("saving")}</dt><dd class="target">−${d.off}%</dd>`);
+    rows.push(`<dt>${T("statusLive")}</dt><dd>${money(d.bw25, "USD")}</dd>`, `<dt>${T("regularPrice")}</dt><dd>${money(d.reg, "USD")}</dd>`, `<dt>${T("saving")}</dt><dd class="target">−${d.off}%</dd>`);
   } else {
     if (d.best && d.status !== "check") rows.push(`<dt>${T("targetPrice")}</dt><dd class="target">CHF ${fmt(d.best.p)}</dd>`);
     if (d.lowAt) rows.push(`<dt>${T("recordLowAt")}</dt><dd>${esc(d.lowAt)}</dd>`);
