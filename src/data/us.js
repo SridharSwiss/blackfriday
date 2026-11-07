@@ -1,12 +1,12 @@
-/* US deals live on 6 Nov 2026. Every row was confirmed by two independent pages dated 25 Oct - 6 Nov 2026.
-   Last year's (2025) prices were removed. Optional 8th field = last valid day (YYYY-MM-DD); main.js hides a row after that day.
-   Upcoming events (Walmart 12 Nov, Best Buy 19 Nov, Walmart BF 23 Nov, Costco/Ninja/Dyson later) are in calendar.js and are added when they go live.
+/* US deals live on 7 Nov 2026. Every row was confirmed by two independent pages (or the retailer's own page plus one) dated 1-7 Nov 2026.
+   Rows that could no longer be confirmed on 7 Nov 2026 were removed. Optional 8th field = last valid day (YYYY-MM-DD); main.js hides a row after that day.
+   Upcoming events (Walmart 12 Nov, Best Buy 19 Nov, Walmart BF 23 Nov, Costco waves to 30 Nov) are in calendar.js and are added when they go live.
    Format: [category, name, spec, dealPriceUSD, regularUSD, retailer, searchQuery, validUntil] */
 export const US_RAW = [
-["Audio","Bose QuietComfort Headphones","Over-ear ANC · Amazon early Black Friday deal",169,359,"amazoncom","Bose QuietComfort Headphones",null],
-["Audio","Apple AirPods Max 2","USB-C · Amazon deal seen 29 Oct 2026",449,549,"amazoncom","AirPods Max USB-C",null],
-["Smart Home","SimpliSafe 10-Piece Security System with Outdoor Camera Series 2","Costco online only, limit 2 · to 15 Nov",99.99,199.99,"costco","simplisafe 10 piece security system outdoor camera","2026-11-15"],
-["Home","Dyson Purifier Hot+Cool HP11","Air purifier + heater/fan · Costco to 15 Nov",399.99,599.99,"costco","dyson purifier hot cool hp11","2026-11-15"],
+["Streaming","Amazon Fire TV Stick 4K (2026 model)","Wi-Fi 6 · Dolby Vision · early deal 2026",24.99,59.99,"amazoncom","Fire TV Stick 4K",null],
+["Computers","Apple MacBook Air 15\" M5","16 GB · 512 GB SSD · early deal 2026",1299.99,1499,"amazoncom","MacBook Air 15 M5 16GB 512GB",null],
+["Computers","Apple MacBook Air 15\" M5","16 GB · 1 TB SSD · early deal 2026",1599,1799,"amazoncom","MacBook Air 15 M5 16GB 1TB",null],
+["Home","Dyson V10 Konical Cordless Vacuum","Black/Blue · Best Buy doorbuster · early deal 2026",349.99,499.99,"bestbuy","Dyson V10 Konical","2026-11-08"],
 ];
 
 export const US_SHOPINFO = [
