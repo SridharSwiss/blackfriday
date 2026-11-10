@@ -9,6 +9,9 @@ A fast, dependency-light web app listing Black Friday 2026 offers for Switzerlan
 - **Deal calendar** (CH + US dates with countdown), **Retailers** (CH + US), **Guide & FAQ**
 - Global search (press `/`), filters for shop, price range, status and category, sort by rank / biggest saving / price / A–Z
 - One-screen desktop layout: the card grid sizes itself to the window and pages with Prev/Next (← →). Phones get a bottom tab bar, a "More" sheet, "Show more" loading and bottom-sheet details
+- **Return visits:** prices are remembered in the browser. On a later visit (6 h+), cards show "↓ CHF x" price drops and "New" badges, a "Welcome back" bar counts drops (and those on My list) with a one-tap "Show them" filter, and a toast flags cheaper saved deals. The same bar shows the next deal date with a "Remind me" calendar file
+- **Deal of the day** pop-up (`src/data/deal-of-day.js`)
+- **Installable app (PWA):** `public/manifest.webmanifest`, icons, network-first `public/sw.js` (never serves stale prices when online), "Install app" button when the browser offers it
 - Light/dark theme toggle (follows the system by default)
 - **SEO landing pages** (static HTML, readable without JavaScript): 15 pages in DE/FR/IT/EN, e.g. `/de/black-friday-schweiz-2026/`, `/fr/black-friday-suisse-2026/`, `/de/black-week-schweiz-2026/`, `/de/black-friday-fernseher-schweiz/`, `/de/black-friday-usa-schweiz/`. Each has its own title, description, canonical, hreflang, H1, intro and JSON-LD (WebPage, ItemList, Event, FAQPage) and opens the matching view. Add or edit them in `src/config/pages.js`.
 - Deep links: `#top`, `#categories`, `#us`, `#list`, `#calendar`, `#retailers`, `#guide`, `#winter`, and `#p-<product-id>` (opens a product)

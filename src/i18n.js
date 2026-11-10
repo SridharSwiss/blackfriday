@@ -4,6 +4,12 @@
 
 export const STRINGS = {
   en: {
+    pulseBack: (date, n, k, m) => `<b>Welcome back.</b> Since ${date}: <b>${n}</b> price ${n === 1 ? "drop" : "drops"}${k ? ` (<b>${k}</b> on your list)` : ""}${m ? ` · <b>${m}</b> new` : ""}`,
+    pulseSame: (date) => `<b>Welcome back.</b> No price changes since ${date}. New deals go live on the dates below.`,
+    pulseFirst: "<b>Tip:</b> tap ♥ to save deals. When you come back, we flag every price drop since your visit.",
+    pulseShow: "Show them", pulseShowAll: "Show all deals", pulseNext: "Next", remindMe: "Remind me",
+    newBadge: "New", dropTitle: (p) => `Was ${p} at your last visit`, dropsToast: (n) => `${n} saved ${n === 1 ? "deal is" : "deals are"} cheaper since your last visit`,
+    installApp: "Install app", installed: "Added to your home screen",
     dotdTag: "Deal of the day", dotdNote: "Lowest Amazon price in 90 days · EUR on Amazon.de, Swiss VAT added at checkout · check delivery to CH", dotdCta: "See deal on Amazon", dotdClose: "Close deal of the day", dotdOff: "off",
     searchPlaceholder: "Search 2,400+ deals…  (press /)",
     tabTop: "Top 100", tabCat: "All categories", tabUS: "US deals",
@@ -48,6 +54,12 @@ export const STRINGS = {
     langLabel: "EN",
   },
   de: {
+    pulseBack: (date, n, k, m) => `<b>Willkommen zurück.</b> Seit ${date}: <b>${n}</b> ${n === 1 ? "Preissenkung" : "Preissenkungen"}${k ? ` (<b>${k}</b> auf deiner Liste)` : ""}${m ? ` · <b>${m}</b> neu` : ""}`,
+    pulseSame: (date) => `<b>Willkommen zurück.</b> Seit ${date} keine Preisänderungen. Neue Deals starten an den Daten unten.`,
+    pulseFirst: "<b>Tipp:</b> Tippe auf ♥, um Deals zu merken. Beim nächsten Besuch markieren wir jede Preissenkung.",
+    pulseShow: "Anzeigen", pulseShowAll: "Alle Deals zeigen", pulseNext: "Als Nächstes", remindMe: "Erinnern",
+    newBadge: "Neu", dropTitle: (p) => `Bei deinem letzten Besuch ${p}`, dropsToast: (n) => `${n} gemerkte${n === 1 ? "r Deal ist" : " Deals sind"} seit deinem letzten Besuch günstiger`,
+    installApp: "App installieren", installed: "Zum Startbildschirm hinzugefügt",
     dotdTag: "Deal des Tages", dotdNote: "Tiefster Amazon-Preis seit 90 Tagen · EUR auf Amazon.de, Schweizer MWST an der Kasse · Lieferung in die CH prüfen", dotdCta: "Zum Deal auf Amazon", dotdClose: "Deal des Tages schliessen", dotdOff: "Rabatt",
     searchPlaceholder: "2.400+ Deals suchen…  (/ drücken)",
     tabTop: "Top 100", tabCat: "Alle Kategorien", tabUS: "US-Deals",
@@ -92,6 +104,12 @@ export const STRINGS = {
     langLabel: "DE",
   },
   fr: {
+    pulseBack: (date, n, k, m) => `<b>Bon retour.</b> Depuis le ${date} : <b>${n}</b> ${n === 1 ? "baisse de prix" : "baisses de prix"}${k ? ` (<b>${k}</b> dans ta liste)` : ""}${m ? ` · <b>${m}</b> nouveau${m === 1 ? "" : "x"}` : ""}`,
+    pulseSame: (date) => `<b>Bon retour.</b> Aucun changement de prix depuis le ${date}. Les nouvelles offres arrivent aux dates ci-dessous.`,
+    pulseFirst: "<b>Astuce :</b> touche ♥ pour garder une offre. À ta prochaine visite, on signale chaque baisse de prix.",
+    pulseShow: "Afficher", pulseShowAll: "Toutes les offres", pulseNext: "Prochain", remindMe: "Me rappeler",
+    newBadge: "Nouveau", dropTitle: (p) => `${p} lors de ta dernière visite`, dropsToast: (n) => `${n} offre${n === 1 ? " gardée est moins chère" : "s gardées sont moins chères"} depuis ta dernière visite`,
+    installApp: "Installer l'app", installed: "Ajouté à l'écran d'accueil",
     dotdTag: "Deal du jour", dotdNote: "Prix Amazon le plus bas depuis 90 jours · EUR sur Amazon.de, TVA suisse ajoutée au paiement · vérifier la livraison en Suisse", dotdCta: "Voir l'offre sur Amazon", dotdClose: "Fermer le deal du jour", dotdOff: "de rabais",
     searchPlaceholder: "Rechercher parmi 2 400+ offres…  (appuyer /)",
     tabTop: "Top 100", tabCat: "Toutes catégories", tabUS: "Offres US",
@@ -136,6 +154,12 @@ export const STRINGS = {
     langLabel: "FR",
   },
   it: {
+    pulseBack: (date, n, k, m) => `<b>Bentornato.</b> Dal ${date}: <b>${n}</b> ${n === 1 ? "prezzo in calo" : "prezzi in calo"}${k ? ` (<b>${k}</b> nella tua lista)` : ""}${m ? ` · <b>${m}</b> ${m === 1 ? "nuova" : "nuove"}` : ""}`,
+    pulseSame: (date) => `<b>Bentornato.</b> Nessuna variazione di prezzo dal ${date}. Le nuove offerte arrivano nelle date qui sotto.`,
+    pulseFirst: "<b>Consiglio:</b> tocca ♥ per salvare le offerte. Alla prossima visita segnaliamo ogni calo di prezzo.",
+    pulseShow: "Mostra", pulseShowAll: "Tutte le offerte", pulseNext: "Prossimo", remindMe: "Ricordamelo",
+    newBadge: "Nuovo", dropTitle: (p) => `${p} alla tua ultima visita`, dropsToast: (n) => `${n} offert${n === 1 ? "a salvata costa" : "e salvate costano"} meno dalla tua ultima visita`,
+    installApp: "Installa l'app", installed: "Aggiunto alla schermata Home",
     dotdTag: "Offerta del giorno", dotdNote: "Prezzo Amazon più basso da 90 giorni · EUR su Amazon.de, IVA svizzera aggiunta alla cassa · verificare la consegna in Svizzera", dotdCta: "Vedi l'offerta su Amazon", dotdClose: "Chiudi offerta del giorno", dotdOff: "di sconto",
     searchPlaceholder: "Cerca tra 2.400+ offerte…  (premi /)",
     tabTop: "Top 100", tabCat: "Tutte le categorie", tabUS: "Offerte US",

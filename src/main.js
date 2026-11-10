@@ -44,12 +44,13 @@ WINTER_TYRES.forEach(([t, n, s]) => {
   DEALS.push({ rank: DEALS.length + 1, top: false, cat: WINTER, name: n, spec: `${t} tyre · ${s}`, now: null, bw25: null, low: null, lowAt: null,
     best: null, status: "live", save: 0, show: null, q: n, note: "Pick your size at reifen-online.ch; delivery across Switzerland, often to a fitting garage.", shops: ["reifenonline"] });
 });
-DEALS.forEach(d => { d.region = "ch"; d.cur = "CHF"; d.id = "ch-" + slug(d.name); d.pick = d.top && d.status === "buy"; });
+const IDS = new Map(); // same slug for different products (e.g. "Galaxy S26" / "Galaxy S26+") → -2, -3, …
+const uid = b => { const n = (IDS.get(b) || 0) + 1; IDS.set(b, n); return n > 1 ? `${b}-${n}` : b; };
+DEALS.forEach(d => { d.region = "ch"; d.cur = "CHF"; d.id = uid("ch-" + slug(d.name)); d.pick = d.top && d.status === "buy"; });
 
 // US products: last year's Black Friday price vs regular price, in USD
 const TODAY = new Date().toISOString().slice(0, 10);
-const US_IDS = new Map(); // same product name in several configs → unique ids (-2, -3, …)
-const usId = name => { const b = "us-" + slug(name), n = (US_IDS.get(b) || 0) + 1; US_IDS.set(b, n); return n > 1 ? `${b}-${n}` : b; };
+const usId = name => uid("us-" + slug(name));
 const US = US_RAW.filter(r => !r[7] || r[7] >= TODAY).map(([cat, name, spec, bf, reg, retailer, q], i) => {
   const others = ["amazoncom", "bestbuy", "walmart", "target"].filter(s => s !== retailer);
   return { region: "us", cur: "USD", id: usId(name), rank: i + 1, top: false, cat, name, spec, q,
@@ -59,6 +60,26 @@ const US = US_RAW.filter(r => !r[7] || r[7] >= TODAY).map(([cat, name, spec, bf,
 });
 const ALL = DEALS.concat(US);
 const BY_ID = new Map(ALL.map(d => [d.id, d]));
+
+/* Price memory: each visit stores today's prices. A visit more than 6 h after the last one compares against it,
+   so cards can show "↓ CHF x since your last visit" and "New". Stored only in this browser. */
+const MEM = (() => {
+  const key = "bf26-mem", now = Date.now(), snap = {};
+  ALL.forEach(d => { if (d.show != null) snap[d.id] = d.show; });
+  let m = {}; try { m = JSON.parse(localStorage.getItem(key) || "{}") || {}; } catch (e) {}
+  if (!m.cur || !m.cur.p) m = { cur: { t: now, p: snap } };
+  else if (now - m.cur.t > 6 * 36e5) m = { base: m.cur, cur: { t: now, p: snap } };
+  else m.cur.p = snap;
+  try { localStorage.setItem(key, JSON.stringify(m)); } catch (e) {}
+  const base = m.base;
+  if (base && base.p) ALL.forEach(d => {
+    const old = base.p[d.id];
+    if (d.show == null) return;
+    if (old == null) d.isNew = true;
+    else if (d.show < old - 0.004) { d.drop = +(old - d.show).toFixed(2); d.was0 = old; }
+  });
+  return base || null;
+})();
 const POOLS = {
   top: DEALS.filter(d => d.top),
   categories: DEALS.filter(d => !d.top),
@@ -70,10 +91,11 @@ const LABEL = { buy: T("statusBuy"), wait: T("statusWaitS"), track: T("statusTra
 /* ---------------- state ---------------- */
 const PRODUCT_TABS = ["top", "categories", "us", "list"];
 const TABS = [...PRODUCT_TABS, "calendar", "retailers", "guide"];
-const defaults = { tab: "top", cat: "All", q: "", status: "all", sort: "rank", store: "all", price: "all", page: 0 };
+const defaults = { tab: "top", cat: "All", q: "", status: "all", sort: "rank", store: "all", price: "all", page: 0, drops: false };
 let state = { ...defaults, watch: [], theme: "" };
 try { Object.assign(state, JSON.parse(localStorage.getItem("bf26v5") || "{}")); } catch (e) {}
 state.watch = Array.isArray(state.watch) ? state.watch.filter(id => BY_ID.has(id)) : [];
+if (!MEM) state.drops = false;
 const save = () => { try { localStorage.setItem("bf26v5", JSON.stringify(state)); } catch (e) {} };
 const $ = id => document.getElementById(id);
 const mobile = () => matchMedia("(max-width: 760px), (max-height: 560px)").matches;
@@ -112,11 +134,12 @@ function pool() {
 function list() {
   const term = state.q.trim().toLowerCase();
   const global = term && state.tab !== "list";
-  const l = (global ? ALL : pool()).filter(d =>
-    (global || state.cat === "All" || d.cat === state.cat || state.tab === "list") &&
+  const l = (global || state.drops ? ALL : pool()).filter(d =>
+    (global || state.drops || state.cat === "All" || d.cat === state.cat || state.tab === "list") &&
     (state.status === "all" || d.status === state.status) &&
     (state.store === "all" || d.shops.includes(state.store)) &&
     inRange(d) &&
+    (!state.drops || d.drop || d.isNew) &&
     (!term || (d.name + " " + d.spec + " " + d.cat).toLowerCase().includes(term)));
   const by = {
     rank: (a, b) => (a.region === b.region ? a.rank - b.rank : a.region === "ch" ? -1 : 1),
@@ -133,14 +156,15 @@ function priceLine(d) {
   if (d.region === "us") extra = `<span class="was">${money(d.reg, "USD")}</span>`;
   else if (d.best && d.now != null && d.best.p < d.now) extra = `<span class="best" title="${esc(d.best.where || "")}"><span class="lo">${T("lowLabel")} ${fmt(d.best.p)}</span> <b>−${Math.round((d.now - d.best.p) / d.now * 100)}%</b></span>`;
   else if (d.now == null && d.best) extra = `<span class="best">${esc(d.best.where)}</span>`;
-  return `<span class="price">${money(d.show, d.cur)}</span>${extra}`;
+  const drop = d.drop ? `<span class="drop" title="${esc(S.dropTitle(money(d.was0, d.cur)))}">↓ ${money(d.drop, d.cur)}</span>` : "";
+  return `<span class="price">${money(d.show, d.cur)}</span>${drop}${extra}`;
 }
 function card(d) {
   const badge = d.off ? `<span class="off">−${d.off}%</span>` : d.pick ? `<span class="off pick">Pick</span>` : "";
   return `<article class="card${d.pick ? " is-pick" : ""}">
     <div class="tw">${thumb(d)}${badge}<button class="heart${watched(d) ? " on" : ""}" type="button" data-w="${d.id}" aria-pressed="${watched(d)}" aria-label="Save ${esc(d.name)} to My list">${heartSvg}</button></div>
     <div class="body">
-      <div class="top"><span class="r">${d.top ? `#<b>${d.rank}</b>`  : ""}</span><span class="c">${esc(d.cat)}</span><span class="pill ${d.status}">${LABEL[d.status]}</span></div>
+      <div class="top"><span class="r">${d.top ? `#<b>${d.rank}</b>`  : ""}</span><span class="c">${esc(d.cat)}</span>${d.isNew ? `<span class="pill new">${T("newBadge")}</span>` : ""}<span class="pill ${d.status}">${LABEL[d.status]}</span></div>
       <button class="name" type="button" data-d="${d.id}">${esc(d.name)}</button>
       <div class="priceline">${priceLine(d)}</div>
       <div class="btns">${(() => { const all = cardShops(d), vis = all.slice(0, 2), more = all.length - vis.length;
@@ -233,7 +257,7 @@ function renderGrid() {
   }
   $("grid").innerHTML = vis.length ? vis.map(card).join("") : emptyState();
   $("count").textContent = `${l.length.toLocaleString(LANG === "en" ? "en-US" : LANG)} ${T("deals")}`;
-  const filtered = state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && (state.tab === "categories" || state.tab === "top")) || (state.cat !== "All" && state.tab === "us");
+  const filtered = state.drops || state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && (state.tab === "categories" || state.tab === "top")) || (state.cat !== "All" && state.tab === "us");
   $("reset").hidden = !filtered;
 }
 function renderFilters() {
@@ -297,7 +321,7 @@ function showTab(t, opts = {}) {
   const products = PRODUCT_TABS.includes(t);
   $("p-products").hidden = !products;
   ["calendar", "retailers", "guide"].forEach(x => $("p-" + x).hidden = x !== t);
-  if (products) { renderFilters(); renderGrid(); }
+  if (products) { renderPulse(); renderFilters(); renderGrid(); }
   if (!opts.noHash) { try { history.replaceState(null, "", "#" + (t === "categories" && state.cat === WINTER ? "winter" : t)); } catch (e) {} }
   $("moresheet").hidden = true;
   if (mobile()) window.scrollTo({ top: 0 });
@@ -434,7 +458,7 @@ $("q").oninput = e => {
   renderFilters();
   refresh();
 };
-const resetFilters = () => { Object.assign(state, { q: "", store: "all", price: "all", status: "all", cat: state.tab === "top" || state.tab === "list" ? "All" : "All" }); $("q").value = ""; renderFilters(); refresh(); };
+const resetFilters = () => { Object.assign(state, { q: "", store: "all", price: "all", status: "all", drops: false, cat: state.tab === "top" || state.tab === "list" ? "All" : "All" }); $("q").value = ""; renderFilters(); refresh(); };
 $("reset").onclick = resetFilters;
 $("clear-list").onclick = () => { state.watch = []; save(); updateCounts(); renderFilters(); renderGrid(); toast(T("clearedToast")); };
 $("prev").onclick = () => { state.page--; save(); renderGrid(); };
@@ -549,6 +573,47 @@ if (LANG !== "en") {
   $("pmore").textContent = T("showMore");
 }
 renderStatic(); updateCounts(); tick(); setInterval(tick, 30000);
+
+/* ---------------- return-visit bar: price drops since last visit + next deal date ---------------- */
+let installEvt = null;
+function nextEvent() {
+  return EVENTS.filter(e => e.date >= TODAY).sort((a, b) => a.date.localeCompare(b.date))[0] || null;
+}
+function renderPulse() {
+  const el = $("pulse"); if (!el) return;
+  const loc = LANG === "en" ? "en-GB" : LANG + "-CH";
+  let left;
+  if (MEM) {
+    const date = new Date(MEM.t).toLocaleDateString(loc, { day: "numeric", month: "short" });
+    const drops = ALL.filter(d => d.drop), news = ALL.filter(d => d.isNew);
+    const mine = drops.filter(watched).length;
+    left = drops.length || news.length
+      ? `<span>${S.pulseBack(date, drops.length, mine, news.length)}</span><button class="pbtn" type="button" data-drops>${state.drops ? T("pulseShowAll") : T("pulseShow")}</button>`
+      : `<span>${S.pulseSame(date)}</span>`;
+  } else left = `<span>${T("pulseFirst")}</span>`;
+  const e = nextEvent();
+  let right = "";
+  if (e) {
+    const n = Math.ceil((new Date(e.date + "T00:00:00+01:00") - Date.now()) / 864e5);
+    const when = n > 1 ? S.inDays(n) : n === 1 ? T("tomorrow") : T("today");
+    right = `<span class="nxt"><span class="eyebrow">${T("pulseNext")}</span> <b>${esc(e.title)}</b> · ${when}</span><a class="pbtn" href="${ics(e)}" download="${slug(e.title)}.ics"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg> ${T("remindMe")}</a>`;
+  }
+  const inst = installEvt ? `<button class="pbtn solid" type="button" data-install>${T("installApp")}</button>` : "";
+  el.innerHTML = `<div class="pl">${left}</div><div class="pr">${right}${inst}</div>`;
+  el.hidden = false;
+}
+$("pulse").onclick = async e => {
+  if (e.target.closest("[data-drops]")) { state.drops = !state.drops; state.page = 0; mobileShown = 12; save(); renderPulse(); renderFilters(); renderGrid(); return; }
+  if (e.target.closest("[data-install]") && installEvt) {
+    installEvt.prompt(); const r = await installEvt.userChoice.catch(() => null);
+    installEvt = null; renderPulse(); if (r && r.outcome === "accepted") toast(T("installed"));
+  }
+};
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvt = e; renderPulse(); });
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+}
+{ const mine = ALL.filter(d => d.drop && watched(d)).length; if (mine) setTimeout(() => toast(S.dropsToast(mine)), 900); }
 
 // Deal of the day: pop-up card shown when the site opens, until closed (remembered per deal) or expired
 function dealOfDay() {
