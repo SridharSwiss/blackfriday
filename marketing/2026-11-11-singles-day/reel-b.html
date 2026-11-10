@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:wght@500;700&family=JetBrains+Mono:wght@700&display=swap">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#141112;color:#F2EFEE;font-family:"Public Sans",sans-serif}
+.grid{position:absolute;inset:0;background-image:radial-gradient(#2a2425 2px,transparent 2px);background-size:44px 44px;opacity:.7}
+.brand{position:absolute;left:72px;top:90px;display:flex;align-items:center;gap:20px;font:900 50px/1 Archivo;z-index:5}
+.cross{width:66px;height:66px;background:#E8463A;border-radius:12px;position:relative}
+.cross:before,.cross:after{content:"";position:absolute;background:#fff;left:50%;top:50%;transform:translate(-50%,-50%)}
+.cross:before{width:40px;height:13px}.cross:after{width:13px;height:40px}
+.sc{position:absolute;inset:0;opacity:0}
+.ones{position:absolute;left:50%;top:360px;transform:translateX(-50%);font:900 400px/1 Archivo;color:#FFD200;letter-spacing:-.05em;white-space:nowrap}
+.h{position:absolute;left:72px;right:72px;top:920px;font:900 120px/.9 Archivo;font-stretch:78%;text-transform:uppercase;text-align:center}
+.h .r{color:#E8463A;display:block}
+.s{position:absolute;left:72px;right:72px;top:1320px;font:700 46px/1.3 "Public Sans";text-align:center;color:#A8A1A2}
+.ticket{position:absolute;left:72px;right:72px;top:470px;height:980px;background:#FFD200;color:#151314;border-radius:40px;padding:70px 64px;
+  -webkit-mask:radial-gradient(circle 46px at 0 62%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 46px at 100% 62%,#0000 98%,#000) right/51% 100% no-repeat}
+.ticket .shop{font:700 40px/1 "JetBrains Mono";letter-spacing:.1em;text-transform:uppercase}
+.ticket .pct{font:900 300px/.9 Archivo;letter-spacing:-.03em;margin-top:34px}
+.ticket .what{font:800 54px/1.12 Archivo;margin-top:22px}
+.ticket .cut{position:absolute;left:64px;right:64px;top:62%;border-top:6px dashed rgba(21,19,20,.35)}
+.ticket .code{position:absolute;left:64px;right:64px;top:67%;display:flex;align-items:center;justify-content:center;gap:24px;font:700 44px/1 "JetBrains Mono"}
+.ticket .code b{background:#151314;color:#FFD200;padding:18px 28px;border-radius:14px;font-size:64px;letter-spacing:.06em}
+.ticket .when{position:absolute;left:64px;right:64px;bottom:60px;text-align:center;font:700 38px/1.2 "Public Sans"}
+.count{position:absolute;left:72px;top:1500px;font:700 34px/1 "JetBrains Mono";color:#A8A1A2;letter-spacing:.1em}
+.cta{position:absolute;left:72px;right:72px;top:1180px;height:170px;border-radius:32px;background:#E8463A;color:#fff;display:flex;align-items:center;justify-content:center;font:900 76px/1 Archivo}
+.legal{position:absolute;left:72px;right:72px;bottom:110px;font:600 26px/1.45 "Public Sans";color:#A8A1A2}
+.legal b{background:#F2EFEE;color:#141112;padding:3px 10px;border-radius:6px;margin-right:10px;font-size:22px;letter-spacing:.08em}
+.flash{position:absolute;inset:0;background:#E8463A;opacity:0;z-index:4;pointer-events:none}
+</style></head><body>
+<div class="grid"></div>
+<div class="brand"><span class="cross"></span>AKTION.CH</div>
+<div id="scenes"></div><div class="flash" id="flash"></div>
+<script>
+const C=[
+ {shop:"Ochsner Sport",pct:"−50%",what:"auf ausgewählte Sportartikel & Winterschuhe",code:null,when:"Singles Day · solange Vorrat"},
+ {shop:"Marionnaud",pct:"−35%",what:"auf Beauty & Parfum ab CHF 59 Einkauf",code:null,when:"Singles Day"},
+ {shop:"Douglas",pct:"−30%",what:"Singles' Day Week: 25–30 % ohne Code",code:null,when:"Singles' Day Week"},
+ {shop:"Livique",pct:"−30%",what:"auf alles online",code:null,when:"Singles Day"},
+ {shop:"Samsung Schweiz",pct:"−11%",what:"extra auf Singles-Week-Preise, z.B. Galaxy S26 Ultra",code:"SINGLESWEEK",when:"bis 11.11.2026"},
+ {shop:"Zalando",pct:"−11%",what:"auf viele Styles",code:"SINGLE11",when:"Singles' Day · Ausnahmen gelten"}
+];
+const T0=2.4, D=2.0, END=T0+C.length*D, DUR=END+2.8;
+document.getElementById('scenes').innerHTML=`<section class="sc"><div class="ones">11.11</div><div class="h"><span>Singles Day</span><span class="r">Codes & Rabatte</span></div><div class="s">6 Aktionen, die heute & morgen gelten</div></section>`
+ + C.map((c,i)=>`<section class="sc"><div class="ticket"><div class="shop">${c.shop}</div><div class="pct">${c.pct}</div><div class="what">${c.what}</div><div class="cut"></div><div class="code">${c.code?`Code <b>${c.code}</b>`:`<span>Kein Code nötig</span>`}</div><div class="when">${c.when}</div></div><div class="count">${String(i+1).padStart(2,"0")} / 0${C.length}</div></section>`).join("")
+ + `<section class="sc"><div class="h" style="top:360px"><span>Alle Deals live</span><span class="r">auf Aktion.ch</span></div><div class="s" style="top:680px">100 geprüfte Angebote aus der Schweiz</div><div class="cta">Link in Bio →</div><div class="legal"><b>ANZEIGE</b>Affiliate-Links. Aktionen Stand 10.11.2026, Bedingungen und Ausnahmen der Shops gelten. Angaben ohne Gewähr.</div></section>`;
+const S=[...document.querySelectorAll('.sc')];
+const cl=x=>Math.max(0,Math.min(1,x)), ease=t=>1-Math.pow(1-cl(t),3), back=t=>{t=cl(t);const c=2.2;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)};
+function win(i){ if(i===0) return [0,T0]; if(i===S.length-1) return [END,DUR]; return [T0+(i-1)*D, T0+i*D]; }
+window.DUR=DUR;
+window.render=function(t){
+ let flash=0;
+ S.forEach((s,i)=>{const [a,b]=win(i); const vis=t>=a&&(t<b||i===S.length-1);
+  s.style.opacity=vis?1:0; if(!vis) return;
+  const lt=t-a; if(i>0) flash=Math.max(flash,1-cl(lt/0.18));
+  s.querySelectorAll('.ones').forEach(e=>{const k=back(lt/0.6);e.style.transform=`translateX(-50%) scale(${0.3+0.7*k}) rotate(${(1-ease(lt/0.6))*-20}deg)`;e.style.opacity=cl(lt/0.2);});
+  s.querySelectorAll('.h,.s').forEach((e,k)=>{const q=ease((lt-0.4-k*0.15)/0.4);e.style.opacity=q;e.style.transform=`translateY(${(1-q)*80}px)`;});
+  s.querySelectorAll('.ticket').forEach(e=>{const q=back(lt/0.45);e.style.transform=`translateY(${(1-ease(lt/0.45))*400}px) rotate(${(1-q)*6}deg) scale(${0.85+0.15*q})`;});
+  s.querySelectorAll('.pct').forEach(e=>{const q=back((lt-0.25)/0.35);e.style.transform=`scale(${0.4+0.6*q})`;e.style.transformOrigin='left center';e.style.opacity=cl((lt-0.25)/0.1);});
+  s.querySelectorAll('.what,.code,.when').forEach((e,k)=>{const q=ease((lt-0.5-k*0.12)/0.3);e.style.opacity=q;});
+  s.querySelectorAll('.cta').forEach(e=>{const q=back((lt-0.6)/0.4);e.style.opacity=cl((lt-0.6)/0.2);e.style.transform=`scale(${(0.5+0.5*q)*(1+0.03*Math.sin(Math.max(0,lt-1)*6))})`;});
+  s.querySelectorAll('.legal').forEach(e=>{e.style.opacity=cl((lt-1)/0.3);});
+ });
+ document.getElementById('flash').style.opacity=flash*0.55;
+};
+render(0);
+</script></body></html>
