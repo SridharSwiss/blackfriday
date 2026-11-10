@@ -476,3 +476,28 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
 .card .btns .shop.primary{font-size:12.5px}
 .card .body{padding:8px 10px}
 @media (min-width:1000px) and (min-height:561px){ .head .chips{order:3} }
+
+/* ===== Deal of the day pop-up ===== */
+.dotd{position:fixed;z-index:60;right:20px;bottom:20px;width:min(380px,calc(100vw - 32px));background:var(--surface);color:var(--ink);
+  border:2px solid var(--ink);border-radius:var(--r-lg,16px);box-shadow:0 18px 50px rgba(0,0,0,.28);padding:14px 16px 16px;
+  transform:translateY(24px);opacity:0;transition:transform .25s ease,opacity .25s ease}
+.dotd.in{transform:none;opacity:1}
+.dotd-x{position:absolute;top:8px;right:10px;width:32px;height:32px;border:0;border-radius:50%;background:transparent;color:var(--muted);font-size:24px;line-height:1;cursor:pointer}
+.dotd-x:hover{background:var(--bg);color:var(--ink)}
+.dotd-tag{font:700 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;gap:8px;align-items:center;padding-right:36px}
+.dotd-tag span{background:var(--red-bg,var(--red));color:var(--red-ink);padding:5px 8px;border-radius:6px}
+.dotd-body{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center;margin-top:12px}
+.dotd-ico{width:64px;height:64px;border-radius:12px;background:var(--tag);display:grid;place-items:center}
+.dotd-ico svg{width:40px;height:40px;fill:none;stroke:var(--tag-ink);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.dotd h2{font:800 20px/1.1 var(--f-display);margin:0}
+.dotd-spec{margin:3px 0 0;font-size:13px;color:var(--muted)}
+.dotd-price{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-top:8px}
+.dotd-price b{font:800 24px/1 var(--f-display);background:var(--tag);color:var(--tag-ink);padding:3px 7px;border-radius:6px}
+.dotd-price s{color:var(--muted);font-size:13px}
+.dotd-off{font:700 13px/1 var(--f-body);color:var(--save,var(--good))}
+.dotd-note{margin:10px 0 12px;font-size:12px;line-height:1.4;color:var(--muted)}
+.dotd-cta{display:flex;justify-content:center;align-items:center;gap:6px;min-height:44px;border-radius:10px;background:var(--red-bg,var(--red));color:var(--red-ink);font:700 15px/1 var(--f-body);text-decoration:none}
+.dotd-cta svg{width:12px;height:12px}
+.dotd-cta:hover{filter:brightness(1.08)}
+@media (max-width:700px){.dotd{right:16px;left:16px;width:auto;bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+@media (prefers-reduced-motion:reduce){.dotd{transition:none}}

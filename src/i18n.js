@@ -4,6 +4,7 @@
 
 export const STRINGS = {
   en: {
+    dotdTag: "Deal of the day", dotdNote: "Lowest Amazon price in 90 days · EUR on Amazon.de, Swiss VAT added at checkout · check delivery to CH", dotdCta: "See deal on Amazon", dotdClose: "Close deal of the day", dotdOff: "off",
     searchPlaceholder: "Search 2,400+ deals…  (press /)",
     tabTop: "Top 100", tabCat: "All categories", tabUS: "US deals",
     tabList: "My list", tabCal: "Deal calendar", tabRetailers: "Retailers", tabGuide: "Guide & FAQ",
@@ -47,6 +48,7 @@ export const STRINGS = {
     langLabel: "EN",
   },
   de: {
+    dotdTag: "Deal des Tages", dotdNote: "Tiefster Amazon-Preis seit 90 Tagen · EUR auf Amazon.de, Schweizer MWST an der Kasse · Lieferung in die CH prüfen", dotdCta: "Zum Deal auf Amazon", dotdClose: "Deal des Tages schliessen", dotdOff: "Rabatt",
     searchPlaceholder: "2.400+ Deals suchen…  (/ drücken)",
     tabTop: "Top 100", tabCat: "Alle Kategorien", tabUS: "US-Deals",
     tabList: "Meine Liste", tabCal: "Deal-Kalender", tabRetailers: "Händler", tabGuide: "Ratgeber & FAQ",
@@ -90,6 +92,7 @@ export const STRINGS = {
     langLabel: "DE",
   },
   fr: {
+    dotdTag: "Deal du jour", dotdNote: "Prix Amazon le plus bas depuis 90 jours · EUR sur Amazon.de, TVA suisse ajoutée au paiement · vérifier la livraison en Suisse", dotdCta: "Voir l'offre sur Amazon", dotdClose: "Fermer le deal du jour", dotdOff: "de rabais",
     searchPlaceholder: "Rechercher parmi 2 400+ offres…  (appuyer /)",
     tabTop: "Top 100", tabCat: "Toutes catégories", tabUS: "Offres US",
     tabList: "Ma liste", tabCal: "Calendrier", tabRetailers: "Enseignes", tabGuide: "Guide & FAQ",
@@ -133,6 +136,7 @@ export const STRINGS = {
     langLabel: "FR",
   },
   it: {
+    dotdTag: "Offerta del giorno", dotdNote: "Prezzo Amazon più basso da 90 giorni · EUR su Amazon.de, IVA svizzera aggiunta alla cassa · verificare la consegna in Svizzera", dotdCta: "Vedi l'offerta su Amazon", dotdClose: "Chiudi offerta del giorno", dotdOff: "di sconto",
     searchPlaceholder: "Cerca tra 2.400+ offerte…  (premi /)",
     tabTop: "Top 100", tabCat: "Tutte le categorie", tabUS: "Offerte US",
     tabList: "La mia lista", tabCal: "Calendario", tabRetailers: "Negozi", tabGuide: "Guida & FAQ",

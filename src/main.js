@@ -6,6 +6,7 @@ import { WINTER_TYRES } from "./data/winter-tyres.js";
 import { SHOPINFO } from "./data/retailers.js";
 import { DEALS, isTyre } from "./data/products.js";
 import { US_RAW, US_SHOPINFO } from "./data/us.js";
+import { DEAL_OF_DAY } from "./data/deal-of-day.js";
 import { EVENTS, FAQ } from "./data/calendar.js";
 import { fmt, esc, ext } from "./lib/format.js";
 import { thumb } from "./lib/thumb.js";
@@ -548,6 +549,37 @@ if (LANG !== "en") {
   $("pmore").textContent = T("showMore");
 }
 renderStatic(); updateCounts(); tick(); setInterval(tick, 30000);
+
+// Deal of the day: pop-up card shown when the site opens, until closed (remembered per deal) or expired
+function dealOfDay() {
+  const d = DEAL_OF_DAY, key = "bf26-dotd";
+  if (!d || TODAY < d.from || TODAY > d.until || !SHOPS[d.shop]) return;
+  try { if (localStorage.getItem(key) === d.id) return; } catch (e) {}
+  const loc = LANG === "en" ? "de-CH" : LANG + "-CH";
+  const money = v => v.toLocaleString(loc, { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 });
+  const off = Math.round((1 - d.price / d.was) * 100);
+  const el = document.createElement("aside");
+  el.className = "dotd"; el.setAttribute("role", "dialog"); el.setAttribute("aria-labelledby", "dotd-name");
+  el.innerHTML = `<button class="dotd-x" type="button" aria-label="${T("dotdClose")}">×</button>
+    <div class="dotd-tag"><span>${T("dotdTag")}</span> Amazon.de</div>
+    <div class="dotd-body">
+      <div class="dotd-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="15" y="3" width="18" height="8" rx="2"/><rect x="15" y="37" width="18" height="8" rx="2"/><circle cx="24" cy="24" r="13"/><path d="M24 17v7l5 3"/></svg></div>
+      <div>
+        <h2 id="dotd-name">${esc(d.name)}</h2>
+        <p class="dotd-spec">${esc(d.spec[LANG] || d.spec.en)}</p>
+        <div class="dotd-price"><b>${d.cur} ${money(d.price)}</b><s>${d.cur} ${money(d.was)}</s><span class="dotd-off">−${off}% ${T("dotdOff")}</span></div>
+      </div>
+    </div>
+    <p class="dotd-note">${T("dotdNote")}</p>
+    <a class="dotd-cta" href="${affLink(d.shop, SHOPS[d.shop].search(d.q))}" target="_blank" rel="sponsored nofollow noopener">${T("dotdCta")} ${ext}</a>`;
+  const close = () => { el.classList.remove("in"); try { localStorage.setItem(key, d.id); } catch (e) {} setTimeout(() => el.remove(), 250); };
+  el.querySelector(".dotd-x").onclick = close;
+  el.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+  document.body.appendChild(el);
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("in")));
+}
+dealOfDay();
+
 
 // Reactive layout: re-fit + re-render when viewport size changes
 let _fitTimer;
