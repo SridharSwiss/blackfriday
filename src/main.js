@@ -6,7 +6,6 @@ import { WINTER_TYRES } from "./data/winter-tyres.js";
 import { SHOPINFO } from "./data/retailers.js";
 import { DEALS, isTyre } from "./data/products.js";
 import { US_RAW, US_SHOPINFO } from "./data/us.js";
-import { DEAL_OF_DAY } from "./data/deal-of-day.js";
 import { LIVE_CH, SHOWCASES } from "./data/live-ch.js";
 import { EVENTS, FAQ as FAQ_EN, FAQ_I18N } from "./data/calendar.js";
 import { fmt, esc, ext } from "./lib/format.js";
@@ -69,6 +68,11 @@ const LIVE = LIVE_CH.filter(r => (!r.from || r.from <= TODAY) && TODAY <= (r.unt
     status: "live", note: r.note || null, pick: (off || 0) >= 30, shops: [r.shop], shop: r.shop, url: r.url || null, until: r.until || null, from: r.from || null,
     checked: r.checked, code: r.code || null, percent: r.percent || null, type: r.type || null, src: r.src || [] };
 });
+// Most valuable live deals: at least 25 % off, ranked by the amount saved (EUR converted at an approximate rate, for ranking only)
+const EUR_CHF = 0.94;
+const chfSave = d => (d.save || 0) * (d.cur === "EUR" ? EUR_CHF : 1);
+const BEST = LIVE.filter(d => d.show != null && d.reg && d.off >= 25).sort((a, b) => chfSave(b) - chfSave(a)).slice(0, 24);
+BEST.forEach((d, i) => { d.bestRank = i + 1; });
 const ALL = LIVE.concat(DEALS, US);
 const BY_ID = new Map(ALL.map(d => [d.id, d]));
 
@@ -93,6 +97,7 @@ const MEM = (() => {
 })();
 const POOLS = {
   live: LIVE,
+  best: BEST,
   top: DEALS.filter(d => d.top),
   categories: DEALS.filter(d => !d.top),
   us: US
@@ -101,7 +106,7 @@ const CAT_ORDER = cats => [...new Set(cats)].sort((a, b) => a === WINTER ? -1 : 
 const LABEL = { buy: T("statusBuy"), wait: T("statusWaitS"), track: T("statusTrack"), check: T("statusCheck"), live: T("statusLive"), lastyear: T("statusLY"), early: T("statusEarly") };
 
 /* ---------------- state ---------------- */
-const PRODUCT_TABS = ["live", "top", "categories", "us", "list"];
+const PRODUCT_TABS = ["live", "best", "top", "categories", "us", "list"];
 const TABS = [...PRODUCT_TABS, "calendar", "retailers", "guide"];
 const defaults = { tab: LIVE.length ? "live" : "top", cat: "All", q: "", status: "all", sort: "rank", store: "all", price: "all", page: 0, drops: false };
 let state = { ...defaults, watch: [], theme: "" };
@@ -157,7 +162,7 @@ function list() {
     (!state.drops || d.drop || d.isNew) &&
     (!term || (d.name + " " + d.spec + " " + d.cat).toLowerCase().includes(term)));
   const by = {
-    rank: (a, b) => (a.region === b.region ? a.rank - b.rank : a.region === "ch" ? -1 : 1),
+    rank: state.tab === "best" && !term ? (a, b) => a.bestRank - b.bestRank : (a, b) => (a.region === b.region ? a.rank - b.rank : a.region === "ch" ? -1 : 1),
     save: (a, b) => (b.off ?? (b.now ? b.save / b.now * 100 : 0)) - (a.off ?? (a.now ? a.save / a.now * 100 : 0)) || a.rank - b.rank,
     low: (a, b) => (a.show ?? 1e9) - (b.show ?? 1e9) || a.rank - b.rank,
     high: (a, b) => (b.show ?? -1) - (a.show ?? -1) || a.rank - b.rank,
@@ -310,13 +315,14 @@ function renderFilters() {
   $("status").value = state.status; $("price").value = state.price; $("sort").value = state.sort;
   $("winterbar").hidden = !(t === "categories" && state.cat === WINTER);
   $("usbar").hidden = t !== "us";
-  $("livebar").hidden = t !== "live";
+  $("livebar").hidden = t !== "live" && t !== "best";
   $("clear-list").hidden = !(t === "list" && state.watch.length);
   const locN = n => n.toLocaleString(LANG === "en" ? "en-US" : LANG);
   const lead = {
     top: [T("leadTop"), T("leadTopSub")],
     categories: [state.cat === "All" ? T("leadCat") : esc(state.cat), S.leadCatSub(locN(POOLS.categories.length))],
     us: [state.cat === "All" ? T("leadUS") : `US · ${esc(state.cat)}`, T("leadUSSub")],
+    best: [T("leadBest"), S.leadBestSub(BEST.length)],
     live: [state.cat === "All" ? T("leadLive") : esc(state.cat), S.leadLiveSub(locN(LIVE.length), fmtDay(LIVE.reduce((m, d) => d.checked > m ? d.checked : m, "") || TODAY))],
     list: [T("leadList"), S.leadListSub(state.watch.length)]
   }[t];
@@ -339,7 +345,7 @@ function showTab(t, opts = {}) {
   state.tab = t; save();
   TABS.forEach(x => { const b = $("t-" + x); b.setAttribute("aria-selected", x === t); b.tabIndex = x === t ? 0 : -1; });
   document.querySelectorAll(".bottomnav [data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
-  $("b-more").classList.toggle("on", ["us", "calendar", "retailers", "guide"].includes(t));
+  $("b-more").classList.toggle("on", ["categories", "us", "calendar", "retailers", "guide"].includes(t));
   const products = PRODUCT_TABS.includes(t);
   $("p-products").hidden = !products;
   ["calendar", "retailers", "guide"].forEach(x => $("p-" + x).hidden = x !== t);
@@ -454,6 +460,7 @@ function renderStatic() {
   $("faq").innerHTML = FAQ.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
   $("n-cat").textContent = POOLS.categories.length.toLocaleString("en-US");
   $("n-live").textContent = LIVE.length;
+  $("n-best").textContent = BEST.length;
   $("n-us").textContent = US.length;
   renderCalendar(); renderRetailers();
 }
@@ -546,7 +553,7 @@ if (langHtml) {
 // Translate static HTML labels when not English
 if (LANG !== "en") {
   // Tab bar
-  const tabMap = { "t-live": "tabLive", "t-top": "tabTop", "t-categories": "tabCat", "t-us": "tabUS",
+  const tabMap = { "t-live": "tabLive", "t-best": "tabBest", "t-top": "tabTop", "t-categories": "tabCat", "t-us": "tabUS",
     "t-list": "tabList", "t-calendar": "tabCal", "t-retailers": "tabRetailers", "t-guide": "tabGuide" };
   for (const [id, key] of Object.entries(tabMap)) {
     const el = $(id); if (!el) continue;
@@ -577,7 +584,7 @@ if (LANG !== "en") {
     <option value="high">${T("sortHigh")}</option>
     <option value="az">${T("sortAZ")}</option>`;
   // Bottom nav text nodes
-  const bnMap = { "b-top": "tabTop", "b-categories": "tabCat", "b-us": "tabUS", "b-list": "tabList", "b-more": "moreLabel" };
+  const bnMap = { "b-live": "tabLive", "b-best": "bestTag", "b-top": "tabTop", "b-categories": "tabCat", "b-us": "tabUS", "b-list": "tabList", "b-more": "moreLabel" };
   for (const [id, key] of Object.entries(bnMap)) {
     const el = $(id); if (!el) continue;
     const dot = el.querySelector(".dot");
@@ -645,35 +652,29 @@ if ("serviceWorker" in navigator && location.protocol === "https:") {
 }
 { const mine = ALL.filter(d => d.drop && watched(d)).length; if (mine) setTimeout(() => toast(S.dropsToast(mine)), 900); }
 
-// Deal of the day: pop-up card shown when the site opens, until closed (remembered per deal) or expired
-function dealOfDay() {
-  const d = DEAL_OF_DAY, key = "bf26-dotd";
-  if (!d || TODAY < d.from || TODAY > d.until || !SHOPS[d.shop]) return;
-  try { if (localStorage.getItem(key) === d.id) return; } catch (e) {}
-  const loc = LANG === "en" ? "de-CH" : LANG + "-CH";
-  const money = v => v.toLocaleString(loc, { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 });
-  const off = Math.round((1 - d.price / d.was) * 100);
+// Top deals banner: the most valuable live deals, shown as soon as the site opens (once a day; closing is remembered for the day)
+function topDealsBanner() {
+  const key = "bf26-topbanner";
+  if (BEST.length < 3 || PAGE?.tab === "best") return;
+  try { if (localStorage.getItem(key) === TODAY) return; } catch (e) {}
   const el = document.createElement("aside");
-  el.className = "dotd"; el.setAttribute("role", "dialog"); el.setAttribute("aria-labelledby", "dotd-name");
+  el.className = "dotd top5"; el.setAttribute("role", "dialog"); el.setAttribute("aria-labelledby", "top5-h");
   el.innerHTML = `<button class="dotd-x" type="button" aria-label="${T("dotdClose")}">×</button>
-    <div class="dotd-tag"><span>${T("dotdTag")}</span> Amazon.de</div>
-    <div class="dotd-body">
-      <div class="dotd-ico" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="15" y="3" width="18" height="8" rx="2"/><rect x="15" y="37" width="18" height="8" rx="2"/><circle cx="24" cy="24" r="13"/><path d="M24 17v7l5 3"/></svg></div>
-      <div>
-        <h2 id="dotd-name">${esc(d.name)}</h2>
-        <p class="dotd-spec">${esc(d.spec[LANG] || d.spec.en)}</p>
-        <div class="dotd-price"><b>${d.cur} ${money(d.price)}</b><s>${d.cur} ${money(d.was)}</s><span class="dotd-off">−${off}% ${T("dotdOff")}</span></div>
-      </div>
-    </div>
-    <p class="dotd-note">${T("dotdNote")}</p>
-    <a class="dotd-cta" href="${affLink(d.shop, SHOPS[d.shop].search(d.q))}" target="_blank" rel="sponsored nofollow noopener">${T("dotdCta")} ${ext}</a>`;
-  const close = () => { el.classList.remove("in"); try { localStorage.setItem(key, d.id); } catch (e) {} setTimeout(() => el.remove(), 250); };
+    <div class="dotd-tag"><span>${T("bestTag")}</span> ${S.bestChecked(fmtDay(TODAY))}</div>
+    <h2 id="top5-h">${T("bestTitle")}</h2>
+    <ol class="t5">${BEST.slice(0, 5).map(d => `<li><button type="button" data-d="${d.id}"><span class="t5n">${esc(d.name)}<small>${esc(SHOPS[d.shop] ? SHOPS[d.shop].name : d.shop)}${d.until ? " · " + S.untilLabel(fmtDay(d.until)) : ""}</small></span><span class="t5p"><b>${money(d.show, d.cur)}</b><s>${money(d.reg, d.cur)}</s></span><span class="t5o">−${d.off}%</span></button></li>`).join("")}</ol>
+    <button class="dotd-cta" type="button" data-all>${T("bestAll")} →</button>`;
+  const close = () => { el.classList.remove("in"); try { localStorage.setItem(key, TODAY); } catch (e) {} setTimeout(() => el.remove(), 250); };
   el.querySelector(".dotd-x").onclick = close;
   el.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+  el.addEventListener("click", e => {
+    const b = e.target.closest("[data-d]"); if (b) { close(); return openDetails(BY_ID.get(b.dataset.d)); }
+    if (e.target.closest("[data-all]")) { close(); showTab("best"); }
+  });
   document.body.appendChild(el);
   requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("in")));
 }
-dealOfDay();
+topDealsBanner();
 
 
 // Reactive layout: re-fit + re-render when viewport size changes

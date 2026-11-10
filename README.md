@@ -2,7 +2,9 @@
 
 A fast, dependency-light web app listing Black Friday 2026 offers for Switzerland:
 
-- **Top 100 offers** with researched CHF prices (today, Black Week 2025, record low) and an automatic *Buy now / Wait* call
+- **Live deals** (first tab): ~100 offers live in Switzerland, researched from retailer pages and dated Swiss deal reports (`src/data/live-ch.js`); each shows price, was-price, discount, shop, valid-until, voucher code and sources, and expires automatically
+- **🔥 Top deals**: the most valuable live deals (≥25 % off, ranked by amount saved), shown in a pop-up when the site opens (once a day) and as its own tab / phone menu item
+- **Top 100 offers** with researched CHF prices (today, 2026 record low) and an automatic *Buy now / Wait* call
 - **2,400+ products** in 33 general categories, including **Winter tyres** (reifen-online.ch partner links)
 - **US deals** tab: live US early Black Friday deals (USD deal price vs regular price, % off), each confirmed by two sources linking to Amazon.com, Best Buy, Walmart, Target
 - **My list** watchlist (heart on every card, saved in the browser), **share** links per product, price-history bars in the details pop-up
@@ -10,11 +12,10 @@ A fast, dependency-light web app listing Black Friday 2026 offers for Switzerlan
 - Global search (press `/`), filters for shop, price range, status and category, sort by rank / biggest saving / price / A–Z
 - One-screen desktop layout: the card grid sizes itself to the window and pages with Prev/Next (← →). Phones get a bottom tab bar, a "More" sheet, "Show more" loading and bottom-sheet details
 - **Return visits:** prices are remembered in the browser. On a later visit (6 h+), cards show "↓ CHF x" price drops and "New" badges, a "Welcome back" bar counts drops (and those on My list) with a one-tap "Show them" filter, and a toast flags cheaper saved deals. The same bar shows the next deal date with a "Remind me" calendar file
-- **Deal of the day** pop-up (`src/data/deal-of-day.js`)
 - **Installable app (PWA):** `public/manifest.webmanifest`, icons, network-first `public/sw.js` (never serves stale prices when online), "Install app" button when the browser offers it
 - Light/dark theme toggle (follows the system by default)
 - **SEO landing pages** (static HTML, readable without JavaScript): 22 pages in DE/FR/IT/EN, e.g. `/de/black-friday-schweiz-2026/`, `/fr/black-friday-suisse-2026/`, `/de/black-week-schweiz-2026/`, `/de/black-friday-fernseher-schweiz/`, `/de/black-friday-usa-schweiz/`. Each has its own title, description, canonical, hreflang, H1, intro and JSON-LD (WebPage, ItemList, Event, FAQPage) and opens the matching view. Add or edit them in `src/config/pages.js`.
-- **SEO + AI search (GEO):** each landing page ships its deals (name, spec, CHF price, Black Week 2025, record low, buy/wait), the deal calendar and a localized FAQ as static HTML, so crawlers that don't run JavaScript (GPTBot, ClaudeBot, PerplexityBot …) can read and cite them. Also: per-page keywords incl. question-style AI queries (`KEYWORDS` in `src/config/pages.js`), Organization/WebSite/WebPage/ItemList(Product+AggregateOffer)/Event/FAQPage JSON-LD, Open Graph image (`public/og-image.png`), robots.txt that explicitly allows AI crawlers, and `/llms.txt` + `/llms-full.txt` (key facts, all top-100 prices, US deals, calendar, FAQ in 4 languages) generated at build time
+- **SEO + AI search (GEO):** each landing page ships its deals (live deals or name, spec, CHF price, record low, buy/wait), the deal calendar and a localized FAQ as static HTML, so crawlers that don't run JavaScript (GPTBot, ClaudeBot, PerplexityBot …) can read and cite them. Also: per-page keywords incl. question-style AI queries (`KEYWORDS` in `src/config/pages.js`), Organization/WebSite/WebPage/ItemList(Product+AggregateOffer)/Event/FAQPage JSON-LD, Open Graph image (`public/og-image.png`), robots.txt that explicitly allows AI crawlers, and `/llms.txt` + `/llms-full.txt` (key facts, all top-100 prices, US deals, calendar, FAQ in 4 languages) generated at build time
 - Deep links: `#top`, `#categories`, `#us`, `#list`, `#calendar`, `#retailers`, `#guide`, `#winter`, and `#p-<product-id>` (opens a product)
 - Every outbound shop link goes through the affiliate layer (Amazon PartnerNet tag active; Awin/Tradedoubler ready)
 
@@ -75,11 +76,11 @@ public/                     favicon and static files
 
 **Affiliate IDs** – `src/config/affiliates.js`. Amazon: `tag`. Awin: set `network: "awin"`, `mid` (merchant ID, e.g. MediaMarkt CH = 14040) and `affid` (your publisher ID). Tradedoubler: `programId` + `siteId`. Shops without an ID link directly with UTM tags. **US links:** Amazon.com needs its own Associates tag (the .de tag `blackfrida08d-21` does not work on amazon.com) – set `amazoncom.tag` once you have it; Best Buy/Walmart/Target can be added via Impact.
 
-**US deals** – `src/data/us.js`. Each row: `[category, name, spec, blackFriday2025USD, regularUSD, mainRetailer, searchQuery]`.
+**US deals** – `src/data/us.js`. Each row: `[category, name, spec, dealPriceUSD, regularUSD, mainRetailer, searchQuery, validUntil]`.
 
 **Calendar & FAQ** – `src/data/calendar.js`.
 
-**Top 100** – `src/data/top100.js`. Each row: `[category, name, spec, todayCHF, blackWeek2025CHF, recordLowCHF, recordLowNote, searchQuery, note, shops?]`. Status is computed: *Buy now* if today is within 3% of the best known price, *Wait* if it was cheaper before, *Tracking* without history, *Check* without a verified CHF price.
+**Top 100** – `src/data/top100.js`. Each row: `[category, name, spec, todayCHF, null (unused), recordLowCHF, recordLowNote, searchQuery, note, shops?]`. Status is computed: *Buy now* if today is within 3% of the best known price, *Wait* if it was cheaper before, *Tracking* without history, *Check* without a verified CHF price.
 
 **Catalogue** – edit `content/catalogue.txt` (`## Category`, then `Name | spec` or `Name | spec | priceCHF`) and run `npm run catalogue`. Tyres are moved into *Winter tyres* automatically and link to reifen-online.ch.
 
@@ -89,7 +90,7 @@ public/                     favicon and static files
 
 ## Data sources
 
-Today's prices: Digitec/Galaxus checked 28.10.2026 for 35 of ranks 1–50, otherwise Black-Friday.ch price feed (23.10.2026). Black Week 2025 prices and record lows: Preispirat deal reports, Toppreise comparisons. Winter tyre rules: TCS. Products 101+ are a curated list without researched prices; their buttons open live shop listings.
+Live deals: retailer pages and dated Swiss deal reports (Preispirat, Toppreise, BlackFridayDeals.ch, Black-Friday.ch, delamar, PCGH), checked 10.11.2026. Top 100 today prices: Digitec/Galaxus product pages, November 2026; record lows: verified 2026 Swiss-deliverable prices. No 2025 data is used.
 
 ## Compliance
 

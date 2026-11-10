@@ -8,31 +8,31 @@ export const LOCALE = { de: "de_CH", fr: "fr_CH", it: "it_CH", en: "en_CH" };
 export const HREFLANG = { de: "de-CH", fr: "fr-CH", it: "it-CH", en: "en" };
 
 export const PAGES = [
-  { path: "/", lang: "en", group: "home", tab: "top", priority: 1.0,
+  { path: "/", lang: "en", group: "home", tab: "live", priority: 1.0,
     title: "Black Friday Switzerland 2026: Best Deals in CHF | Aktion.ch",
     description: "Black Friday 2026 is 27 Nov. Top 100 Swiss deals in CHF with price history and a buy-or-wait call. Black Week, Cyber Monday and US deals.",
     h1: "Black Friday Switzerland 2026: the best deals in CHF",
     intro: "Black Friday is on Friday 27 November 2026, with Black Week from Monday 23 November and Cyber Monday on 30 November. We track the 100 most-wanted products at Swiss shops, compare today's price with the 2026 record low, and tell you whether to buy now or wait. Plus 2,400+ products by category, winter tyres and US deals." },
 
-  { path: "/de/black-friday-schweiz-2026/", lang: "de", group: "home", tab: "top", priority: 1.0,
+  { path: "/de/black-friday-schweiz-2026/", lang: "de", group: "home", tab: "live", priority: 1.0,
     title: "Black Friday Schweiz 2026: Beste Deals in CHF | Aktion.ch",
     description: "Black Friday 2026 am 27.11.: Top-100-Deals mit CHF-Preisen, Preisverlauf und Kaufen-oder-Warten-Check. Black Week, Cyber Monday & USA-Deals.",
     h1: "Black Friday Schweiz 2026: alle Angebote, Daten und Preise",
     intro: "Black Friday ist am Freitag, 27. November 2026. Die Black Week startet am Montag, 23. November, Cyber Monday folgt am 30. November. Wir verfolgen die 100 gefragtesten Produkte in Schweizer Shops, vergleichen den heutigen Preis mit dem Tiefstpreis 2026 und sagen dir, ob du jetzt kaufen oder warten solltest." },
 
-  { path: "/fr/black-friday-suisse-2026/", lang: "fr", group: "home", tab: "top", priority: 0.9,
+  { path: "/fr/black-friday-suisse-2026/", lang: "fr", group: "home", tab: "live", priority: 0.9,
     title: "Black Friday Suisse 2026 : offres en CHF | Aktion.ch",
     description: "Black Friday 2026 le 27.11 : top 100 des offres en CHF, historique des prix et conseil acheter ou attendre. Black Week et Cyber Monday.",
     h1: "Black Friday Suisse 2026 : offres, dates et prix",
     intro: "Le Black Friday a lieu le vendredi 27 novembre 2026. La Black Week commence le lundi 23 novembre et le Cyber Monday suit le 30 novembre. Nous suivons les 100 produits les plus recherchés dans les boutiques suisses, comparons le prix du jour avec le prix le plus bas de 2026, et vous disons s'il vaut mieux acheter maintenant ou attendre." },
 
-  { path: "/it/black-friday-svizzera-2026/", lang: "it", group: "home", tab: "top", priority: 0.9,
+  { path: "/it/black-friday-svizzera-2026/", lang: "it", group: "home", tab: "live", priority: 0.9,
     title: "Black Friday Svizzera 2026: offerte in CHF | Aktion.ch",
     description: "Black Friday 2026 il 27.11: le 100 migliori offerte in CHF, storico prezzi e consiglio comprare o aspettare. Black Week e Cyber Monday.",
     h1: "Black Friday Svizzera 2026: offerte, date e prezzi",
     intro: "Il Black Friday è venerdì 27 novembre 2026. La Black Week inizia lunedì 23 novembre e il Cyber Monday segue il 30 novembre. Seguiamo i 100 prodotti più richiesti nei negozi svizzeri, confrontiamo il prezzo di oggi con il prezzo minimo del 2026 e ti diciamo se conviene comprare subito o aspettare." },
 
-  { path: "/en/black-friday-switzerland-2026/", lang: "en", group: "home", tab: "top", priority: 0.9,
+  { path: "/en/black-friday-switzerland-2026/", lang: "en", group: "home", tab: "live", priority: 0.9,
     title: "Black Friday Switzerland 2026: Deals & Dates | Aktion.ch",
     description: "All Black Friday 2026 deals in Switzerland: top 100 offers in CHF, Black Week and Cyber Monday dates, retailer guide and US deals for expats.",
     h1: "Black Friday Switzerland 2026: deals, dates and prices",
@@ -110,7 +110,7 @@ export const PAGES = [
     h1: "Amazon Black Friday 2026 aus der Schweiz bestellen",
     intro: "Amazon hat keinen Schweizer Shop, aber Amazon.de liefert viele Produkte in die Schweiz: Die deutsche MWST fällt weg, die Schweizer MWST von 8,1 % kommt an der Kasse dazu. Amazon USA feiert die Black Friday Week vom 19. bis 30. November 2026. Bei jedem Produkt vergleichen wir Amazon.de mit Schweizer Shops." },
 
-  { path: "/de/singles-day-schweiz-2026/", lang: "de", tab: "calendar", priority: 0.7,
+  { path: "/de/singles-day-schweiz-2026/", lang: "de", tab: "live", priority: 0.7,
     title: "Singles Day Schweiz 2026 (11.11.): Angebote | Aktion.ch",
     description: "Singles Day 2026 ist am 11. November. MediaMarkt Schweiz lädt vom 11. bis 14.11. zum Singles Day, danach folgen Galaxus, Digitec und die Black Week.",
     h1: "Singles Day Schweiz 2026: 11. November",

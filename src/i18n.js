@@ -4,6 +4,8 @@
 
 export const STRINGS = {
   en: {
+    tabBest: "🔥 Top deals", leadBest: "Top <em>deals</em>", leadBestSub: (n) => `The ${n} most valuable live offers · biggest savings first`,
+    bestTag: "Top deals", bestChecked: (d) => `checked ${d}`, bestTitle: "Most valuable deals right now", bestAll: "See all top deals",
     tabLive: "Live deals", leadLive: "Live <em>deals</em>", leadLiveSub: (n, d) => `${n} offers in Switzerland · checked ${d}`, liveInfo: "",
     untilLabel: (d) => `until ${d}`, codeLabel: "Code", validLabel: "Valid", whileStock: "while stock lasts", checkedLabel: "Checked", sourceLabel: "source", liveEyebrow: "Live deal",
     pulseBack: (date, n, k, m) => `<b>Welcome back.</b> Since ${date}: <b>${n}</b> price ${n === 1 ? "drop" : "drops"}${k ? ` (<b>${k}</b> on your list)` : ""}${m ? ` · <b>${m}</b> new` : ""}`,
@@ -56,6 +58,8 @@ export const STRINGS = {
     langLabel: "EN",
   },
   de: {
+    tabBest: "🔥 Top-Deals", leadBest: "Top-<em>Deals</em>", leadBestSub: (n) => `Die ${n} wertvollsten Live-Angebote · grösste Ersparnis zuerst`,
+    bestTag: "Top-Deals", bestChecked: (d) => `geprüft am ${d}`, bestTitle: "Die wertvollsten Deals im Moment", bestAll: "Alle Top-Deals ansehen",
     tabLive: "Live-Deals", leadLive: "Live-<em>Deals</em>", leadLiveSub: (n, d) => `${n} Angebote in der Schweiz · geprüft am ${d}`, liveInfo: "",
     untilLabel: (d) => `bis ${d}`, codeLabel: "Code", validLabel: "Gültig", whileStock: "solange Vorrat", checkedLabel: "Geprüft", sourceLabel: "Quelle", liveEyebrow: "Live-Deal",
     pulseBack: (date, n, k, m) => `<b>Willkommen zurück.</b> Seit ${date}: <b>${n}</b> ${n === 1 ? "Preissenkung" : "Preissenkungen"}${k ? ` (<b>${k}</b> auf deiner Liste)` : ""}${m ? ` · <b>${m}</b> neu` : ""}`,
@@ -108,6 +112,8 @@ export const STRINGS = {
     langLabel: "DE",
   },
   fr: {
+    tabBest: "🔥 Top offres", leadBest: "Top <em>offres</em>", leadBestSub: (n) => `Les ${n} offres live les plus avantageuses · plus grosse économie d'abord`,
+    bestTag: "Top offres", bestChecked: (d) => `vérifiées le ${d}`, bestTitle: "Les offres les plus avantageuses du moment", bestAll: "Voir toutes les top offres",
     tabLive: "Offres live", leadLive: "Offres <em>live</em>", leadLiveSub: (n, d) => `${n} offres en Suisse · vérifiées le ${d}`, liveInfo: "",
     untilLabel: (d) => `jusqu'au ${d}`, codeLabel: "Code", validLabel: "Valable", whileStock: "jusqu'à épuisement du stock", checkedLabel: "Vérifié", sourceLabel: "source", liveEyebrow: "Offre live",
     pulseBack: (date, n, k, m) => `<b>Bon retour.</b> Depuis le ${date} : <b>${n}</b> ${n === 1 ? "baisse de prix" : "baisses de prix"}${k ? ` (<b>${k}</b> dans ta liste)` : ""}${m ? ` · <b>${m}</b> nouveau${m === 1 ? "" : "x"}` : ""}`,
@@ -160,6 +166,8 @@ export const STRINGS = {
     langLabel: "FR",
   },
   it: {
+    tabBest: "🔥 Top offerte", leadBest: "Top <em>offerte</em>", leadBestSub: (n) => `Le ${n} offerte live più convenienti · risparmio maggiore prima`,
+    bestTag: "Top offerte", bestChecked: (d) => `verificate il ${d}`, bestTitle: "Le offerte più convenienti del momento", bestAll: "Vedi tutte le top offerte",
     tabLive: "Offerte live", leadLive: "Offerte <em>live</em>", leadLiveSub: (n, d) => `${n} offerte in Svizzera · verificate il ${d}`, liveInfo: "",
     untilLabel: (d) => `fino al ${d}`, codeLabel: "Codice", validLabel: "Valida", whileStock: "fino a esaurimento scorte", checkedLabel: "Verificata", sourceLabel: "fonte", liveEyebrow: "Offerta live",
     pulseBack: (date, n, k, m) => `<b>Bentornato.</b> Dal ${date}: <b>${n}</b> ${n === 1 ? "prezzo in calo" : "prezzi in calo"}${k ? ` (<b>${k}</b> nella tua lista)` : ""}${m ? ` · <b>${m}</b> ${m === 1 ? "nuova" : "nuove"}` : ""}`,

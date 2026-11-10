@@ -15,9 +15,12 @@ async function loadData() {
   const [{ TOP, DEALS }, { US_RAW }, { EVENTS, FAQ, FAQ_I18N }, { WINTER_TYRES }] = await Promise.all([
     import("./src/data/products.js"), import("./src/data/us.js"), import("./src/data/calendar.js"), import("./src/data/winter-tyres.js")
   ]);
+  const { LIVE_CH } = await import("./src/data/live-ch.js");
   const today = new Date().toISOString().slice(0, 10);
   const US = US_RAW.filter(r => !r[7] || r[7] >= today);
-  return { TOP, DEALS, US, US_RAW: US, EVENTS, FAQ, FAQ_I18N, WINTER_TYRES, today };
+  const plus3 = iso => { const t = new Date(iso + "T12:00:00Z"); t.setUTCDate(t.getUTCDate() + 3); return t.toISOString().slice(0, 10); };
+  const LIVE = LIVE_CH.filter(r => (!r.from || r.from <= today) && today <= (r.until || plus3(r.checked)));
+  return { LIVE, TOP, DEALS, US, US_RAW: US, EVENTS, FAQ, FAQ_I18N, WINTER_TYRES, today };
 }
 
 /* ---- static, crawlable content (read by search engines and AI crawlers that don't run JavaScript; the app replaces it on load) ---- */
@@ -29,11 +32,16 @@ const L = {
   it: { today: "Oggi", low: "Prezzo minimo", reg: "Prezzo normale", upd: "Prezzi verificati il", list: "Offerte su questa pagina", loc: "it-CH" }
 };
 const chf = n => "CHF " + (Number.isInteger(n) ? n.toLocaleString("de-CH") : n.toLocaleString("de-CH", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+const eur = n => "€ " + n.toLocaleString("de-CH", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 });
 const usd = n => "$" + n.toLocaleString("en-US", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2 });
 const faqFor = (lang, d) => (d.FAQ_I18N && d.FAQ_I18N[lang]) || d.FAQ;
 const dateStr = (iso, lang) => new Date(iso + "T12:00:00Z").toLocaleDateString(L[lang].loc, { day: "numeric", month: "long", year: "numeric" });
 
 function itemsFull(p, d) {
+  if (p.tab === "live" || p.tab === "best") {
+    const l = d.LIVE.map(r => ({ name: r.name, spec: [r.spec, r.shop, r.percent && r.price == null ? `−${r.percent}%` : "", r.code ? "Code " + r.code : "", r.until ? "bis " + r.until.split("-").reverse().join(".") : ""].filter(Boolean).join(" · "), price: r.price, reg: r.was, cur: r.cur || "CHF" }));
+    return p.tab === "best" ? l.filter(x => x.price != null && x.reg && x.price <= x.reg * 0.75) : l;
+  }
   if (p.tab === "us") return d.US.map(r => ({ name: r[1], spec: r[2], price: r[3], reg: r[4], cur: "USD" }));
   if (p.tab === "categories" && p.cat === "Winter tyres") return d.WINTER_TYRES.map(r => ({ name: r[1], spec: r[2] || "" }));
   if (p.tab === "categories") return d.DEALS.filter(x => !x.top && x.cat === p.cat).map(x => ({ name: x.name, spec: x.spec, price: x.now, cur: "CHF" }));
@@ -46,10 +54,10 @@ function itemsFull(p, d) {
 function staticGrid(p, d) {
   const S = STRINGS[p.lang] || STRINGS.en, l = L[p.lang] || L.en;
   const st = { buy: S.statusBuy, wait: S.statusWaitS, track: S.statusTrack, check: S.statusCheck };
-  const items = itemsFull(p, d).slice(0, 40);
+  const items = itemsFull(p, d).slice(0, p.tab === "live" ? 100 : 40);
   if (!items.length) return "";
   const li = items.map(x => {
-    const m = x.cur === "USD" ? usd : chf;
+    const m = x.cur === "USD" ? usd : x.cur === "EUR" ? eur : chf;
     const parts = [];
     if (x.price != null) parts.push(`${l.today}: <strong>${m(x.price)}</strong>`);
     if (x.reg != null) parts.push(`${l.reg}: ${m(x.reg)}`);
@@ -139,13 +147,13 @@ function pageHtml(tpl, p, base, d) {
     .replace(/<div class="faq" id="faq"><\/div>|<div id="faq"[^>]*><\/div>/, m => m.replace("></div>", `>${staticFaq(p.lang, d)}</div>`))
     .replace(/(<h2 class="lead" id="lead">)[\s\S]*?(<\/h2>)/, (m, o, c) => {
       const S = STRINGS[p.lang] || STRINGS.en;
-      const k = { top: "leadTop", list: "leadList", us: "leadUS", categories: "leadCat" }[p.tab];
+      const k = { live: "leadLive", best: "leadBest", top: "leadTop", list: "leadList", us: "leadUS", categories: "leadCat" }[p.tab];
       return k && S[k] ? o + S[k] + c : m;
     })
     .replace(/<b id="cd-d">\d+<\/b>/, `<b id="cd-d">${daysToBF()}</b>`)
     .replace(/(<input id="q" type="search" placeholder=")[^"]*/, `$1${esc((STRINGS[p.lang] || STRINGS.en).searchPlaceholder)}`)
     .replace(/(<button class="tab"[^>]*id="t-(\w+)"[^>]*>)([^<]*)/g, (m, open, id, label) => {
-      const k = { live: "tabLive", top: "tabTop", categories: "tabCat", us: "tabUS", list: "tabList", calendar: "tabCal", retailers: "tabRetailers", guide: "tabGuide" }[id];
+      const k = { live: "tabLive", best: "tabBest", top: "tabTop", categories: "tabCat", us: "tabUS", list: "tabList", calendar: "tabCal", retailers: "tabRetailers", guide: "tabGuide" }[id];
       const S = STRINGS[p.lang] || STRINGS.en; return open + esc((k && S[k]) || label);
     });
 }
@@ -182,7 +190,12 @@ ${pages}
   const us = d.US.map(r => `- ${r[1]} (${r[2]}): ${usd(r[3])} instead of ${usd(r[4])} at ${r[5]}`).join("\n");
   const cal = ev.map(e => `- ${e.date} (${e.region}) ${e.title}: ${e.text}`).join("\n");
   const faq = ["en", "de", "fr", "it"].map(l => faqFor(l, d).map(([q, a]) => `**${q}**\n${a}`).join("\n\n")).join("\n\n");
+  const live = d.LIVE.map(r => `- ${r.name} (${r.spec}) at ${r.shop}: ${r.price != null ? (r.cur === "EUR" ? eur(r.price) : chf(r.price)) + (r.was ? ` instead of ${r.cur === "EUR" ? eur(r.was) : chf(r.was)}` : "") : r.percent ? `−${r.percent}%` : r.type || "offer"}${r.code ? `, code ${r.code}` : ""}${r.until ? `, until ${r.until}` : ""}${r.note ? ` – ${r.note}` : ""}`).join("\n");
   const full = llms + `
+## Live deals in Switzerland (checked ${d.today})
+
+${live}
+
 ## Top 100 Black Friday products in Switzerland (prices checked ${d.today})
 
 ${top}
