@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
-import { PAGES, LOCALE, HREFLANG } from "./src/config/pages.js";
+import { PAGES, LOCALE, HREFLANG, KEYWORDS } from "./src/config/pages.js";
+import { STRINGS } from "./src/i18n.js";
 
 /* SEO build step
    - one static HTML file per landing page (src/config/pages.js) with its own title, description,
@@ -11,11 +12,58 @@ const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(
 const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, "\\u003c")}</script>`;
 
 async function loadData() {
-  const [{ TOP, DEALS }, { US_RAW }, { EVENTS, FAQ }, { WINTER_TYRES }] = await Promise.all([
+  const [{ TOP, DEALS }, { US_RAW }, { EVENTS, FAQ, FAQ_I18N }, { WINTER_TYRES }] = await Promise.all([
     import("./src/data/products.js"), import("./src/data/us.js"), import("./src/data/calendar.js"), import("./src/data/winter-tyres.js")
   ]);
-  return { TOP, DEALS, US_RAW, EVENTS, FAQ, WINTER_TYRES };
+  const today = new Date().toISOString().slice(0, 10);
+  const US = US_RAW.filter(r => !r[7] || r[7] >= today);
+  return { TOP, DEALS, US, US_RAW: US, EVENTS, FAQ, FAQ_I18N, WINTER_TYRES, today };
 }
+
+/* ---- static, crawlable content (read by search engines and AI crawlers that don't run JavaScript; the app replaces it on load) ---- */
+const SITE = "Aktion.ch";
+const L = {
+  en: { today: "Today", bw: "Black Week 2025", low: "Record low", reg: "Regular", upd: "Prices checked", list: "Deals on this page", loc: "en-GB" },
+  de: { today: "Heute", bw: "Black Week 2025", low: "Tiefstpreis", reg: "Regulär", upd: "Preise geprüft am", list: "Angebote auf dieser Seite", loc: "de-CH" },
+  fr: { today: "Aujourd'hui", bw: "Black Week 2025", low: "Prix le plus bas", reg: "Prix normal", upd: "Prix vérifiés le", list: "Offres sur cette page", loc: "fr-CH" },
+  it: { today: "Oggi", bw: "Black Week 2025", low: "Prezzo minimo", reg: "Prezzo normale", upd: "Prezzi verificati il", list: "Offerte su questa pagina", loc: "it-CH" }
+};
+const chf = n => "CHF " + (Number.isInteger(n) ? n.toLocaleString("de-CH") : n.toLocaleString("de-CH", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+const usd = n => "$" + n.toLocaleString("en-US", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2 });
+const faqFor = (lang, d) => (d.FAQ_I18N && d.FAQ_I18N[lang]) || d.FAQ;
+const dateStr = (iso, lang) => new Date(iso + "T12:00:00Z").toLocaleDateString(L[lang].loc, { day: "numeric", month: "long", year: "numeric" });
+
+function itemsFull(p, d) {
+  if (p.tab === "us") return d.US.map(r => ({ name: r[1], spec: r[2], price: r[3], reg: r[4], cur: "USD" }));
+  if (p.tab === "categories" && p.cat === "Winter tyres") return d.WINTER_TYRES.map(r => ({ name: r[1], spec: r[2] || "" }));
+  if (p.tab === "categories") return d.DEALS.filter(x => !x.top && x.cat === p.cat).map(x => ({ name: x.name, spec: x.spec, price: x.now, cur: "CHF" }));
+  if (p.tab === "top" || p.tab === "list") {
+    const l = p.q ? d.TOP.filter(x => x.name.toLowerCase().includes(p.q.toLowerCase())) : d.TOP;
+    return l.map(x => ({ name: x.name, spec: x.spec, price: x.now, bw: x.bw25, low: x.best ? x.best.p : null, cur: "CHF", status: x.status }));
+  }
+  return [];
+}
+function staticGrid(p, d) {
+  const S = STRINGS[p.lang] || STRINGS.en, l = L[p.lang] || L.en;
+  const st = { buy: S.statusBuy, wait: S.statusWaitS, track: S.statusTrack, check: S.statusCheck };
+  const items = itemsFull(p, d).slice(0, 40);
+  if (!items.length) return "";
+  const li = items.map(x => {
+    const m = x.cur === "USD" ? usd : chf;
+    const parts = [];
+    if (x.price != null) parts.push(`${l.today}: <strong>${m(x.price)}</strong>`);
+    if (x.reg != null) parts.push(`${l.reg}: ${m(x.reg)}`);
+    if (x.bw != null) parts.push(`${l.bw}: ${m(x.bw)}`);
+    if (x.low != null && x.low !== x.bw) parts.push(`${l.low}: ${m(x.low)}`);
+    if (x.status && st[x.status]) parts.push(esc(st[x.status]));
+    return `<li><b>${esc(x.name)}</b>${x.spec ? ` <span>${esc(x.spec)}</span>` : ""}${parts.length ? ` – ${parts.join(" · ")}` : ""}</li>`;
+  }).join("");
+  return `<section class="seo-static"><h2>${esc(l.list)}</h2><p>${esc(l.upd)} <time datetime="${d.today}">${dateStr(d.today, p.lang)}</time></p><ol>${li}</ol></section>`;
+}
+const staticCal = d => d.EVENTS.slice().sort((a, b) => a.date.localeCompare(b.date)).map(e =>
+  `<li><time datetime="${e.date}">${e.date.split("-").reverse().join(".")}</time> <span class="reg">${esc(e.region)}</span> <strong>${esc(e.title)}</strong><p>${esc(e.text)}</p></li>`).join("");
+const staticFaq = (lang, d) => faqFor(lang, d).map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
+function daysToBF() { return Math.max(0, Math.ceil((new Date("2026-11-27T00:00:00+01:00") - Date.now()) / 864e5)); }
 
 function itemsFor(p, d) {
   if (p.tab === "us") return US_names(d);
@@ -30,24 +78,32 @@ function itemsFor(p, d) {
 const US_names = d => d.US_RAW.map(r => r[1]);
 
 function jsonLd(p, url, base, d) {
-  const out = [{
+  const org = { "@type": "Organization", "@id": base + "/#org", name: SITE, url: base + "/", logo: base + "/icons/icon-512.png",
+    description: "Independent Black Friday price tracker for Switzerland: CHF prices, price history and buy-or-wait advice." };
+  const out = [{ "@context": "https://schema.org", "@graph": [org, { "@type": "WebSite", "@id": base + "/#website", name: SITE, url: base + "/",
+    inLanguage: ["de-CH", "fr-CH", "it-CH", "en"], publisher: { "@id": base + "/#org" } }] }, {
     "@context": "https://schema.org", "@type": "WebPage", name: p.h1, description: p.description, url, inLanguage: HREFLANG[p.lang],
-    dateModified: new Date().toISOString().slice(0, 10),
+    dateModified: d.today, keywords: (KEYWORDS[p.path] || []).join(", "), publisher: { "@id": base + "/#org" },
+    primaryImageOfPage: base + "/og-image.png",
+    about: { "@type": "Event", name: "Black Friday 2026", startDate: "2026-11-27", location: { "@type": "Country", name: "Switzerland" } },
     isPartOf: { "@type": "WebSite", name: "Aktion.ch", url: base + "/" },
     breadcrumb: { "@type": "BreadcrumbList", itemListElement: [
       { "@type": "ListItem", position: 1, name: "Aktion.ch", item: base + "/" },
       ...(p.path === "/" ? [] : [{ "@type": "ListItem", position: 2, name: p.h1, item: url }])] }
   }];
-  const names = itemsFor(p, d).slice(0, 30);
-  if (names.length) out.push({ "@context": "https://schema.org", "@type": "ItemList", name: p.h1, numberOfItems: names.length,
-    itemListElement: names.map((n, i) => ({ "@type": "ListItem", position: i + 1, name: n })) });
+  const items = itemsFull(p, d).slice(0, 30);
+  if (items.length) out.push({ "@context": "https://schema.org", "@type": "ItemList", name: p.h1, numberOfItems: items.length,
+    itemListElement: items.map((x, i) => ({ "@type": "ListItem", position: i + 1,
+      item: x.price != null ? { "@type": "Product", name: x.name, description: x.spec || undefined,
+        offers: { "@type": "AggregateOffer", lowPrice: x.price, priceCurrency: x.cur, offerCount: 1, availability: "https://schema.org/InStock" } }
+        : { "@type": "Thing", name: x.name } })) });
   if (p.tab === "calendar") out.push({ "@context": "https://schema.org", "@type": "ItemList", name: "Black Friday 2026 dates",
     itemListElement: d.EVENTS.map((e, i) => ({ "@type": "ListItem", position: i + 1, item: {
       "@type": "Event", name: e.title, startDate: e.date, endDate: e.date, description: e.text,
       eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode", eventStatus: "https://schema.org/EventScheduled",
       location: { "@type": "VirtualLocation", url } } })) });
-  if (p.tab === "guide") out.push({ "@context": "https://schema.org", "@type": "FAQPage",
-    mainEntity: d.FAQ.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) });
+  if (["guide", "calendar"].includes(p.tab) || p.group === "home") out.push({ "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: faqFor(p.lang, d).map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) });
   return out.map(ld).join("\n");
 }
 
@@ -59,7 +115,13 @@ function pageHtml(tpl, p, base, d) {
     ...alts.map(a => `<link rel="alternate" hreflang="${HREFLANG[a.lang]}" href="${base + a.path}">`),
     alts.length ? `<link rel="alternate" hreflang="x-default" href="${base}/">` : "",
     `<meta property="og:url" content="${url}">`,
-    `<meta name="twitter:card" content="summary">`,
+    `<meta name="twitter:card" content="summary_large_image">`,
+    `<meta property="og:site_name" content="${SITE}">`,
+    `<meta property="og:image" content="${base}/og-image.png">`, `<meta property="og:image:width" content="1200">`, `<meta property="og:image:height" content="630">`,
+    `<meta property="og:image:alt" content="Black Friday Schweiz 2026 – Aktion.ch">`, `<meta name="twitter:image" content="${base}/og-image.png">`,
+    KEYWORDS[p.path] ? `<meta name="keywords" content="${esc(KEYWORDS[p.path].join(", "))}">` : "",
+    `<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">`,
+    `<link rel="alternate" type="text/plain" title="LLM summary" href="${base}/llms.txt">`,
     `<script>window.__PAGE__=${JSON.stringify({ path: p.path, lang: p.lang, tab: p.tab, cat: p.cat || null, q: p.q || null })}</script>`,
     jsonLd(p, url, base, d)
   ].filter(Boolean).join("\n");
@@ -72,7 +134,73 @@ function pageHtml(tpl, p, base, d) {
     .replace(/(<meta property="og:locale" content=")[^"]*/, `$1${LOCALE[p.lang]}`)
     .replace("</head>", head + "\n</head>")
     .replace(/<h1 id="ph1">[^<]*<\/h1>/, `<h1 id="ph1">${esc(p.h1)}</h1>`)
-    .replace(/<p id="pintro">[^<]*<\/p>/, `<p id="pintro">${esc(p.intro)}</p>`);
+    .replace(/<p id="pintro">[^<]*<\/p>/, `<p id="pintro">${esc(p.intro)}</p>`)
+    .replace('<div class="grid" id="grid"></div>', `<div class="grid" id="grid">${staticGrid(p, d)}</div>`)
+    .replace('<ol class="cal" id="cal"></ol>', `<ol class="cal" id="cal">${staticCal(d)}</ol>`)
+    .replace(/<div class="faq" id="faq"><\/div>|<div id="faq"[^>]*><\/div>/, m => m.replace("></div>", `>${staticFaq(p.lang, d)}</div>`))
+    .replace(/(<h2 class="lead" id="lead">)[\s\S]*?(<\/h2>)/, (m, o, c) => {
+      const S = STRINGS[p.lang] || STRINGS.en;
+      const k = { top: "leadTop", list: "leadList", us: "leadUS", categories: "leadCat" }[p.tab];
+      return k && S[k] ? o + S[k] + c : m;
+    })
+    .replace(/<b id="cd-d">\d+<\/b>/, `<b id="cd-d">${daysToBF()}</b>`)
+    .replace(/(<input id="q" type="search" placeholder=")[^"]*/, `$1${esc((STRINGS[p.lang] || STRINGS.en).searchPlaceholder)}`)
+    .replace(/(<button class="tab"[^>]*id="t-(\w+)"[^>]*>)([^<]*)/g, (m, open, id, label) => {
+      const k = { top: "tabTop", categories: "tabCat", us: "tabUS", list: "tabList", calendar: "tabCal", retailers: "tabRetailers", guide: "tabGuide" }[id];
+      const S = STRINGS[p.lang] || STRINGS.en; return open + esc((k && S[k]) || label);
+    });
+}
+
+/* llms.txt (https://llmstxt.org): a plain-text summary AI assistants can read and cite. llms-full.txt adds all deals and FAQ. */
+function llmsTxt(base, d) {
+  const ev = d.EVENTS.slice().sort((a, b) => a.date.localeCompare(b.date));
+  const pages = PAGES.map(p => `- [${p.h1}](${base + p.path}): ${p.description}`).join("\n");
+  const facts = `## Key facts (updated ${d.today})
+
+- Black Friday 2026: Friday 27 November 2026 (day after US Thanksgiving, 26 November).
+- Black Week in Switzerland: Monday 23 – Sunday 29 November 2026. Cyber Monday: 30 November 2026. Singles Day: 11 November.
+- Digitec and Galaxus Black Friday weeks: 16 – 30 November 2026 (1,000+ offers, all live from 16 November).
+- Amazon US Black Friday Week and Cyber Monday: 19 – 30 November 2026. Amazon.de delivers many products to Switzerland; Swiss VAT (8.1%) is charged at checkout.
+- Swiss shops tracked: Digitec, Galaxus, MediaMarkt, Interdiscount, Fust, Brack, Manor, fnac, Amazon.de, Samsung, Apple and others.
+- Method: for the top 100 products we compare today's Swiss price with the Black Week 2025 price and the record low. "Buy now" = today's price is within 3% of the best known price; "Wait" = it was cheaper before.
+- Disclosure: shop links are affiliate links; rankings do not depend on commissions.`;
+  const llms = `# ${SITE} – Black Friday Switzerland 2026
+
+> Independent Black Friday 2026 price tracker for Switzerland (Schweiz, Suisse, Svizzera): the 100 most-wanted products with CHF prices, Black Week 2025 price, record low and a buy-or-wait call, plus 2,400+ products by category, a deal calendar, a retailer guide and live US deals. Languages: German, French, Italian, English.
+
+${facts}
+
+## Pages
+
+${pages}
+
+## More
+
+- [All deals, dates and FAQ as text](${base}/llms-full.txt)
+- [Sitemap](${base}/sitemap.xml)
+`;
+  const top = d.TOP.map((x, i) => `${i + 1}. ${x.name} (${x.spec})${x.now != null ? ` – today ${chf(x.now)}` : ""}${x.bw25 != null ? `, Black Week 2025 ${chf(x.bw25)}` : ""}${x.best && x.best.p !== x.bw25 ? `, record low ${chf(x.best.p)}` : ""} – ${{ buy: "Buy now", wait: "Wait for Black Friday", track: "Tracking", check: "Check price" }[x.status]}`).join("\n");
+  const us = d.US.map(r => `- ${r[1]} (${r[2]}): ${usd(r[3])} instead of ${usd(r[4])} at ${r[5]}`).join("\n");
+  const cal = ev.map(e => `- ${e.date} (${e.region}) ${e.title}: ${e.text}`).join("\n");
+  const faq = ["en", "de", "fr", "it"].map(l => faqFor(l, d).map(([q, a]) => `**${q}**\n${a}`).join("\n\n")).join("\n\n");
+  const full = llms + `
+## Top 100 Black Friday products in Switzerland (prices checked ${d.today})
+
+${top}
+
+## Live US Black Friday deals (USD)
+
+${us}
+
+## Deal calendar 2026
+
+${cal}
+
+## FAQ
+
+${faq}
+`;
+  return { llms, full };
 }
 
 function seoPages() {
@@ -90,7 +218,14 @@ function seoPages() {
         if (p.path === "/") tplAsset.source = html;
         else this.emitFile({ type: "asset", fileName: p.path.replace(/^\//, "") + "index.html", source: html });
       }
-      this.emitFile({ type: "asset", fileName: "robots.txt", source: `User-agent: *\nAllow: /\nSitemap: ${base}/sitemap.xml\n` });
+      const aiBots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User",
+        "Google-Extended", "Applebot-Extended", "Bingbot", "DuckAssistBot", "Meta-ExternalAgent", "MistralAI-User", "CCBot"];
+      this.emitFile({ type: "asset", fileName: "robots.txt", source:
+        `# Search engines and AI assistants are welcome to read and cite this site.\nUser-agent: *\nAllow: /\n\n`
+        + aiBots.map(b => `User-agent: ${b}\nAllow: /\n`).join("\n") + `\nSitemap: ${base}/sitemap.xml\n` });
+      const { llms, full } = llmsTxt(base, d);
+      this.emitFile({ type: "asset", fileName: "llms.txt", source: llms });
+      this.emitFile({ type: "asset", fileName: "llms-full.txt", source: full });
       const today = new Date().toISOString().slice(0, 10);
       const urls = PAGES.map(p => {
         const alts = p.group ? PAGES.filter(x => x.group === p.group && x.path !== "/") : [];

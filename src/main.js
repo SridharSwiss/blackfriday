@@ -7,7 +7,7 @@ import { SHOPINFO } from "./data/retailers.js";
 import { DEALS, isTyre } from "./data/products.js";
 import { US_RAW, US_SHOPINFO } from "./data/us.js";
 import { DEAL_OF_DAY } from "./data/deal-of-day.js";
-import { EVENTS, FAQ } from "./data/calendar.js";
+import { EVENTS, FAQ as FAQ_EN, FAQ_I18N } from "./data/calendar.js";
 import { fmt, esc, ext } from "./lib/format.js";
 import { thumb } from "./lib/thumb.js";
 import { STRINGS, detectLang, LANG_PATHS } from "./i18n.js";
@@ -17,6 +17,7 @@ const PAGE = window.__PAGE__ || null;
 const LANG = (PAGE?.lang) || detectLang();
 const S = STRINGS[LANG] || STRINGS.en;
 const T = key => S[key] ?? STRINGS.en[key] ?? key;
+const FAQ = FAQ_I18N[LANG] || FAQ_EN;
 
 /* Language switcher paths (for SEO pages that have equivalents) */
 function buildLangSwitcher() {

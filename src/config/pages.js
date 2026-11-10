@@ -33,7 +33,7 @@ export const PAGES = [
     intro: "Il Black Friday è venerdì 27 novembre 2026. La Black Week inizia lunedì 23 novembre e il Cyber Monday segue il 30 novembre. Seguiamo i 100 prodotti più richiesti nei negozi svizzeri, confrontiamo il prezzo di oggi con la Black Week 2025 e il prezzo minimo e ti diciamo se conviene comprare subito o aspettare." },
 
   { path: "/en/black-friday-switzerland-2026/", lang: "en", group: "home", tab: "top", priority: 0.9,
-    title: "Black Friday Switzerland 2026: Deals, Dates, Prices | Aktion.ch",
+    title: "Black Friday Switzerland 2026: Deals & Dates | Aktion.ch",
     description: "All Black Friday 2026 deals in Switzerland: top 100 offers in CHF, Black Week and Cyber Monday dates, retailer guide and US deals for expats.",
     h1: "Black Friday Switzerland 2026: deals, dates and prices",
     intro: "Black Friday is on Friday 27 November 2026, Black Week starts on Monday 23 November and Cyber Monday is on 30 November. Our top 100 compares today's Swiss price with Black Week 2025 and the record low, so you know whether a deal is real." },
@@ -75,8 +75,8 @@ export const PAGES = [
     intro: "Konsolen-Bundles, Controller und Spiele sind am Black Friday besonders gefragt. Hier findest du PlayStation 5, Nintendo Switch 2 und Xbox mit Links zu Schweizer Shops." },
 
   { path: "/de/black-friday-haushalt-schweiz/", lang: "de", tab: "categories", cat: "Home", priority: 0.6,
-    title: "Black Friday Haushalt Schweiz: Dyson & Saugroboter | Aktion.ch",
-    description: "Dyson, Saugroboter, Kaffeemaschinen und Küchengeräte am Black Friday 2026 – Angebote bei Schweizer Shops.",
+    title: "Black Friday Haushalt 2026: Dyson & Saugroboter | Aktion.ch",
+    description: "Dyson, Saugroboter, Kaffeevollautomaten und Küchengeräte am Black Friday 2026: Angebote und Preise in CHF bei Schweizer Shops im Überblick.",
     h1: "Black Friday Haushalt: Dyson, Saugroboter und Kaffee",
     intro: "Akkusauger, Saugroboter und Kaffeevollautomaten sind die Haushalts-Klassiker der Black Week. Hier findest du Dyson, Roborock, iRobot, Jura, De'Longhi und mehr." },
 
@@ -93,8 +93,78 @@ export const PAGES = [
     intro: "Amazon.com, Best Buy, Walmart und Target liefern meist nicht in die Schweiz. Bei Import fallen 8,1 % MWST plus Verzollungsgebühren an, US-Stecker und US-Garantie gelten. Die Preise zeigen die US-Black-Friday-Preise 2025 als Richtwert." },
 
   { path: "/de/lohnt-sich-black-friday/", lang: "de", tab: "guide", priority: 0.6,
-    title: "Lohnt sich Black Friday in der Schweiz? Fake-Rabatte erkennen",
+    title: "Lohnt sich Black Friday? Fake-Rabatte erkennen | Aktion.ch",
     description: "So erkennst du falsche Rabatte am Black Friday: Preisverlauf prüfen, Tiefstpreise vergleichen, Rückgaberecht und Garantie in der Schweiz.",
     h1: "Lohnt sich Black Friday in der Schweiz? Fake-Rabatte erkennen",
-    intro: "Viele «Rabatte» beziehen sich auf einen Listenpreis, den kaum jemand zahlt. Vergleiche deshalb immer mit dem Preis der letzten Wochen und dem bisherigen Tiefstpreis – genau das zeigt unsere Kaufen-oder-Warten-Empfehlung." }
+    intro: "Viele «Rabatte» beziehen sich auf einen Listenpreis, den kaum jemand zahlt. Vergleiche deshalb immer mit dem Preis der letzten Wochen und dem bisherigen Tiefstpreis – genau das zeigt unsere Kaufen-oder-Warten-Empfehlung." },
+
+  { path: "/de/black-friday-galaxus-digitec-2026/", lang: "de", tab: "calendar", priority: 0.8,
+    title: "Galaxus & Digitec Black Friday 2026: ab 16.11. | Aktion.ch",
+    description: "Digitec und Galaxus starten die Black Friday Weeks am 16. November 2026: über 1000 Angebote bis 30.11. Alle Daten und Top-Deals in CHF.",
+    h1: "Galaxus und Digitec Black Friday 2026: Start am 16. November",
+    intro: "Digitec und Galaxus starten ihre Black Friday Weeks am Montag, 16. November 2026. Über 1000 Angebote gehen gleichzeitig online und gelten bis 30. November oder solange Vorrat; später kommen keine neuen dazu. Im Kalender siehst du alle Daten, in den Top 100 die aktuellen Preise." },
+
+  { path: "/de/amazon-black-friday-schweiz-2026/", lang: "de", tab: "top", priority: 0.8,
+    title: "Amazon Black Friday Schweiz 2026: Deals & Daten | Aktion.ch",
+    description: "Amazon Black Friday 2026 aus der Schweiz: Amazon.de liefert viele Deals in die CH, mit Schweizer MWST. Daten, Deal des Tages und Top-Preise.",
+    h1: "Amazon Black Friday 2026 aus der Schweiz bestellen",
+    intro: "Amazon hat keinen Schweizer Shop, aber Amazon.de liefert viele Produkte in die Schweiz: Die deutsche MWST fällt weg, die Schweizer MWST von 8,1 % kommt an der Kasse dazu. Amazon USA feiert die Black Friday Week vom 19. bis 30. November 2026. Bei jedem Produkt vergleichen wir Amazon.de mit Schweizer Shops." },
+
+  { path: "/de/singles-day-schweiz-2026/", lang: "de", tab: "calendar", priority: 0.7,
+    title: "Singles Day Schweiz 2026 (11.11.): Angebote | Aktion.ch",
+    description: "Singles Day 2026 ist am 11. November. MediaMarkt Schweiz lädt vom 11. bis 14.11. zum Singles Day, danach folgen Galaxus, Digitec und die Black Week.",
+    h1: "Singles Day Schweiz 2026: 11. November",
+    intro: "Der Singles Day am 11. November ist der erste grosse Rabatttag vor dem Black Friday. MediaMarkt Schweiz macht vom 11. bis 14. November mit; die Rabatte sind meist kleiner als in der Black Week. Ab 16. November folgen Digitec und Galaxus, ab 23. November die meisten anderen Shops." },
+
+  { path: "/de/black-friday-apple-schweiz/", lang: "de", tab: "top", q: "Apple", priority: 0.7,
+    title: "Black Friday Apple Schweiz 2026: AirPods & Mac | Aktion.ch",
+    description: "Apple am Black Friday 2026 in der Schweiz: AirPods, iPhone, iPad, MacBook und Apple Watch mit CHF-Preis, Tiefstpreis und Kaufen-oder-Warten.",
+    h1: "Black Friday Apple Schweiz 2026: AirPods, iPhone, iPad und Mac",
+    intro: "Apple senkt seine eigenen Preise kaum, Händler wie Digitec, Galaxus, Interdiscount, fnac und Amazon.de schon. Hier siehst du alle Apple-Produkte aus unseren Top 100 mit heutigem Preis, Black-Week-2025-Preis und Tiefstpreis." },
+
+  { path: "/fr/black-friday-2026-date-suisse/", lang: "fr", tab: "calendar", priority: 0.7,
+    title: "Black Friday 2026 : date en Suisse | Aktion.ch",
+    description: "Le Black Friday 2026 a lieu le vendredi 27 novembre. Black Week dès le 23.11, Galaxus et Digitec dès le 16.11, Cyber Monday le 30.11.",
+    h1: "Quand a lieu le Black Friday 2026 en Suisse ?",
+    intro: "Le Black Friday 2026 a lieu le vendredi 27 novembre, le lendemain de Thanksgiving. Digitec et Galaxus commencent dès le 16 novembre, la plupart des boutiques suisses le 23 novembre (Black Week) et le Cyber Monday suit le 30 novembre." },
+
+  { path: "/it/black-friday-2026-data-svizzera/", lang: "it", tab: "calendar", priority: 0.7,
+    title: "Black Friday 2026: data in Svizzera | Aktion.ch",
+    description: "Il Black Friday 2026 è venerdì 27 novembre. Black Week dal 23.11, Galaxus e Digitec dal 16.11, Cyber Monday il 30.11.",
+    h1: "Quando è il Black Friday 2026 in Svizzera?",
+    intro: "Il Black Friday 2026 è venerdì 27 novembre, il giorno dopo il Thanksgiving. Digitec e Galaxus iniziano già il 16 novembre, la maggior parte dei negozi svizzeri il 23 novembre (Black Week) e il Cyber Monday segue il 30 novembre." },
+
+  { path: "/en/black-friday-2026-date-switzerland/", lang: "en", tab: "calendar", priority: 0.7,
+    title: "When Is Black Friday 2026 in Switzerland? | Aktion.ch",
+    description: "Black Friday 2026 is Friday 27 November. Galaxus and Digitec start 16 Nov, Black Week 23 Nov, Amazon 19 Nov, Cyber Monday 30 Nov.",
+    h1: "When is Black Friday 2026 in Switzerland?",
+    intro: "Black Friday 2026 is on Friday 27 November, the day after US Thanksgiving. Digitec and Galaxus start on 16 November, Amazon's Black Friday Week on 19 November, most Swiss shops on Monday 23 November (Black Week), and Cyber Monday is on 30 November." }
 ];
+
+/* Keywords per page: search terms plus the way people ask AI assistants (ChatGPT, Perplexity, Gemini, Claude, Copilot).
+   Used for <meta name="keywords">, JSON-LD "keywords" and llms.txt. Swiss German spelling. */
+const K_HOME_DE = ["Black Friday Schweiz 2026", "Black Friday 2026 Schweiz Angebote", "Black Week Schweiz", "Black Friday Deals CHF", "beste Black Friday Angebote Schweiz", "Black Friday Preisvergleich Schweiz", "Galaxus Black Friday", "Digitec Black Friday", "MediaMarkt Black Friday Schweiz", "Interdiscount Black Friday", "Welche Black Friday Angebote lohnen sich in der Schweiz?", "Wo gibt es die besten Black Friday Deals in der Schweiz?"];
+export const KEYWORDS = {
+  "/": ["Black Friday Switzerland 2026", "Black Friday deals Switzerland", "Black Friday Schweiz", "Black Friday Suisse", "Black Week Switzerland", "Cyber Monday Switzerland", "best Black Friday deals in CHF", "Swiss Black Friday price comparison", "When is Black Friday 2026 in Switzerland?", "What are the best Black Friday deals in Switzerland?", "Is Black Friday worth it in Switzerland?"],
+  "/de/black-friday-schweiz-2026/": K_HOME_DE,
+  "/fr/black-friday-suisse-2026/": ["Black Friday Suisse 2026", "Black Friday 2026 Suisse offres", "Black Week Suisse", "bons plans Black Friday Suisse", "Black Friday Galaxus", "Black Friday Digitec", "Black Friday Romandie", "comparateur de prix Black Friday Suisse", "Quelles sont les meilleures offres du Black Friday en Suisse ?"],
+  "/it/black-friday-svizzera-2026/": ["Black Friday Svizzera 2026", "offerte Black Friday Svizzera", "Black Week Svizzera", "Black Friday Ticino", "Black Friday Galaxus", "Black Friday Digitec", "Quali sono le migliori offerte del Black Friday in Svizzera?"],
+  "/en/black-friday-switzerland-2026/": ["Black Friday Switzerland 2026", "Black Friday deals Switzerland expats", "Black Week Switzerland 2026", "Swiss Black Friday shops", "Black Friday Zurich deals", "Black Friday Geneva deals", "Which Swiss shops have Black Friday deals?"],
+  "/de/black-week-schweiz-2026/": ["Black Week Schweiz 2026", "Black Week 2026 Datum", "Black Week Galaxus", "Black Week Digitec", "Black Week MediaMarkt", "Black Week Interdiscount", "Wann beginnt die Black Week 2026 in der Schweiz?"],
+  "/de/cyber-monday-schweiz-2026/": ["Cyber Monday Schweiz 2026", "Cyber Monday 2026 Datum", "Cyber Monday Angebote Schweiz", "Cyber Week Schweiz", "Wann ist Cyber Monday 2026?"],
+  "/de/black-friday-2026-datum/": ["Black Friday 2026 Datum", "wann ist Black Friday 2026", "Black Friday 27. November 2026", "Black Week 2026 Datum", "Singles Day 2026", "Cyber Monday 2026", "Wann ist Black Friday 2026 in der Schweiz?"],
+  "/de/black-friday-fernseher-schweiz/": ["Black Friday Fernseher Schweiz", "Black Friday TV Angebote", "OLED TV Black Friday", "LG OLED Black Friday Schweiz", "Samsung TV Black Friday", "Welcher Fernseher lohnt sich am Black Friday?"],
+  "/de/black-friday-iphone-schweiz/": ["Black Friday iPhone Schweiz", "iPhone 17 Black Friday", "iPhone 16 Black Friday Preis", "iPhone Air Black Friday", "Wird das iPhone am Black Friday günstiger?"],
+  "/de/black-friday-konsolen-schweiz/": ["Black Friday PS5 Schweiz", "PS5 Pro Black Friday", "Nintendo Switch 2 Black Friday", "Xbox Black Friday Schweiz", "Gibt es die PS5 am Black Friday günstiger?"],
+  "/de/black-friday-haushalt-schweiz/": ["Black Friday Dyson Schweiz", "Saugroboter Black Friday", "Kaffeevollautomat Black Friday", "Roborock Black Friday", "Dyson V15 Black Friday Preis"],
+  "/de/black-friday-winterreifen-schweiz/": ["Winterreifen Black Friday Schweiz", "Winterreifen günstig Schweiz", "Winterreifenpflicht Schweiz", "Michelin Winterreifen Angebot", "Wann muss man in der Schweiz Winterreifen montieren?"],
+  "/de/black-friday-usa-schweiz/": ["Black Friday USA Schweiz", "Amazon.com Schweiz bestellen", "Best Buy Black Friday", "Walmart Black Friday", "Zoll MWST USA Bestellung Schweiz", "Kann ich US Black Friday Deals in die Schweiz bestellen?"],
+  "/de/lohnt-sich-black-friday/": ["lohnt sich Black Friday", "Fake Rabatte Black Friday", "Black Friday Preisverlauf", "Black Friday Tipps Schweiz", "Lohnt sich Black Friday in der Schweiz?"],
+  "/de/black-friday-galaxus-digitec-2026/": ["Galaxus Black Friday 2026", "Digitec Black Friday 2026", "Black Friday Weeks Galaxus", "Digitec Galaxus 16. November", "Wann startet Galaxus mit Black Friday 2026?"],
+  "/de/amazon-black-friday-schweiz-2026/": ["Amazon Black Friday Schweiz", "Amazon.de Schweiz Lieferung", "Amazon Black Friday 2026 Datum", "Amazon Black Friday Week", "Kann ich bei Amazon.de aus der Schweiz bestellen?"],
+  "/de/singles-day-schweiz-2026/": ["Singles Day Schweiz 2026", "Singles Day 11.11. Angebote", "Singles Day MediaMarkt Schweiz", "Singles Day Galaxus", "Wann ist Singles Day 2026?"],
+  "/de/black-friday-apple-schweiz/": ["Black Friday Apple Schweiz", "AirPods Black Friday Schweiz", "AirPods Pro 3 Black Friday", "MacBook Air Black Friday Schweiz", "iPad Black Friday Schweiz", "Wo kaufe ich Apple am Black Friday am günstigsten in der Schweiz?"],
+  "/fr/black-friday-2026-date-suisse/": ["Black Friday 2026 date", "date Black Friday Suisse", "Black Week 2026 Suisse", "Cyber Monday 2026 Suisse", "Quand a lieu le Black Friday 2026 en Suisse ?"],
+  "/it/black-friday-2026-data-svizzera/": ["Black Friday 2026 data", "data Black Friday Svizzera", "Black Week 2026 Svizzera", "Cyber Monday 2026 Svizzera", "Quando è il Black Friday 2026 in Svizzera?"],
+  "/en/black-friday-2026-date-switzerland/": ["Black Friday 2026 date Switzerland", "when is Black Friday 2026", "Black Week 2026 Switzerland", "Cyber Monday 2026 Switzerland", "Galaxus Black Friday 2026 date", "When does Black Friday start in Switzerland?"]
+};
