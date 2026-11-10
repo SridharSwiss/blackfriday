@@ -47,9 +47,11 @@ DEALS.forEach(d => { d.region = "ch"; d.cur = "CHF"; d.id = "ch-" + slug(d.name)
 
 // US products: last year's Black Friday price vs regular price, in USD
 const TODAY = new Date().toISOString().slice(0, 10);
+const US_IDS = new Map(); // same product name in several configs → unique ids (-2, -3, …)
+const usId = name => { const b = "us-" + slug(name), n = (US_IDS.get(b) || 0) + 1; US_IDS.set(b, n); return n > 1 ? `${b}-${n}` : b; };
 const US = US_RAW.filter(r => !r[7] || r[7] >= TODAY).map(([cat, name, spec, bf, reg, retailer, q], i) => {
   const others = ["amazoncom", "bestbuy", "walmart", "target"].filter(s => s !== retailer);
-  return { region: "us", cur: "USD", id: "us-" + slug(name), rank: i + 1, top: false, cat, name, spec, q,
+  return { region: "us", cur: "USD", id: usId(name), rank: i + 1, top: false, cat, name, spec, q,
     now: null, bw25: bf, reg, low: null, lowAt: null, best: { p: bf, where: "Live deal" }, show: bf,
     save: reg - bf, off: Math.round((1 - bf / reg) * 100), status: "live", note: null, pick: (1 - bf / reg) >= 0.35,
     shops: [retailer, ...others.slice(0, 2)] };

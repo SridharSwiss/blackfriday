@@ -1,10 +1,11 @@
-/* Deal calendar 2026 (checked 28.10.2026; Digitec dates 05.11.2026; MediaMarkt Singles Day 07.11.2026). "expected" = retailer has not announced yet; timing follows its 2025 pattern.
+/* Deal calendar 2026 (checked 28.10.2026; Digitec dates 05.11.2026; MediaMarkt Singles Day 07.11.2026; Walmart, Best Buy and Amazon dates 10.11.2026). "expected" = retailer has not announced yet; timing follows its 2025 pattern.
    Sources: Hip2Save (Walmart, Target), Slickdeals (Best Buy), Digitec 2025 Black Week page, MediaMarkt CH campaign page. */
 export const EVENTS = [
   { date:"2026-11-05", region:"US", title:"Target early Black Friday", text:"Target's Early Black Friday Deals event, 5–7 November; Holiday Price Match runs to 24 December." },
+  { date:"2026-11-06", region:"US", title:"Best Buy early Black Friday", text:"Best Buy's early Black Friday deals started 6 November, with a new wave every Friday (week 2 live from 9 November: up to 50% off selected OLED TVs)." },
   { date:"2026-11-11", region:"CH", title:"Singles Day", text:"Smaller discounts in Switzerland. MediaMarkt CH runs a Singles Day sale from 11 to 14 November." },
-  { date:"2026-11-12", region:"US", title:"Walmart early Black Friday", text:"Walmart+ members get early access on 12 November; deals open to everyone on 13 November." },
-  { date:"2026-11-19", region:"CH+US", title:"Amazon Black Friday Week (expected)", text:"Not announced yet. In 2025 Amazon.de and Amazon US ran their Black Friday Week from 20 November to 1 December; Best Buy is also expected to start around 19 November." },
+  { date:"2026-11-12", region:"US", title:"Walmart early Black Friday", text:"Walmart's early event runs 12–15 November, online from 12:01 a.m. ET; Walmart+ members get early access." },
+  { date:"2026-11-19", region:"CH+US", title:"Amazon Black Friday Week", text:"Amazon US: Black Friday Week and Cyber Monday 19–30 November from 12:01 a.m. PT (reported 10 November citing Amazon). Amazon.de has not confirmed its dates yet. Best Buy's main Black Friday sale runs 19–28 November." },
   { date:"2026-11-16", region:"CH", title:"Digitec & Galaxus Black Friday weeks", text:"Confirmed by Digitec (page of 28.10.2026): 1,000+ offers go live on Monday 16 November and none are added later. They run until 30 November or while stock lasts." },
   { date:"2026-11-23", region:"CH+US", title:"Walmart Black Friday deals", text:"Walmart's Black Friday deals start online today (Best Buy's doorbusters run 19–28 Nov). Swiss shops other than Digitec/Galaxus are expected to follow." },
   { date:"2026-11-26", region:"US", title:"Thanksgiving", text:"Target's Black Friday deals go live online today; many US stores open doorbusters online." },
