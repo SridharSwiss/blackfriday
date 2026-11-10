@@ -7,6 +7,7 @@ import { SHOPINFO } from "./data/retailers.js";
 import { DEALS, isTyre } from "./data/products.js";
 import { US_RAW, US_SHOPINFO } from "./data/us.js";
 import { DEAL_OF_DAY } from "./data/deal-of-day.js";
+import { LIVE_CH, SHOWCASES } from "./data/live-ch.js";
 import { EVENTS, FAQ as FAQ_EN, FAQ_I18N } from "./data/calendar.js";
 import { fmt, esc, ext } from "./lib/format.js";
 import { thumb } from "./lib/thumb.js";
@@ -49,7 +50,7 @@ const IDS = new Map(); // same slug for different products (e.g. "Galaxy S26" / 
 const uid = b => { const n = (IDS.get(b) || 0) + 1; IDS.set(b, n); return n > 1 ? `${b}-${n}` : b; };
 DEALS.forEach(d => { d.region = "ch"; d.cur = "CHF"; d.id = uid("ch-" + slug(d.name)); d.pick = d.top && d.status === "buy"; });
 
-// US products: last year's Black Friday price vs regular price, in USD
+// US products: live 2026 deal price vs regular price, in USD
 const TODAY = new Date().toISOString().slice(0, 10);
 const usId = name => uid("us-" + slug(name));
 const US = US_RAW.filter(r => !r[7] || r[7] >= TODAY).map(([cat, name, spec, bf, reg, retailer, q], i) => {
@@ -59,7 +60,16 @@ const US = US_RAW.filter(r => !r[7] || r[7] >= TODAY).map(([cat, name, spec, bf,
     save: reg - bf, off: Math.round((1 - bf / reg) * 100), status: "live", note: null, pick: (1 - bf / reg) >= 0.35,
     shops: [retailer, ...others.slice(0, 2)] };
 });
-const ALL = DEALS.concat(US);
+// Live Swiss deals: shown from `from` until `until` (or 3 days after the check date), then dropped automatically
+const plusDays = (iso, n) => { const t = new Date(iso + "T12:00:00Z"); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
+const LIVE = LIVE_CH.filter(r => (!r.from || r.from <= TODAY) && TODAY <= (r.until || plusDays(r.checked, 3))).map((r, i) => {
+  const off = r.price != null && r.was ? Math.round((1 - r.price / r.was) * 100) : (r.percent || null);
+  return { region: "live", cur: r.cur || "CHF", id: uid("live-" + slug(r.shop + " " + r.name)), rank: i + 1, top: false, cat: r.cat, name: r.name, spec: r.spec || "",
+    q: r.q || r.name, now: r.price ?? null, reg: r.was ?? null, low: null, best: null, show: r.price ?? null, off, save: r.was && r.price != null ? r.was - r.price : 0,
+    status: "live", note: r.note || null, pick: (off || 0) >= 30, shops: [r.shop], shop: r.shop, url: r.url || null, until: r.until || null, from: r.from || null,
+    checked: r.checked, code: r.code || null, percent: r.percent || null, type: r.type || null, src: r.src || [] };
+});
+const ALL = LIVE.concat(DEALS, US);
 const BY_ID = new Map(ALL.map(d => [d.id, d]));
 
 /* Price memory: each visit stores today's prices. A visit more than 6 h after the last one compares against it,
@@ -82,6 +92,7 @@ const MEM = (() => {
   return base || null;
 })();
 const POOLS = {
+  live: LIVE,
   top: DEALS.filter(d => d.top),
   categories: DEALS.filter(d => !d.top),
   us: US
@@ -90,9 +101,9 @@ const CAT_ORDER = cats => [...new Set(cats)].sort((a, b) => a === WINTER ? -1 : 
 const LABEL = { buy: T("statusBuy"), wait: T("statusWaitS"), track: T("statusTrack"), check: T("statusCheck"), live: T("statusLive"), lastyear: T("statusLY"), early: T("statusEarly") };
 
 /* ---------------- state ---------------- */
-const PRODUCT_TABS = ["top", "categories", "us", "list"];
+const PRODUCT_TABS = ["live", "top", "categories", "us", "list"];
 const TABS = [...PRODUCT_TABS, "calendar", "retailers", "guide"];
-const defaults = { tab: "top", cat: "All", q: "", status: "all", sort: "rank", store: "all", price: "all", page: 0, drops: false };
+const defaults = { tab: LIVE.length ? "live" : "top", cat: "All", q: "", status: "all", sort: "rank", store: "all", price: "all", page: 0, drops: false };
 let state = { ...defaults, watch: [], theme: "" };
 try { Object.assign(state, JSON.parse(localStorage.getItem("bf26v5") || "{}")); } catch (e) {}
 state.watch = Array.isArray(state.watch) ? state.watch.filter(id => BY_ID.has(id)) : [];
@@ -103,16 +114,19 @@ const mobile = () => matchMedia("(max-width: 760px), (max-height: 560px)").match
 let perPage = 12, mobileShown = 12;
 
 /* ---------------- helpers ---------------- */
-const money = (n, cur) => cur === "USD" ? "$" + (Number.isInteger(n) ? n.toLocaleString("en-US") : n.toLocaleString("en-US", { minimumFractionDigits: 2 })) : "CHF " + fmt(n);
+const money = (n, cur) => cur === "EUR" ? "€ " + n.toLocaleString("de-CH", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 }) : cur === "USD" ? "$" + (Number.isInteger(n) ? n.toLocaleString("en-US") : n.toLocaleString("en-US", { minimumFractionDigits: 2 })) : "CHF " + fmt(n);
 const heartSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9-8.7C1.5 7.8 4 4.5 7.3 4.5c2 0 3.5 1.1 4.7 2.7 1.2-1.6 2.7-2.7 4.7-2.7 3.3 0 5.8 3.3 4.3 6.8-2 4.3-9 8.7-9 8.7z"/></svg>';
 const watched = d => state.watch.includes(d.id);
+const fmtDay = iso => new Date(iso + "T12:00:00Z").toLocaleDateString(LANG === "en" ? "en-GB" : LANG + "-CH", { day: "numeric", month: "short" });
 function toast(msg) {
   const t = $("toast"); t.textContent = msg; t.hidden = false;
   clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2200);
 }
 function shopBtn(s, d, primary) {
   const cls = ["shop", primary ? "primary" : ""].filter(Boolean).join(" ");
-  return `<a class="${cls}" href="${affLink(s, SHOPS[s].search(d.q))}" target="_blank" rel="sponsored nofollow noopener"><span class="sn">${SHOPS[s].name}</span> ${ext}</a>`;
+  const href = d.region === "live" && s === d.shop && d.url ? d.url : SHOPS[s] ? SHOPS[s].search(d.q) : d.url;
+  if (!href) return "";
+  return `<a class="${cls}" href="${affLink(s, href)}" target="_blank" rel="sponsored nofollow noopener"><span class="sn">${SHOPS[s] ? SHOPS[s].name : esc(s)}</span> ${ext}</a>`;
 }
 function cardShops(d) {
   const s = d.shops.slice(0, 6);
@@ -152,6 +166,11 @@ function list() {
   return l.sort(by[state.sort] || by.rank);
 }
 function priceLine(d) {
+  if (d.region === "live") {
+    const until = d.until ? `<span class="until">${S.untilLabel(fmtDay(d.until))}</span>` : "";
+    if (d.show == null) return `<span class="price">${d.percent ? "−" + d.percent + "%" : esc(d.type || T("statusLive"))}</span>${d.code ? `<span class="code">${T("codeLabel")} <b>${esc(d.code)}</b></span>` : ""}${until}`;
+    return `<span class="price">${money(d.show, d.cur)}</span>${d.reg ? `<span class="was">${money(d.reg, d.cur)}</span>` : ""}${until}`;
+  }
   if (d.show == null) return `<span class="price live">${d.status === "live" ? T("statusLive") : T("statusCheck")}</span>`;
   let extra = "";
   if (d.region === "us") extra = `<span class="was">${money(d.reg, "USD")}</span>`;
@@ -165,7 +184,7 @@ function card(d) {
   return `<article class="card${d.pick ? " is-pick" : ""}">
     <div class="tw">${thumb(d)}${badge}<button class="heart${watched(d) ? " on" : ""}" type="button" data-w="${d.id}" aria-pressed="${watched(d)}" aria-label="Save ${esc(d.name)} to My list">${heartSvg}</button></div>
     <div class="body">
-      <div class="top"><span class="r">${d.top ? `#<b>${d.rank}</b>`  : ""}</span><span class="c">${esc(d.cat)}</span>${d.isNew ? `<span class="pill new">${T("newBadge")}</span>` : ""}<span class="pill ${d.status}">${LABEL[d.status]}</span></div>
+      <div class="top"><span class="r">${d.top ? `#<b>${d.rank}</b>`  : ""}</span><span class="c">${esc(d.cat)}</span>${d.isNew ? `<span class="pill new">${T("newBadge")}</span>` : ""}<span class="pill ${d.status}">${d.region === "live" ? esc(SHOPS[d.shop] ? SHOPS[d.shop].name : d.shop) : LABEL[d.status]}</span></div>
       <button class="name" type="button" data-d="${d.id}">${esc(d.name)}</button>
       <div class="priceline">${priceLine(d)}</div>
       <div class="btns">${(() => { const all = cardShops(d), vis = all.slice(0, 2), more = all.length - vis.length;
@@ -258,12 +277,12 @@ function renderGrid() {
   }
   $("grid").innerHTML = vis.length ? vis.map(card).join("") : emptyState();
   $("count").textContent = `${l.length.toLocaleString(LANG === "en" ? "en-US" : LANG)} ${T("deals")}`;
-  const filtered = state.drops || state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && (state.tab === "categories" || state.tab === "top")) || (state.cat !== "All" && state.tab === "us");
+  const filtered = state.drops || state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && (state.tab === "categories" || state.tab === "top")) || (state.cat !== "All" && (state.tab === "us" || state.tab === "live"));
   $("reset").hidden = !filtered;
 }
 function renderFilters() {
   const t = state.tab, p = pool();
-  const catVis = t === "categories" || t === "us";
+  const catVis = t === "categories" || t === "us" || t === "live";
   $("catSel").hidden = !catVis;
   if (catVis) {
     const cats = CAT_ORDER(p.map(d => d.cat));
@@ -291,12 +310,14 @@ function renderFilters() {
   $("status").value = state.status; $("price").value = state.price; $("sort").value = state.sort;
   $("winterbar").hidden = !(t === "categories" && state.cat === WINTER);
   $("usbar").hidden = t !== "us";
+  $("livebar").hidden = t !== "live";
   $("clear-list").hidden = !(t === "list" && state.watch.length);
   const locN = n => n.toLocaleString(LANG === "en" ? "en-US" : LANG);
   const lead = {
     top: [T("leadTop"), T("leadTopSub")],
     categories: [state.cat === "All" ? T("leadCat") : esc(state.cat), S.leadCatSub(locN(POOLS.categories.length))],
     us: [state.cat === "All" ? T("leadUS") : `US · ${esc(state.cat)}`, T("leadUSSub")],
+    live: [state.cat === "All" ? T("leadLive") : esc(state.cat), S.leadLiveSub(locN(LIVE.length), fmtDay(LIVE.reduce((m, d) => d.checked > m ? d.checked : m, "") || TODAY))],
     list: [T("leadList"), S.leadListSub(state.watch.length)]
   }[t];
   if (state.q.trim() && t !== "list") { lead[0] = `${T("leadSearchPrefix")}${esc(state.q.trim())}${T("leadSearchSuffix")}`; lead[1] = T("leadSearchSub"); }
@@ -318,7 +339,7 @@ function showTab(t, opts = {}) {
   state.tab = t; save();
   TABS.forEach(x => { const b = $("t-" + x); b.setAttribute("aria-selected", x === t); b.tabIndex = x === t ? 0 : -1; });
   document.querySelectorAll(".bottomnav [data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
-  $("b-more").classList.toggle("on", ["calendar", "retailers", "guide"].includes(t));
+  $("b-more").classList.toggle("on", ["us", "calendar", "retailers", "guide"].includes(t));
   const products = PRODUCT_TABS.includes(t);
   $("p-products").hidden = !products;
   ["calendar", "retailers", "guide"].forEach(x => $("p-" + x).hidden = x !== t);
@@ -332,7 +353,7 @@ function showTab(t, opts = {}) {
 function chart(d) {
   const pts = [];
   if (d.reg) pts.push(["Regular price", d.reg]);
-  if (d.bw25 != null) pts.push([d.region === "us" ? "Live deal" : "Black Week 2025", d.bw25]);
+  if (d.bw25 != null && d.region === "us") pts.push(["Live deal", d.bw25]);
   if (d.low != null) pts.push(["Record low", d.low]);
   if (d.now != null) pts.push(["Today", d.now]);
   if (pts.length < 2) return "";
@@ -345,18 +366,24 @@ let opener = null;
 function openDetails(d, push = true) {
   if ($("modal").hidden) opener = document.activeElement;
   const rows = [];
-  if (d.region === "us") {
+  if (d.region === "live") {
+    if (d.reg) rows.push(`<dt>${T("regularPrice")}</dt><dd>${money(d.reg, d.cur)}</dd>`);
+    if (d.off) rows.push(`<dt>${T("saving")}</dt><dd class="target">−${d.off}%</dd>`);
+    if (d.code) rows.push(`<dt>${T("codeLabel")}</dt><dd><b>${esc(d.code)}</b></dd>`);
+    rows.push(`<dt>${T("validLabel")}</dt><dd>${d.until ? S.untilLabel(fmtDay(d.until)) : T("whileStock")}</dd>`);
+    rows.push(`<dt>${T("checkedLabel")}</dt><dd>${fmtDay(d.checked)} · ${d.src.map((u, k) => `<a href="${esc(u)}" target="_blank" rel="noopener nofollow">${T("sourceLabel")} ${k + 1}</a>`).join(", ")}</dd>`);
+  } else if (d.region === "us") {
     rows.push(`<dt>${T("statusLive")}</dt><dd>${money(d.bw25, "USD")}</dd>`, `<dt>${T("regularPrice")}</dt><dd>${money(d.reg, "USD")}</dd>`, `<dt>${T("saving")}</dt><dd class="target">−${d.off}%</dd>`);
   } else {
     if (d.best && d.status !== "check") rows.push(`<dt>${T("targetPrice")}</dt><dd class="target">CHF ${fmt(d.best.p)}</dd>`);
     if (d.lowAt) rows.push(`<dt>${T("recordLowAt")}</dt><dd>${esc(d.lowAt)}</dd>`);
   }
-  rows.push(`<dt>${T("status")}</dt><dd>${LABEL[d.status]}</dd>`);
+  if (d.region !== "live") rows.push(`<dt>${T("status")}</dt><dd>${LABEL[d.status]}</dd>`);
   const shops = d.shops.map((s, k) => shopBtn(s, d, k === 0)).join("");
   const hist = d.region === "ch" ? `<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored nofollow noopener">${T("swissPriceHist")} ${ext}</a>` : "";
   $("sheet").innerHTML = `${thumb(d)}<div class="in">
     <button class="close" type="button" id="m-close" aria-label="Close">×</button>
-    <div class="eyebrow">${d.top ? `#${d.rank} · ` : ""}${d.region === "us" ? "US deal · " : ""}${esc(d.cat)}</div>
+    <div class="eyebrow">${d.top ? `#${d.rank} · ` : ""}${d.region === "us" ? "US deal · " : d.region === "live" ? T("liveEyebrow") + " · " : ""}${esc(d.cat)}</div>
     <h3 id="m-title">${esc(d.name)}</h3><div class="spec">${esc(d.spec)}</div>
     <div class="priceline big">${priceLine(d)}<span class="pill ${d.status}">${LABEL[d.status]}</span></div>
     ${chart(d)}
@@ -420,11 +447,13 @@ function renderRetailers() {
   const row = ([k, n, best, pat, warn, home]) => `<tr><td class="nm">${n}</td><td>${best}</td><td>${pat}</td><td>${warn}</td><td><a class="go" href="${affLink(k, home)}" target="_blank" rel="sponsored nofollow noopener">${T("visitShop")} ${ext}</a></td></tr>`;
   $("shopRows").innerHTML = SHOPINFO.map(row).join("");
   $("usShopRows").innerHTML = US_SHOPINFO.map(row).join("");
+  $("showRows").innerHTML = SHOWCASES.map(x => `<tr><td class="nm">${esc(x.name)}</td><td>${esc(x.covers)}</td><td><a class="go" href="${esc(x.url)}" target="_blank" rel="noopener">${T("visitShop")} ${ext}</a></td></tr>`).join("");
 }
 function renderStatic() {
   $("winter-cta").innerHTML = PARTNER_LINKS.map((l, i) => `<a class="${i === 0 ? "primary" : ""}" href="${esc(l.url)}" target="_blank" rel="sponsored nofollow noopener">${esc(l.label)} ${ext}</a>`).join("");
   $("faq").innerHTML = FAQ.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
   $("n-cat").textContent = POOLS.categories.length.toLocaleString("en-US");
+  $("n-live").textContent = LIVE.length;
   $("n-us").textContent = US.length;
   renderCalendar(); renderRetailers();
 }
@@ -497,7 +526,7 @@ function route() {
   if (h.startsWith("p-") && BY_ID.has(h.slice(2))) {
     const d = BY_ID.get(h.slice(2));
     if (!$("modal").hidden) return openDetails(d, false);
-    showTab(d.top ? "top" : d.region === "us" ? "us" : "categories", { noHash: true, cat: d.top || d.region === "us" ? undefined : d.cat });
+    showTab(d.top ? "top" : d.region === "us" ? "us" : d.region === "live" ? "live" : "categories", { noHash: true, cat: d.top || d.region === "us" || d.region === "live" ? undefined : d.cat });
     return openDetails(d, false);
   }
   if (h === "winter") return showTab("categories", { cat: WINTER });
@@ -517,7 +546,7 @@ if (langHtml) {
 // Translate static HTML labels when not English
 if (LANG !== "en") {
   // Tab bar
-  const tabMap = { "t-top": "tabTop", "t-categories": "tabCat", "t-us": "tabUS",
+  const tabMap = { "t-live": "tabLive", "t-top": "tabTop", "t-categories": "tabCat", "t-us": "tabUS",
     "t-list": "tabList", "t-calendar": "tabCal", "t-retailers": "tabRetailers", "t-guide": "tabGuide" };
   for (const [id, key] of Object.entries(tabMap)) {
     const el = $(id); if (!el) continue;

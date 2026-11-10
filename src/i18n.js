@@ -4,6 +4,8 @@
 
 export const STRINGS = {
   en: {
+    tabLive: "Live deals", leadLive: "Live <em>deals</em>", leadLiveSub: (n, d) => `${n} offers in Switzerland · checked ${d}`, liveInfo: "",
+    untilLabel: (d) => `until ${d}`, codeLabel: "Code", validLabel: "Valid", whileStock: "while stock lasts", checkedLabel: "Checked", sourceLabel: "source", liveEyebrow: "Live deal",
     pulseBack: (date, n, k, m) => `<b>Welcome back.</b> Since ${date}: <b>${n}</b> price ${n === 1 ? "drop" : "drops"}${k ? ` (<b>${k}</b> on your list)` : ""}${m ? ` · <b>${m}</b> new` : ""}`,
     pulseSame: (date) => `<b>Welcome back.</b> No price changes since ${date}. New deals go live on the dates below.`,
     pulseFirst: "<b>Tip:</b> tap ♥ to save deals. When you come back, we flag every price drop since your visit.",
@@ -37,7 +39,7 @@ export const STRINGS = {
     share: "Share", linkCopied: "Link copied",
     savedToast: "Saved to My list", removedToast: "Removed from My list", clearedToast: "List cleared",
     targetPrice: "Target price", recordLowAt: "Record low at", status: "Status",
-    earlyDeal: "Early deal Oct 2026", bfPrice: "Black Friday 2025", regularPrice: "Regular price",
+    earlyDeal: "Early deal Oct 2026", bfPrice: "Deal price", regularPrice: "Regular price",
     saving: "Saving", priceHistory: "Price history", addToCal: "Add to calendar",
     tomorrow: "tomorrow", today: "today", done: "done", inDays: (n) => `in ${n} days`,
     visitShop: "Visit", swissPriceHist: "Swiss price history",
@@ -54,6 +56,8 @@ export const STRINGS = {
     langLabel: "EN",
   },
   de: {
+    tabLive: "Live-Deals", leadLive: "Live-<em>Deals</em>", leadLiveSub: (n, d) => `${n} Angebote in der Schweiz · geprüft am ${d}`, liveInfo: "",
+    untilLabel: (d) => `bis ${d}`, codeLabel: "Code", validLabel: "Gültig", whileStock: "solange Vorrat", checkedLabel: "Geprüft", sourceLabel: "Quelle", liveEyebrow: "Live-Deal",
     pulseBack: (date, n, k, m) => `<b>Willkommen zurück.</b> Seit ${date}: <b>${n}</b> ${n === 1 ? "Preissenkung" : "Preissenkungen"}${k ? ` (<b>${k}</b> auf deiner Liste)` : ""}${m ? ` · <b>${m}</b> neu` : ""}`,
     pulseSame: (date) => `<b>Willkommen zurück.</b> Seit ${date} keine Preisänderungen. Neue Deals starten an den Daten unten.`,
     pulseFirst: "<b>Tipp:</b> Tippe auf ♥, um Deals zu merken. Beim nächsten Besuch markieren wir jede Preissenkung.",
@@ -87,7 +91,7 @@ export const STRINGS = {
     share: "Teilen", linkCopied: "Link kopiert",
     savedToast: "Auf Liste gesetzt", removedToast: "Von Liste entfernt", clearedToast: "Liste geleert",
     targetPrice: "Zielpreis", recordLowAt: "Tiefstkurs bei", status: "Status",
-    earlyDeal: "Frühdeal Oktober 2026", bfPrice: "Black Friday 2025", regularPrice: "Regulärer Preis",
+    earlyDeal: "Frühdeal Oktober 2026", bfPrice: "Deal-Preis", regularPrice: "Regulärer Preis",
     saving: "Ersparnis", priceHistory: "Preisverlauf", addToCal: "Im Kalender speichern",
     tomorrow: "morgen", today: "heute", done: "vorbei", inDays: (n) => `in ${n} Tagen`,
     visitShop: "Zum Shop", swissPriceHist: "Schweizer Preisverlauf",
@@ -104,6 +108,8 @@ export const STRINGS = {
     langLabel: "DE",
   },
   fr: {
+    tabLive: "Offres live", leadLive: "Offres <em>live</em>", leadLiveSub: (n, d) => `${n} offres en Suisse · vérifiées le ${d}`, liveInfo: "",
+    untilLabel: (d) => `jusqu'au ${d}`, codeLabel: "Code", validLabel: "Valable", whileStock: "jusqu'à épuisement du stock", checkedLabel: "Vérifié", sourceLabel: "source", liveEyebrow: "Offre live",
     pulseBack: (date, n, k, m) => `<b>Bon retour.</b> Depuis le ${date} : <b>${n}</b> ${n === 1 ? "baisse de prix" : "baisses de prix"}${k ? ` (<b>${k}</b> dans ta liste)` : ""}${m ? ` · <b>${m}</b> nouveau${m === 1 ? "" : "x"}` : ""}`,
     pulseSame: (date) => `<b>Bon retour.</b> Aucun changement de prix depuis le ${date}. Les nouvelles offres arrivent aux dates ci-dessous.`,
     pulseFirst: "<b>Astuce :</b> touche ♥ pour garder une offre. À ta prochaine visite, on signale chaque baisse de prix.",
@@ -137,7 +143,7 @@ export const STRINGS = {
     share: "Partager", linkCopied: "Lien copié",
     savedToast: "Ajouté à ma liste", removedToast: "Retiré de la liste", clearedToast: "Liste vidée",
     targetPrice: "Prix cible", recordLowAt: "Prix plancher chez", status: "Statut",
-    earlyDeal: "Offre anticipée oct. 2026", bfPrice: "Black Friday 2025", regularPrice: "Prix habituel",
+    earlyDeal: "Offre anticipée oct. 2026", bfPrice: "Prix promo", regularPrice: "Prix habituel",
     saving: "Économie", priceHistory: "Historique des prix", addToCal: "Ajouter au calendrier",
     tomorrow: "demain", today: "aujourd'hui", done: "terminé", inDays: (n) => `dans ${n} jours`,
     visitShop: "Visiter", swissPriceHist: "Historique suisse",
@@ -154,6 +160,8 @@ export const STRINGS = {
     langLabel: "FR",
   },
   it: {
+    tabLive: "Offerte live", leadLive: "Offerte <em>live</em>", leadLiveSub: (n, d) => `${n} offerte in Svizzera · verificate il ${d}`, liveInfo: "",
+    untilLabel: (d) => `fino al ${d}`, codeLabel: "Codice", validLabel: "Valida", whileStock: "fino a esaurimento scorte", checkedLabel: "Verificata", sourceLabel: "fonte", liveEyebrow: "Offerta live",
     pulseBack: (date, n, k, m) => `<b>Bentornato.</b> Dal ${date}: <b>${n}</b> ${n === 1 ? "prezzo in calo" : "prezzi in calo"}${k ? ` (<b>${k}</b> nella tua lista)` : ""}${m ? ` · <b>${m}</b> ${m === 1 ? "nuova" : "nuove"}` : ""}`,
     pulseSame: (date) => `<b>Bentornato.</b> Nessuna variazione di prezzo dal ${date}. Le nuove offerte arrivano nelle date qui sotto.`,
     pulseFirst: "<b>Consiglio:</b> tocca ♥ per salvare le offerte. Alla prossima visita segnaliamo ogni calo di prezzo.",
@@ -187,7 +195,7 @@ export const STRINGS = {
     share: "Condividi", linkCopied: "Link copiato",
     savedToast: "Aggiunto alla lista", removedToast: "Rimosso dalla lista", clearedToast: "Lista svuotata",
     targetPrice: "Prezzo obiettivo", recordLowAt: "Minimo storico presso", status: "Stato",
-    earlyDeal: "Offerta anticipata ott. 2026", bfPrice: "Black Friday 2025", regularPrice: "Prezzo abituale",
+    earlyDeal: "Offerta anticipata ott. 2026", bfPrice: "Prezzo offerta", regularPrice: "Prezzo abituale",
     saving: "Risparmio", priceHistory: "Storico prezzi", addToCal: "Aggiungi al calendario",
     tomorrow: "domani", today: "oggi", done: "terminato", inDays: (n) => `tra ${n} giorni`,
     visitShop: "Visita", swissPriceHist: "Storico prezzi svizzero",

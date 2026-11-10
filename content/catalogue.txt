@@ -469,7 +469,7 @@ Fitbit Versa 4 | Smartwatch
 Amazfit Bip 6 | Smartwatch
 Xiaomi Redmi Watch 5 Active | Smartwatch
 Samsung Galaxy Watch9 | 2026
-Samsung Galaxy Watch Ultra (2025) | titanium
+Samsung Galaxy Watch Ultra | titanium
 Samsung Galaxy Watch FE | 40 mm
 Google Pixel Watch 4 41 mm | 41 mm
 Google Pixel Watch 4 45 mm | 45 mm
@@ -824,25 +824,25 @@ Canon PG-545 XL | Ink cartridge
 Epson 603XL Multipack | Ink cartridges
 HP LaserJet M110we | laser printer
 ## TV
-LG OLED evo C5 55" | 2025 · 4K 144 Hz
-LG OLED evo C5 65" | 2025 · 4K 144 Hz
-LG OLED evo C5 77" | 2025 · 4K 144 Hz
-LG OLED evo G5 65" | 2025 · Brightness Booster
-LG OLED B5 55" | 2025 · 4K
-LG OLED B5 65" | 2025 · 4K
+LG OLED evo C5 55" | 4K 144 Hz
+LG OLED evo C5 65" | 4K 144 Hz
+LG OLED evo C5 77" | 4K 144 Hz
+LG OLED evo G5 65" | Brightness Booster
+LG OLED B5 55" | 4K
+LG OLED B5 65" | 4K
 LG OLED evo C6 55" | 2026 · 165 Hz
 LG QNED86 65" | Mini-LED
 LG UT80 55" | 4K LED
-Samsung OLED S90F 55" | 2025 · 4K
-Samsung OLED S90F 65" | 2025 · 4K
-Samsung OLED S95F 65" | 2025 · glare-free
-Samsung OLED S85F 65" | 2025 · 4K
+Samsung OLED S90F 55" | 4K
+Samsung OLED S90F 65" | 4K
+Samsung OLED S95F 65" | glare-free
+Samsung OLED S85F 65" | 4K
 Samsung Neo QLED QN90F 65" | Mini-LED
 Samsung Neo QLED QN85F 55" | Mini-LED
 Samsung QLED Q80D 55" | 4K
 Samsung QLED Q60D 65" | 4K
-Samsung The Frame 55" (2025) | Art mode
-Samsung The Frame 65" (2025) | Art mode
+Samsung The Frame 55" | Art mode
+Samsung The Frame 65" | Art mode
 Samsung Crystal UHD U7000F 65" | 4K LED
 Sony BRAVIA 8 II 65" | QD-OLED
 Sony BRAVIA 8 55" | OLED
@@ -887,8 +887,8 @@ Samsung Neo QLED QN85F 65" | 4K · Neo QLED
 Samsung QLED Q7F 65" | 4K · QLED
 Samsung Crystal UHD U8000F 55" | 4K · Crystal UHD
 Samsung The Frame Pro 65" | 4K · Mini LED
-Samsung The Frame 75" (2025) | 4K · QLED
-Samsung The Frame 43" (2025) | 4K · QLED
+Samsung The Frame 75" | 4K · QLED
+Samsung The Frame 43" | 4K · QLED
 ## Cameras
 Sony Alpha 7 IV | Full-frame · body
 Sony Alpha 7C II | Full-frame · body
@@ -2705,31 +2705,31 @@ Burton Custom Flying V | Snowboard
 Burton Cartel X EST | Snowboard bindings
 Garmin Fenix 8 | Ski / multisport watch
 ## Travel & Holidays
-SWISS flights to North America | SWISS Black Friday sale 2025, late Nov to 3 Dec
-Lufthansa Group flights to North America | Black Friday sale 2025, 27 Nov to 3 Dec
-Qatar Airways flights from Switzerland | Black Friday 2025, up to 20% off base fare
-TAP Air Portugal flights Lisbon Porto | Black Friday 2025 fares from Zurich
-Cathay Pacific flights from Zurich | Black Friday 2025 code offer from Zurich
-easyJet flights | Black Friday 2025 sale, UK-origin routes confirmed
-easyJet Holidays | Black Friday 2025 holiday code
-Eurowings flights | Black Week 2025, up to 20% off Basic fare (German market)
-Ryanair flights | Black Friday 2025 sale, 2nd ticket half price on selected routes
-TUI Suisse Ferien | Black Friday 2025 discount on summer holidays
-Helvetic Tours Ferien | Black Friday 2025 holiday discount with code
-Belpmoos Reisen | Black Friday 2025 per-person discount, Andalusia and Sardinia
-Iberostar Hotels | Black Friday 2025 hotel discount Europe and Caribbean
-Center Parcs Ferienpark | Black Friday 2025 stay discount
-Europcar Mietwagen | Black Friday 2025 car rental discount
-MSC Cruises Kreuzfahrt | Black Friday 2025 cruise sale
-Costa Kreuzfahrten | Black Friday 2025 Mediterranean cruise sale
-Regent Seven Seas Cruises | Black Friday 2025 discount plus onboard credit
-Hurtigruten Nordkap Kreuzfahrt | Black Friday 2025 voyage offer
-E-Hoi Kreuzfahrten | Black Week 2025 cruise deals
-Jungfraujoch Ticket Jungfraubahn | Black Friday 2025 sale via Interdiscount
-Halbtax Interdiscount | Interdiscount half-price Halbtax ran Black Friday 2024 (2025 unconfirmed)
-Airalo eSIM | Black Friday 2025 eSIM sale (rate sources conflict)
-Holafly eSIM | Black Friday 2025 "3 for 2" with code
-Saily eSIM | Black Friday 2025 small discount (competitor-blog source)
+SWISS flights to North America | Flights · check live Black Friday fares
+Lufthansa Group flights to North America | Flights · check live Black Friday fares
+Qatar Airways flights from Switzerland | Flights from Zurich and Geneva
+TAP Air Portugal flights Lisbon Porto | Flights from Zurich and Geneva
+Cathay Pacific flights from Zurich | Long-haul flights from Zurich
+easyJet flights | Flights from Basel and Geneva
+easyJet Holidays | Flight + hotel packages
+Eurowings flights | Flights from Zurich and Basel
+Ryanair flights | Flights from Basel
+TUI Suisse Ferien | Package holidays
+Helvetic Tours Ferien | Package holidays
+Belpmoos Reisen | Package holidays from Bern
+Iberostar Hotels | Hotels in Europe and the Caribbean
+Center Parcs Ferienpark | Holiday parks
+Europcar Mietwagen | Car rental
+MSC Cruises Kreuzfahrt | Cruises
+Costa Kreuzfahrten | Mediterranean cruises
+Regent Seven Seas Cruises | Luxury cruises
+Hurtigruten Nordkap Kreuzfahrt | Norway coastal voyages
+E-Hoi Kreuzfahrten | Cruise portal
+Jungfraujoch Ticket Jungfraubahn | Day ticket Jungfraujoch
+Halbtax Interdiscount | Half Fare travelcard
+Airalo eSIM | Travel eSIM
+Holafly eSIM | Travel eSIM
+Saily eSIM | Travel eSIM
 Hotel Lisbon | city break, hotel search
 Hotel Rome | city break, hotel search
 Hotel Vienna | city break, hotel search

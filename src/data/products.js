@@ -6,7 +6,6 @@ import { travelShops } from "../config/travel.js";
 export const TOP = RAW.map((r,i)=>{
   const [cat,name,spec,now,bw25,low,lowAt,q,note,shops] = r;
   const cands = [];
-  if (bw25!=null) cands.push({p:bw25, where:"Black Week 2025"});
   if (low!=null) cands.push({p:low, where:lowAt});
   const best = cands.sort((a,b)=>a.p-b.p)[0] || null;
   let status, save = 0;

@@ -23,10 +23,10 @@ async function loadData() {
 /* ---- static, crawlable content (read by search engines and AI crawlers that don't run JavaScript; the app replaces it on load) ---- */
 const SITE = "Aktion.ch";
 const L = {
-  en: { today: "Today", bw: "Black Week 2025", low: "Record low", reg: "Regular", upd: "Prices checked", list: "Deals on this page", loc: "en-GB" },
-  de: { today: "Heute", bw: "Black Week 2025", low: "Tiefstpreis", reg: "Regulär", upd: "Preise geprüft am", list: "Angebote auf dieser Seite", loc: "de-CH" },
-  fr: { today: "Aujourd'hui", bw: "Black Week 2025", low: "Prix le plus bas", reg: "Prix normal", upd: "Prix vérifiés le", list: "Offres sur cette page", loc: "fr-CH" },
-  it: { today: "Oggi", bw: "Black Week 2025", low: "Prezzo minimo", reg: "Prezzo normale", upd: "Prezzi verificati il", list: "Offerte su questa pagina", loc: "it-CH" }
+  en: { today: "Today", low: "Record low", reg: "Regular", upd: "Prices checked", list: "Deals on this page", loc: "en-GB" },
+  de: { today: "Heute", low: "Tiefstpreis", reg: "Regulär", upd: "Preise geprüft am", list: "Angebote auf dieser Seite", loc: "de-CH" },
+  fr: { today: "Aujourd'hui", low: "Prix le plus bas", reg: "Prix normal", upd: "Prix vérifiés le", list: "Offres sur cette page", loc: "fr-CH" },
+  it: { today: "Oggi", low: "Prezzo minimo", reg: "Prezzo normale", upd: "Prezzi verificati il", list: "Offerte su questa pagina", loc: "it-CH" }
 };
 const chf = n => "CHF " + (Number.isInteger(n) ? n.toLocaleString("de-CH") : n.toLocaleString("de-CH", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 const usd = n => "$" + n.toLocaleString("en-US", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2 });
@@ -53,8 +53,7 @@ function staticGrid(p, d) {
     const parts = [];
     if (x.price != null) parts.push(`${l.today}: <strong>${m(x.price)}</strong>`);
     if (x.reg != null) parts.push(`${l.reg}: ${m(x.reg)}`);
-    if (x.bw != null) parts.push(`${l.bw}: ${m(x.bw)}`);
-    if (x.low != null && x.low !== x.bw) parts.push(`${l.low}: ${m(x.low)}`);
+    if (x.low != null) parts.push(`${l.low}: ${m(x.low)}`);
     if (x.status && st[x.status]) parts.push(esc(st[x.status]));
     return `<li><b>${esc(x.name)}</b>${x.spec ? ` <span>${esc(x.spec)}</span>` : ""}${parts.length ? ` – ${parts.join(" · ")}` : ""}</li>`;
   }).join("");
@@ -146,7 +145,7 @@ function pageHtml(tpl, p, base, d) {
     .replace(/<b id="cd-d">\d+<\/b>/, `<b id="cd-d">${daysToBF()}</b>`)
     .replace(/(<input id="q" type="search" placeholder=")[^"]*/, `$1${esc((STRINGS[p.lang] || STRINGS.en).searchPlaceholder)}`)
     .replace(/(<button class="tab"[^>]*id="t-(\w+)"[^>]*>)([^<]*)/g, (m, open, id, label) => {
-      const k = { top: "tabTop", categories: "tabCat", us: "tabUS", list: "tabList", calendar: "tabCal", retailers: "tabRetailers", guide: "tabGuide" }[id];
+      const k = { live: "tabLive", top: "tabTop", categories: "tabCat", us: "tabUS", list: "tabList", calendar: "tabCal", retailers: "tabRetailers", guide: "tabGuide" }[id];
       const S = STRINGS[p.lang] || STRINGS.en; return open + esc((k && S[k]) || label);
     });
 }
@@ -162,11 +161,11 @@ function llmsTxt(base, d) {
 - Digitec and Galaxus Black Friday weeks: 16 – 30 November 2026 (1,000+ offers, all live from 16 November).
 - Amazon US Black Friday Week and Cyber Monday: 19 – 30 November 2026. Amazon.de delivers many products to Switzerland; Swiss VAT (8.1%) is charged at checkout.
 - Swiss shops tracked: Digitec, Galaxus, MediaMarkt, Interdiscount, Fust, Brack, Manor, fnac, Amazon.de, Samsung, Apple and others.
-- Method: for the top 100 products we compare today's Swiss price with the Black Week 2025 price and the record low. "Buy now" = today's price is within 3% of the best known price; "Wait" = it was cheaper before.
+- Method: live deals are checked on the shop page or in dated deal reports and expire automatically. For the top 100 products we compare today's Swiss price with the 2026 record low. "Buy now" = today's price is within 3% of the best known price; "Wait" = it was cheaper before.
 - Disclosure: shop links are affiliate links; rankings do not depend on commissions.`;
   const llms = `# ${SITE} – Black Friday Switzerland 2026
 
-> Independent Black Friday 2026 price tracker for Switzerland (Schweiz, Suisse, Svizzera): the 100 most-wanted products with CHF prices, Black Week 2025 price, record low and a buy-or-wait call, plus 2,400+ products by category, a deal calendar, a retailer guide and live US deals. Languages: German, French, Italian, English.
+> Independent Black Friday 2026 price tracker for Switzerland (Schweiz, Suisse, Svizzera): live Swiss deals checked this week, the 100 most-wanted products with CHF prices, record low and a buy-or-wait call, plus 2,400+ products by category, a deal calendar, a retailer guide and live US deals. Languages: German, French, Italian, English.
 
 ${facts}
 
@@ -179,7 +178,7 @@ ${pages}
 - [All deals, dates and FAQ as text](${base}/llms-full.txt)
 - [Sitemap](${base}/sitemap.xml)
 `;
-  const top = d.TOP.map((x, i) => `${i + 1}. ${x.name} (${x.spec})${x.now != null ? ` – today ${chf(x.now)}` : ""}${x.bw25 != null ? `, Black Week 2025 ${chf(x.bw25)}` : ""}${x.best && x.best.p !== x.bw25 ? `, record low ${chf(x.best.p)}` : ""} – ${{ buy: "Buy now", wait: "Wait for Black Friday", track: "Tracking", check: "Check price" }[x.status]}`).join("\n");
+  const top = d.TOP.map((x, i) => `${i + 1}. ${x.name} (${x.spec})${x.now != null ? ` – today ${chf(x.now)}` : ""}${x.best ? `, record low ${chf(x.best.p)}` : ""} – ${{ buy: "Buy now", wait: "Wait for Black Friday", track: "Tracking", check: "Check price" }[x.status]}`).join("\n");
   const us = d.US.map(r => `- ${r[1]} (${r[2]}): ${usd(r[3])} instead of ${usd(r[4])} at ${r[5]}`).join("\n");
   const cal = ev.map(e => `- ${e.date} (${e.region}) ${e.title}: ${e.text}`).join("\n");
   const faq = ["en", "de", "fr", "it"].map(l => faqFor(l, d).map(([q, a]) => `**${q}**\n${a}`).join("\n\n")).join("\n\n");
