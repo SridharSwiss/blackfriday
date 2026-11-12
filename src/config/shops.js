@@ -12,7 +12,7 @@ export const SHOPS = {
   fnac:{name:"fnac", search:s=>`https://www.fnac.ch/SearchResult/ResultList.aspx?Search=${enc(s)}`},
   daydeal:{name:"DayDeal", search:()=>`https://www.daydeal.ch/`},
   samsung:{name:"Samsung", search:s=>`https://www.samsung.com/ch/search/?searchvalue=${enc(s)}`},
-  fust:{name:"Fust", search:s=>`https://www.fust.ch/search?text=${enc(s)}`},
+  fust:{name:"Fust", search:s=>`https://www.fust.ch/search?q=${enc(s)}`},
   manor:{name:"Manor", search:s=>`https://www.manor.ch/de/search?text=${enc(s)}`},
   zalando:{name:"Zalando", search:s=>`https://www.zalando.ch/katalog/?q=${enc(s)}`},
   jumbo:{name:"Jumbo", search:s=>`https://www.jumbo.ch/de/search?q=${enc(s)}`},
