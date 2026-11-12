@@ -1,16 +1,18 @@
-/* US deals live on 10 Nov 2026. Every row was confirmed by two independent pages dated 6-10 Nov 2026
-   (9to5toys 06/09.11, Tom's Guide, NBC Select 09.11, Fox/Nexstar Walmart roundup 09.11, thetechhacker 09.11, Jennifer Jolly 06.11).
-   Rows that could no longer be confirmed are removed. Optional 8th field = last valid day (YYYY-MM-DD); main.js hides a row after that day.
-   Upcoming events (Walmart 12-15 Nov, Amazon 19-30 Nov, Best Buy 19 Nov, Walmart BF 23 Nov) are in calendar.js and are added when they go live.
+/* US deals live on 12 Nov 2026 (audit 12.11.: every row re-confirmed by two pages dated 11–12 Nov 2026 – 9to5toys, Macworld, macprices,
+   NBC Select, Tom's Guide, dealnews, Yahoo Shopping, the-gadgeteer, Washington Times, Consequence). Rows that could not be re-confirmed were removed.
+   Optional 8th field = last valid day (YYYY-MM-DD); main.js hides a row after that day. Walmart's early event runs 12–15 Nov.
    Format: [category, name, spec, dealPriceUSD, regularUSD, retailer, searchQuery, validUntil] */
 export const US_RAW = [
-["Audio","Apple AirPods 4","Open-fit · USB-C · early deal 2026",89,129.99,"walmart","AirPods 4",null],
-["Audio","Apple AirPods Max 2","USB-C · early deal 2026",449,549,"amazoncom","AirPods Max 2",null],
-["TV","LG 55\" C6 OLED evo (2026)","4K · 120 Hz · Best Buy early deal",999.99,1999.99,"bestbuy","LG C6 55 OLED",null],
-["Streaming","Amazon Fire TV Stick 4K (2026 model)","Wi-Fi 6 · Dolby Vision · early deal 2026",24.99,59.99,"amazoncom","Fire TV Stick 4K",null],
+["TV","LG 65\" C6 OLED evo (2026)","4K · 2026 flagship · Walmart early deal",1399.99,2699.99,"walmart","LG 65 C6 OLED","2026-11-15"],
+["Home","Dyson V12 Detect Slim","Cordless · laser dust detection · Walmart early deal",430,730,"walmart","Dyson V12 Detect Slim","2026-11-15"],
+["Audio","Apple AirPods Pro 3","ANC · USB-C · Walmart early deal",199,249,"walmart","AirPods Pro 3","2026-11-15"],
+["Audio","Apple AirPods 4","Open-fit · USB-C · Walmart early deal",89,129.99,"walmart","AirPods 4","2026-11-15"],
+["Audio","Sony WH-1000XM6","Over-ear ANC · all colours · early deal 2026",378,459.99,"amazoncom","Sony WH-1000XM6",null],
+["Audio","Apple AirPods Max 2","USB-C · early deal 2026",449.99,549,"amazoncom","AirPods Max 2",null],
+["Smart Home","Apple AirTag (2nd gen) 4-pack","Item trackers · early deal 2026",69.99,99.99,"target","AirTag 4 pack",null],
 ["Computers","Apple MacBook Air 13\" M5","16 GB · 512 GB SSD · early deal 2026",1099,1299,"amazoncom","MacBook Air 13 M5 16GB 512GB",null],
 ["Computers","Apple MacBook Air 13\" M5","16 GB · 1 TB SSD · early deal 2026",1349,1599,"amazoncom","MacBook Air 13 M5 16GB 1TB",null],
-["Computers","Apple MacBook Air 15\" M5","16 GB · 512 GB SSD · early deal 2026",1299.99,1499,"amazoncom","MacBook Air 15 M5 16GB 512GB",null],
+["Computers","Apple MacBook Air 15\" M5","16 GB · 512 GB SSD · early deal 2026",1299,1499,"amazoncom","MacBook Air 15 M5 16GB 512GB",null],
 ["Computers","Apple MacBook Air 15\" M5","16 GB · 1 TB SSD · early deal 2026",1549,1799,"amazoncom","MacBook Air 15 M5 16GB 1TB",null],
 ["Smart Home","Ring Starter Set","Battery Doorbell 2K + Indoor Cam Plus 2K · early deal 2026",59.99,139.99,"homedepot","Ring Battery Doorbell 2K Indoor Cam Plus starter set",null],
 ["Tools","Husky 310-Piece Mechanics Tool Set","Sockets, wrenches, case · early deal 2026",99,199,"homedepot","Husky 310 piece mechanics tool set",null],
