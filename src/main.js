@@ -53,11 +53,12 @@ DEALS.forEach(d => { d.region = "ch"; d.cur = "CHF"; d.id = uid("ch-" + slug(d.n
 const plusDays = (iso, n) => { const t = new Date(iso + "T12:00:00Z"); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
 const TODAY = new Date().toISOString().slice(0, 10);
 const usId = name => uid("us-" + slug(name));
-const US = US_RAW.filter(r => r[7] ? r[7] >= TODAY : (r[8] ? plusDays(r[8], 3) >= TODAY : false)).map(([cat, name, spec, bf, reg, retailer, q], i) => {
+const US = US_RAW.filter(r => r[7] ? r[7] >= TODAY : (r[8] ? plusDays(r[8], 3) >= TODAY : false)).map(([cat, name, spec, bf, reg, retailer, q, until, checked, extra], i) => {
   const others = ["amazoncom", "bestbuy", "walmart", "target"].filter(s => s !== retailer);
   return { region: "us", cur: "USD", id: usId(name), rank: i + 1, top: false, cat, name, spec, q,
     now: null, bw25: bf, reg, low: null, lowAt: null, best: { p: bf, where: "Live deal" }, show: bf,
-    save: reg - bf, off: Math.round((1 - bf / reg) * 100), status: "live", note: null, pick: (1 - bf / reg) >= 0.35,
+    save: reg - bf, off: Math.round((1 - bf / reg) * 100), status: "live", note: extra?.note || null, pick: (1 - bf / reg) >= 0.35,
+    until: until || null, checked: checked || null, src: extra?.src || [],
     shops: [retailer, ...others.slice(0, 2)] };
 });
 // Live Swiss deals: shown from `from` until `until` (or 3 days after the check date), then dropped automatically
@@ -380,6 +381,8 @@ function openDetails(d, push = true) {
     rows.push(`<dt>${T("checkedLabel")}</dt><dd>${fmtDay(d.checked)} · ${d.src.map((u, k) => `<a href="${esc(u)}" target="_blank" rel="noopener nofollow">${T("sourceLabel")} ${k + 1}</a>`).join(", ")}</dd>`);
   } else if (d.region === "us") {
     rows.push(`<dt>${T("statusLive")}</dt><dd>${money(d.bw25, "USD")}</dd>`, `<dt>${T("regularPrice")}</dt><dd>${money(d.reg, "USD")}</dd>`, `<dt>${T("saving")}</dt><dd class="target">−${d.off}%</dd>`);
+    if (d.until) rows.push(`<dt>${T("validLabel")}</dt><dd>${S.untilLabel(fmtDay(d.until))}</dd>`);
+    if (d.checked) rows.push(`<dt>${T("checkedLabel")}</dt><dd>${fmtDay(d.checked)}${d.src.length ? " · " + d.src.map((u, k) => `<a href="${esc(u)}" target="_blank" rel="noopener nofollow">${T("sourceLabel")} ${k + 1}</a>`).join(", ") : ""}</dd>`);
   } else {
     if (d.best && d.status !== "check") rows.push(`<dt>${T("targetPrice")}</dt><dd class="target">CHF ${fmt(d.best.p)}</dd>`);
     if (d.lowAt) rows.push(`<dt>${T("recordLowAt")}</dt><dd>${esc(d.lowAt)}</dd>`);
