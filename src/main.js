@@ -50,9 +50,10 @@ const uid = b => { const n = (IDS.get(b) || 0) + 1; IDS.set(b, n); return n > 1 
 DEALS.forEach(d => { d.region = "ch"; d.cur = "CHF"; d.id = uid("ch-" + slug(d.name)); d.pick = d.top && d.status === "buy"; });
 
 // US products: live 2026 deal price vs regular price, in USD
+const plusDays = (iso, n) => { const t = new Date(iso + "T12:00:00Z"); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
 const TODAY = new Date().toISOString().slice(0, 10);
 const usId = name => uid("us-" + slug(name));
-const US = US_RAW.filter(r => !r[7] || r[7] >= TODAY).map(([cat, name, spec, bf, reg, retailer, q], i) => {
+const US = US_RAW.filter(r => r[7] ? r[7] >= TODAY : (r[8] ? plusDays(r[8], 3) >= TODAY : false)).map(([cat, name, spec, bf, reg, retailer, q], i) => {
   const others = ["amazoncom", "bestbuy", "walmart", "target"].filter(s => s !== retailer);
   return { region: "us", cur: "USD", id: usId(name), rank: i + 1, top: false, cat, name, spec, q,
     now: null, bw25: bf, reg, low: null, lowAt: null, best: { p: bf, where: "Live deal" }, show: bf,
@@ -60,7 +61,6 @@ const US = US_RAW.filter(r => !r[7] || r[7] >= TODAY).map(([cat, name, spec, bf,
     shops: [retailer, ...others.slice(0, 2)] };
 });
 // Live Swiss deals: shown from `from` until `until` (or 3 days after the check date), then dropped automatically
-const plusDays = (iso, n) => { const t = new Date(iso + "T12:00:00Z"); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); };
 const LIVE = LIVE_CH.filter(r => (!r.from || r.from <= TODAY) && TODAY <= (r.until || plusDays(r.checked, 3))).map((r, i) => {
   const off = r.price != null && r.was ? Math.round((1 - r.price / r.was) * 100) : (r.percent || null);
   return { region: "live", cur: r.cur || "CHF", id: uid("live-" + slug(r.shop + " " + r.name)), rank: i + 1, top: false, cat: r.cat, name: r.name, spec: r.spec || "",
