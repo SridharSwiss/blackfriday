@@ -58,7 +58,7 @@ const US = US_RAW.filter(r => r[7] ? r[7] >= TODAY : (r[8] ? plusDays(r[8], 3) >
   return { region: "us", cur: "USD", id: usId(name), rank: i + 1, top: false, cat, name, spec, q,
     now: null, bw25: bf, reg, low: null, lowAt: null, best: { p: bf, where: "Live deal" }, show: bf,
     save: reg - bf, off: Math.round((1 - bf / reg) * 100), status: "live", note: extra?.note || null, pick: (1 - bf / reg) >= 0.35,
-    until: until || null, checked: checked || null, src: extra?.src || [],
+    until: until || null, checked: checked || null, src: extra?.src || [], shop: retailer, url: extra?.url || null,
     shops: [retailer, ...others.slice(0, 2)] };
 });
 // Live Swiss deals: shown from `from` until `until` (or 3 days after the check date), then dropped automatically
@@ -130,7 +130,7 @@ function toast(msg) {
 }
 function shopBtn(s, d, primary) {
   const cls = ["shop", primary ? "primary" : ""].filter(Boolean).join(" ");
-  const href = d.region === "live" && s === d.shop && d.url ? d.url : SHOPS[s] ? SHOPS[s].search(d.q) : d.url;
+  const href = (d.region === "live" || d.region === "us") && s === d.shop && d.url ? d.url : SHOPS[s] ? SHOPS[s].search(d.q) : d.url;
   if (!href) return "";
   return `<a class="${cls}" href="${affLink(s, href)}" target="_blank" rel="sponsored nofollow noopener"><span class="sn">${SHOPS[s] ? SHOPS[s].name : esc(s)}</span> ${ext}</a>`;
 }
