@@ -33,7 +33,7 @@ export async function initAuth() {
   return user();
 }
 export async function sendLink(email) {
-  const r = await fetch(BACKEND.url + "/auth/v1/otp?redirect_to=" + encodeURIComponent(location.origin + "/"), { method: "POST", headers: H(), body: JSON.stringify({ email, create_user: true }) });
+  const r = await fetch(BACKEND.url + "/auth/v1/otp?redirect_to=" + encodeURIComponent(location.origin + location.pathname), { method: "POST", headers: H(), body: JSON.stringify({ email, create_user: true }) });
   return r.ok;
 }
 export function signOut() { store(null); }
