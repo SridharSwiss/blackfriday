@@ -252,7 +252,7 @@ function fit() {
   const tabsEl = document.querySelector(".tabs");
   const headEl = panel ? panel.querySelector(".head") : null;
   const pagerEl = $("pager");
-  const featEl = $("featured");
+  const featEl = $("featured"); if (featEl) featEl.classList.remove("squeezed");
 
   const barH = barEl ? barEl.offsetHeight : 52;
   const pageheadH = (pageheadEl && !pageheadEl.hidden) ? pageheadEl.offsetHeight : 0;
@@ -260,11 +260,16 @@ function fit() {
   const headH = headEl ? headEl.offsetHeight : 0;
   const featH = (featEl && !featEl.hidden && getComputedStyle(featEl).display !== "none") ? featEl.offsetHeight + 10 : 0;
   const pagerH = (pagerEl && !pagerEl.hidden) ? pagerEl.offsetHeight + 8 : 0;
-  const panelPad = 22; // padding-block sum for desktop
+  const panelPad = 36; // padding-block sum for desktop
 
   // Available height for the grid
   const availH = Math.max(cardH + gap, vh - barH - pageheadH - tabsH - headH - featH - pagerH - panelPad);
-  const rows = Math.max(2, Math.floor((availH + gap) / (cardH + gap)));
+  let rows = Math.floor((availH + gap) / (cardH + gap));
+  if (rows < 2 && featH) { // not enough height for two card rows plus the featured strip: tuck the strip away, keep the grid whole
+    featEl.classList.add("squeezed");
+    rows = Math.floor((availH + featH + gap) / (cardH + gap));
+  }
+  rows = Math.max(2, rows);
 
   // Apply CSS custom properties
   const root = document.documentElement;
@@ -738,6 +743,7 @@ if (typeof ResizeObserver !== "undefined") {
   const ro = new ResizeObserver(debouncedRefit);
   const g = $("grid");
   if (g) ro.observe(g.parentElement || g);
+  const fe = $("featured"); if (fe) ro.observe(fe);
 }
 window.addEventListener("resize", debouncedRefit, { passive: true });
 window.addEventListener("orientationchange", debouncedRefit, { passive: true });
