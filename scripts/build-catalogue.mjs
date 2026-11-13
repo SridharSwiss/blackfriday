@@ -2,7 +2,7 @@
 // Format of the .txt: "## Category" headers, then "Name | spec" or "Name | spec | priceCHF".
 import { readFileSync, writeFileSync } from "node:fs";
 
-for (const [inp, out] of [["catalogue", "catalogue"], ["catalogue-us", "catalogue-us"], ["catalogue-in", "catalogue-in"]]) {
+for (const [inp, out] of [["catalogue", "catalogue"], ["catalogue-us", "catalogue-us"]]) {
 const src = readFileSync(new URL(`../content/${inp}.txt`, import.meta.url), "utf8");
 const items = []; const seen = new Set(); let cat = null;
 for (const raw of src.split("\n")) {

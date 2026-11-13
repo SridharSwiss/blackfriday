@@ -97,6 +97,6 @@ Live deals: retailer pages and dated Swiss deal reports (Preispirat, Toppreise, 
 The page shows an "Anzeige" affiliate disclosure, the Amazon partner statement ("Als Amazon-Partner verdienen wir an qualifizierten Verkäufen") and a disclosure section in the Buying guide tab (Swiss UWG transparency). Re-check prices before Black Week: Black Friday 2026 offers are not announced yet.
 
 ## Data files for the scheduled updates (daily/hourly)
-- `src/data/live-ch.js` Swiss live deals · `src/data/us.js` US live deals · `src/data/in.js` India live deals (₹, same row shape as us.js; empty until two dated sources confirm one).
-- Product lines without prices: `content/catalogue.txt` (CH), `catalogue-us.txt`, `catalogue-in.txt`; run `npm run catalogue` after editing.
+- `src/data/live-ch.js` Swiss live deals · `src/data/us.js` US live deals.
+- Product lines without prices: `content/catalogue.txt` (CH), `catalogue-us.txt`; run `npm run catalogue` after editing.
 - Rule: publish a live row only when two independent dated sources confirm it; expired rows hide automatically. India events not yet announced by retailers stay out of the calendar.
