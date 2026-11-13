@@ -2,7 +2,7 @@
    no login button, no events are sent, and the consent choice is only stored in this browser.
    After creating the dedicated project and running supabase/schema.sql, paste the project URL and the publishable key here. */
 export const BACKEND = {
-  url: "",            // e.g. https://xxxx.supabase.co
+  url: "https://ahgxzqizzuxtqplkiqwa.supabase.co",
   key: "",            // publishable (anon) key, safe to ship in the browser because RLS is enforced
 };
 export const ENABLED = !!(BACKEND.url && BACKEND.key);
