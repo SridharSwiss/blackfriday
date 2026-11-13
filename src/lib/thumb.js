@@ -46,6 +46,9 @@ export const ICON = {
  "Books":'<path d="M7 8h15a4 4 0 0 1 4 4v29a3 3 0 0 0-3-3H7zM41 8H28a4 4 0 0 0-4 4v29a3 3 0 0 1 3-3h14z"/>',
  "Pets":'<circle cx="24" cy="31" r="8"/><circle cx="13" cy="19" r="3.5"/><circle cx="20" cy="12" r="3.5"/><circle cx="28" cy="12" r="3.5"/><circle cx="35" cy="19" r="3.5"/>',
  "Gift Cards & Travel":'<rect x="5" y="12" width="38" height="25" rx="3"/><path d="M5 20h38M13 30h9"/>',
+ "Mobile Plans & Internet":'<rect x="15" y="5" width="18" height="34" rx="3"/><path d="M21 34h6M6 18a20 20 0 0 1 4-8M42 18a20 20 0 0 0-4-8"/>',
+ "Solar & Power Stations":'<circle cx="24" cy="18" r="7"/><path d="M24 4v3M24 29v3M10 18H7M41 18h-3M14 8l-2-2M36 8l2-2M8 40h32l-4-8H12z"/>',
+ "E-Readers":'<rect x="11" y="5" width="26" height="38" rx="3"/><path d="M17 14h14M17 20h14M17 26h9"/>',
  "Winter tyres":'<circle cx="24" cy="24" r="18"/><circle cx="24" cy="24" r="7"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6M11 11l4 4M33 33l4 4M37 11l-4 4M15 33l-4 4"/>',
  "_":'<path d="M6 24L24 6h16v16L22 40z"/><circle cx="33" cy="13" r="2.5"/>'
 };

@@ -44,6 +44,11 @@ export const SHOPS = {
   ticinopass:{name:"Ticino Turismo", search:()=>"https://www.ticino.ch/de/"},
   alpspass:{name:"AlpsPass", search:()=>"https://www.alpspass.ski/"},
   hotelplan:{name:"Hotelplan", search:()=>"https://www.hotelplan.ch/"},
+  swisscom:{name:"Swisscom", search:()=>"https://www.swisscom.ch/"},
+  sunrise:{name:"Sunrise", search:()=>"https://www.sunrise.ch/"},
+  salt:{name:"Salt", search:()=>"https://www.salt.ch/"},
+  wingo:{name:"Wingo", search:()=>"https://www.wingo.ch/"},
+  yallo:{name:"Yallo", search:()=>"https://www.yallo.ch/"},
   ...TRAVEL_SHOPS,
   ...US_SHOPS
 };
@@ -93,4 +98,16 @@ export const CAT_SHOPS = {
   "Watches & Jewellery":["galaxus","manor","zalando"],
   "Fragrance & Beauty":["manor","galaxus","amazon"],
 };
+Object.assign(CAT_SHOPS,{
+  "Mobile Plans & Internet":["swisscom","sunrise","salt","wingo"],
+  "Software & VPN":["amazon","galaxus","digitec","brack"],
+  "E-Readers":["amazon","orellfuessli","galaxus","digitec"],
+  "Drones & Action Cameras":["amazon","digitec","galaxus","brack"],
+  "Fitness & Home Gym":["amazon","galaxus","brack","manor"],
+  "Lighting & Decor":["amazon","galaxus","brack","jumbo"],
+  "Car & Motorbike Accessories":["amazon","galaxus","brack","jumbo"],
+  "Solar & Power Stations":["amazon","galaxus","brack","jumbo"],
+  "LEGO & Collectibles":["amazon","lego","galaxus","manor"],
+  "Robot Vacuums & Cleaning":["amazon","galaxus","digitec","fust"]
+});
 CAT_SHOPS["Beauty"]=CAT_SHOPS["Fragrance & Beauty"];
