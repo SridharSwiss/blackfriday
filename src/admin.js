@@ -4,7 +4,7 @@ import { initAuth, token, user, sendLink, signOut, signInPassword, resetPassword
 const app = document.getElementById("app");
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const n = x => Number(x || 0).toLocaleString("en-US");
-const msg = (t, extra = "") => { app.innerHTML = `<div class="msg"><h1>AKTIONS.CH admin</h1><p class="muted" id="m">${t}</p>${extra}</div>`; };
+const msg = (t, extra = "") => { app.innerHTML = `<div class="msg"><div class="hrow"><a class="home" href="/" aria-label="Back to home page" title="Back to home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-6h4v6"/></svg></a><h1>AKTIONS.CH admin</h1></div><p class="muted" id="m">${t}</p>${extra}</div>`; };
 async function rpc(name, body) {
   const r = await fetch(BACKEND.url + "/rest/v1/rpc/" + name, { method: "POST", headers: { apikey: BACKEND.key, Authorization: "Bearer " + token(), "Content-Type": "application/json" }, body: JSON.stringify(body || {}) });
   if (!r.ok) { const e = new Error("rpc " + r.status); e.status = r.status; throw e; }
@@ -20,7 +20,7 @@ async function dash(days) {
   const d = await rpc("admin_dashboard", { days }), t = d.totals, c = d.consent;
   const rate = c.decisions ? Math.round(c.accepted / c.decisions * 100) + "%" : "–";
   const tile = (v, l) => `<div class="tile"><b>${v}</b><span>${l}</span></div>`;
-  app.innerHTML = `<header><h1>AKTIONS.CH admin</h1><div class="row"><select id="days">${[7, 30, 90, 365].map(x => `<option value="${x}"${x === days ? " selected" : ""}>Last ${x} days</option>`).join("")}</select><button id="rf">Refresh</button><span class="muted">${esc(user().email)}</span><button id="so">Sign out</button></div></header>
+  app.innerHTML = `<header><div class="hrow"><a class="home" href="/" aria-label="Back to home page" title="Back to home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-6h4v6"/></svg></a><h1>AKTIONS.CH admin</h1></div><div class="row"><select id="days">${[7, 30, 90, 365].map(x => `<option value="${x}"${x === days ? " selected" : ""}>Last ${x} days</option>`).join("")}</select><button id="rf">Refresh</button><span class="muted">${esc(user().email)}</span><button id="so">Sign out</button></div></header>
   <div class="tiles">${tile(n(t.visitors), "Visitors")}${tile(n(t.sessions), "Sessions")}${tile(n(t.pageviews), "Page views")}${tile(n(t.shop_clicks), "Shop clicks")}${tile(n(t.saves), "Saves")}${tile(n(d.users) + " (+" + n(d.new_users) + ")", "Accounts (new)")}${tile(rate, "Consent accepted (" + n(c.decisions) + ")")}</div>
   <div class="grid"><div class="card"><h2>Visitors per day</h2>${spark(d.daily, "visitors")}</div><div class="card"><h2>Shop clicks per day</h2>${spark(d.daily, "clicks")}</div>
   <div class="card"><h2>Top shop clicks (deal · shop)</h2>${bars(d.deals)}</div><div class="card"><h2>Clicks by shop</h2>${bars(d.shops)}</div>
