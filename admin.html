@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Admin · AKTION.CH</title><link rel="icon" href="/favicon.svg">
+<style>
+:root{--bg:#F6F4F2;--surface:#fff;--ink:#151314;--muted:#6B6465;--line:#E3DEDB;--red:#D52B1E;--good:#1E7A46}
+@media(prefers-color-scheme:dark){:root{--bg:#141112;--surface:#1D191A;--ink:#F2EFEE;--muted:#A8A1A2;--line:#332D2E;--red:#E8463A}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1100px;margin:0 auto;padding:16px}header{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between;margin-bottom:14px}
+h1{font-size:20px;margin:0}h2{font-size:14px;margin:0 0 8px}.muted{color:var(--muted)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+button,select,input{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-height:38px}button{cursor:pointer}button.solid{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}
+.tile,.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}.tile b{display:block;font-size:24px;line-height:1.2}.tile span{color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
+.bar{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:8px;align-items:center;margin:4px 0;font-size:13px}.bar .t{position:relative;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .f{position:absolute;inset:0 auto 0 0;background:var(--red);opacity:.16;border-radius:4px}.bar .t span{position:relative;padding:0 4px}.bar em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums}
+svg{width:100%;height:120px;display:block}.msg{max-width:420px;margin:12vh auto;text-align:center}form{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+</style></head><body><main id="app"><p class="muted">Loading…</p></main>
+<script type="module" src="/src/admin.js"></script></body></html>

@@ -233,7 +233,7 @@ function seoPages() {
       const aiBots = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User",
         "Google-Extended", "Applebot-Extended", "Bingbot", "DuckAssistBot", "Meta-ExternalAgent", "MistralAI-User", "CCBot"];
       this.emitFile({ type: "asset", fileName: "robots.txt", source:
-        `# Search engines and AI assistants are welcome to read and cite this site.\nUser-agent: *\nAllow: /\n\n`
+        `# Search engines and AI assistants are welcome to read and cite this site.\nUser-agent: *\nAllow: /\nDisallow: /admin\n\n`
         + aiBots.map(b => `User-agent: ${b}\nAllow: /\n`).join("\n") + `\nSitemap: ${base}/sitemap.xml\n` });
       const { llms, full } = llmsTxt(base, d);
       this.emitFile({ type: "asset", fileName: "llms.txt", source: llms });
@@ -257,5 +257,5 @@ ${urls}
 
 export default defineConfig({
   plugins: [seoPages()],
-  build: { target: "es2020", sourcemap: false }
+  build: { target: "es2020", sourcemap: false, rollupOptions: { input: { main: "index.html", admin: "admin.html" } } }
 });

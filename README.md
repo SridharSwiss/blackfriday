@@ -105,3 +105,6 @@ The page shows an "Anzeige" affiliate disclosure, the Amazon partner statement (
 - Code: `src/lib/consent.js` (banner, policy EN/DE, consent cookie `bf_consent` + localStorage), `track.js` (anonymous events, only after analytics consent), `auth.js` + `account-ui.js` (email-link login, synced saved list, delete account).
 - Switch on: create a NEW dedicated Supabase project (not the courses/Indiaspora ones), run `supabase/schema.sql`, then fill `url` and `key` in `src/config/backend.js`, enable Email auth with redirect URL = site origin, and push to `main`.
 - Reports: SQL views `analytics_daily`, `analytics_top_deals`, `analytics_sources`, `consent_rate` (owner only). No IP, search text or fingerprint is stored.
+
+## Admin dashboard
+`/admin` (noindex). Run `supabase/admin.sql` once in the dedicated project. Admins are listed in `public.admins`; sign in with the email link, access is enforced by `public.is_admin()` in the database. Add another admin: `insert into public.admins values ('name@example.com');`
