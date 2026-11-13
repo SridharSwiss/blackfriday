@@ -479,7 +479,7 @@ function toggleWatch(id) {
 function ics(e) {
   const d = e.date.replace(/-/g, ""), next = new Date(e.date + "T12:00:00Z"); next.setUTCDate(next.getUTCDate() + 1);
   const d2 = next.toISOString().slice(0, 10).replace(/-/g, "");
-  const body = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Aktion.ch//Black Friday 2026//EN", "BEGIN:VEVENT", `UID:${d}-${slug(e.title)}@aktion.ch`,
+  const body = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Aktions.ch//Black Friday 2026//EN", "BEGIN:VEVENT", `UID:${d}-${slug(e.title)}@aktions.ch`,
     `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").slice(0, 15)}Z`, `DTSTART;VALUE=DATE:${d}`, `DTEND;VALUE=DATE:${d2}`,
     `SUMMARY:${e.title} (${e.region})`, `DESCRIPTION:${e.text.replace(/[,;]/g, m => "\\" + m)}`, "BEGIN:VALARM", "TRIGGER:-PT12H", "ACTION:DISPLAY", `DESCRIPTION:${e.title}`, "END:VALARM", "END:VEVENT", "END:VCALENDAR"].join("\r\n");
   return "data:text/calendar;charset=utf-8," + encodeURIComponent(body);

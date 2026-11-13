@@ -23,7 +23,7 @@ const html = h => `<!doctype html><meta charset=utf-8><style>*{box-sizing:border
 .p{text-align:right}.now{font-size:38px;font-weight:900;background:#ffd400;padding:2px 12px;border-radius:10px}s{font-size:24px;color:#888}.off{position:absolute;top:-12px;right:18px;background:#d62b1f;color:#fff;font-weight:800;font-size:26px;border-radius:99px;padding:3px 14px}
 .cta{margin-top:auto;background:#d62b1f;color:#fff;border-radius:26px;padding:26px;text-align:center;font-size:38px;font-weight:800}.fine{font-size:20px;color:#777;margin-top:14px;text-align:center}</style>
 <div class="k">AKTION.CH · LIVE · ${T.split("-").reverse().join(".")}</div><h1>Top 5 <em>Deals</em> heute</h1><div class="sub">Geprüft, nur was du jetzt kaufen kannst</div>${rows}
-<div class="cta">Alle Live-Deals: aktion.ch → Link in Bio</div><div class="fine">Preise Stand ${T.split("-").reverse().join(".")}, können sich ändern. Affiliate-Links.</div>`;
+<div class="cta">Alle Live-Deals: aktions.ch → Link in Bio</div><div class="fine">Preise Stand ${T.split("-").reverse().join(".")}, können sich ändern. Affiliate-Links.</div>`;
 const b = await chromium.launch();
 for (const [name, h] of [["poster-1080x1350", 1350], ["story-1080x1920", 1920]]) {
   const p = await b.newPage({ viewport: { width: 1080, height: h } }); await p.setContent(html(h)); await p.screenshot({ path: path.join(dir, name + ".png") }); await p.close();

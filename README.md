@@ -44,7 +44,7 @@ vercel          # preview deployment
 vercel --prod   # production
 ```
 
-`robots.txt`, `sitemap.xml` (with hreflang alternates) and the landing pages' canonical URLs are generated at build time from `SITE_URL`, else `VERCEL_PROJECT_PRODUCTION_URL` (set by Vercel automatically), else `https://aktion.ch`. **Set `SITE_URL=https://your-domain.ch` in Vercel → Settings → Environment Variables** once the domain is final. Then add the live URL to Amazon PartnerNet and Awin as your promotional site.
+`robots.txt`, `sitemap.xml` (with hreflang alternates) and the landing pages' canonical URLs are generated at build time from `SITE_URL`, else `https://aktions.ch` (the live domain). Add the live URL to Amazon PartnerNet and Awin as your promotional site.
 
 `vercel.json` also sets long-term caching for hashed assets and basic security headers.
 

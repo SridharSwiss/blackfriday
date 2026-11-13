@@ -6,7 +6,7 @@ import { STRINGS } from "./src/i18n.js";
    - one static HTML file per landing page (src/config/pages.js) with its own title, description,
      canonical, hreflang, Open Graph, visible H1 + intro and JSON-LD (rendered without JavaScript)
    - robots.txt and sitemap.xml (with hreflang alternates)
-   Production URL: SITE_URL, else VERCEL_PROJECT_PRODUCTION_URL (set by Vercel). */
+   Production URL: SITE_URL, else https://aktions.ch. */
 
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, "\\u003c")}</script>`;
@@ -220,7 +220,7 @@ function seoPages() {
     name: "seo-pages",
     enforce: "post",
     async generateBundle(_, bundle) {
-      const host = process.env.SITE_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "https://aktion.ch");
+      const host = process.env.SITE_URL || "https://aktions.ch";
       const base = host.replace(/\/$/, "");
       const tplAsset = bundle["index.html"];
       const tpl = String(tplAsset.source);
