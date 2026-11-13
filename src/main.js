@@ -227,13 +227,13 @@ function fit() {
   // Column count from width breakpoints
   let targetCols;
   // aim for cards of at least ~310px so names, prices and buttons never truncate
-  targetCols = Math.max(1, Math.min(5, Math.floor((vw + gap) / (310 + gap))));
+  targetCols = Math.max(1, Math.min(8, Math.floor((vw + gap) / (310 + gap))));
 
   // Card width: fill available width with gap between columns
   const cardW = Math.max(160, Math.floor((vw - gap * (targetCols - 1)) / targetCols));
 
   // Card height: aspect ratio ~2:1, clamped for readability
-  const cardH = vh < 760 ? 156 : 168;
+  const cardH = vh < 760 ? 156 : vh > 1200 ? 184 : 168;
 
   // On mobile: infinite scroll, perPage not used for layout — use generous default
   if (mob) {
@@ -252,16 +252,18 @@ function fit() {
   const tabsEl = document.querySelector(".tabs");
   const headEl = panel ? panel.querySelector(".head") : null;
   const pagerEl = $("pager");
+  const featEl = $("featured");
 
   const barH = barEl ? barEl.offsetHeight : 52;
   const pageheadH = (pageheadEl && !pageheadEl.hidden) ? pageheadEl.offsetHeight : 0;
   const tabsH = (tabsEl && getComputedStyle(tabsEl).display !== "none") ? tabsEl.offsetHeight : 0;
   const headH = headEl ? headEl.offsetHeight : 0;
+  const featH = (featEl && !featEl.hidden && getComputedStyle(featEl).display !== "none") ? featEl.offsetHeight + 10 : 0;
   const pagerH = (pagerEl && !pagerEl.hidden) ? pagerEl.offsetHeight + 8 : 0;
   const panelPad = 22; // padding-block sum for desktop
 
   // Available height for the grid
-  const availH = Math.max(cardH + gap, vh - barH - pageheadH - tabsH - headH - pagerH - panelPad);
+  const availH = Math.max(cardH + gap, vh - barH - pageheadH - tabsH - headH - featH - pagerH - panelPad);
   const rows = Math.max(2, Math.floor((availH + gap) / (cardH + gap)));
 
   // Apply CSS custom properties

@@ -574,3 +574,41 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
 .pol .close{position:absolute;top:10px;right:12px;background:none;border:0;color:var(--ink);font-size:24px;cursor:pointer}
 .acct form{display:flex;gap:8px;margin:12px 0 8px;flex-wrap:wrap}.acct input{flex:1 1 200px;min-height:42px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
 #acct.on{color:var(--good)}
+
+/* ================= v7 responsive: fluid gutters, wide-screen columns, scalable cards, tablet tuning ================= */
+:root{--gutter:clamp(16px,2.4vw,48px)}
+.gut{padding-left:max(var(--gutter),env(safe-area-inset-left,0px));padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
+.app{max-width:min(2400px,100%)}
+/* card thumbnail scales with the card instead of a fixed 88-96px */
+.card{grid-template-columns:clamp(88px,28%,132px) minmax(0,1fr)}
+/* wide content sections use the space instead of staying narrow */
+.guide{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.winter{grid-template-columns:minmax(0,1fr) minmax(0,1.35fr)}
+.tyres{grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr))}
+.cal{grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))}
+.sheet{width:min(960px,100%)}
+.rules,.winter p.intro{max-width:none}
+/* tablets / small laptops: keep header tidy, two-line header allowed, tabs scroll instead of wrapping */
+@media (min-width:761px) and (max-width:1099px){
+  .bar{gap:10px 14px}.hsearch{flex:1 1 220px}
+  .tabs{overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+}
+/* phones: tabs scroll horizontally; wider phones/landscape get two columns via JS; comfortable tap sizes */
+@media (max-width:760px){
+  .tabs{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.tabs::-webkit-scrollbar{display:none}
+  .winter,.guide{grid-template-columns:1fr}
+}
+/* big screens: slightly larger type and breathing room so 1440p/4K does not look tiny */
+@media (min-width:1700px){.pagehead h1{font-size:17px}.pagehead p{font-size:14px}.bar{padding-block:14px}.tab{font-size:15px}}
+@media (min-width:2200px){.pagehead h1{font-size:19px}.pagehead p{font-size:15px}.brand{font-size:26px}.tab{font-size:16px}.card{font-size:105%}}
+/* desktop/tablet panel: header strip, featured picks, grid (fills the rest), pager — as a flex column so hidden parts never shift rows */
+@media (min-width:761px) and (min-height:561px){.panel{display:flex;flex-direction:column;grid-template-rows:none}.panel>.grid{flex:1 1 auto;min-height:0}.panel>.head,.panel>.featured,.panel>.pager{flex:none}}
+/* phones: deals first — compact the notice boxes so the first card appears above the fold */
+@media (max-width:760px){
+  .pagehead p{-webkit-line-clamp:1}
+  .livebar,.usbar,.winterbar{padding:6px 10px;font-size:11.5px;line-height:1.35}
+  .livebar span,.usbar span.note{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .pulse{margin-top:6px;padding:6px 10px}.pulse .pl{display:none}.pulse .pr{width:100%;justify-content:space-between}
+  .featured .fp{padding:8px 10px}
+  .head .titlerow .sub{font-size:11px}
+}
