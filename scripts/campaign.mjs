@@ -100,13 +100,29 @@ async function siteShots(browser) {
   await ctx.close(); return files;
 }
 
+
+const thumbHtml = s => { const d = s.deals[0]; return `<!doctype html><meta charset=utf-8><style>${BASE}
+body{width:1080px;height:1920px;position:relative;background:#151314}
+.bg{position:absolute;left:-300px;top:-300px;width:1600px;height:1250px;background:#D52B1E;transform:rotate(-14deg)}.bg2{position:absolute;right:-420px;bottom:-460px;width:1300px;height:900px;background:#FFD200;transform:rotate(-14deg)}
+.c{position:absolute;left:60px;right:60px;top:300px;height:1350px;display:flex;flex-direction:column;justify-content:center}
+.logo{position:absolute;left:60px;top:90px}.badge{display:inline-block;align-self:flex-start;background:#151314;color:#FFD200;border:3px solid #FFD200;border-radius:14px;font-weight:900;font-size:40px;padding:10px 22px;margin-bottom:30px}
+h1{font-size:118px;line-height:1;font-weight:900;letter-spacing:-2px}h1 em{display:block;color:#FFD200;font-style:normal}
+.hero{margin-top:60px}.hero .nm{font-size:36px}.hero .now{font-size:52px}
+.play{position:absolute;right:60px;bottom:330px;width:150px;height:150px;border-radius:50%;background:#151314;display:grid;place-items:center}.play:after{content:"";border-left:46px solid #fff;border-top:30px solid transparent;border-bottom:30px solid transparent;margin-left:12px}
+.url{position:absolute;left:60px;bottom:200px;font-size:52px}</style>
+<div class="bg"></div><div class="bg2"></div><div class="logo logo"><div class="cx"></div><b>AKTIONS<i>.CH</i></b></div>
+<div class="c"><div class="badge">${s.deals.length} LIVE-DEALS · ${dmy(T)}</div><h1>${esc(s.title)}<em>${esc(s.em)}</em></h1><div class="hero">${cardHtml(d, 0)}</div></div>
+<div class="url">aktions.ch</div><div class="play"></div>`; };
 const browser = await chromium.launch();
-const shots = await siteShots(browser);
+const TO = !!process.env.THUMBS_ONLY; const shots = TO ? {} : await siteShots(browser);
 const cap = [];
 const tasks = SETS.map(async s => {
   const pg = await browser.newPage({ viewport: { width: 1080, height: 1350 } });
   await pg.setContent(posterHtml(s)); await pg.waitForTimeout(300);
-  await pg.screenshot({ path: `${out}/poster-${s.id}-1080x1350.png` }); await pg.close();
+  if (!TO) await pg.screenshot({ path: `${out}/poster-${s.id}-1080x1350.png` }); await pg.close();
+  const tp = await browser.newPage({ viewport: { width: 1080, height: 1920 } }); await tp.setContent(thumbHtml(s)); await tp.waitForTimeout(300);
+  await tp.screenshot({ path: `${out}/thumb-${s.id}-1080x1920.png` }); await tp.close();
+  if (TO) return;
   const rp = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
   fs.writeFileSync(`${out}/assets/reel-${s.id}.html`, reelHtml(s, "site-" + s.shot + ".png"));
   await rp.goto("file://" + path.resolve(`${out}/assets/reel-${s.id}.html`)); await rp.waitForTimeout(400);
@@ -117,7 +133,7 @@ const tasks = SETS.map(async s => {
   fs.rmSync(dir, { recursive: true, force: true });
   console.log("done", s.id);
 });
-await Promise.all(tasks); await browser.close();
+await Promise.all(tasks); await browser.close(); if (TO) { console.log("thumbs only"); process.exit(0); }
 const md = ["# Campaign " + T + "\nPosters: poster-*.png (1080x1350). Reels: reel-*.mp4 (1080x1920). Prices checked " + T + "; copy below is DE, EN under it.\n"];
 for (const s of SETS) {
   const lines = s.deals.map((d, i) => `${i + 1}. ${d.name}: ${f(d.now, d.cur)} (statt ${f(d.was, d.cur)}, −${d.off}%) · ${d.shop}`).join("\n");
