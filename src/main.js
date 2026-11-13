@@ -6,6 +6,9 @@ import { WINTER_TYRES } from "./data/winter-tyres.js";
 import { SHOPINFO } from "./data/retailers.js";
 import { DEALS, isTyre } from "./data/products.js";
 import { US_RAW, US_SHOPINFO } from "./data/us.js";
+import CAT_US from "./data/catalogue-us.js";
+import CAT_IN from "./data/catalogue-in.js";
+import { IN_RAW } from "./data/in.js";
 import { LIVE_CH, SHOWCASES } from "./data/live-ch.js";
 import { EVENTS, FAQ as FAQ_EN, FAQ_I18N } from "./data/calendar.js";
 import { fmt, esc, ext } from "./lib/format.js";
@@ -61,6 +64,19 @@ const US = US_RAW.filter(r => r[7] ? r[7] >= TODAY : (r[8] ? plusDays(r[8], 3) >
     until: until || null, checked: checked || null, src: extra?.src || [], shop: retailer, url: extra?.url || null,
     shops: [retailer, ...others.slice(0, 2)] };
 });
+// Product lines without a price (US + India): shops to compare, no invented prices
+const LINE_SHOPS = {
+  us: { def: ["amazoncom", "walmart", "target"], TV: ["amazoncom", "bestbuy", "walmart"], Computers: ["amazoncom", "bestbuy", "walmart"], Phones: ["amazoncom", "bestbuy", "walmart"], Tablets: ["amazoncom", "bestbuy", "target"], Audio: ["amazoncom", "bestbuy", "target"], Gaming: ["amazoncom", "bestbuy", "walmart"], Wearables: ["amazoncom", "bestbuy", "target"], "Smart Home": ["amazoncom", "bestbuy", "walmart"], Cameras: ["amazoncom", "bestbuy", "walmart"], "Video Games": ["amazoncom", "bestbuy", "walmart"] },
+  in: { def: ["amazonin", "flipkart", "tatacliq"], "Fashion & Western Wear": ["myntra", "ajio", "amazonin"], "Winter Wear": ["myntra", "ajio", "amazonin"], "Footwear & Sneakers": ["myntra", "ajio", "flipkart"], "Beauty & Skincare": ["nykaa", "amazonin", "tatacliq"], Makeup: ["nykaa", "amazonin", "myntra"], Fragrance: ["nykaa", "amazonin", "ajio"], "Men's Grooming": ["nykaa", "amazonin", "flipkart"], Smartphones: ["amazonin", "flipkart", "croma"], "Earbuds & Audio": ["amazonin", "flipkart", "croma"], Smartwatches: ["amazonin", "flipkart", "croma"], "Laptops & Gaming": ["amazonin", "flipkart", "reliancedigital"], "Kitchen Appliances": ["amazonin", "flipkart", "croma"], "Home & Decor": ["amazonin", "flipkart", "tatacliq"], "Healthy Foods & Nutrition": ["amazonin", "flipkart", "tatacliq"] }
+};
+const LINES = (rows, region, cur) => rows.map(([cat, name, spec], i) => ({ region, cur, id: uid(region + "l-" + slug(name + " " + cat)), rank: 1000 + i, top: false, cat, name, spec: spec || "", q: name,
+  now: null, reg: null, low: null, best: null, show: null, off: null, save: 0, status: "check", pick: false, line: true, shops: (LINE_SHOPS[region][cat] || LINE_SHOPS[region].def).slice() }));
+const US_LINES = LINES(CAT_US, "us", "USD");
+const IN_LIVE = IN_RAW.filter(r => r[7] ? r[7] >= TODAY : (r[8] ? plusDays(r[8], 3) >= TODAY : false)).map(([cat, name, spec, bf, reg, shop, q, until, checked, extra], i) => ({
+  region: "in", cur: "INR", id: uid("in-" + slug(name)), rank: i + 1, top: false, cat, name, spec, q, now: null, bw25: bf, reg, low: null, best: { p: bf, where: "Live deal" }, show: bf,
+  save: reg - bf, off: Math.round((1 - bf / reg) * 100), status: "live", note: extra?.note || null, pick: (1 - bf / reg) >= 0.35, until: until || null, checked: checked || null,
+  src: extra?.src || [], shop, url: extra?.url || null, shops: [shop, ...LINE_SHOPS.in.def.filter(x => x !== shop).slice(0, 2)] }));
+const IN = IN_LIVE.concat(LINES(CAT_IN, "in", "INR"));
 // Live Swiss deals: shown from `from` until `until` (or 3 days after the check date), then dropped automatically
 const LIVE = LIVE_CH.filter(r => (!r.from || r.from <= TODAY) && TODAY <= (r.until || plusDays(r.checked, 3))).map((r, i) => {
   const off = r.price != null && r.was ? Math.round((1 - r.price / r.was) * 100) : (r.percent || null);
@@ -74,7 +90,7 @@ const EUR_CHF = 0.94;
 const chfSave = d => (d.save || 0) * (d.cur === "EUR" ? EUR_CHF : 1);
 const BEST = LIVE.filter(d => d.show != null && d.reg && d.off >= 25).sort((a, b) => chfSave(b) - chfSave(a)).slice(0, 24);
 BEST.forEach((d, i) => { d.bestRank = i + 1; });
-const ALL = LIVE.concat(DEALS, US);
+const ALL = LIVE.concat(DEALS, US, US_LINES, IN);
 const BY_ID = new Map(ALL.map(d => [d.id, d]));
 
 /* Price memory: each visit stores today's prices. A visit more than 6 h after the last one compares against it,
@@ -101,13 +117,14 @@ const POOLS = {
   best: BEST,
   top: DEALS.filter(d => d.top),
   categories: DEALS.filter(d => !d.top),
-  us: US
+  us: US.concat(US_LINES),
+  in: IN
 };
 const CAT_ORDER = cats => [...new Set(cats)].sort((a, b) => a === WINTER ? -1 : b === WINTER ? 1 : a.localeCompare(b));
 const LABEL = { buy: T("statusBuy"), wait: T("statusWaitS"), track: T("statusTrack"), check: T("statusCheck"), live: T("statusLive"), lastyear: T("statusLY"), early: T("statusEarly") };
 
 /* ---------------- state ---------------- */
-const PRODUCT_TABS = ["live", "best", "top", "categories", "us", "list"];
+const PRODUCT_TABS = ["live", "best", "top", "categories", "us", "in", "list"];
 const TABS = [...PRODUCT_TABS, "calendar", "retailers", "guide"];
 const defaults = { tab: LIVE.length ? "live" : "top", cat: "All", q: "", status: "all", sort: "rank", store: "all", price: "all", page: 0, drops: false };
 let state = { ...defaults, watch: [], theme: "" };
@@ -120,7 +137,7 @@ const mobile = () => matchMedia("(max-width: 760px), (max-height: 560px)").match
 let perPage = 12, mobileShown = 12;
 
 /* ---------------- helpers ---------------- */
-const money = (n, cur) => cur === "EUR" ? "€ " + n.toLocaleString("de-CH", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 }) : cur === "USD" ? "$" + (Number.isInteger(n) ? n.toLocaleString("en-US") : n.toLocaleString("en-US", { minimumFractionDigits: 2 })) : "CHF " + fmt(n);
+const money = (n, cur) => cur === "EUR" ? "€ " + n.toLocaleString("de-CH", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 }) : cur === "INR" ? "₹" + n.toLocaleString("en-IN") : cur === "USD" ? "$" + (Number.isInteger(n) ? n.toLocaleString("en-US") : n.toLocaleString("en-US", { minimumFractionDigits: 2 })) : "CHF " + fmt(n);
 const heartSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9-8.7C1.5 7.8 4 4.5 7.3 4.5c2 0 3.5 1.1 4.7 2.7 1.2-1.6 2.7-2.7 4.7-2.7 3.3 0 5.8 3.3 4.3 6.8-2 4.3-9 8.7-9 8.7z"/></svg>';
 const watched = d => state.watch.includes(d.id);
 const fmtDay = iso => new Date(iso + "T12:00:00Z").toLocaleDateString(LANG === "en" ? "en-GB" : LANG + "-CH", { day: "numeric", month: "short" });
@@ -130,7 +147,7 @@ function toast(msg) {
 }
 function shopBtn(s, d, primary) {
   const cls = ["shop", primary ? "primary" : ""].filter(Boolean).join(" ");
-  const href = (d.region === "live" || d.region === "us") && s === d.shop && d.url ? d.url : SHOPS[s] ? SHOPS[s].search(d.q) : d.url;
+  const href = (d.region === "live" || d.region === "us" || d.region === "in") && s === d.shop && d.url ? d.url : SHOPS[s] ? SHOPS[s].search(d.q) : d.url;
   if (!href) return "";
   return `<a class="${cls}" href="${affLink(s, href)}" target="_blank" rel="sponsored nofollow noopener"><span class="sn">${SHOPS[s] ? SHOPS[s].name : esc(s)}</span> ${ext}</a>`;
 }
@@ -179,7 +196,7 @@ function priceLine(d) {
   }
   if (d.show == null) return `<span class="price live">${d.status === "live" ? T("statusLive") : T("statusCheck")}</span>`;
   let extra = "";
-  if (d.region === "us") extra = `<span class="was">${money(d.reg, "USD")}</span>`;
+  if (d.region === "us" || d.region === "in") extra = `<span class="was">${money(d.reg, d.cur)}</span>`;
   else if (d.best && d.now != null && d.best.p < d.now) extra = `<span class="best" title="${esc(d.best.where || "")}"><span class="lo">${T("lowLabel")} ${fmt(d.best.p)}</span> <b>−${Math.round((d.now - d.best.p) / d.now * 100)}%</b></span>`;
   else if (d.now == null && d.best) extra = `<span class="best">${esc(d.best.where)}</span>`;
   const drop = d.drop ? `<span class="drop" title="${esc(S.dropTitle(money(d.was0, d.cur)))}">↓ ${money(d.drop, d.cur)}</span>` : "";
@@ -310,12 +327,12 @@ function renderGrid() {
   }
   $("grid").innerHTML = vis.length ? vis.map(card).join("") : emptyState();
   $("count").textContent = `${l.length.toLocaleString(LANG === "en" ? "en-US" : LANG)} ${T("deals")}`;
-  const filtered = state.drops || state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && (state.tab === "categories" || state.tab === "top")) || (state.cat !== "All" && (state.tab === "us" || state.tab === "live"));
+  const filtered = state.drops || state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && (state.tab === "categories" || state.tab === "top")) || (state.cat !== "All" && (state.tab === "us" || state.tab === "live" || state.tab === "in"));
   $("reset").hidden = !filtered;
 }
 function renderFilters() {
   const t = state.tab, p = pool();
-  const catVis = t === "categories" || t === "us" || t === "live";
+  const catVis = t === "categories" || t === "us" || t === "live" || t === "in";
   $("catSel").hidden = !catVis;
   if (catVis) {
     const cats = CAT_ORDER(p.map(d => d.cat));
@@ -336,13 +353,14 @@ function renderFilters() {
   if (state.store !== "all" && !stores.includes(state.store)) state.store = "all";
   $("store").innerHTML = `<option value="all">${T("allShops")}</option>` + stores.sort((a, b) => SHOPS[a].name.localeCompare(SHOPS[b].name)).map(s => `<option value="${s}"${s === state.store ? " selected" : ""}>${SHOPS[s].name}</option>`).join("");
   $("status").hidden = t !== "top";
-  const priced = t !== "categories";
+  const priced = t !== "categories" && t !== "in";
   $("price").hidden = !priced;
   if (!priced) state.price = "all";
   if (t !== "top") state.status = "all";
   $("status").value = state.status; $("price").value = state.price; $("sort").value = state.sort;
   $("winterbar").hidden = !(t === "categories" && state.cat === WINTER);
   $("usbar").hidden = t !== "us";
+  $("inbar").hidden = t !== "in";
   $("livebar").hidden = t !== "live" && t !== "best";
   $("clear-list").hidden = !(t === "list" && state.watch.length);
   const locN = n => n.toLocaleString(LANG === "en" ? "en-US" : LANG);
@@ -350,6 +368,7 @@ function renderFilters() {
     top: [T("leadTop"), T("leadTopSub")],
     categories: [state.cat === "All" ? T("leadCat") : esc(state.cat), S.leadCatSub(locN(POOLS.categories.length))],
     us: [state.cat === "All" ? T("leadUS") : `US · ${esc(state.cat)}`, T("leadUSSub")],
+    in: [state.cat === "All" ? T("leadIN") : `India · ${esc(state.cat)}`, T("leadINSub")],
     best: [T("leadBest"), S.leadBestSub(BEST.length)],
     live: [state.cat === "All" ? T("leadLive") : esc(state.cat), S.leadLiveSub(locN(LIVE.length), fmtDay(LIVE.reduce((m, d) => d.checked > m ? d.checked : m, "") || TODAY))],
     list: [T("leadList"), S.leadListSub(state.watch.length)]
@@ -373,7 +392,7 @@ function showTab(t, opts = {}) {
   state.tab = t; save();
   TABS.forEach(x => { const b = $("t-" + x); b.setAttribute("aria-selected", x === t); b.tabIndex = x === t ? 0 : -1; });
   document.querySelectorAll(".bottomnav [data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
-  $("b-more").classList.toggle("on", ["categories", "us", "calendar", "retailers", "guide"].includes(t));
+  $("b-more").classList.toggle("on", ["categories", "us", "in", "calendar", "retailers", "guide"].includes(t));
   const products = PRODUCT_TABS.includes(t);
   $("p-products").hidden = !products;
   ["calendar", "retailers", "guide"].forEach(x => $("p-" + x).hidden = x !== t);
@@ -387,7 +406,7 @@ function showTab(t, opts = {}) {
 function chart(d) {
   const pts = [];
   if (d.reg) pts.push(["Regular price", d.reg]);
-  if (d.bw25 != null && d.region === "us") pts.push(["Live deal", d.bw25]);
+  if (d.bw25 != null && (d.region === "us" || d.region === "in")) pts.push(["Live deal", d.bw25]);
   if (d.low != null) pts.push(["Record low", d.low]);
   if (d.now != null) pts.push(["Today", d.now]);
   if (pts.length < 2) return "";
@@ -406,8 +425,8 @@ function openDetails(d, push = true) {
     if (d.code) rows.push(`<dt>${T("codeLabel")}</dt><dd><b>${esc(d.code)}</b></dd>`);
     rows.push(`<dt>${T("validLabel")}</dt><dd>${d.until ? S.untilLabel(fmtDay(d.until)) : T("whileStock")}</dd>`);
     rows.push(`<dt>${T("checkedLabel")}</dt><dd>${fmtDay(d.checked)} · ${d.src.map((u, k) => `<a href="${esc(u)}" target="_blank" rel="noopener nofollow">${T("sourceLabel")} ${k + 1}</a>`).join(", ")}</dd>`);
-  } else if (d.region === "us") {
-    rows.push(`<dt>${T("statusLive")}</dt><dd>${money(d.bw25, "USD")}</dd>`, `<dt>${T("regularPrice")}</dt><dd>${money(d.reg, "USD")}</dd>`, `<dt>${T("saving")}</dt><dd class="target">−${d.off}%</dd>`);
+  } else if ((d.region === "us" || d.region === "in") && !d.line) {
+    rows.push(`<dt>${T("statusLive")}</dt><dd>${money(d.bw25, d.cur)}</dd>`, `<dt>${T("regularPrice")}</dt><dd>${money(d.reg, d.cur)}</dd>`, `<dt>${T("saving")}</dt><dd class="target">−${d.off}%</dd>`);
     if (d.until) rows.push(`<dt>${T("validLabel")}</dt><dd>${S.untilLabel(fmtDay(d.until))}</dd>`);
     if (d.checked) rows.push(`<dt>${T("checkedLabel")}</dt><dd>${fmtDay(d.checked)}${d.src.length ? " · " + d.src.map((u, k) => `<a href="${esc(u)}" target="_blank" rel="noopener nofollow">${T("sourceLabel")} ${k + 1}</a>`).join(", ") : ""}</dd>`);
   } else {
@@ -419,7 +438,7 @@ function openDetails(d, push = true) {
   const hist = d.region === "ch" ? `<a class="shop ghost" href="${affLink("toppreise", SHOPS.toppreise.search(d.q))}" target="_blank" rel="sponsored nofollow noopener">${T("swissPriceHist")} ${ext}</a>` : "";
   $("sheet").innerHTML = `${thumb(d)}<div class="in">
     <button class="close" type="button" id="m-close" aria-label="Close">×</button>
-    <div class="eyebrow">${d.top ? `#${d.rank} · ` : ""}${d.region === "us" ? "US deal · " : d.region === "live" ? T("liveEyebrow") + " · " : ""}${esc(d.cat)}</div>
+    <div class="eyebrow">${d.top ? `#${d.rank} · ` : ""}${d.region === "us" ? (d.line ? "US · " : "US deal · ") : d.region === "in" ? "India · " : d.region === "live" ? T("liveEyebrow") + " · " : ""}${esc(d.cat)}</div>
     <h3 id="m-title">${esc(d.name)}</h3><div class="spec">${esc(d.spec)}</div>
     <div class="priceline big">${priceLine(d)}<span class="pill ${d.status}">${LABEL[d.status]}</span></div>
     ${chart(d)}
@@ -491,7 +510,8 @@ function renderStatic() {
   $("n-cat").textContent = POOLS.categories.length.toLocaleString("en-US");
   $("n-live").textContent = LIVE.length;
   $("n-best").textContent = BEST.length;
-  $("n-us").textContent = US.length;
+  $("n-us").textContent = US.length + US_LINES.length;
+  $("n-in").textContent = IN.length;
   renderCalendar(); renderRetailers();
 }
 function tick() {
@@ -563,7 +583,7 @@ function route() {
   if (h.startsWith("p-") && BY_ID.has(h.slice(2))) {
     const d = BY_ID.get(h.slice(2));
     if (!$("modal").hidden) return openDetails(d, false);
-    showTab(d.top ? "top" : d.region === "us" ? "us" : d.region === "live" ? "live" : "categories", { noHash: true, cat: d.top || d.region === "us" || d.region === "live" ? undefined : d.cat });
+    showTab(d.top ? "top" : d.region === "us" ? "us" : d.region === "in" ? "in" : d.region === "live" ? "live" : "categories", { noHash: true, cat: d.top || d.region === "us" || d.region === "in" || d.region === "live" ? undefined : d.cat });
     return openDetails(d, false);
   }
   if (h === "winter") return showTab("categories", { cat: WINTER });
@@ -583,7 +603,7 @@ if (langHtml) {
 // Translate static HTML labels when not English
 if (LANG !== "en") {
   // Tab bar
-  const tabMap = { "t-live": "tabLive", "t-best": "tabBest", "t-top": "tabTop", "t-categories": "tabCat", "t-us": "tabUS",
+  const tabMap = { "t-live": "tabLive", "t-best": "tabBest", "t-top": "tabTop", "t-categories": "tabCat", "t-us": "tabUS", "t-in": "tabIN",
     "t-list": "tabList", "t-calendar": "tabCal", "t-retailers": "tabRetailers", "t-guide": "tabGuide" };
   for (const [id, key] of Object.entries(tabMap)) {
     const el = $(id); if (!el) continue;

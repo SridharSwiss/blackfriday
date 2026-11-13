@@ -1,0 +1,257 @@
+# US product lines (no prices). Format: '## Category' then 'Name | spec'.
+## TV
+Samsung S90F OLED | 65"
+LG C5 OLED evo | 65"
+Sony Bravia 8 II OLED | 65"
+TCL QM8 | 65" QLED mini-LED
+Hisense U8 | 65" mini-LED
+Roku Plus Series QLED | 65"
+Amazon Fire TV Omni QLED | 65"
+Vizio V-Series | 55" 4K
+Samsung The Frame | 55" QLED
+LG UT7000 | 55" 4K
+## Computers
+Apple MacBook Air 13" M4 | 16 GB
+Apple MacBook Air 15" M4 | 16 GB
+Apple MacBook Pro 14" | M4
+Apple Mac mini | M4
+Dell XPS 13 | Copilot+ PC
+HP OmniBook | Copilot+ PC
+Lenovo IdeaPad Slim 5 | 14"
+ASUS Zenbook 14 OLED | Intel Core Ultra
+Microsoft Surface Laptop | Copilot+ PC
+Acer Chromebook Plus | 14"
+ASUS ROG Strix | gaming laptop
+Lenovo Legion 5 | gaming laptop
+## Phones
+Apple iPhone 17 | 128 GB
+Apple iPhone 17 Pro | 256 GB
+Apple iPhone 16 | 128 GB
+Samsung Galaxy S25 | 128 GB
+Samsung Galaxy S25 Ultra | 256 GB
+Samsung Galaxy Z Flip7 | foldable
+Google Pixel 10 | 128 GB
+Google Pixel 10 Pro | 128 GB
+Motorola Razr | foldable
+OnePlus 13 | 256 GB
+## Tablets
+Apple iPad (A16) | 128 GB
+Apple iPad Air | M3
+Apple iPad mini | A17 Pro
+Apple iPad Pro 11" | M4
+Samsung Galaxy Tab S10 FE | 10.9"
+Amazon Fire HD 10 | 10.1"
+Amazon Fire Max 11 | 11"
+Google Pixel Tablet | 11"
+Lenovo Tab Plus | 11.5"
+## Audio
+Apple AirPods Pro 3 | ANC
+Apple AirPods 4 | USB-C
+Apple AirPods Max | USB-C
+Sony WH-1000XM6 | over-ear ANC
+Sony WF-1000XM5 | earbuds ANC
+Bose QuietComfort Ultra Headphones | ANC
+Bose QuietComfort Headphones | ANC
+Beats Studio Pro | over-ear
+Beats Powerbeats Pro 2 | earbuds
+JBL Charge 6 | Bluetooth speaker
+Sonos Ace | headphones
+Sonos Arc Ultra | soundbar
+Samsung Galaxy Buds3 Pro | earbuds
+## Gaming
+Sony PlayStation 5 | disc
+Sony PlayStation 5 Pro | 2 TB
+Nintendo Switch 2 | console
+Nintendo Switch OLED | console
+Xbox Series X | 1 TB
+Xbox Series S | 512 GB
+Meta Quest 3 | 512 GB VR
+Meta Quest 3S | 128 GB VR
+Steam Deck OLED | handheld
+ASUS ROG Xbox Ally | handheld
+PlayStation DualSense | controller
+Xbox Wireless Controller | controller
+## Wearables
+Apple Watch Series 11 | GPS
+Apple Watch SE 3 | GPS
+Apple Watch Ultra 3 | titanium
+Samsung Galaxy Watch8 | 44 mm
+Google Pixel Watch 4 | 45 mm
+Garmin Forerunner 265 | running watch
+Garmin fēnix 8 | multisport
+Fitbit Charge 6 | fitness tracker
+Oura Ring 4 | smart ring
+Whoop 5.0 | fitness band
+## Smart Home
+Ring Battery Doorbell | 2K
+Ring Indoor Cam | 2K
+Blink Outdoor 4 | camera system
+Arlo Essential | camera
+SimpliSafe | home security system
+Wyze Cam v4 | camera
+Google Nest Cam | outdoor
+Google Nest Learning Thermostat | 4th gen
+Amazon Echo Show 8 | smart display
+Amazon Echo Dot | smart speaker
+Philips Hue starter kit | smart lights
+eufy Video Doorbell | battery
+## Cameras
+GoPro Hero13 Black | action camera
+DJI Osmo Pocket 3 | gimbal camera
+DJI Mini 4 Pro | drone
+Canon EOS R50 | mirrorless
+Sony ZV-E10 | vlog camera
+Fujifilm Instax Mini 12 | instant camera
+Insta360 X4 | 360 camera
+## Apparel
+Carhartt Rain Defender hoodie | men's
+Levi's 501 Original jeans | men's
+Patagonia Better Sweater | fleece
+Patagonia Nano Puff jacket | insulated
+The North Face Nuptse jacket | down
+Columbia puffer jacket | winter coat
+Lululemon Define jacket | women's
+Lululemon Align leggings | women's
+Champion Powerblend hoodie | fleece
+Gap Logo hoodie | fleece
+Old Navy flannel pyjamas | loungewear
+Skims lounge set | loungewear
+Hanes ComfortSoft tees | basics
+Under Armour Rival fleece | hoodie
+Alo Yoga Soho sweatpants | loungewear
+## Shoes & Sneakers
+Nike Air Force 1 | sneakers
+Nike Air Max 90 | sneakers
+Nike Pegasus 41 | running
+Adidas Samba OG | sneakers
+Adidas Ultraboost | running
+New Balance 574 | sneakers
+New Balance 990 | sneakers
+Hoka Clifton 9 | running
+Brooks Ghost 16 | running
+UGG Classic Ultra Mini | boots
+UGG Tasman | slippers
+Timberland 6-inch boot | boots
+Sorel Caribou | winter boots
+Crocs Classic Clog | clogs
+Converse Chuck Taylor All Star | sneakers
+Vans Old Skool | sneakers
+## Bags & Accessories
+Coach Tabby shoulder bag | handbag
+Michael Kors Jet Set tote | handbag
+Kate Spade Knott | handbag
+Fossil Gen 6 | watch
+Ray-Ban Wayfarer | sunglasses
+Oakley Holbrook | sunglasses
+Samsonite Omni 2 | luggage
+Away The Carry-On | luggage
+Herschel Little America | backpack
+Stanley Quencher | tumbler
+Vera Bradley backpack | bag
+## Kitchen
+Ninja Crispi | glass air fryer
+Ninja Foodi Dual Zone | air fryer
+Instant Pot Duo | multi-cooker
+Instant Vortex Plus | air fryer
+Cosori TurboBlaze | air fryer
+Breville Barista Express | espresso machine
+Breville Bambino | espresso machine
+De'Longhi Dedica | espresso machine
+Keurig K-Elite | pod coffee maker
+Nespresso Vertuo Pop | capsule machine
+KitchenAid Artisan stand mixer | mixer
+Vitamix E310 | blender
+Ninja Creami | ice cream maker
+Le Creuset Dutch oven | cookware
+Lodge cast iron skillet | cookware
+Staub cocotte | cookware
+## Robot Vacuums & Cleaning
+Roborock Qrevo | robot vacuum and mop
+Roborock S8 MaxV Ultra | robot vacuum and mop
+iRobot Roomba Combo | robot vacuum
+iRobot Roomba 205 DustCompactor | robot vacuum
+Shark AI Ultra | robot vacuum
+Eufy Omni C20 | robot vacuum
+Dreame L40 Ultra | robot vacuum and mop
+Dyson V15 Detect | cordless vacuum
+Shark Navigator | upright vacuum
+Bissell CrossWave | wet-dry vacuum
+Dyson Ball Animal 3 | upright vacuum
+Tineco Floor One | wet-dry vacuum
+## Mattresses & Sleep
+Purple Original mattress | hybrid
+Casper Original | foam
+Tempur-Pedic TEMPUR-Cloud | foam
+Saatva Classic | hybrid
+Helix Midnight | hybrid
+Nectar Classic | memory foam
+Tuft & Needle Original | foam
+Sleep Number | smart bed
+Brooklyn Bedding Plank | firm
+Cooling weighted blanket | bedding
+Brooklinen luxe sheets | bedding
+Coop Home Goods pillow | bedding
+## Furniture
+Wayfair Sectional sofa | living room
+Ashley Furniture recliner | living room
+Article sofa | living room
+IKEA KALLAX | storage
+IKEA PAX wardrobe | storage
+Flexispot E7 standing desk | office
+Herman Miller Aeron | office chair
+Steelcase Gesture | office chair
+Costco Bayside Furnishings | outdoor
+West Elm Andes sofa | living room
+TV stand with fireplace | living room
+Lift-top coffee table | living room
+## Toys & Games
+LEGO Star Wars Millennium Falcon | set
+LEGO Icons Orchid | set
+LEGO Technic | set
+LEGO Disney Castle | set
+Barbie Dreamhouse | toy
+Hot Wheels Ultimate Garage | toy
+Squishmallows | plush
+Pokémon TCG Elite Trainer Box | cards
+Magna-Tiles | building toy
+Melissa & Doug | toys
+Hasbro Monopoly | board game
+Catan | board game
+Nerf Elite 2.0 | blaster
+Funko Pop | collectible
+Fisher-Price Little People | toddler
+## Video Games
+Pokémon Legends Z-A | Switch
+Mario Kart World | Switch 2
+Super Mario Odyssey | Switch
+The Legend of Zelda Tears of the Kingdom | Switch
+Call of Duty Black Ops 7 | multi
+Madden NFL 26 | multi
+EA Sports FC 26 | multi
+Grand Theft Auto V | multi
+Elden Ring | multi
+Spider-Man 2 | PS5
+God of War Ragnarök | PS5
+Minecraft | multi
+## Beauty & Grooming
+Dyson Airwrap | hair styler
+Dyson Supersonic | hair dryer
+Revlon One-Step | hair dryer brush
+Oral-B iO Series | electric toothbrush
+Philips Sonicare | electric toothbrush
+Waterpik Aquarius | water flosser
+Braun Series 9 | electric shaver
+Philips Norelco OneBlade | trimmer
+Olaplex No.3 | hair care
+CeraVe moisturizing cream | skincare
+The Ordinary Niacinamide | skincare
+Fenty Beauty Gloss Bomb | makeup
+## Tools & DIY
+DeWalt 20V MAX drill kit | tools
+Milwaukee M18 Fuel drill | tools
+Makita 18V LXT | tools
+Ryobi ONE+ combo kit | tools
+Craftsman 450-piece tool set | tools
+Husky mechanics tool set | tools
+Black+Decker 20V | tools
+Ryobi pressure washer | outdoor

@@ -45,6 +45,7 @@
     <button class="tab" role="tab" id="t-top" aria-controls="p-products" data-tab="top">Top 100<span class="n">CH</span></button>
     <button class="tab" role="tab" id="t-categories" aria-controls="p-products" data-tab="categories">All categories<span class="n" id="n-cat"></span></button>
     <button class="tab" role="tab" id="t-us" aria-controls="p-products" data-tab="us">US deals<span class="n" id="n-us"></span></button>
+    <button class="tab" role="tab" id="t-in" aria-controls="p-products" data-tab="in">India<span class="n" id="n-in"></span></button>
     <button class="tab" role="tab" id="t-list" aria-controls="p-products" data-tab="list">My list<span class="n" id="n-list">0</span></button>
     <button class="tab" role="tab" id="t-calendar" aria-controls="p-calendar" data-tab="calendar">Deal calendar</button>
     <button class="tab" role="tab" id="t-retailers" aria-controls="p-retailers" data-tab="retailers">Retailers</button>
@@ -84,6 +85,9 @@
         <div class="infobar usbar" id="usbar" hidden>
           <span><b>US Black Friday</b> Thu 26.11. Thanksgiving · <b>Fri 27.11.</b> · Cyber Monday 30.11. Only offers confirmed live on 12 Nov 2026 are listed, in USD before sales tax. More start 12 Nov (Walmart), 19 Nov (Amazon, Best Buy) and 23 Nov; expired offers drop off automatically.</span>
           <span class="note">From Switzerland: most US shops don't ship here; import VAT 8.1% and US plugs/warranty apply.</span>
+        </div>
+        <div class="infobar usbar" id="inbar" hidden>
+          <span><b>India</b> Product lines with direct search links, in ₹. Black Friday (27 Nov) and Cyber Monday (30 Nov) are calendar dates, not retailer sales. Flipkart Big Bang Diwali ended 8 Nov and Amazon Great Indian Festival ended 10 Nov; Pink Friday and Myntra Winter EORS are expected later and not yet announced. Live prices appear here only once confirmed.</span>
         </div>
         <div class="infobar pulse" id="pulse" role="region" aria-label="Since your last visit" hidden></div>
       </div>
@@ -153,6 +157,7 @@
   <div class="ms-in">
     <button type="button" data-tab="categories">All categories</button>
     <button type="button" data-tab="us">US deals</button>
+    <button type="button" data-tab="in">India</button>
     <button type="button" data-tab="calendar">Deal calendar</button>
     <button type="button" data-tab="retailers">Retailers</button>
     <button type="button" data-tab="guide">Guide &amp; FAQ</button>

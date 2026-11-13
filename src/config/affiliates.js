@@ -7,6 +7,7 @@ export const AFF = {
   site: "aktion-ch",
   amazon:       { network:"amazon", tag:"blackfrida08d-21" },  // Amazon.de PartnerNet
   amazoncom: { network:"amazon", tag:"blackfrid0c4a-20" },                 // Amazon.com Associates (US) — separate tag needed
+  amazonin:     { network:"amazon", tag:"" },                  // Amazon.in Associates — add tag when available (UTM fallback until then)
   bestbuy:      { network:null },                             // Best Buy (Impact)
   walmart:      { network:null },                             // Walmart (Impact)
   target:       { network:null },                             // Target (Impact)
