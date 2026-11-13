@@ -33,8 +33,12 @@ export async function initAuth() {
   return user();
 }
 export async function sendLink(email) {
-  const r = await fetch(BACKEND.url + "/auth/v1/otp?redirect_to=" + encodeURIComponent(location.origin + location.pathname), { method: "POST", headers: H(), body: JSON.stringify({ email, create_user: true }) });
-  return r.ok;
+  try {
+    const r = await fetch(BACKEND.url + "/auth/v1/otp?redirect_to=" + encodeURIComponent(location.origin + location.pathname), { method: "POST", headers: H(), body: JSON.stringify({ email: email.trim().toLowerCase(), create_user: true }) });
+    if (r.ok) return "";
+    const j = await r.json().catch(() => ({}));
+    return j.msg || j.message || j.error_description || ("Error " + r.status);
+  } catch (e) { return "Network error"; }
 }
 export function signOut() { store(null); }
 const api = (path, opt = {}) => fetch(BACKEND.url + "/rest/v1/" + path, { ...opt, headers: H({ Authorization: "Bearer " + token(), Prefer: "return=minimal", ...(opt.headers || {}) }) });

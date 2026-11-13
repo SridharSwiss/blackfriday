@@ -20,7 +20,7 @@ export function initAccountUi(lang, onChange) {
     };
     w.addEventListener("submit", async e => {
       e.preventDefault(); const m = w.querySelector("[data-m]"); m.textContent = "…";
-      m.textContent = (await sendLink(w.querySelector("input").value.trim())) ? t.sent : t.err;
+      const err = await sendLink(w.querySelector("input").value); m.textContent = err ? t.err + " (" + err + ")" : t.sent;
     });
     document.body.appendChild(w); (w.querySelector("input") || w.querySelector(".close")).focus();
   };

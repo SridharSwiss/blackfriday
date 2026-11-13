@@ -33,7 +33,7 @@ async function dash(days) {
 }
 function login() {
   msg("Sign in with the admin email. A link will be sent to your inbox.", `<form id="f"><input type="email" required placeholder="Email address" autocomplete="email"><button class="solid">Send link</button></form>`);
-  document.getElementById("f").onsubmit = async e => { e.preventDefault(); const m = document.getElementById("m"); m.textContent = "…"; m.textContent = (await sendLink(e.target.querySelector("input").value.trim())) ? "Check your inbox and open the link." : "Could not send the link."; };
+  document.getElementById("f").onsubmit = async e => { e.preventDefault(); const m = document.getElementById("m"); m.textContent = "…"; const err = await sendLink(e.target.querySelector("input").value); m.textContent = err ? "Could not send the link: " + err : "Check your inbox and open the link."; };
 }
 async function start() {
   if (!ENABLED) return msg("Backend not configured.");
