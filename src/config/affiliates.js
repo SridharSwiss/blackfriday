@@ -27,8 +27,11 @@ export const AFF = {
   orellfuessli: { network:null, mid:"", affid:"" },
   toppreise:    { network:null }
 };
+/* Amazon.de storefront (Associates storefront link with tracking ID blackfrida08d-21) */
+export const AMAZON_DE_STOREFRONT = "https://www.amazon.de/-/en?&linkCode=ll2&tag=blackfrida08d-21&linkId=d55ffac3c37f35b1d1be9412b65e8c83&ref_=as_li_ss_tl";
 export function affLink(shop, url){
   const c = AFF[shop] || {};
+  if (shop === "amazon" && /^https:\/\/www\.amazon\.de\/?$/.test(url)) return AMAZON_DE_STOREFRONT;
   if (c.network === "none") return url;
   const u = new URL(url);
   if (c.network === "amazon" && c.tag){ u.searchParams.set("tag", c.tag); return u.toString(); }

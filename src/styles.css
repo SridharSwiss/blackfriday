@@ -544,3 +544,5 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
 .dotd-cta{border:0;cursor:pointer;width:100%}
 .tab-best[aria-selected="false"]{color:var(--red)}
 @media (max-width:700px){.top5{max-height:calc(100dvh - 180px);overflow:auto}}
+
+.sfnote{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 12px}.sfnote .shop{flex:0 0 auto;width:auto;padding:0 16px}.sfnote .muted{font-size:.85rem;color:var(--muted,#6b7280)}
