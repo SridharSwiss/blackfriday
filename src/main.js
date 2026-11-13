@@ -553,7 +553,9 @@ $("more").onclick = () => { mobileShown += 12; renderGrid(); };
 $("grid").onclick = e => {
   const w = e.target.closest("[data-w]"); if (w) return toggleWatch(w.dataset.w);
   const d = e.target.closest("[data-d]"); if (d) return openDetails(BY_ID.get(d.dataset.d));
-  if (e.target.closest("[data-reset]")) resetFilters();
+  if (e.target.closest("[data-reset]")) return resetFilters();
+  const c = e.target.closest(".card");
+  if (c && !e.target.closest("a,button,select,input,label")) { const id = c.querySelector("[data-d]")?.dataset.d; if (id && BY_ID.get(id)) openDetails(BY_ID.get(id)); }
 };
 $("modal").onclick = e => { if (e.target.id === "modal") closeDetails(); };
 $("theme").onclick = () => {

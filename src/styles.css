@@ -612,3 +612,4 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
   .featured .fp{padding:8px 10px}
   .head .titlerow .sub{font-size:11px}
 }
+.grid .card:has([data-d]){cursor:pointer}
