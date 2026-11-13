@@ -50,4 +50,7 @@ export const US_SHOPINFO = [
  ["homedepot","Home Depot","Tools, appliances, outdoor, smart home","Early Black Friday deals from early November","US addresses only","https://www.homedepot.com/"],
  ["lowes","Lowe's","Appliances, tools, outdoor","Black Friday sale from early November","US addresses only","https://www.lowes.com/"],
  ["ulta","Ulta Beauty","Beauty, skincare, fragrance, hair tools","Black Friday week sale on selected brands","US addresses only","https://www.ulta.com/"]
+["Home","Keurig K-Express","single-serve coffee maker · early deal",60,110,"amazoncom","Keurig K-Express",null,"2026-11-13",{"src":["https://shopping.yahoo.com/deals/breaking-news/article/amazon-black-friday-2026-the-top-early-deals-from-apple-yeti-ninja-yankee-candle-and-more-for-up-to-70-off-200354309.html","https://www.forbes.com/sites/forbes-personal-shopper/2026/11/12/best-amazon-black-friday-deals/"]}],
+["Home","Crock-Pot Manual Slow Cooker","7-qt · early deal",34,79,"walmart","Crock-Pot Manual Slow Cooker","2026-11-15","2026-11-13",{"src":["https://www.tomsguide.com/sales-events/walmart-black-friday-deals-drop-nov-12-2026-shopping-editor-picks","https://www.nbcnews.com/select/shopping/early-black-friday-deals-2026-rcna607963"]}],
+["Toys","LEGO Icons Poinsettia","botanical set · early deal",28,49,"walmart","LEGO Icons Poinsettia","2026-11-15","2026-11-13",{"src":["https://www.tomsguide.com/sales-events/walmart-black-friday-deals-drop-nov-12-2026-shopping-editor-picks","https://shopping.yahoo.com/deals/articles/walmarts-early-black-friday-deals-164759739.html"]}],
 ];
