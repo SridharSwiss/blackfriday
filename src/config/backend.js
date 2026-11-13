@@ -3,7 +3,7 @@
    After creating the dedicated project and running supabase/schema.sql, paste the project URL and the publishable key here. */
 export const BACKEND = {
   url: "https://ahgxzqizzuxtqplkiqwa.supabase.co",
-  key: "",            // publishable (anon) key, safe to ship in the browser because RLS is enforced
+  key: "sb_publishable_tHX3aTM9QbUzeB2lo6kEfQ_uquZCB7Y",            // publishable (anon) key, safe to ship in the browser because RLS is enforced
 };
 export const ENABLED = !!(BACKEND.url && BACKEND.key);
 export const POLICY_VERSION = "2026-11-13";
