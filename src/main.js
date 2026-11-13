@@ -11,6 +11,11 @@ import { LIVE_CH, SHOWCASES } from "./data/live-ch.js";
 import { EVENTS, FAQ as FAQ_EN, FAQ_I18N } from "./data/calendar.js";
 import { fmt, esc, ext } from "./lib/format.js";
 import { thumb } from "./lib/thumb.js";
+import { ENABLED } from "./config/backend.js";
+import { initConsent, getConsent, onConsent } from "./lib/consent.js";
+import { track } from "./lib/track.js";
+import { initAuth, pullWatch, pushWatch, user as authUser } from "./lib/auth.js";
+import { initAccountUi } from "./lib/account-ui.js";
 import { STRINGS, detectLang, LANG_PATHS } from "./i18n.js";
 
 /* ---------------- i18n ---------------- */
@@ -380,6 +385,7 @@ function showTab(t, opts = {}) {
   if (state.tab !== t && !opts.keep) { state.page = 0; mobileShown = 12; if (!opts.cat) state.cat = "All"; }
   if (opts.cat) state.cat = opts.cat;
   state.tab = t; save();
+  track("tab", { tab: t });
   TABS.forEach(x => { const b = $("t-" + x); b.setAttribute("aria-selected", x === t); b.tabIndex = x === t ? 0 : -1; });
   document.querySelectorAll(".bottomnav [data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
   $("b-more").classList.toggle("on", ["categories", "us", "calendar", "retailers", "guide"].includes(t));
@@ -463,6 +469,8 @@ function toggleWatch(id) {
   const i = state.watch.indexOf(id);
   if (i >= 0) state.watch.splice(i, 1); else state.watch.unshift(id);
   save(); updateCounts();
+  if (i < 0) track("watch", { deal: id });
+  pushWatch(id, i < 0);
   toast(i >= 0 ? T("removedToast") : T("savedToast"));
   if (PRODUCT_TABS.includes(state.tab)) { if (state.tab === "list") renderFilters(); renderGrid(); }
 }
@@ -713,7 +721,7 @@ function topDealsBanner() {
   document.body.appendChild(el);
   requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("in")));
 }
-topDealsBanner();
+getConsent() ? topDealsBanner() : onConsent(() => setTimeout(topDealsBanner, 500));
 
 
 // Reactive layout: re-fit + re-render when viewport size changes
@@ -737,3 +745,24 @@ else if (PAGE && PAGE.path !== "/") {
   state.q = PAGE.q || ""; $("q").value = state.q;
   showTab(PAGE.tab, { cat: PAGE.cat || undefined, noHash: true });
 } else showTab(state.tab, { keep: true });
+
+/* ---------------- consent, analytics, login ---------------- */
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[rel~="sponsored"]'); if (!a) return;
+  const deal = (a.closest(".card") || a.closest(".sheet") || document).querySelector("[data-d]")?.dataset.d || null;
+  let shop = a.querySelector(".sn")?.textContent || a.querySelector(".fp-shop")?.textContent || ""; if (!shop) { try { shop = new URL(a.href).hostname; } catch (x) {} }
+  track("outbound", { deal, shop: shop.slice(0, 40) });
+});
+initConsent(LANG);
+track("pageview");
+if (ENABLED) {
+  const sync = async () => {
+    const ids = await pullWatch(); if (!ids) return;
+    const merged = [...new Set([...state.watch, ...ids])].filter(id => BY_ID.has(id));
+    state.watch.filter(id => !ids.includes(id)).forEach(id => pushWatch(id, true));
+    state.watch = merged; save(); updateCounts();
+    if (PRODUCT_TABS.includes(state.tab)) { renderFilters(); renderGrid(); }
+  };
+  initAccountUi(LANG, () => { $("acct").classList.toggle("on", !!authUser()); });
+  initAuth().then(u => { $("acct").classList.toggle("on", !!u); if (u) { sync(); if (u.fresh) track("login"); } });
+}

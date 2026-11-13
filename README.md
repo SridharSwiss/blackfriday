@@ -100,3 +100,8 @@ The page shows an "Anzeige" affiliate disclosure, the Amazon partner statement (
 - `src/data/live-ch.js` Swiss live deals · `src/data/us.js` US live deals.
 - Product lines without prices: `content/catalogue.txt` (CH), `catalogue-us.txt`; run `npm run catalogue` after editing.
 - Rule: publish a live row only when two independent dated sources confirm it; expired rows hide automatically. India events not yet announced by retailers stay out of the calendar.
+
+## Login, analytics and cookie consent (built, switched off until a database exists)
+- Code: `src/lib/consent.js` (banner, policy EN/DE, consent cookie `bf_consent` + localStorage), `track.js` (anonymous events, only after analytics consent), `auth.js` + `account-ui.js` (email-link login, synced saved list, delete account).
+- Switch on: create a NEW dedicated Supabase project (not the courses/Indiaspora ones), run `supabase/schema.sql`, then fill `url` and `key` in `src/config/backend.js`, enable Email auth with redirect URL = site origin, and push to `main`.
+- Reports: SQL views `analytics_daily`, `analytics_top_deals`, `analytics_sources`, `consent_rate` (owner only). No IP, search text or fingerprint is stored.
