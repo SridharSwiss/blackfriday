@@ -24,7 +24,7 @@ async function loadData() {
 }
 
 /* ---- static, crawlable content (read by search engines and AI crawlers that don't run JavaScript; the app replaces it on load) ---- */
-const SITE = "Aktion.ch";
+const SITE = "Aktions.ch";
 const L = {
   en: { today: "Today", low: "Record low", reg: "Regular", upd: "Prices checked", list: "Deals on this page", loc: "en-GB" },
   de: { today: "Heute", low: "Tiefstpreis", reg: "Regulär", upd: "Preise geprüft am", list: "Angebote auf dieser Seite", loc: "de-CH" },
@@ -93,9 +93,9 @@ function jsonLd(p, url, base, d) {
     dateModified: d.today, keywords: (KEYWORDS[p.path] || []).join(", "), publisher: { "@id": base + "/#org" },
     primaryImageOfPage: base + "/og-image.png",
     about: { "@type": "Event", name: "Black Friday 2026", startDate: "2026-11-27", location: { "@type": "Country", name: "Switzerland" } },
-    isPartOf: { "@type": "WebSite", name: "Aktion.ch", url: base + "/" },
+    isPartOf: { "@type": "WebSite", name: "Aktions.ch", url: base + "/" },
     breadcrumb: { "@type": "BreadcrumbList", itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Aktion.ch", item: base + "/" },
+      { "@type": "ListItem", position: 1, name: "Aktions.ch", item: base + "/" },
       ...(p.path === "/" ? [] : [{ "@type": "ListItem", position: 2, name: p.h1, item: url }])] }
   }];
   const items = itemsFull(p, d).slice(0, 30);
@@ -125,7 +125,7 @@ function pageHtml(tpl, p, base, d) {
     `<meta name="twitter:card" content="summary_large_image">`,
     `<meta property="og:site_name" content="${SITE}">`,
     `<meta property="og:image" content="${base}/og-image.png">`, `<meta property="og:image:width" content="1200">`, `<meta property="og:image:height" content="630">`,
-    `<meta property="og:image:alt" content="Black Friday Schweiz 2026 – Aktion.ch">`, `<meta name="twitter:image" content="${base}/og-image.png">`,
+    `<meta property="og:image:alt" content="Black Friday Schweiz 2026 – Aktions.ch">`, `<meta name="twitter:image" content="${base}/og-image.png">`,
     KEYWORDS[p.path] ? `<meta name="keywords" content="${esc(KEYWORDS[p.path].join(", "))}">` : "",
     `<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">`,
     `<link rel="alternate" type="text/plain" title="LLM summary" href="${base}/llms.txt">`,

@@ -7,4 +7,4 @@ export const BACKEND = {
 };
 export const ENABLED = !!(BACKEND.url && BACKEND.key);
 export const POLICY_VERSION = "2026-11-13";
-export const OPERATOR = { name: "AKTION.CH", contact: "" };   // add a contact email to show it in the policy
+export const OPERATOR = { name: "AKTIONS.CH", contact: "" };   // add a contact email to show it in the policy

@@ -15,7 +15,7 @@ Files: poster-1080x1350.png (feed post), story-1080x1920.png (story / reel cover
 Alle Live-Deals: 👉 Link in Bio
 
 *Anzeige: Affiliate-Links. Preise können sich ändern.
-#blackfridayschweiz #schnäppchen #dealdestages #aktionch #sparen #schweiz
+#blackfridayschweiz #schnäppchen #dealdestages #aktionsch #sparen #schweiz
 
 ## FR
 
@@ -30,7 +30,7 @@ Alle Live-Deals: 👉 Link in Bio
 Toutes les offres en direct: 👉 lien en bio
 
 *Publicité: liens affiliés.
-#blackfriday #bonsplans #suisse #aktionch
+#blackfriday #bonsplans #suisse #aktionsch
 
 ## IT
 
@@ -45,7 +45,7 @@ Toutes les offres en direct: 👉 lien en bio
 Tutte le offerte live: 👉 link in bio
 
 *Pubblicità: link affiliati.
-#blackfriday #offerte #svizzera #aktionch
+#blackfriday #offerte #svizzera #aktionsch
 
 ## EN
 
@@ -60,4 +60,4 @@ Tutte le offerte live: 👉 link in bio
 All live deals: 👉 link in bio
 
 *Ad: affiliate links.
-#blackfriday #deals #switzerland #aktionch
+#blackfriday #deals #switzerland #aktionsch

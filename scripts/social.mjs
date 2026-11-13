@@ -22,7 +22,7 @@ const html = h => `<!doctype html><meta charset=utf-8><style>*{box-sizing:border
 .row{display:flex;align-items:center;gap:20px;background:#fff;border-radius:26px;padding:${h > 1500 ? 30 : 22}px 26px;margin-bottom:${h > 1500 ? 22 : 14}px;box-shadow:0 4px 18px #0001;position:relative}.n{font-size:54px;color:#d62b1f;width:56px}.t{flex:1;min-width:0}.nm{font-size:32px;font-weight:700;line-height:1.15}.sh{font-size:24px;color:#777;margin-top:4px}
 .p{text-align:right}.now{font-size:38px;font-weight:900;background:#ffd400;padding:2px 12px;border-radius:10px}s{font-size:24px;color:#888}.off{position:absolute;top:-12px;right:18px;background:#d62b1f;color:#fff;font-weight:800;font-size:26px;border-radius:99px;padding:3px 14px}
 .cta{margin-top:auto;background:#d62b1f;color:#fff;border-radius:26px;padding:26px;text-align:center;font-size:38px;font-weight:800}.fine{font-size:20px;color:#777;margin-top:14px;text-align:center}</style>
-<div class="k">AKTION.CH · LIVE · ${T.split("-").reverse().join(".")}</div><h1>Top 5 <em>Deals</em> heute</h1><div class="sub">Geprüft, nur was du jetzt kaufen kannst</div>${rows}
+<div class="k">AKTIONS.CH · LIVE · ${T.split("-").reverse().join(".")}</div><h1>Top 5 <em>Deals</em> heute</h1><div class="sub">Geprüft, nur was du jetzt kaufen kannst</div>${rows}
 <div class="cta">Alle Live-Deals: aktions.ch → Link in Bio</div><div class="fine">Preise Stand ${T.split("-").reverse().join(".")}, können sich ändern. Affiliate-Links.</div>`;
 const b = await chromium.launch();
 for (const [name, h] of [["poster-1080x1350", 1350], ["story-1080x1920", 1920]]) {
@@ -31,10 +31,10 @@ for (const [name, h] of [["poster-1080x1350", 1350], ["story-1080x1920", 1920]])
 await b.close();
 const L = (r, d = 0) => `${r.name}: ${f(r.price, r.cur)} ${d ? "statt" : "statt"} ${f(r.was, r.cur)} (−${off(r)}%)`;
 const cap = {
- DE: `🔥 Die 5 besten Schweizer Deals von heute (geprüft ${T.split("-").reverse().join(".")}):\n\n${top.map((r, i) => `#${i + 1} ${L(r)}`).join("\n")}\n\nAlle Live-Deals: 👉 Link in Bio\n\n*Anzeige: Affiliate-Links. Preise können sich ändern.\n#blackfridayschweiz #schnäppchen #dealdestages #aktionch #sparen #schweiz`,
- FR: `🔥 Les 5 meilleures offres du jour en Suisse (vérifiées le ${T.split("-").reverse().join(".")}):\n\n${top.map((r, i) => `#${i + 1} ${L(r).replace("statt", "au lieu de")}`).join("\n")}\n\nToutes les offres en direct: 👉 lien en bio\n\n*Publicité: liens affiliés.\n#blackfriday #bonsplans #suisse #aktionch`,
- IT: `🔥 Le 5 migliori offerte di oggi in Svizzera (verificate il ${T.split("-").reverse().join(".")}):\n\n${top.map((r, i) => `#${i + 1} ${L(r).replace("statt", "invece di")}`).join("\n")}\n\nTutte le offerte live: 👉 link in bio\n\n*Pubblicità: link affiliati.\n#blackfriday #offerte #svizzera #aktionch`,
- EN: `🔥 Today's top 5 Swiss deals (checked ${T}):\n\n${top.map((r, i) => `#${i + 1} ${L(r).replace("statt", "was")}`).join("\n")}\n\nAll live deals: 👉 link in bio\n\n*Ad: affiliate links.\n#blackfriday #deals #switzerland #aktionch`
+ DE: `🔥 Die 5 besten Schweizer Deals von heute (geprüft ${T.split("-").reverse().join(".")}):\n\n${top.map((r, i) => `#${i + 1} ${L(r)}`).join("\n")}\n\nAlle Live-Deals: 👉 Link in Bio\n\n*Anzeige: Affiliate-Links. Preise können sich ändern.\n#blackfridayschweiz #schnäppchen #dealdestages #aktionsch #sparen #schweiz`,
+ FR: `🔥 Les 5 meilleures offres du jour en Suisse (vérifiées le ${T.split("-").reverse().join(".")}):\n\n${top.map((r, i) => `#${i + 1} ${L(r).replace("statt", "au lieu de")}`).join("\n")}\n\nToutes les offres en direct: 👉 lien en bio\n\n*Publicité: liens affiliés.\n#blackfriday #bonsplans #suisse #aktionsch`,
+ IT: `🔥 Le 5 migliori offerte di oggi in Svizzera (verificate il ${T.split("-").reverse().join(".")}):\n\n${top.map((r, i) => `#${i + 1} ${L(r).replace("statt", "invece di")}`).join("\n")}\n\nTutte le offerte live: 👉 link in bio\n\n*Pubblicità: link affiliati.\n#blackfriday #offerte #svizzera #aktionsch`,
+ EN: `🔥 Today's top 5 Swiss deals (checked ${T}):\n\n${top.map((r, i) => `#${i + 1} ${L(r).replace("statt", "was")}`).join("\n")}\n\nAll live deals: 👉 link in bio\n\n*Ad: affiliate links.\n#blackfriday #deals #switzerland #aktionsch`
 };
 fs.writeFileSync(path.join(dir, "CAPTIONS.md"), `# Top 5 deals ${T}\n\nFiles: poster-1080x1350.png (feed post), story-1080x1920.png (story / reel cover). Re-run with \`node scripts/social.mjs\`.\n\n` + Object.entries(cap).map(([k, v]) => `## ${k}\n\n${v}\n`).join("\n"));
 console.log(dir, top.map(r => r.name));

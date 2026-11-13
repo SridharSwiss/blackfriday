@@ -1,4 +1,4 @@
--- AKTION.CH: visitor analytics, consent log, user accounts and synced watch-lists.
+-- AKTIONS.CH: visitor analytics, consent log, user accounts and synced watch-lists.
 -- Apply to a NEW, dedicated Supabase project (never the courses or Indiaspora projects).
 -- Privacy by design: no IP address, no query text and no fingerprinting is stored; events exist only after analytics consent.
 

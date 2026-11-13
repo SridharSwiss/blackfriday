@@ -30,7 +30,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#141112;color:#F
 .flash{position:absolute;inset:0;background:#E8463A;opacity:0;z-index:4;pointer-events:none}
 </style></head><body>
 <div class="grid"></div>
-<div class="brand"><span class="cross"></span>AKTION.CH</div>
+<div class="brand"><span class="cross"></span>AKTIONS.CH</div>
 <div id="scenes"></div><div class="flash" id="flash"></div>
 <script>
 const C=[
@@ -44,7 +44,7 @@ const C=[
 const T0=2.4, D=2.0, END=T0+C.length*D, DUR=END+2.8;
 document.getElementById('scenes').innerHTML=`<section class="sc"><div class="ones">11.11</div><div class="h"><span>Singles Day</span><span class="r">Codes & Rabatte</span></div><div class="s">6 Aktionen, die heute & morgen gelten</div></section>`
  + C.map((c,i)=>`<section class="sc"><div class="ticket"><div class="shop">${c.shop}</div><div class="pct">${c.pct}</div><div class="what">${c.what}</div><div class="cut"></div><div class="code">${c.code?`Code <b>${c.code}</b>`:`<span>Kein Code nötig</span>`}</div><div class="when">${c.when}</div></div><div class="count">${String(i+1).padStart(2,"0")} / 0${C.length}</div></section>`).join("")
- + `<section class="sc"><div class="h" style="top:360px"><span>Alle Deals live</span><span class="r">auf Aktion.ch</span></div><div class="s" style="top:680px">100 geprüfte Angebote aus der Schweiz</div><div class="cta">Link in Bio →</div><div class="legal"><b>ANZEIGE</b>Affiliate-Links. Aktionen Stand 10.11.2026, Bedingungen und Ausnahmen der Shops gelten. Angaben ohne Gewähr.</div></section>`;
+ + `<section class="sc"><div class="h" style="top:360px"><span>Alle Deals live</span><span class="r">auf Aktions.ch</span></div><div class="s" style="top:680px">100 geprüfte Angebote aus der Schweiz</div><div class="cta">Link in Bio →</div><div class="legal"><b>ANZEIGE</b>Affiliate-Links. Aktionen Stand 10.11.2026, Bedingungen und Ausnahmen der Shops gelten. Angaben ohne Gewähr.</div></section>`;
 const S=[...document.querySelectorAll('.sc')];
 const cl=x=>Math.max(0,Math.min(1,x)), ease=t=>1-Math.pow(1-cl(t),3), back=t=>{t=cl(t);const c=2.2;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)};
 function win(i){ if(i===0) return [0,T0]; if(i===S.length-1) return [END,DUR]; return [T0+(i-1)*D, T0+i*D]; }

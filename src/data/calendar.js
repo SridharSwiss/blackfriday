@@ -35,9 +35,9 @@ export const FAQ_I18N = {
     ["Welche Schweizer Shops machen beim Black Friday 2026 mit?", "Digitec, Galaxus, MediaMarkt, Interdiscount, Fust, Brack, Manor, fnac und Amazon.de (liefert viele Produkte in die Schweiz). Die meisten starten am Montag, 23. November."],
     ["Kann ich Amazon-Black-Friday-Deals aus der Schweiz bestellen?", "Ja, bei Amazon.de für viele Produkte. Die deutsche MWST fällt weg, an der Kasse kommt die Schweizer MWST von 8,1 % dazu. Amazon USA liefert die meisten Artikel nicht in die Schweiz."],
     ["Lohnt sich Black Friday in der Schweiz?", "Oft, aber nicht immer. Elektronik, Kopfhörer, Saugroboter und ältere iPhones fallen meist am stärksten. Vergleiche mit dem Tiefstpreis; unsere Kaufen-oder-Warten-Empfehlung macht das für die Top 100, und unter «Live-Deals» stehen nur diese Woche geprüfte Angebote."],
-    ["Was bedeutet «Jetzt kaufen» bei Aktion.ch?", "Der heutige Preis liegt höchstens 3 % über dem besten bekannten Preis. Warten bringt also kaum noch etwas."],
+    ["Was bedeutet «Jetzt kaufen» bei Aktions.ch?", "Der heutige Preis liegt höchstens 3 % über dem besten bekannten Preis. Warten bringt also kaum noch etwas."],
     ["Wie erkenne ich falsche Black-Friday-Rabatte?", "Viele Rabatte beziehen sich auf einen Listenpreis, den kaum jemand zahlt. Schau auf den Preisverlauf der letzten Wochen, zum Beispiel bei Toppreise, und auf den bisherigen Tiefstpreis."],
-    ["Wie verdient Aktion.ch Geld?", "Shop-Links sind Affiliate-Links. Kaufst du darüber, kann der Shop uns eine Provision zahlen; dein Preis bleibt gleich und die Rangliste hängt nicht davon ab."]
+    ["Wie verdient Aktions.ch Geld?", "Shop-Links sind Affiliate-Links. Kaufst du darüber, kann der Shop uns eine Provision zahlen; dein Preis bleibt gleich und die Rangliste hängt nicht davon ab."]
   ],
   fr: [
     ["Quand a lieu le Black Friday 2026 en Suisse ?", "Le vendredi 27 novembre 2026. La Black Week va du 23 au 29 novembre, le Cyber Monday est le 30 novembre et le Singles Day le 11 novembre."],
@@ -45,7 +45,7 @@ export const FAQ_I18N = {
     ["Quelles boutiques suisses participent au Black Friday 2026 ?", "Digitec, Galaxus, MediaMarkt, Interdiscount, Fust, Brack, Manor, fnac et Amazon.de, qui livre de nombreux produits en Suisse. La plupart commencent le lundi 23 novembre."],
     ["Peut-on commander les offres Amazon depuis la Suisse ?", "Oui, sur Amazon.de pour de nombreux produits. La TVA allemande est retirée et la TVA suisse de 8,1 % est ajoutée au paiement."],
     ["Le Black Friday vaut-il la peine en Suisse ?", "Souvent, mais pas toujours. Comparez avec le prix le plus bas : notre conseil acheter ou attendre le fait pour le top 100, et l'onglet Live deals ne liste que des offres vérifiées cette semaine."],
-    ["Comment Aktion.ch gagne-t-il de l'argent ?", "Les liens vers les boutiques sont des liens affiliés. Si vous achetez, la boutique peut nous verser une commission ; votre prix ne change pas."]
+    ["Comment Aktions.ch gagne-t-il de l'argent ?", "Les liens vers les boutiques sont des liens affiliés. Si vous achetez, la boutique peut nous verser une commission ; votre prix ne change pas."]
   ],
   it: [
     ["Quando è il Black Friday 2026 in Svizzera?", "Venerdì 27 novembre 2026. La Black Week va dal 23 al 29 novembre, il Cyber Monday è il 30 novembre e il Singles Day l'11 novembre."],
@@ -53,6 +53,6 @@ export const FAQ_I18N = {
     ["Quali negozi svizzeri partecipano al Black Friday 2026?", "Digitec, Galaxus, MediaMarkt, Interdiscount, Fust, Brack, Manor, fnac e Amazon.de, che consegna molti prodotti in Svizzera. La maggior parte inizia lunedì 23 novembre."],
     ["Posso ordinare le offerte Amazon dalla Svizzera?", "Sì, su Amazon.de per molti prodotti. L'IVA tedesca viene tolta e alla cassa si aggiunge l'IVA svizzera dell'8,1 %."],
     ["Conviene il Black Friday in Svizzera?", "Spesso, ma non sempre. Confronta con il prezzo minimo: il nostro consiglio comprare o aspettare lo fa per la top 100, e la scheda Live deals elenca solo offerte verificate questa settimana."],
-    ["Come guadagna Aktion.ch?", "I link ai negozi sono link di affiliazione. Se acquisti, il negozio può pagarci una commissione; il tuo prezzo resta uguale."]
+    ["Come guadagna Aktions.ch?", "I link ai negozi sono link di affiliazione. Se acquisti, il negozio può pagarci una commissione; il tuo prezzo resta uguale."]
   ]
 };

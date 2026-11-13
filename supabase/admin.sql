@@ -1,4 +1,4 @@
--- Admin access for the AKTION.CH dashboard. Run once in the SQL Editor of the dedicated project (after schema.sql).
+-- Admin access for the AKTIONS.CH dashboard. Run once in the SQL Editor of the dedicated project (after schema.sql).
 -- Admins are matched by the verified email in the sign-in token; the list is not readable from the browser.
 create table if not exists public.admins (email text primary key);
 alter table public.admins enable row level security;

@@ -10,7 +10,7 @@ The deals come from the live research on 10.11.2026 (`src/data/live-ch.js`). Che
 | `reel-b-cover-1080x1920.png` | Cover for B |
 | `reel-a.html` / `reel-b.html` | Editable sources (the deal list sits at the top of each script) |
 
-Both have a silent audio track, so add a trending sound in Instagram. Post A in the morning of 11.11 (around 07:00) and B around midday or in the evening. Both point to "Link in Bio", so set the bio link to Aktion.ch.
+Both have a silent audio track, so add a trending sound in Instagram. Post A in the morning of 11.11 (around 07:00) and B around midday or in the evening. Both point to "Link in Bio", so set the bio link to Aktions.ch.
 
 ## Variant A: deals in the video
 
@@ -34,7 +34,7 @@ Samsung-Preise gelten nur bis 11.11.! Alle 100 Live-Deals findest du über den �
 
 *Anzeige: Affiliate-Links. Preise Stand 10.11.2026, können sich ändern.*
 
-#singlesday #singlesdayschweiz #1111 #dealdestages #schnäppchen #blackfridayschweiz #samsung #oled #aktionch #schweiz #sparen
+#singlesday #singlesdayschweiz #1111 #dealdestages #schnäppchen #blackfridayschweiz #samsung #oled #aktionsch #schweiz #sparen
 
 ## Variant B: offers in the video
 
@@ -55,7 +55,7 @@ Speichern & teilen 🔖 Alle Deals live via 👉 Link in Bio.
 
 *Anzeige: Affiliate-Links. Stand 10.11.2026, Bedingungen und Ausnahmen der Shops gelten.*
 
-#singlesday #1111 #rabattcode #gutscheincode #singlesdayschweiz #shopping #schweiz #zalando #douglas #aktionch #sparen
+#singlesday #1111 #rabattcode #gutscheincode #singlesdayschweiz #shopping #schweiz #zalando #douglas #aktionsch #sparen
 
 ### Caption B (FR, short)
 
@@ -63,4 +63,4 @@ Speichern & teilen 🔖 Alle Deals live via 👉 Link in Bio.
 
 *Publicité : liens affiliés. État au 10.11.2026.*
 
-#singlesday #singlesdaysuisse #bonplan #codepromo #aktionch
+#singlesday #singlesdaysuisse #bonplan #codepromo #aktionsch

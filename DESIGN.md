@@ -1,4 +1,4 @@
-# Aktion.ch design direction (v6)
+# Aktions.ch design direction (v6)
 
 Sources studied as patterns, not copied: Slickdeals / mydealz / Dealabs (one price, one action, savings vs. best known price), Idealo (price comparison clarity), Galaxus (whitespace, bold price), Wirecutter (clear verdict). Could not be compared live from the build sandbox.
 

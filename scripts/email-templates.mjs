@@ -15,7 +15,7 @@ const layout = ({ pre, title, lead, body, cta, url, note }) => `<!DOCTYPE html>
   <tr><td style="padding:0 4px 16px;font-family:${F};">
     <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
       <td width="32" height="32" align="center" valign="middle" bgcolor="${RED}" style="background:${RED};border-radius:6px;color:#ffffff;font:700 22px/32px ${F};">&#10010;</td>
-      <td style="padding-left:10px;font:800 20px/32px ${F};letter-spacing:.5px;color:${INK};">AKTION<span style="color:${RED};">.CH</span></td>
+      <td style="padding-left:10px;font:800 20px/32px ${F};letter-spacing:.5px;color:${INK};">AKTIONS<span style="color:${RED};">.CH</span></td>
     </tr></table>
   </td></tr>
   <tr><td style="background:#ffffff;border:1px solid ${LINE};border-radius:14px;overflow:hidden;">
@@ -40,30 +40,30 @@ const layout = ({ pre, title, lead, body, cta, url, note }) => `<!DOCTYPE html>
     </table>
   </td></tr>
   <tr><td align="center" style="padding:20px 8px 0;font:400 12px/1.6 ${F};color:${MUTED};">
-    AKTION.CH &middot; Swiss Black Friday deals, checked daily<br>
+    AKTIONS.CH &middot; Swiss Black Friday deals, checked daily<br>
     Sent to {{ .Email }} &middot; <a href="{{ .SiteURL }}" style="color:${MUTED};">{{ .SiteURL }}</a>
   </td></tr>
  </table>
 </td></tr></table></body></html>`;
 
 const T = {
-  "magic-link": { subject: "Your AKTION.CH sign-in link", pre: "Tap the button to sign in. The link works once and expires soon.", lead: "Sign in", title: "Your sign-in link",
-    body: "<p style=\"margin:0 0 10px;\">Tap the button below to sign in to AKTION.CH. No password needed, and your saved deals follow you on every device.</p><p style=\"margin:0;\">The link works once and expires in 1 hour.</p>",
-    cta: "Sign in to AKTION.CH", url: "{{ .ConfirmationURL }}", note: "Didn't ask for this? You can ignore this email. Nobody can sign in without the link, and nothing changes on your account." },
-  "confirm-signup": { subject: "Welcome to AKTION.CH, confirm your email", pre: "One tap to confirm your email and start saving deals.", lead: "Welcome", title: "Confirm your email",
-    body: "<p style=\"margin:0 0 10px;\">Thanks for joining AKTION.CH. Confirm your email to save deals, get your list on every device and follow price drops this Black Friday.</p><p style=\"margin:0;\">The link works once and expires in 1 hour.</p>",
+  "magic-link": { subject: "Your AKTIONS.CH sign-in link", pre: "Tap the button to sign in. The link works once and expires soon.", lead: "Sign in", title: "Your sign-in link",
+    body: "<p style=\"margin:0 0 10px;\">Tap the button below to sign in to AKTIONS.CH. No password needed, and your saved deals follow you on every device.</p><p style=\"margin:0;\">The link works once and expires in 1 hour.</p>",
+    cta: "Sign in to AKTIONS.CH", url: "{{ .ConfirmationURL }}", note: "Didn't ask for this? You can ignore this email. Nobody can sign in without the link, and nothing changes on your account." },
+  "confirm-signup": { subject: "Welcome to AKTIONS.CH, confirm your email", pre: "One tap to confirm your email and start saving deals.", lead: "Welcome", title: "Confirm your email",
+    body: "<p style=\"margin:0 0 10px;\">Thanks for joining AKTIONS.CH. Confirm your email to save deals, get your list on every device and follow price drops this Black Friday.</p><p style=\"margin:0;\">The link works once and expires in 1 hour.</p>",
     cta: "Confirm my email", url: "{{ .ConfirmationURL }}", note: "Didn't create an account? Ignore this email and nothing will be created. You can delete your account and data at any time from the account window." },
-  "change-email": { subject: "Confirm your new AKTION.CH email address", pre: "Confirm the change of email address on your account.", lead: "Account", title: "Confirm your new email",
-    body: "<p style=\"margin:0 0 10px;\">You asked to change the email address on your AKTION.CH account to <b>{{ .NewEmail }}</b>.</p><p style=\"margin:0;\">Confirm below to complete the change.</p>",
+  "change-email": { subject: "Confirm your new AKTIONS.CH email address", pre: "Confirm the change of email address on your account.", lead: "Account", title: "Confirm your new email",
+    body: "<p style=\"margin:0 0 10px;\">You asked to change the email address on your AKTIONS.CH account to <b>{{ .NewEmail }}</b>.</p><p style=\"margin:0;\">Confirm below to complete the change.</p>",
     cta: "Confirm new email", url: "{{ .ConfirmationURL }}", note: "Didn't request this? Ignore this email, your address stays as it is." },
-  "reset-password": { subject: "Reset your AKTION.CH password", pre: "Tap the button to choose a new password.", lead: "Password", title: "Reset your password",
-    body: "<p style=\"margin:0 0 10px;\">We received a request to reset the password for your AKTION.CH account.</p><p style=\"margin:0;\">Tap the button, then choose a new password in your account window. The link works once and expires in 1 hour.</p>",
+  "reset-password": { subject: "Reset your AKTIONS.CH password", pre: "Tap the button to choose a new password.", lead: "Password", title: "Reset your password",
+    body: "<p style=\"margin:0 0 10px;\">We received a request to reset the password for your AKTIONS.CH account.</p><p style=\"margin:0;\">Tap the button, then choose a new password in your account window. The link works once and expires in 1 hour.</p>",
     cta: "Choose a new password", url: "{{ .ConfirmationURL }}", note: "Didn't ask for this? Ignore this email, your password stays as it is." },
-  "reauthentication": { subject: "Your AKTION.CH confirmation code", pre: "Your one-time code is {{ .Token }}.", lead: "Security check", title: "Your confirmation code",
+  "reauthentication": { subject: "Your AKTIONS.CH confirmation code", pre: "Your one-time code is {{ .Token }}.", lead: "Security check", title: "Your confirmation code",
     body: "<p style=\"margin:0 0 14px;\">Enter this code to confirm it's you:</p><p style=\"margin:0;font:800 34px/1 'Courier New',monospace;letter-spacing:8px;color:#151314;\">{{ .Token }}</p>",
-    cta: "Open AKTION.CH", url: "{{ .SiteURL }}", note: "Never share this code. We will never ask for it by phone or chat." }
+    cta: "Open AKTIONS.CH", url: "{{ .SiteURL }}", note: "Never share this code. We will never ask for it by phone or chat." }
 };
 const index = [];
 for (const [k, t] of Object.entries(T)) { writeFileSync(new URL(k + ".html", OUT), layout(t)); index.push(`- ${k}.html — subject: "${t.subject}"`); }
-writeFileSync(new URL("README.md", OUT), `# Supabase email templates (AKTION.CH)\nGenerated by \`npm run emails\`. In Supabase: Authentication > Emails > Templates, paste the HTML and set the subject.\n\n${index.join("\n")}\n\nMapping: Reset Password = forgot-password link; Magic link = existing users signing in; Confirm signup = first sign-in of a new user; Change email address; Reauthentication.\nSender: use a verified Resend domain (SPF + DKIM + DMARC) with a from name of "AKTION.CH".\n`);
+writeFileSync(new URL("README.md", OUT), `# Supabase email templates (AKTIONS.CH)\nGenerated by \`npm run emails\`. In Supabase: Authentication > Emails > Templates, paste the HTML and set the subject.\n\n${index.join("\n")}\n\nMapping: Reset Password = forgot-password link; Magic link = existing users signing in; Confirm signup = first sign-in of a new user; Change email address; Reauthentication.\nSender: use a verified Resend domain (SPF + DKIM + DMARC) with a from name of "AKTIONS.CH".\n`);
 console.log("templates:", Object.keys(T).join(", "));

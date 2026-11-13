@@ -23,11 +23,11 @@ Laut Amazon der tiefste Preis seit 90 Tagen. Die GPS-Laufuhr mit AMOLED-Display 
 🇨🇭 Bestellung aus der Schweiz über Amazon.de: Die deutsche MWST fällt weg, an der Kasse kommt die Schweizer MWST dazu. Lieferung in die CH bitte im Warenkorb prüfen.
 
 👉 Link in Bio
-⏳ Noch 17 Tage bis Black Friday (27.11.). Alle Deals mit CHF-Preisen findest du auf Aktion.ch.
+⏳ Noch 17 Tage bis Black Friday (27.11.). Alle Deals mit CHF-Preisen findest du auf Aktions.ch.
 
 *Anzeige: Affiliate-Link. Kaufst du über den Link, erhalten wir eine Provision, dein Preis bleibt gleich. Preis Stand 10.11.2026, kann sich ändern.*
 
-#blackfridayschweiz #blackfriday2026 #dealdestages #schnäppchen #sparen #garmin #forerunner165 #laufuhr #running #laufen #amazondeals #aktionch #schweiz #zürich #bern #basel #weihnachtsgeschenk
+#blackfridayschweiz #blackfriday2026 #dealdestages #schnäppchen #sparen #garmin #forerunner165 #laufuhr #running #laufen #amazondeals #aktionsch #schweiz #zürich #bern #basel #weihnachtsgeschenk
 
 ## Feed post – caption (FR, Romandie)
 
@@ -41,7 +41,7 @@ Selon Amazon, c'est le prix le plus bas depuis 90 jours. Montre de course GPS av
 
 *Publicité : lien affilié. Prix au 10.11.2026, sous réserve de modification.*
 
-#blackfridaysuisse #blackfriday2026 #bonplan #garmin #forerunner165 #course #running #aktionch #suisse #genève #lausanne
+#blackfridaysuisse #blackfriday2026 #bonplan #garmin #forerunner165 #course #running #aktionsch #suisse #genève #lausanne
 
 ---
 
@@ -51,13 +51,13 @@ Deal des Tages ⌚ Garmin Forerunner 165 für €165 statt €279.99 (−41 %), 
 
 *Anzeige: Affiliate-Link. Preis Stand 10.11.2026; für die Schweiz kommt an der Kasse die Schweizer MWST dazu.*
 
-#blackfridayschweiz #dealdestages #garmin #laufuhr #running #schnäppchen #aktionch
+#blackfridayschweiz #dealdestages #garmin #laufuhr #running #schnäppchen #aktionsch
 
 ## Reel – what happens on screen (12 s)
 
 | Time | On screen |
 |---|---|
-| 0–1.8 s | Aktion.ch logo, "Black Friday in 17 Tagen", "DEAL DES TAGES" |
+| 0–1.8 s | Aktions.ch logo, "Black Friday in 17 Tagen", "DEAL DES TAGES" |
 | 1.8–3.5 s | Product card: Garmin Forerunner 165, GPS-Laufuhr · AMOLED · bis 11 Tage Akku |
 | 3.8–5 s | €279.99 is crossed out, then **€165** pops in |
 | 5.2 s | Red "−41 % RABATT" badge |
@@ -68,7 +68,7 @@ Deal des Tages ⌚ Garmin Forerunner 165 für €165 statt €279.99 (−41 %), 
 
 ## Alt text
 
-Werbegrafik von Aktion.ch: "Deal des Tages", Garmin Forerunner 165 GPS-Laufuhr für 165 Euro statt 279.99 Euro, minus 41 Prozent, tiefster Amazon-Preis seit 90 Tagen, Link in Bio.
+Werbegrafik von Aktions.ch: "Deal des Tages", Garmin Forerunner 165 GPS-Laufuhr für 165 Euro statt 279.99 Euro, minus 41 Prozent, tiefster Amazon-Preis seit 90 Tagen, Link in Bio.
 
 ## Re-rendering
 

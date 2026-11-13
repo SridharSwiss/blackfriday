@@ -1,4 +1,4 @@
-# Aktion.ch – Black Friday Schweiz 2026
+# Aktions.ch – Black Friday Schweiz 2026
 
 A fast, dependency-light web app listing Black Friday 2026 offers for Switzerland:
 
