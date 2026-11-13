@@ -264,7 +264,30 @@ function emptyState() {
     return `<div class="empty"><b>${T("emptyList")}</b>${T("emptyListSub")}</div>`;
   return `<div class="empty"><b>${T("emptySearch")}</b>${T("emptySearchSub")} <button class="linkbtn" type="button" data-reset>${T("resetFilters")}</button></div>`;
 }
+
+/* Featured picks: best live deals, one per category, Amazon first when it has a strong deal. Shown above the list on the Live and US tabs. */
+function featuredPicks(pool) {
+  const ok = pool.filter(d => d.show != null && d.reg && d.off >= 30 && d.shop).sort((a, b) => chfSave(b) - chfSave(a));
+  const seen = new Set(), out = [];
+  const take = d => { if (!d || seen.has(d.cat) || out.length >= 6) return; seen.add(d.cat); out.push(d); };
+  take(ok.find(d => /^amazon/.test(d.shop)));
+  ok.forEach(take);
+  return out;
+}
+const FEATURED = { live: featuredPicks(LIVE), us: featuredPicks(US) };
+function renderFeatured() {
+  const el = $("featured"), f = FEATURED[state.tab];
+  const plain = !state.q && state.cat === "All" && state.store === "all" && state.price === "all" && state.status === "all" && !state.drops && state.page === 0;
+  if (!f || !f.length || !plain) { el.hidden = true; return; }
+  el.hidden = false;
+  el.innerHTML = `<div class="fp-h"><b>${S.featTitle}</b><span>${S.featSub}</span></div><div class="fp-row">` + f.map(d => {
+    const href = d.url || (SHOPS[d.shop] ? SHOPS[d.shop].search(d.q) : null);
+    const inner = `<span class="fp-off">−${d.off}%</span><span class="fp-name">${esc(d.name)}</span><span class="fp-price"><b>${money(d.show, d.cur)}</b> <s>${money(d.reg, d.cur)}</s></span><span class="fp-shop">${SHOPS[d.shop] ? SHOPS[d.shop].name : esc(d.shop)}${d.until ? " · " + S.untilLabel(fmtDay(d.until)) : ""}</span>`;
+    return href ? `<a class="fp" href="${affLink(d.shop, href)}" target="_blank" rel="sponsored nofollow noopener">${inner}</a>` : `<div class="fp">${inner}</div>`;
+  }).join("") + "</div>";
+}
 function renderGrid() {
+  renderFeatured();
   fit();
   const l = list(), m = mobile();
   let vis;
