@@ -29,6 +29,7 @@ export const AFF = {
 };
 /* Amazon.de storefront (Associates storefront link with tracking ID blackfrida08d-21) */
 export const AMAZON_DE_STOREFRONT = "https://www.amazon.de/-/en?&linkCode=ll2&tag=blackfrida08d-21&linkId=d55ffac3c37f35b1d1be9412b65e8c83&ref_=as_li_ss_tl";
+export const AMAZON_DE_BLACKFRIDAY = "https://www.amazon.de/-/en/blackfriday?_encoding=UTF8&pf_rd_p=a17ed1e1-132b-4bd6-8a81-ad71dce3051f&pf_rd_s=nav-sitewide-msg&pf_rd_t=4201&pf_rd_i=navbar-4201&pf_rd_m=A1PA6795UKMFR9&pf_rd_r=8TF06FPZ7SRRT33AMHZF&linkCode=sl2&tag=blackfrida08d-21&linkId=3fa4726efee60c06abc0a83589529983&ref_=as_li_ss_tl";
 export function affLink(shop, url){
   const c = AFF[shop] || {};
   if (shop === "amazon" && /^https:\/\/www\.amazon\.de\/?$/.test(url)) return AMAZON_DE_STOREFRONT;
