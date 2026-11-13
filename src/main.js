@@ -763,6 +763,6 @@ if (ENABLED) {
     state.watch = merged; save(); updateCounts();
     if (PRODUCT_TABS.includes(state.tab)) { renderFilters(); renderGrid(); }
   };
-  initAccountUi(LANG, () => { $("acct").classList.toggle("on", !!authUser()); });
-  initAuth().then(u => { $("acct").classList.toggle("on", !!u); if (u) { sync(); if (u.fresh) track("login"); } });
+  const openAccount = initAccountUi(LANG, () => { $("acct").classList.toggle("on", !!authUser()); });
+  initAuth().then(u => { $("acct").classList.toggle("on", !!u); if (u) { sync(); if (u.fresh) track("login"); if (u.recovery) openAccount(true); } });
 }

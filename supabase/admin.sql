@@ -4,6 +4,8 @@ create table if not exists public.admins (email text primary key);
 alter table public.admins enable row level security;
 revoke all on public.admins from anon, authenticated;
 insert into public.admins (email) values ('sridhar.gande@gmail.com') on conflict do nothing;
+-- Only this one account is an admin: remove any other row.
+delete from public.admins where lower(email) <> 'sridhar.gande@gmail.com';
 
 create or replace function public.is_admin() returns boolean language sql stable security definer set search_path = '' as $$
   select exists (select 1 from public.admins a where lower(a.email) = lower(coalesce(auth.jwt() ->> 'email', '')));

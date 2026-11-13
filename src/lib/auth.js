@@ -27,7 +27,7 @@ export async function initAuth() {
   if (h.get("access_token") && h.get("refresh_token")) {
     const access = h.get("access_token"), u = await whoami(access);
     try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
-    if (u) { store({ id: u.id, email: u.email, access, refresh: h.get("refresh_token"), exp: Math.floor(Date.now() / 1000) + Number(h.get("expires_in") || 3600) }); return { ...user(), fresh: true }; }
+    if (u) { store({ id: u.id, email: u.email, access, refresh: h.get("refresh_token"), exp: Math.floor(Date.now() / 1000) + Number(h.get("expires_in") || 3600) }); return { ...user(), fresh: true, recovery: h.get("type") === "recovery" }; }
   }
   if (S && !token()) await refresh();
   return user();
@@ -39,6 +39,31 @@ export async function sendLink(email) {
     const j = await r.json().catch(() => ({}));
     return j.msg || j.message || j.error_description || ("Error " + r.status);
   } catch (e) { return "Network error"; }
+}
+const reason = async r => { const j = await r.json().catch(() => ({})); return j.msg || j.message || j.error_description || ("Error " + r.status); };
+export async function signInPassword(email, password) {
+  try {
+    const r = await fetch(BACKEND.url + "/auth/v1/token?grant_type=password", { method: "POST", headers: H(), body: JSON.stringify({ email: email.trim().toLowerCase(), password }) });
+    if (!r.ok) return await reason(r);
+    const j = await r.json();
+    store({ id: j.user.id, email: j.user.email, access: j.access_token, refresh: j.refresh_token, exp: Math.floor(Date.now() / 1000) + (j.expires_in || 3600) });
+    return "";
+  } catch (e) { return "Network error"; }
+}
+export async function setPassword(password) {
+  if (!token()) return "Please sign in again.";
+  try { const r = await fetch(BACKEND.url + "/auth/v1/user", { method: "PUT", headers: H({ Authorization: "Bearer " + token() }), body: JSON.stringify({ password }) }); return r.ok ? "" : await reason(r); }
+  catch (e) { return "Network error"; }
+}
+export async function resetPassword(email) {
+  try { const r = await fetch(BACKEND.url + "/auth/v1/recover?redirect_to=" + encodeURIComponent(location.origin + "/"), { method: "POST", headers: H(), body: JSON.stringify({ email: email.trim().toLowerCase() }) }); return r.ok ? "" : await reason(r); }
+  catch (e) { return "Network error"; }
+}
+/* Admin status comes from the database (public.is_admin); the UI only uses it to show or hide the admin link. */
+export async function isAdmin() {
+  if (!token()) return false;
+  try { const r = await fetch(BACKEND.url + "/rest/v1/rpc/is_admin", { method: "POST", headers: H({ Authorization: "Bearer " + token() }), body: "{}" }); return r.ok && (await r.json()) === true; }
+  catch (e) { return false; }
 }
 export function signOut() { store(null); }
 const api = (path, opt = {}) => fetch(BACKEND.url + "/rest/v1/" + path, { ...opt, headers: H({ Authorization: "Bearer " + token(), Prefer: "return=minimal", ...(opt.headers || {}) }) });

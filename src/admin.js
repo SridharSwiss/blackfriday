@@ -1,6 +1,6 @@
 /* Admin dashboard. Access is enforced in the database (public.is_admin); this page only displays what the RPC returns. */
 import { BACKEND, ENABLED } from "./config/backend.js";
-import { initAuth, token, user, sendLink, signOut } from "./lib/auth.js";
+import { initAuth, token, user, sendLink, signOut, signInPassword, resetPassword } from "./lib/auth.js";
 const app = document.getElementById("app");
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const n = x => Number(x || 0).toLocaleString("en-US");
@@ -32,8 +32,14 @@ async function dash(days) {
   document.getElementById("so").onclick = () => { signOut(); start(); };
 }
 function login() {
-  msg("Sign in with the admin email. A link will be sent to your inbox.", `<form id="f"><input type="email" required placeholder="Email address" autocomplete="email"><button class="solid">Send link</button></form>`);
-  document.getElementById("f").onsubmit = async e => { e.preventDefault(); const m = document.getElementById("m"); m.textContent = "…"; const err = await sendLink(e.target.querySelector("input").value); m.textContent = err ? "Could not send the link: " + err : "Check your inbox and open the link."; };
+  msg("Sign in with the admin account.", `<form id="f"><input type="email" required placeholder="Email address" autocomplete="email"><input type="password" placeholder="Password (or leave empty for an email link)" autocomplete="current-password"><button class="solid">Sign in</button></form><p><button type="button" id="fg" style="border:0;background:none;text-decoration:underline;color:inherit;cursor:pointer">Forgot password?</button></p>`);
+  const m = () => document.getElementById("m"), em = () => document.querySelector("#f input[type=email]");
+  document.getElementById("f").onsubmit = async e => {
+    e.preventDefault(); m().textContent = "…"; const pw = e.target.querySelector("input[type=password]").value;
+    if (pw) { const r = await signInPassword(em().value, pw); if (r) m().textContent = /invalid|credentials/i.test(r) ? "Wrong email or password." : r; else start(); return; }
+    const r = await sendLink(em().value); m().textContent = r ? "Could not send the link: " + r : "Check your inbox and open the link.";
+  };
+  document.getElementById("fg").onclick = async () => { if (!em().reportValidity()) return; m().textContent = "…"; const r = await resetPassword(em().value); m().textContent = r ? "Could not send: " + r : "Check your inbox for the reset link."; };
 }
 async function start() {
   if (!ENABLED) return msg("Backend not configured.");
