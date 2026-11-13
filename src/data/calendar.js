@@ -1,7 +1,6 @@
-/* Deal calendar 2026 (checked 28.10.2026; Digitec dates 05.11.2026; MediaMarkt Singles Day 07.11.2026; Walmart, Best Buy and Amazon dates 10.11.2026). "expected" = retailer has not announced yet.
+/* Deal calendar 2026 (checked 13.11.2026; ended events removed; Digitec dates 05.11.2026; MediaMarkt Singles Day 07.11.2026; Walmart, Best Buy and Amazon dates 10.11.2026). "expected" = retailer has not announced yet.
    Sources: Hip2Save (Walmart, Target), Slickdeals (Best Buy), Digitec/Galaxus Black Friday weeks page, MediaMarkt CH campaign page. */
 export const EVENTS = [
-  { date:"2026-11-05", region:"US", title:"Target early Black Friday", text:"Target's Early Black Friday Deals event, 5–7 November; Holiday Price Match runs to 24 December." },
   { date:"2026-11-06", region:"US", title:"Best Buy early Black Friday", text:"Best Buy's early Black Friday deals started 6 November, with a new wave every Friday (week 2 live from 9 November: up to 50% off selected OLED TVs)." },
   { date:"2026-11-11", region:"CH", title:"Singles Day", text:"Smaller discounts in Switzerland. MediaMarkt CH runs a Singles Day sale from 11 to 14 November." },
   { date:"2026-11-12", region:"US", title:"Walmart early Black Friday", text:"Walmart's early event runs 12–15 November, online from 12:01 a.m. ET; Walmart+ members get early access." },
