@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Black Friday 2026 Switzerland: top 100 offers, 2,000+ products, winter tyres, affiliate links.",
   "scripts": {
+    "social": "node scripts/social.mjs",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",

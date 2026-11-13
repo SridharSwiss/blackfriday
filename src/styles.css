@@ -556,3 +556,5 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
 @media (max-width:760px){.fp-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}.fp{flex:0 0 72%;scroll-snap-align:start}}
 @media (min-width:761px) and (max-height:760px){.featured{display:none}}
 @media (max-width:760px){.fp-h span{display:none}.fp{padding:8px 10px}}
+
+.fp-wa{margin-left:auto;font-weight:600;color:#128c4a;text-decoration:none;border:1px solid #128c4a55;border-radius:999px;padding:2px 10px}.fp-wa:hover{background:#128c4a14}

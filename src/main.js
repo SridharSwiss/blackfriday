@@ -275,12 +275,16 @@ function featuredPicks(pool) {
   return out;
 }
 const FEATURED = { live: featuredPicks(LIVE), us: featuredPicks(US) };
+function waLink(f) {
+  const txt = "🔥 " + S.featTitle + "\n" + f.slice(0, 3).map(d => `• ${d.name}: ${money(d.show, d.cur)} (−${d.off}%)`).join("\n") + "\n" + location.origin + "/?utm_source=whatsapp&utm_medium=share&utm_campaign=featured";
+  return "https://wa.me/?text=" + encodeURIComponent(txt);
+}
 function renderFeatured() {
   const el = $("featured"), f = FEATURED[state.tab];
   const plain = !state.q && state.cat === "All" && state.store === "all" && state.price === "all" && state.status === "all" && !state.drops && state.page === 0;
   if (!f || !f.length || !plain) { el.hidden = true; return; }
   el.hidden = false;
-  el.innerHTML = `<div class="fp-h"><b>${S.featTitle}</b><span>${S.featSub}</span></div><div class="fp-row">` + f.map(d => {
+  el.innerHTML = `<div class="fp-h"><b>${S.featTitle}</b><span>${S.featSub}</span><a class="fp-wa" href="${waLink(f)}" target="_blank" rel="noopener">WhatsApp</a></div><div class="fp-row">` + f.map(d => {
     const href = d.url || (SHOPS[d.shop] ? SHOPS[d.shop].search(d.q) : null);
     const inner = `<span class="fp-off">−${d.off}%</span><span class="fp-name">${esc(d.name)}</span><span class="fp-price"><b>${money(d.show, d.cur)}</b> <s>${money(d.reg, d.cur)}</s></span><span class="fp-shop">${SHOPS[d.shop] ? SHOPS[d.shop].name : esc(d.shop)}${d.until ? " · " + S.untilLabel(fmtDay(d.until)) : ""}</span>`;
     return href ? `<a class="fp" href="${affLink(d.shop, href)}" target="_blank" rel="sponsored nofollow noopener">${inner}</a>` : `<div class="fp">${inner}</div>`;
