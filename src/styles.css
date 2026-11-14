@@ -215,15 +215,15 @@ main{min-height:0;height:100%;overflow:hidden;display:grid}
 .lead em{font-style:normal;color:var(--red)}
 .lead.sm{font-size:20px}
 .sub{font:500 12px var(--f-mono);color:var(--muted)}
-/* Prominent last-updated badge at the top of the page */
+/* Last-updated highlight inline next to the search box: colour text only */
 #pupd{
-  display:inline-flex;align-items:center;gap:7px;
-  background:var(--tag);color:var(--tag-ink);
-  border:1px solid color-mix(in srgb,var(--ink) 30%,transparent);
-  border-radius:999px;padding:4px 14px;font:800 11.5px var(--f-mono);
-  letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;
-  box-shadow:0 2px 6px rgba(0,0,0,.08)}
-#pupd::before{content:"";width:8px;height:8px;background:var(--red);border-radius:50%;flex:none}
+  display:inline-flex;align-items:center;gap:6px;margin-left:16px;
+  font:800 11.5px var(--f-mono);color:var(--ink);
+  background:color-mix(in srgb,var(--tag) 35%,var(--bg));
+  padding:2px 10px;border-radius:999px;border:1px solid color-mix(in srgb,var(--tag) 45%,transparent);
+  letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;flex:none}
+#pupd b{color:var(--red)}
+#pupd::before{content:"";width:7px;height:7px;background:var(--red);border-radius:50%;flex:none}
 .linkbtn{background:none;border:0;padding:0;font:600 12.5px var(--f-body);color:var(--red);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 .filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .filters select{max-width:230px}
