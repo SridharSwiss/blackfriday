@@ -1,4 +1,4 @@
-/* Deal calendar 2026 (checked 13.11.2026; ended events removed; Digitec dates 05.11.2026; MediaMarkt Singles Day 07.11.2026; Walmart, Best Buy and Amazon dates 10.11.2026). "expected" = retailer has not announced yet.
+/* Deal calendar 2026 (checked 14.11.2026; ended events removed; Digitec dates 05.11.2026; MediaMarkt Singles Day 07.11.2026; Walmart, Best Buy and Amazon dates 10.11.2026). "expected" = retailer has not announced yet.
    Sources: Hip2Save (Walmart, Target), Slickdeals (Best Buy), Digitec/Galaxus Black Friday weeks page, MediaMarkt CH campaign page. */
 export const EVENTS = [
   { date:"2026-11-06", region:"US", title:"Best Buy early Black Friday", text:"Best Buy's early Black Friday deals started 6 November, with a new wave every Friday (week 2 live from 9 November: up to 50% off selected OLED TVs)." },
