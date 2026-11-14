@@ -377,6 +377,7 @@ function renderFilters() {
   }[t];
   if (state.q.trim() && t !== "list") { lead[0] = `${T("leadSearchPrefix")}${esc(state.q.trim())}${T("leadSearchSuffix")}`; lead[1] = T("leadSearchSub"); }
   $("lead").innerHTML = lead[0]; $("leadsub").textContent = lead[1];
+  const upd = $("pupd"); if (upd) { const latest = LIVE.reduce((m, d) => d.checked > m ? d.checked : m, ""); upd.textContent = latest ? T("updatedLabel") + " " + fmtDay(latest) : ""; }
   $("p-products").setAttribute("aria-labelledby", "t-" + t);
 }
 function updateCounts() {
