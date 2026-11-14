@@ -137,7 +137,7 @@ let perPage = 12, mobileShown = 12;
 const money = (n, cur) => cur === "EUR" ? "€ " + n.toLocaleString("de-CH", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 }) : cur === "INR" ? "₹" + n.toLocaleString("en-IN") : cur === "USD" ? "$" + (Number.isInteger(n) ? n.toLocaleString("en-US") : n.toLocaleString("en-US", { minimumFractionDigits: 2 })) : "CHF " + fmt(n);
 const heartSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9-8.7C1.5 7.8 4 4.5 7.3 4.5c2 0 3.5 1.1 4.7 2.7 1.2-1.6 2.7-2.7 4.7-2.7 3.3 0 5.8 3.3 4.3 6.8-2 4.3-9 8.7-9 8.7z"/></svg>';
 const watched = d => state.watch.includes(d.id);
-const fmtDay = iso => new Date(iso + "T12:00:00Z").toLocaleDateString(LANG === "en" ? "en-GB" : LANG + "-CH", { day: "numeric", month: "short" });
+const fmtDay = (iso, full) => new Date(iso + "T12:00:00Z").toLocaleDateString(LANG === "en" ? "en-GB" : LANG + "-CH", { day: "numeric", month: "short", ...(full ? { year: "numeric" } : {}) });
 function toast(msg) {
   const t = $("toast"); t.textContent = msg; t.hidden = false;
   clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2200);
@@ -377,7 +377,7 @@ function renderFilters() {
   }[t];
   if (state.q.trim() && t !== "list") { lead[0] = `${T("leadSearchPrefix")}${esc(state.q.trim())}${T("leadSearchSuffix")}`; lead[1] = T("leadSearchSub"); }
   $("lead").innerHTML = lead[0]; $("leadsub").textContent = lead[1];
-  const upd = $("pupd"); if (upd) { const latest = LIVE.reduce((m, d) => d.checked > m ? d.checked : m, ""); upd.innerHTML = latest ? T("updatedLabel") + " <b>" + esc(fmtDay(latest)) + "</b>" : ""; }
+  const upd = $("pupd"); if (upd) { const latest = LIVE.reduce((m, d) => d.checked > m ? d.checked : m, ""); upd.innerHTML = latest ? T("updatedLabel") + " <b>" + esc(fmtDay(latest, true)) + "</b>" : ""; }
   $("p-products").setAttribute("aria-labelledby", "t-" + t);
 }
 function updateCounts() {
