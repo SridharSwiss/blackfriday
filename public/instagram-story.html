@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram Story — Black Friday Schweiz 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body {
+    font-family: "Public Sans", "Archivo", system-ui, -apple-system, sans-serif;
+    background: #0f172a;
+    color: #ffffff;
+  }
+  /* Story canvas 1080x1920 (9:16) */
+  .story {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    max-width: 1080px;
+    max-height: 1920px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 55%, #0f172a 100%);
+    border-radius: 0;
+    overflow: hidden;
+  }
+  /* Decorative red glow */
+  .glow {
+    position: absolute;
+    top: -10%; left: 50%;
+    width: 60%; height: 60%;
+    background: radial-gradient(circle, rgba(213,43,30,0.35) 0%, transparent 70%);
+    transform: translateX(-50%);
+    filter: blur(60px);
+    z-index: 0;
+  }
+  .red-band {
+    position: absolute; top: 0; left: 0; right: 0; height: 6px;
+    background: linear-gradient(90deg, #D52B1E, #0ea5e9);
+    z-index: 2;
+  }
+  .content {
+    position: relative;
+    z-index: 5;
+    padding: 40px 32px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(213,43,30,0.15);
+    border: 1px solid rgba(213,43,30,0.45);
+    color: #fca5a5;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 999px;
+    margin-bottom: 24px;
+    z-index: 5;
+  }
+  .chip .dot {
+    width: 7px; height: 7px; background: #D52B1E; border-radius: 50%;
+    box-shadow: 0 0 0 5px rgba(213,43,30,0.25);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.2);} }
+  h1 {
+    font-family: "Archivo", system-ui, sans-serif;
+    font-size: clamp(2.2rem, 8vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 18px;
+  }
+  h1 .accent { color: #f87171; }
+  .date-line {
+    font-size: 1.1rem;
+    color: #cbd5e1;
+    margin-bottom: 30px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #ffffff;
+    color: #0f172a;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.15rem;
+    padding: 18px 32px;
+    border-radius: 14px;
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.35);
+    border: none;
+    cursor: pointer;
+    transition: transform .15s, background .15s;
+    max-width: 80%;
+    margin: 0 auto;
+  }
+  .cta:hover { background: #f1f5f9; transform: translateY(-2px); }
+  .cta svg { width: 20px; height: 20px; stroke-width: 2.5; }
+  .divider {
+    width: 60px; height: 1px; background: #334155;
+    margin: 28px auto 22px;
+  }
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 34px;
+    margin-bottom: 24px;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat .num {
+    font-family: "Archivo", system-ui, sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1;
+  }
+  .stat .lbl {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    font-weight: 700;
+  }
+  .swipe {
+    position: absolute;
+    left: 50%; bottom: 56px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 5;
+    opacity: 0.9;
+  }
+  .swipe-arrow {
+    width: 24px; height: 24px;
+    border-right: 2px solid #cbd5e1;
+    border-bottom: 2px solid #cbd5e1;
+    transform: rotate(45deg);
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:rotate(45deg) translateY(0);} 50%{transform:rotate(45deg) translateY(6px);} }
+  .brand {
+    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+    font-size: 0.8rem; color: #64748b; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; z-index: 5;
+  }
+</style>
+</head>
+<body>
+<section class="story">
+  <div class="glow"></div>
+  <div class="red-band"></div>
+  <div class="content">
+    <div class="chip"><span class="dot"></span>Black Friday 2026 · Schweiz</div>
+    <h1>Top Deals in CHF<span class="accent"> — bis −70 %</span></h1>
+    <div class="date-line">Black Week 23.–29.11. · Black Friday Fr 27.11.</div>
+    <div class="stats">
+      <div class="stat"><div class="num">100+</div><div class="lbl">Top-Deals</div></div>
+      <div class="stat"><div class="num">CHF</div><div class="lbl">Schweizer Preise</div></div>
+      <div class="stat"><div class="num">27.11.</div><div class="lbl">Black Friday</div></div>
+    </div>
+    <div class="divider"></div>
+    <button class="cta" onclick="location.href='https://aktions.ch/?utm_source=instagram&utm_medium=story&utm_campaign=blackfriday2026'">Jetzt shoppen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+  </div>
+  <div class="swipe"><div class="swipe-arrow"></div>Swipe up</div>
+  <div class="brand">Aktions.ch</div>
+</section>
+</body>
+</html>

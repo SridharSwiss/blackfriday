@@ -1,0 +1,78 @@
+================================================================================
+AKTIONS.CH — BLACK FRIDAY 2026 CAMPAIGN TRACKING LINKS
+================================================================================
+Base: https://aktions.ch
+Campaign name: blackfriday2026
+
+Copy-paste these tracked URLs into your posts, stories, bios, and bios-in-bio.
+
+--------------------------------------------------------------------------------
+INSTAGRAM
+--------------------------------------------------------------------------------
+Story (swipe-up / link sticker):
+  https://aktions.ch/?utm_source=instagram&utm_medium=story&utm_campaign=blackfriday2026
+
+Feed post (bio link):
+  https://aktions.ch/?utm_source=instagram&utm_medium=post&utm_campaign=blackfriday2026
+
+Instagram bio:
+  https://aktions.ch/?utm_source=instagram&utm_medium=bio&utm_campaign=blackfriday2026
+
+--------------------------------------------------------------------------------
+WHATSAPP
+--------------------------------------------------------------------------------
+Status update:
+  https://aktions.ch/?utm_source=whatsapp&utm_medium=status&utm_campaign=blackfriday2026
+
+Broadcast list:
+  https://aktions.ch/?utm_source=whatsapp&utm_medium=broadcast&utm_campaign=blackfriday2026
+
+--------------------------------------------------------------------------------
+TIKTOK
+--------------------------------------------------------------------------------
+Bio / video caption:
+  https://aktions.ch/?utm_source=tiktok&utm_medium=video&utm_campaign=blackfriday2026
+
+--------------------------------------------------------------------------------
+FACEBOOK
+--------------------------------------------------------------------------------
+Feed post:
+  https://aktions.ch/?utm_source=facebook&utm_medium=post&utm_campaign=blackfriday2026
+
+--------------------------------------------------------------------------------
+EMAIL NEWSLETTER
+--------------------------------------------------------------------------------
+Newsletter CTA button:
+  https://aktions.ch/?utm_source=newsletter&utm_medium=email&utm_campaign=blackfriday2026
+
+--------------------------------------------------------------------------------
+TELEGRAM
+--------------------------------------------------------------------------------
+Channel post:
+  https://aktions.ch/?utm_source=telegram&utm_medium=channel&utm_campaign=blackfriday2026
+
+--------------------------------------------------------------------------------
+UTM NAMING CONVENTION
+--------------------------------------------------------------------------------
+utm_source   = platform  (instagram, whatsapp, tiktok, facebook, newsletter, telegram)
+utm_medium   = format    (story, post, bio, status, broadcast, video, email, channel)
+utm_campaign = blackfriday2026   (always the same)
+
+Optional A/B test parameter:
+  &utm_content={creative-id}   e.g. &utm_content=story-red, &utm_content=story-white
+
+--------------------------------------------------------------------------------
+PERFORMANCE KPIs TO TRACK
+--------------------------------------------------------------------------------
+- CTR = link clicks ÷ impressions (per channel)
+- CPC = cost per click (if paid)
+- Conversion rate = clicks → deal-page views → affiliate outbound clicks
+- Revenue = affiliate commissions attributed per UTM source
+- Bounce rate by channel
+
+Track in your analytics (GA4 / Plausible / Matomo) by filtering on
+utm_campaign=blackfriday2026 and grouping by utm_source / utm_medium.
+
+================================================================================
+END
+================================================================================
