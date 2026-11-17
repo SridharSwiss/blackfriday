@@ -1,63 +1,63 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#0f172a"/>
-      <stop offset="55%" stop-color="#1e293b"/>
-      <stop offset="100%" stop-color="#0f172a"/>
-    </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="10%" r="60%">
-      <stop offset="0%" stop-color="#D52B1E" stop-opacity="0.35"/>
-      <stop offset="70%" stop-color="#D52B1E" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="band" x1="0" y1="0" x2="1" y2="0">
+    <linearGradient id="redgrad" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#D52B1E"/>
-      <stop offset="100%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#a61f16"/>
     </linearGradient>
-    <filter id="blur" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="60"/>
-    </filter>
   </defs>
 
-  <!-- Background -->
-  <rect width="1080" height="1920" fill="url(#bg)"/>
-  <circle cx="540" cy="192" r="648" fill="url(#glow)" filter="url(#blur)"/>
-  <rect width="1080" height="46" fill="url(#band)"/>
+  <!-- Off-white background -->
+  <rect width="1080" height="1920" fill="#f3f4f6"/>
 
-  <!-- Chip -->
-  <rect x="270" y="360" width="260" height="48" rx="24" fill="#D52B1E" opacity="0.15" stroke="#D52B1E" stroke-width="1.5" opacity="0.5"/>
-  <circle cx="318" cy="384" r="6" fill="#D52B1E"/>
-  <text x="338" y="390" font-family="Archivo, sans-serif" font-size="26" font-weight="800" fill="#fca5a5" letter-spacing="1.6">BLACK FRIDAY 2026 · SCHWEIZ</text>
+  <!-- Top header -->
+  <circle cx="118" cy="132" r="44" fill="#D52B1E"/>
+  <path d="M94 108 l-28 48 h28 l-28 48" fill="none" stroke="#ffffff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="204" y="136" font-family="Archivo, sans-serif" font-size="52" font-weight="900" fill="#0f172a">AKTIONS.CH</text>
+  <rect x="556" y="96" width="500" height="72" rx="36" fill="#0f172a"/>
+  <text x="806" y="134" font-family="Archivo, sans-serif" font-size="36" font-weight="800" fill="#ffffff" text-anchor="middle">BLACK FRIDAY</text>
+  <text x="806" y="134" font-family="Archivo, sans-serif" font-size="36" font-weight="800" fill="#f59e0b" text-anchor="middle" dx="150">IN 17 TAGEN</text>
 
-  <!-- Headline -->
-  <text x="540" y="560" font-family="Archivo, sans-serif" font-size="72" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="-1">Top Deals in CHF</text>
-  <text x="540" y="636" font-family="Archivo, sans-serif" font-size="72" font-weight="800" fill="#f87171" text-anchor="middle" letter-spacing="-1">— bis −70 %</text>
+  <!-- DEAL DES TAGES -->
+  <text x="60" y="370" font-family="Archivo, sans-serif" font-size="118" font-weight="900" fill="#0f172a" letter-spacing="-2">DEAL</text>
+  <text x="60" y="520" font-family="Archivo, sans-serif" font-size="118" font-weight="900" fill="#D52B1E" letter-spacing="-2">DES TAGES</text>
 
-  <!-- Date -->
-  <text x="540" y="720" font-family="Public Sans, sans-serif" font-size="32" font-weight="600" fill="#cbd5e1" text-anchor="middle">Black Week 23.–29.11. · Black Friday Fr 27.11.</text>
+  <!-- Product card -->
+  <rect x="60" y="610" width="960" height="820" rx="40" fill="#ffffff" stroke="#0f172a" stroke-width="4"/>
 
-  <!-- Stats -->
-  <g font-family="Archivo, sans-serif" font-weight="800" text-anchor="middle">
-    <text x="270" y="860" font-size="48" fill="#ffffff">100+</text>
-    <text x="270" y="902" font-size="22" fill="#94a3b8" letter-spacing="2" font-weight="700">TOP-DEALS</text>
-
-    <text x="540" y="860" font-size="48" fill="#ffffff">CHF</text>
-    <text x="540" y="902" font-size="22" fill="#94a3b8" letter-spacing="2" font-weight="700">SCHWEIZER PREISE</text>
-
-    <text x="810" y="860" font-size="48" fill="#ffffff">27.11.</text>
-    <text x="810" y="902" font-size="22" fill="#94a3b8" letter-spacing="2" font-weight="700">BLACK FRIDAY</text>
+  <!-- Product icon (yellow rounded square) -->
+  <rect x="140" y="690" width="260" height="260" rx="60" fill="#f59e0b"/>
+  <g transform="translate(235, 805)">
+    <!-- simple watch icon -->
+    <circle cx="130" cy="130" r="52" fill="none" stroke="#0f172a" stroke-width="14" stroke-linecap="round"/>
+    <rect x="112" cy="95" width="36" height="14" rx="7" fill="#0f172a"/>
+    <line x1="130" y1="130" x2="130" y2="78" stroke="#0f172a" stroke-width="10" stroke-linecap="round"/>
+    <line x1="130" y1="130" x2="198" y2="130" stroke="#0f172a" stroke-width="10" stroke-linecap="round"/>
   </g>
 
-  <!-- CTA Button -->
-  <rect x="108" y="1000" width="864" height="88" rx="22" fill="#ffffff"/>
-  <text x="540" y="1052" font-family="Public Sans, sans-serif" font-size="34" font-weight="800" fill="#0f172a" text-anchor="middle">Jetzt shoppen</text>
-  <path d="M700 1042 l24 24 l-24 24" fill="none" stroke="#0f172a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M748 1042 h42" fill="none" stroke="#0f172a" stroke-width="8" stroke-linecap="round"/>
+  <!-- Product name -->
+  <text x="430" y="778" font-family="Archivo, sans-serif" font-size="64" font-weight="900" fill="#0f172a">Top Deal</text>
+  <text x="430" y="866" font-family="Archivo, sans-serif" font-size="36" font-weight="600" fill="#475569">Schweiz · CHF · Black Friday 2026</text>
 
-  <!-- Swipe up -->
-  <text x="540" y="1780" font-family="Public Sans, sans-serif" font-size="26" font-weight="600" fill="#94a3b8" text-anchor="middle">Swipe up</text>
-  <path d="M528 1690 l24 24 l-24 24" fill="none" stroke="#cbd5e1" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="538" y="1690" width="4" height="44" fill="#cbd5e1"/>
+  <!-- Discount circle -->
+  <circle cx="860" y="760" r="140" fill="#D52B1E"/>
+  <text cx="860" cy="760" font-family="Archivo, sans-serif" font-size="100" font-weight="900" fill="#ffffff" text-anchor="middle" dy="0.35em">−41%</text>
+  <text cx="860" cy="848" font-family="Archivo, sans-serif" font-size="30" font-weight="800" fill="#ffffff" text-anchor="middle">RABATT</text>
 
-  <!-- Brand -->
-  <text x="540" y="1880" font-family="Archivo, sans-serif" font-size="24" font-weight="800" fill="#64748b" text-anchor="middle" letter-spacing="3">AKTIONS.CH</text>
+  <!-- Pricing -->
+  <text x="140" y="1130" font-family="Archivo, sans-serif" font-size="52" font-weight="700" fill="#64748b">CHF 279.–</text>
+  <line x1="140" y1="1122" x2="320" y2="1122" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>
+  <rect x="380" y="1060" width="560" height="130" rx="34" fill="#f59e0b"/>
+  <text x="660" y="1150" font-family="Archivo, sans-serif" font-size="96" font-weight="900" fill="#0f172a" text-anchor="middle">CHF 165</text>
+
+  <!-- Green checkmark line -->
+  <text x="140" y="1290" font-family="Archivo, sans-serif" font-size="34" font-weight="700" fill="#15803d">✓ Tiefster Preis seit 90 Tagen</text>
+
+  <!-- CTA button -->
+  <rect x="60" y="1430" width="960" height="110" rx="55" fill="url(#redgrad)"/>
+  <text x="540" y="1512" font-family="Archivo, sans-serif" font-size="52" font-weight="900" fill="#ffffff" text-anchor="middle">Link in Bio →</text>
+
+  <!-- Fine print disclaimer -->
+  <rect x="60" y="1610" width="960" height="250" fill="#f3f4f6"/>
+  <text x="60" y="1660" font-family="Archivo, sans-serif" font-size="26" font-weight="900" fill="#0f172a">ANZEIGE</text>
+  <text x="60" y="1710" font-family="Public Sans, sans-serif" font-size="28" fill="#475569" line-height="1.45">Affiliate-Link. Preise auf Amazon.de in EUR, Stand 10.11.2026; für die Lieferung in die Schweiz wird an der Kasse die Schweizer MWST berechnet. Preise können sich ändern.</text>
 </svg>
