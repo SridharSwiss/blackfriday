@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<!-- Two reels: reels.html?r=dates ("5 Termine") and reels.html?r=tricks ("3 Tricks gegen Fake-Rabatte"). window.render(t), window.DUR -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{width:1080px;height:1920px;overflow:hidden;font-family:Inter,Arial,sans-serif}
+body{background:#FFF6F0;color:#151314}
+.sc{position:absolute;inset:0;opacity:0;padding:0 80px}
+.bar{position:absolute;left:0;bottom:0;height:14px;background:#D52B1E;z-index:9}
+.brand{position:absolute;left:80px;top:96px;font:900 44px/1 Inter;letter-spacing:.08em;color:#D52B1E;z-index:8}
+.k{font:800 36px/1 Inter;letter-spacing:.14em;text-transform:uppercase;color:#D52B1E;margin-top:600px}
+.t{font:900 132px/.96 Inter;letter-spacing:-.03em;margin-top:30px}.t em{font-style:normal;color:#D52B1E}
+.s{font:600 46px/1.35 Inter;color:#6B6466;margin-top:40px}
+.num{font:900 300px/1 Inter;color:#D52B1E;margin-top:470px;letter-spacing:-.04em}
+.dd{display:inline-block;background:#D52B1E;color:#fff;font:900 120px/1 Inter;padding:26px 40px;border-radius:28px;margin-top:620px}
+.ttl{font:900 104px/1 Inter;margin-top:50px;letter-spacing:-.02em}
+.txt{font:600 50px/1.35 Inter;color:#6B6466;margin-top:30px}
+.ok{display:inline-block;margin-top:60px;background:#FFD200;font:800 46px/1.3 Inter;padding:24px 34px;border-radius:22px}
+.red{background:#D52B1E;color:#fff}.red .k,.red em{color:#FFD200}.red .s,.red .txt{color:rgba(255,255,255,.85)}
+.cta{margin-top:90px;height:150px;border-radius:30px;background:#151314;color:#fff;display:flex;align-items:center;justify-content:center;font:900 64px/1 Inter}
+.legal{position:absolute;left:80px;right:80px;bottom:90px;font:500 26px/1.4 Inter;color:rgba(255,255,255,.75)}
+</style></head><body>
+<div class="brand" id="brand">AKTIONS.CH</div><div id="stage"></div><div class="bar" id="bar"></div>
+<script>
+const R=new URLSearchParams(location.search).get('r')||'dates';
+const DATES=[["16.11.","Digitec & Galaxus","1000+ Deals, alle ab Tag 1 – bis 30.11."],["23.11.","Black Week","Die meisten Schweizer Shops starten"],["27.11.","Black Friday","Der Höhepunkt – Deals ab Mitternacht"],["30.11.","Cyber Monday","Online-Verlängerung, letzte Chance"]];
+const TRICKS=[["«Statt»-Preis = UVP","Den Preis zahlt kaum jemand. Vergleiche mit dem Preisverlauf.","✓ Tiefstpreis bei jedem Top-100-Produkt"],["Preis vorher erhöht","Manche Shops heben Preise kurz vor Black Friday an.","✓ «Jetzt kaufen» nur nahe am Bestpreis"],["Falscher Zeitdruck","«Nur noch heute!» – stimmt oft nicht.","✓ Echte Enddaten bei jedem Deal"]];
+let scenes=[];
+if(R==='dates'){
+ scenes.push({d:2.4,h:`<div class="k">Black Friday Schweiz 2026</div><div class="t">4 Termine, die du <em>kennen musst</em></div><div class="s">Speichern & teilen 🔖</div>`});
+ DATES.forEach(([d,t,x])=>scenes.push({d:2.4,h:`<div class="dd">${d}</div><div class="ttl">${t}</div><div class="txt">${x}</div>`}));
+ scenes.push({d:3.2,cls:'red',h:`<div class="k">Jeden Tag geprüft</div><div class="t">Alle Live-Deals auf <em>aktions.ch</em></div><div class="cta">Link in Bio →</div><div class="legal">Anzeige: Affiliate-Links. Daten laut Shops, Stand 17.11.2026.</div>`});
+}else{
+ scenes.push({d:2.6,h:`<div class="k">Black Friday 2026</div><div class="t">3 Tricks gegen <em>Fake-Rabatte</em></div><div class="s">Bevor du am 27.11. zuschlägst</div>`});
+ TRICKS.forEach(([t,x,ok],i)=>scenes.push({d:3.0,h:`<div class="num">${i+1}</div><div class="ttl">${t}</div><div class="txt">${x}</div><div class="ok">${ok}</div>`}));
+ scenes.push({d:3.2,cls:'red',h:`<div class="k">AKTIONS.CH</div><div class="t">Wir rechnen <em>nach.</em> Du sparst.</div><div class="cta">Link in Bio →</div><div class="legal">Anzeige: Affiliate-Links. Unabhängige Preisprüfung, Stand 17.11.2026.</div>`});
+}
+const st=document.getElementById('stage');
+st.innerHTML=scenes.map((s,i)=>`<section class="sc ${s.cls||''}">${s.h}</section>`).join('');
+const S=[...st.children]; let t0=0; const W=scenes.map(s=>{const w=[t0,t0+s.d];t0+=s.d;return w}); window.DUR=t0;
+const cl=x=>Math.max(0,Math.min(1,x)),ease=t=>1-Math.pow(1-cl(t),3),back=t=>{t=cl(t);const c=1.9;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)};
+window.render=function(t){
+ S.forEach((s,i)=>{const[a,b]=W[i];const vis=t>=a&&(t<b||i===S.length-1);s.style.opacity=vis?1:0;if(!vis)return;const lt=t-a;
+  const out=i<S.length-1?ease((t-(b-.22))/.22):0; s.style.transform=`translateX(${-out*1080}px)`;
+  [...s.children].forEach((e,k)=>{const big=e.classList.contains('dd')||e.classList.contains('num')||e.classList.contains('cta');const p=big?back((lt-k*.12)/.45):ease((lt-k*.12)/.4);
+   e.style.opacity=cl((lt-k*.12)/.2); e.style.transform=big?`scale(${.5+.5*p})`:`translateY(${(1-p)*70}px)`; e.style.transformOrigin='left center';});
+ });
+ const red=S.findIndex((s,i)=>t>=W[i][0]&&t<W[i][1]); document.getElementById('brand').style.color=(scenes[red]||{}).cls==='red'?'#FFD200':'#D52B1E';
+ document.getElementById('bar').style.width=(cl(t/window.DUR)*1080)+'px';
+};
+render(0);
+</script></body></html>
