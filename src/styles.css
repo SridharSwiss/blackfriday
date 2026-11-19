@@ -656,3 +656,7 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
 }
 /* featured cards: fixed light-on-fire colours in every theme (the panel is always red/orange) */
 .fp,.fp .fp-name{color:#151314}.fp .fp-shop{color:#5d5658}.fp .fp-price s{color:#8a8384}.fp .fp-price b{color:#151314}
+
+/* buy score pill */
+.pill.buy{background:color-mix(in srgb,var(--info,#2563eb) 14%,transparent);color:var(--info,#2563eb);margin-left:auto}
+.card .top{gap:6px}

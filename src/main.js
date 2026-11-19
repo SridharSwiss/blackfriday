@@ -88,6 +88,24 @@ const EUR_CHF = 0.94;
 const chfSave = d => (d.save || 0) * (d.cur === "EUR" ? EUR_CHF : 1);
 const BEST = LIVE.filter(d => d.show != null && d.reg && d.off >= 25).sort((a, b) => chfSave(b) - chfSave(a)).slice(0, 24);
 BEST.forEach((d, i) => { d.bestRank = i + 1; });
+/* Buy score (0–100): how likely a shopper is to buy this deal. A transparent heuristic, not measured conversion data:
+   discount depth 35 · CHF saved (log) 15 · impulse-friendly price 15 · category demand 10 · known brand 10 · delivery/trust 10 · urgency 5. */
+const HOT_CAT = { Phones: 10, TV: 10, Audio: 9, Gaming: 10, Appliances: 8, Coffee: 9, "Robot vacuums": 9, Computers: 8, Tablets: 8, Wearables: 8, Kitchen: 7, Fashion: 8, Shoes: 8, Sport: 7, Beauty: 8, Toys: 8, "Smart Home": 7, Telecom: 6, Home: 6, Furniture: 5 };
+const BRANDS = /\b(apple|iphone|ipad|macbook|airpods|samsung|galaxy|sony|playstation|ps5|nintendo|xbox|lg|philips|dyson|nespresso|de'?longhi|bosch|miele|siemens|lego|bose|jbl|garmin|nike|adidas|on running|\bon\b|lenovo|hp|dell|logitech|sonos|roborock|irobot|braun|oral-b|ninja|k[aä]rcher|ikea|north face|levi|asics|puma|hugo boss|google|pixel|xiaomi|dji|gopro|canon|nikon|fitbit|kindle)\b/i;
+const TRUST = { galaxus: 10, digitec: 10, brack: 10, fust: 10, mediamarkt: 10, interdiscount: 10, manor: 10, ikea: 10, pfister: 9, zalando: 10, decathlon: 9, coop: 9, daydeal: 7, blickdeal: 6, lenovo: 8, sonos: 9, amazon: 6 };
+function buyScore(d) {
+  if (d.show == null || !d.off) return d.percent ? Math.min(60, 20 + d.percent / 2) : 25;
+  const chf = (d.save || 0) * (d.cur === "EUR" ? 0.94 : d.cur === "USD" ? 0.8 : 1), p = d.show * (d.cur === "EUR" ? 0.94 : d.cur === "USD" ? 0.8 : 1);
+  const depth = Math.min(d.off, 50) / 50 * 35;
+  const saved = Math.min(15, Math.log10(1 + chf) / Math.log10(1 + 500) * 15);
+  const price = p <= 30 ? 15 : p <= 150 ? 13 : p <= 400 ? 10 : p <= 900 ? 7 : p <= 1800 ? 4 : 2;
+  const cat = HOT_CAT[d.cat] ?? 5, brand = BRANDS.test(d.name) ? 10 : 3;
+  const trust = d.region === "us" ? 3 : (TRUST[d.shop] ?? 6);
+  const days = d.until ? (new Date(d.until + "T12:00:00Z") - Date.now()) / 864e5 : 99;
+  const urg = days <= 3 ? 5 : days <= 7 ? 3 : 0;
+  return Math.round(Math.min(100, depth + saved + price + cat + brand + trust + urg));
+}
+[...LIVE, ...US].forEach(d => { d.buy = buyScore(d); });
 // Only discounted / deal items are shown: verified live CH deals + priced US deals. The old Top-100 tracker, the undiscounted catalogue and price-less lines are no longer listed.
 const ALL = LIVE.concat(US);
 const BY_ID = new Map(ALL.map(d => [d.id, d]));
@@ -185,6 +203,7 @@ function list() {
     (!state.drops || d.drop || d.isNew) &&
     (!term || (d.name + " " + d.spec + " " + d.cat).toLowerCase().includes(term)));
   const by = {
+    buy: (a, b) => (b.buy ?? 0) - (a.buy ?? 0) || (b.off || 0) - (a.off || 0),
     rank: state.tab === "best" && !term ? (a, b) => a.bestRank - b.bestRank : (a, b) => (a.region === b.region ? a.rank - b.rank : a.region === "ch" ? -1 : 1),
     save: (a, b) => (b.off ?? (b.now ? b.save / b.now * 100 : 0)) - (a.off ?? (a.now ? a.save / a.now * 100 : 0)) || a.rank - b.rank,
     low: (a, b) => (a.show ?? 1e9) - (b.show ?? 1e9) || a.rank - b.rank,
@@ -213,7 +232,7 @@ function card(d) {
   return `<article class="card${d.pick ? " is-pick" : ""}">
     <div class="tw">${thumb(d)}${badge}<button class="heart${watched(d) ? " on" : ""}" type="button" data-w="${d.id}" aria-pressed="${watched(d)}" aria-label="Save ${esc(d.name)} to My list">${heartSvg}</button></div>
     <div class="body">
-      <div class="top"><span class="r">${d.top ? `#<b>${d.rank}</b>`  : ""}</span><span class="c">${esc(d.cat)}</span>${d.isNew ? `<span class="pill new">${T("newBadge")}</span>` : ""}<span class="pill ${d.status}">${d.region === "live" ? esc(SHOPS[d.shop] ? SHOPS[d.shop].name : d.shop) : LABEL[d.status]}</span></div>
+      <div class="top"><span class="r">${d.top ? `#<b>${d.rank}</b>`  : ""}</span><span class="c">${esc(d.cat)}</span>${d.buy != null ? `<span class="pill buy" title="${esc(T("buyTip"))}">🛒 ${d.buy}</span>` : ""}${d.isNew ? `<span class="pill new">${T("newBadge")}</span>` : ""}<span class="pill ${d.status}">${d.region === "live" ? esc(SHOPS[d.shop] ? SHOPS[d.shop].name : d.shop) : LABEL[d.status]}</span></div>
       <button class="name" type="button" data-d="${d.id}">${esc(d.name)}</button>
       <div class="priceline">${priceLine(d)}</div>
       <div class="btns">${(() => { const all = cardShops(d), vis = all.slice(0, 2), more = all.length - vis.length;
@@ -657,7 +676,8 @@ if (LANG !== "en") {
     <option value="low">${T("sortLow")}</option>
     <option value="high">${T("sortHigh")}</option>
     <option value="az">${T("sortAZ")}</option>
-    <option value="ends">${T("sortEnds")}</option>`;
+    <option value="ends">${T("sortEnds")}</option>
+    <option value="buy">${T("sortBuy")}</option>`;
   // Bottom nav text nodes
   const bnMap = { "b-live": "tabLive", "b-best": "bestTag", "b-top": "tabTop", "b-categories": "tabCat", "b-us": "tabUS", "b-list": "tabList", "b-more": "moreLabel" };
   for (const [id, key] of Object.entries(bnMap)) {
