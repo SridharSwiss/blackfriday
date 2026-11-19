@@ -1,5 +1,5 @@
-/* BlackFridayDeals.ch source agent - Swiss Black Friday aggregator */
-import { SourceAgent, cleanText } from "../source-agent.mjs";
+/* BlackFridayDeals.ch source agent - two-level crawl */
+import { SourceAgent, cleanText, parseMoney } from "../source-agent.mjs";
 import { extractLinks, extractText, extractPriceInfo, extractTitle } from "../html-helper.mjs";
 
 const BASE = "https://www.blackfridaydeals.ch/";
@@ -13,18 +13,45 @@ export class BlackFridayDealsAgent extends SourceAgent {
     });
   }
 
+  async run() {
+    console.log(`[${this.name}] Starting research at ${this.baseUrl}`);
+    const results = [];
+    try {
+      const listingHtml = await this.fetch(this.baseUrl);
+      const urls = await this.extractDealUrls(listingHtml);
+      console.log(`[${this.name}] Found ${urls.length} candidate URLs`);
+
+      for (const url of urls.slice(0, 25)) {
+        try {
+          const html = await this.fetch(url);
+          const fields = await this.extractDealFields(html, url);
+          if (fields && fields.name && (fields.price != null || fields.percent != null)) {
+            results.push({ source: this.name, url, checked: new Date().toISOString().slice(0, 10), ...fields });
+            console.log(`[${this.name}] ✓ ${fields.name} ${fields.price != null ? fields.price : fields.percent}%`);
+          }
+        } catch (e) {
+          console.log(`[${this.name}] ✗ ${url} - ${e.message}`);
+        }
+      }
+    } catch (e) {
+      console.log(`[${this.name}] ERROR: ${e.message}`);
+    }
+    console.log(`[${this.name}] Complete: ${results.length} deals extracted`);
+    return results;
+  }
+
   async extractDealUrls(html) {
     const urls = [];
     const links = extractLinks(html, BASE);
     const seen = new Set();
     for (const { url, text } of links) {
       const matches = this.dealPathPatterns.some(p => url.includes(p));
-      if (matches && text.length > 5 && !seen.has(url)) {
+      if (matches && text.length > 3 && !seen.has(url)) {
         seen.add(url);
         urls.push(url);
       }
     }
-    return urls.slice(0, 30);
+    return urls;
   }
 
   async extractDealFields(html, url) {
@@ -35,7 +62,7 @@ export class BlackFridayDealsAgent extends SourceAgent {
     const untilMatch = text.match(/bis\s*(\d{1,2}\.\d{1,2}\.\d{4})/i);
 
     return {
-      name: name || "Deal from BlackFridayDeals.ch",
+      name,
       price: info.price,
       was: info.was,
       cur: "CHF",

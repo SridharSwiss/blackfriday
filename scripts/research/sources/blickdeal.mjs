@@ -1,6 +1,6 @@
-/* Blick Deal source agent - Blick's daily/weekly deals */
-import { SourceAgent, cleanText, parseMoney } from "../source-agent.mjs";
-import { extractLinks, extractText } from "../html-helper.mjs";
+/* Blick Deal source agent */
+import { SourceAgent, cleanText } from "../source-agent.mjs";
+import { extractLinks, extractText, extractPriceInfo, extractTitle } from "../html-helper.mjs";
 
 const BASE = "https://box.blick.ch/";
 
@@ -10,8 +10,34 @@ export class BlickDealAgent extends SourceAgent {
       name: "Blick Deal",
       baseUrl: BASE,
       dealPathPatterns: ["/deals/", "/deal/"],
-      selectors: { name: "h1", price: ".price", was: ".was", percent: "-%" },
     });
+  }
+
+  async run() {
+    console.log(`[${this.name}] Starting research at ${this.baseUrl}`);
+    const results = [];
+    try {
+      const listingHtml = await this.fetch(this.baseUrl);
+      const urls = await this.extractDealUrls(listingHtml);
+      console.log(`[${this.name}] Found ${urls.length} candidate URLs`);
+
+      for (const url of urls.slice(0, 25)) {
+        try {
+          const html = await this.fetch(url);
+          const fields = await this.extractDealFields(html, url);
+          if (fields && fields.name && (fields.price != null || fields.percent != null)) {
+            results.push({ source: this.name, url, checked: new Date().toISOString().slice(0, 10), ...fields });
+            console.log(`[${this.name}] ✓ ${fields.name} ${fields.price != null ? fields.price : fields.percent}%`);
+          }
+        } catch (e) {
+          console.log(`[${this.name}] ✗ ${url} - ${e.message}`);
+        }
+      }
+    } catch (e) {
+      console.log(`[${this.name}] ERROR: ${e.message}`);
+    }
+    console.log(`[${this.name}] Complete: ${results.length} deals extracted`);
+    return results;
   }
 
   async extractDealUrls(html) {
@@ -20,29 +46,27 @@ export class BlickDealAgent extends SourceAgent {
     const seen = new Set();
     for (const { url, text } of links) {
       const matches = this.dealPathPatterns.some(p => url.includes(p));
-      if (matches && text.length > 5 && !seen.has(url)) {
+      if (matches && text.length > 3 && !seen.has(url)) {
         seen.add(url);
         urls.push(url);
       }
     }
-    return urls.slice(0, 30);
+    return urls;
   }
 
   async extractDealFields(html, url) {
     const text = extractText(html);
-    const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/i);
-    const name = cleanText(titleMatch ? titleMatch[1] : "") || "Deal from Blick Deal";
-    const priceMatch = text.match(/CHF\s*([\d'.,]+)/);
-    const wasMatch = text.match(/statt\s*CHF\s*([\d'.,]+)/i) || text.match(/regulär\s*CHF\s*([\d'.,]+)/i);
-    const percentMatch = text.match(/−?(\d+)%/) || text.match(/(\d+)%\s*rabatt/i);
+    const title = extractTitle(html);
+    const name = cleanText(title || "") || "Deal from Blick Deal";
+    const info = extractPriceInfo(text);
     const untilMatch = text.match(/bis\s*(\d{1,2}\.\d{1,2}\.\d{4})/i);
 
     return {
-      name: name || "Deal from Blick Deal",
-      price: priceMatch ? parseMoney(priceMatch[1]) : null,
-      was: wasMatch ? parseMoney(wasMatch[1]) : null,
+      name,
+      price: info.price,
+      was: info.was,
       cur: "CHF",
-      percent: percentMatch ? parseInt(percentMatch[1]) : null,
+      percent: info.percent,
       until: untilMatch ? this.parseDeDate(untilMatch[1]) : null,
       note: "Confirmed by Blick Deal",
       src: [url, BASE],

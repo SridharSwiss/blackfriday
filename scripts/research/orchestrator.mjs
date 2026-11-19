@@ -1,6 +1,6 @@
 /* Orchestrator: runs all source agents, aggregates, deduplicates, verifies URLs,
    applies the two-source confirmation rule, and updates src/data/live-ch.js.
-   Rate limit: 40 RPM (1 request per 1.5s) shared across all agents. */
+   Rate limit: disabled (fire immediately). */
 
 import fs from "fs";
 import path from "path";
@@ -81,6 +81,14 @@ const normalizeName = s => String(s || "").toLowerCase()
   .replace(/[^a-z0-9äöüß]/g, "")
   .replace(/ä/g, "a").replace(/ö/g, "o").replace(/ü/g, "u").replace(/ß/g, "s");
 
+const keywordOverlap = (a, b) => {
+  const aw = new Set(a.toLowerCase().split(/\s+/).filter(w => w.length > 2));
+  const bw = new Set(b.toLowerCase().split(/\s+/).filter(w => w.length > 2));
+  if (aw.size === 0 || bw.size === 0) return 0;
+  const overlap = [...aw].filter(w => bw.has(w)).length;
+  return overlap / Math.min(aw.size, bw.size);
+};
+
 const BRAND_KEYWORDS = [
   "lenovo", "hp", "apple", "samsung", "sony", "lg", "dyson", "philips", "fust",
   "mediamarkt", "interdiscount", "digitec", "galaxus", "coop", "sunrise", "swisscom",
@@ -88,19 +96,6 @@ const BRAND_KEYWORDS = [
   "nintendo", "microsoft", "acer", "asus", "dell", "canon", "nikon", "garmin",
   "jbl", "bose", "adidas", "nike", "zalando", "manor", "decathlon",
 ];
-
-const keywordOverlap = (a, b) => {
-  const aw = new Set(a.toLowerCase().split(/\s+/).filter(w => w.length > 2));
-  const bw = new Set(b.toLowerCase().split(/\s+/).filter(w => w.length > 2));
-  if (aw.size === 0 || bw.size === 0) return 0;
-  const overlap = [...aw].filter(w => bw.has(w)).length;
-  const base = overlap / Math.min(aw.size, bw.size);
-  // Brand-level boost: if both mention the same brand, boost score
-  const aBrands = BRAND_KEYWORDS.filter(b => a.toLowerCase().includes(b));
-  const bBrands = BRAND_KEYWORDS.filter(b => b.toLowerCase().includes(b));
-  const brandOverlap = aBrands.filter(b => bBrands.includes(b)).length > 0 ? 0.5 : 0;
-  return Math.min(1, base + brandOverlap);
-};
 
 function parseExistingLiveCh(content) {
   const deals = [];
@@ -171,18 +166,19 @@ function deduplicateAndValidate(results) {
       return bScore > aScore ? b : a;
     });
 
-    // Validate: need a real price (>= 5 CHF) or valid percent (1-90) with was
+    // Validate: need a real price (>5 CHF) or valid percent + was
     const hasValidPrice = base.price != null && base.price >= 5 && base.price < 100000;
     const hasValidWas = base.was != null && base.was > base.price && base.was < 100000;
     const hasValidPercent = base.percent != null && base.percent >= 1 && base.percent <= 90;
-
     const isValid = hasValidPrice || (hasValidWas && hasValidPercent);
 
     validated.push({
       ...base,
-      sources, sourceCount: sources.length,
+      sources,
+      sourceCount: sources.length,
       confirmed: sources.length >= 2 && isValid,
-      allUrls: urls, allSrcs: srcs,
+      allUrls: urls,
+      allSrcs: srcs,
     });
   }
   return validated;
@@ -231,7 +227,7 @@ function updateLiveChFile(newDeals) {
 export async function runResearch() {
   console.log("========================================");
   console.log("Agentic Black Friday Deal Research");
-  console.log("Date:", TODAY, "| Rate limit: 40 RPM");
+  console.log("Date:", TODAY, "| Rate limit: disabled");
   console.log("========================================\n");
 
   const results = await runAllSources();
@@ -251,7 +247,6 @@ export async function runResearch() {
       verified.push(d);
       console.log(`[Orchestrator] ✓ URL working: ${d.url} (${check.status})`);
     } else {
-      // Lenient: if confirmed by 2+ sources, still include but flag
       console.log(`[Orchestrator] ⚠ URL verification failed: ${d.url} (${check.status}) - including anyway (${d.sourceCount} sources)`);
       verified.push(d);
     }

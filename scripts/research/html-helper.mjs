@@ -51,7 +51,7 @@ export function extractPriceInfo(text) {
   const chfPrices = [];
   for (const m of text.matchAll(/CHF\s*([\d'.,]+)/gi)) {
     const v = parseMoney(m[1]);
-    if (v != null && v > 5 && v < 100000) chfPrices.push(v); // filter out tiny false positives
+    if (v != null && v > 5 && v < 100000) chfPrices.push(v);
   }
   if (chfPrices.length >= 2) {
     result.price = chfPrices[0];
@@ -60,7 +60,7 @@ export function extractPriceInfo(text) {
     result.price = chfPrices[0];
   }
 
-  // Percent discount: -30%, 30% rabatt, −41% RABATT (only capture realistic discounts)
+  // Percent discount: -30%, 30% rabatt, −41% RABATT
   const pctMatch = text.match(/−?\s*(\d{1,3})\s*%/);
   if (pctMatch) {
     const pct = parseInt(pctMatch[1]);
@@ -73,4 +73,10 @@ export function extractPriceInfo(text) {
 export function extractTitle(html) {
   const m = html.match(/<title>([\s\S]*?)<\/title>/i);
   return m ? cleanText(m[1]) : null;
+}
+
+export function parseDeDate(s) {
+  const m = s.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/);
+  if (!m) return null;
+  return `${m[3]}-${String(m[2]).padStart(2, "0")}-${String(m[1]).padStart(2, "0")}`;
 }
