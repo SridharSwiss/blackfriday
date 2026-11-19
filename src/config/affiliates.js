@@ -32,6 +32,8 @@ export const AMAZON_DE_STOREFRONT = "https://www.amazon.de/-/en?&linkCode=ll2&ta
 export const AMAZON_DE_BLACKFRIDAY = "https://www.amazon.de/-/en/blackfriday?_encoding=UTF8&pf_rd_p=a17ed1e1-132b-4bd6-8a81-ad71dce3051f&pf_rd_s=nav-sitewide-msg&pf_rd_t=4201&pf_rd_i=navbar-4201&pf_rd_m=A1PA6795UKMFR9&pf_rd_r=8TF06FPZ7SRRT33AMHZF&linkCode=sl2&tag=blackfrida08d-21&linkId=3fa4726efee60c06abc0a83589529983&ref_=as_li_ss_tl";
 export function affLink(shop, url){
   const c = AFF[shop] || {};
+  // Any Amazon link gets the right PartnerNet/Associates tag, whichever shop key it is filed under
+  try { const h = new URL(url).hostname; const t = /(^|\.)amazon\.de$/.test(h) ? AFF.amazon.tag : /(^|\.)amazon\.com$/.test(h) ? AFF.amazoncom.tag : null; if (t) { const u = new URL(url); u.searchParams.set("tag", t); return u.toString(); } } catch (e) {}
   if (shop === "amazon" && /^https:\/\/www\.amazon\.de\/?$/.test(url)) return AMAZON_DE_STOREFRONT;
   if (c.network === "none") return url;
   const u = new URL(url);
