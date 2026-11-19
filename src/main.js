@@ -88,7 +88,8 @@ const EUR_CHF = 0.94;
 const chfSave = d => (d.save || 0) * (d.cur === "EUR" ? EUR_CHF : 1);
 const BEST = LIVE.filter(d => d.show != null && d.reg && d.off >= 25).sort((a, b) => chfSave(b) - chfSave(a)).slice(0, 24);
 BEST.forEach((d, i) => { d.bestRank = i + 1; });
-const ALL = LIVE.concat(DEALS, US, US_LINES);
+// Only discounted / deal items are shown: verified live CH deals + priced US deals. The old Top-100 tracker, the undiscounted catalogue and price-less lines are no longer listed.
+const ALL = LIVE.concat(US);
 const BY_ID = new Map(ALL.map(d => [d.id, d]));
 
 /* Price memory: each visit stores today's prices. A visit more than 6 h after the last one compares against it,
@@ -111,23 +112,27 @@ const MEM = (() => {
   return base || null;
 })();
 const POOLS = {
-  live: LIVE,
+  live: LIVE.concat(US),
   best: BEST,
-  top: DEALS.filter(d => d.top),
-  categories: DEALS.filter(d => !d.top),
-  us: US.concat(US_LINES)
+  top: [],
+  categories: [],
+  us: US
 };
 const CAT_ORDER = cats => [...new Set(cats)].sort((a, b) => a === WINTER ? -1 : b === WINTER ? 1 : a.localeCompare(b));
 const LABEL = { buy: T("statusBuy"), wait: T("statusWaitS"), track: T("statusTrack"), check: T("statusCheck"), live: T("statusLive"), lastyear: T("statusLY"), early: T("statusEarly") };
 
 /* ---------------- state ---------------- */
-const PRODUCT_TABS = ["live", "best", "top", "categories", "us", "list"];
+const PRODUCT_TABS = ["live", "list"];
 const TABS = [...PRODUCT_TABS, "calendar", "retailers", "guide"];
-const defaults = { tab: LIVE.length ? "live" : "top", cat: "All", q: "", status: "all", sort: "rank", store: "all", price: "all", page: 0, drops: false };
+// Old tabs now live inside the Live deals page as filter presets
+const LEGACY = { top: {}, categories: {}, best: { minOff: 25, sort: "save" }, us: { region: "us" } };
+const defaults = { tab: "live", cat: "All", q: "", status: "all", sort: "rank", store: "all", price: "all", region: "all", minOff: 0, type: "all", page: 0, drops: false };
 let state = { ...defaults, watch: [], theme: "" };
 try { Object.assign(state, JSON.parse(localStorage.getItem("bf26v5") || "{}")); } catch (e) {}
 state.watch = Array.isArray(state.watch) ? state.watch.filter(id => BY_ID.has(id)) : [];
 if (!MEM) state.drops = false;
+if (!TABS.includes(state.tab)) state.tab = "live";
+state.minOff = +state.minOff || 0; state.status = "all";
 const save = () => { try { localStorage.setItem("bf26v5", JSON.stringify(state)); } catch (e) {} };
 const $ = id => document.getElementById(id);
 const mobile = () => matchMedia("(max-width: 760px), (max-height: 560px)").matches;
@@ -173,6 +178,9 @@ function list() {
     (global || state.drops || state.cat === "All" || d.cat === state.cat || state.tab === "list") &&
     (state.status === "all" || d.status === state.status) &&
     (state.store === "all" || d.shops.includes(state.store)) &&
+    (state.region === "all" || (state.region === "us") === (d.region === "us")) &&
+    (!state.minOff || (d.off || 0) >= state.minOff) &&
+    (state.type === "all" || d.type === state.type) &&
     inRange(d) &&
     (!state.drops || d.drop || d.isNew) &&
     (!term || (d.name + " " + d.spec + " " + d.cat).toLowerCase().includes(term)));
@@ -181,7 +189,8 @@ function list() {
     save: (a, b) => (b.off ?? (b.now ? b.save / b.now * 100 : 0)) - (a.off ?? (a.now ? a.save / a.now * 100 : 0)) || a.rank - b.rank,
     low: (a, b) => (a.show ?? 1e9) - (b.show ?? 1e9) || a.rank - b.rank,
     high: (a, b) => (b.show ?? -1) - (a.show ?? -1) || a.rank - b.rank,
-    az: (a, b) => a.name.localeCompare(b.name)
+    az: (a, b) => a.name.localeCompare(b.name),
+    ends: (a, b) => (a.until || "9999").localeCompare(b.until || "9999") || (b.off || 0) - (a.off || 0)
   };
   return l.sort(by[state.sort] || by.rank);
 }
@@ -331,7 +340,7 @@ function renderGrid() {
   }
   $("grid").innerHTML = vis.length ? vis.map(card).join("") : emptyState();
   $("count").textContent = `${l.length.toLocaleString(LANG === "en" ? "en-US" : LANG)} ${T("deals")}`;
-  const filtered = state.drops || state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && (state.tab === "categories" || state.tab === "top")) || (state.cat !== "All" && (state.tab === "us" || state.tab === "live"));
+  const filtered = state.region !== "all" || state.minOff > 0 || state.type !== "all" || state.drops || state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && (state.tab === "categories" || state.tab === "top")) || (state.cat !== "All" && (state.tab === "us" || state.tab === "live"));
   $("reset").hidden = !filtered;
 }
 function renderFilters() {
@@ -363,8 +372,15 @@ function renderFilters() {
   if (t !== "top") state.status = "all";
   $("status").value = state.status; $("price").value = state.price; $("sort").value = state.sort;
   $("winterbar").hidden = !(t === "categories" && state.cat === WINTER);
-  $("usbar").hidden = t !== "us";
-  $("livebar").hidden = t !== "live" && t !== "best";
+  $("usbar").hidden = !(t === "live" && state.region === "us");
+  $("region").innerHTML = [["all", "regionAll"], ["ch", "regionCH"], ["us", "regionUS"]].map(([v, k]) => `<option value="${v}">${T(k)}</option>`).join("");
+  $("minoff").innerHTML = `<option value="0">${T("offAny")}</option>` + [10, 20, 30, 50].map(n => `<option value="${n}">${n} ${T("offSuffix")}</option>`).join("");
+  $("region").value = state.region; $("minoff").value = String(state.minOff);
+  const types = [...new Set(p.map(d => d.type).filter(Boolean))].sort();
+  if (state.type !== "all" && !types.includes(state.type)) state.type = "all";
+  $("type").innerHTML = `<option value="all">${T("typeAll")}</option>` + types.map(x => `<option value="${esc(x)}"${x === state.type ? " selected" : ""}>${esc(x)}</option>`).join("");
+  $("region").hidden = $("minoff").hidden = $("type").hidden = t !== "live";
+  $("livebar").hidden = t !== "live";
   $("clear-list").hidden = !(t === "list" && state.watch.length);
   const locN = n => n.toLocaleString(LANG === "en" ? "en-US" : LANG);
   const lead = {
@@ -389,7 +405,8 @@ function updateCounts() {
 
 /* ---------------- tabs ---------------- */
 function showTab(t, opts = {}) {
-  if (!TABS.includes(t)) t = "top";
+  if (LEGACY[t]) { const m = LEGACY[t]; t = "live"; if (m.minOff) state.minOff = m.minOff; if (m.sort) state.sort = m.sort; state.region = m.region || "all"; if (!m.region) state.store = state.store; }
+  if (!TABS.includes(t)) t = "live";
   if (state.tab !== t && !opts.keep) { state.page = 0; mobileShown = 12; if (!opts.cat) state.cat = "All"; }
   if (opts.cat) state.cat = opts.cat;
   state.tab = t; save();
@@ -513,10 +530,7 @@ function renderRetailers() {
 function renderStatic() {
   $("winter-cta").innerHTML = PARTNER_LINKS.map((l, i) => `<a class="${i === 0 ? "primary" : ""}" href="${esc(l.url)}" target="_blank" rel="sponsored nofollow noopener">${esc(l.label)} ${ext}</a>`).join("");
   $("faq").innerHTML = FAQ.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
-  $("n-cat").textContent = POOLS.categories.length.toLocaleString("en-US");
-  $("n-live").textContent = LIVE.length;
-  $("n-best").textContent = BEST.length;
-  $("n-us").textContent = US.length + US_LINES.length;
+  $("n-live").textContent = POOLS.live.length;
   renderCalendar(); renderRetailers();
 }
 function tick() {
@@ -534,7 +548,7 @@ function applyTheme() {
 /* ---------------- events ---------------- */
 const refresh = () => { state.page = 0; mobileShown = 12; save(); renderGrid(); };
 document.querySelectorAll("[data-tab]").forEach(b => b.addEventListener("click", () => showTab(b.dataset.tab)));
-document.querySelectorAll("[data-cat]").forEach(b => b.addEventListener("click", () => showTab("categories", { cat: b.dataset.cat })));
+document.querySelectorAll("[data-cat]").forEach(b => b.addEventListener("click", () => showTab("live", { cat: b.dataset.cat })));
 $("go-list").onclick = () => showTab("list");
 $("b-more").onclick = e => { e.stopPropagation(); $("moresheet").hidden = !$("moresheet").hidden; };
 $("moresheet").onclick = e => { if (e.target.id === "moresheet") $("moresheet").hidden = true; };
@@ -542,15 +556,18 @@ $("catChips").onclick = e => { const b = e.target.closest("[data-chip]"); if (!b
 $("catSel").onchange = e => { state.cat = e.target.value; state.page = 0; mobileShown = 12; renderFilters(); renderGrid(); save(); try { history.replaceState(null, "", "#" + (state.cat === WINTER ? "winter" : state.tab)); } catch (er) {} };
 $("store").onchange = e => { state.store = e.target.value; refresh(); };
 $("price").onchange = e => { state.price = e.target.value; refresh(); };
+$("region").onchange = e => { state.region = e.target.value; refresh(); };
+$("minoff").onchange = e => { state.minOff = +e.target.value; refresh(); };
+$("type").onchange = e => { state.type = e.target.value; refresh(); };
 $("status").onchange = e => { state.status = e.target.value; refresh(); };
 $("sort").onchange = e => { state.sort = e.target.value; refresh(); };
 $("q").oninput = e => {
   state.q = e.target.value;
-  if (!PRODUCT_TABS.includes(state.tab)) showTab("top", { keep: true });
+  if (!PRODUCT_TABS.includes(state.tab)) showTab("live", { keep: true });
   renderFilters();
   refresh();
 };
-const resetFilters = () => { Object.assign(state, { q: "", store: "all", price: "all", status: "all", drops: false, cat: state.tab === "top" || state.tab === "list" ? "All" : "All" }); $("q").value = ""; renderFilters(); refresh(); };
+const resetFilters = () => { Object.assign(state, { q: "", store: "all", price: "all", status: "all", region: "all", minOff: 0, type: "all", drops: false, cat: state.tab === "top" || state.tab === "list" ? "All" : "All" }); $("q").value = ""; renderFilters(); refresh(); };
 $("reset").onclick = resetFilters;
 $("clear-list").onclick = () => { state.watch = []; save(); updateCounts(); renderFilters(); renderGrid(); toast(T("clearedToast")); };
 $("prev").onclick = () => { state.page--; save(); renderGrid(); };
@@ -590,10 +607,10 @@ function route() {
   if (h.startsWith("p-") && BY_ID.has(h.slice(2))) {
     const d = BY_ID.get(h.slice(2));
     if (!$("modal").hidden) return openDetails(d, false);
-    showTab(d.top ? "top" : d.region === "us" ? "us" : d.region === "live" ? "live" : "categories", { noHash: true, cat: d.top || d.region === "us" || d.region === "live" ? undefined : d.cat });
+    showTab("live", { noHash: true });
     return openDetails(d, false);
   }
-  if (h === "winter") return showTab("categories", { cat: WINTER });
+  if (h === "winter") return showTab("live");
   if (TABS.includes(h)) return showTab(h, { keep: h === state.tab });
 }
 applyTheme();
@@ -639,7 +656,8 @@ if (LANG !== "en") {
     <option value="save">${T("sortSave")}</option>
     <option value="low">${T("sortLow")}</option>
     <option value="high">${T("sortHigh")}</option>
-    <option value="az">${T("sortAZ")}</option>`;
+    <option value="az">${T("sortAZ")}</option>
+    <option value="ends">${T("sortEnds")}</option>`;
   // Bottom nav text nodes
   const bnMap = { "b-live": "tabLive", "b-best": "bestTag", "b-top": "tabTop", "b-categories": "tabCat", "b-us": "tabUS", "b-list": "tabList", "b-more": "moreLabel" };
   for (const [id, key] of Object.entries(bnMap)) {

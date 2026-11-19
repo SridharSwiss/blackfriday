@@ -4,6 +4,7 @@
 
 export const STRINGS = {
   en: {
+    regionAll: "CH + US", regionCH: "Switzerland", regionUS: "USA", offAny: "Any discount", offSuffix: "%+ off", typeAll: "All deal types", sortEnds: "Ending soon",
     tabBest: "🔥 Top deals", leadBest: "Top <em>deals</em>", leadBestSub: (n) => `The ${n} most valuable live offers · biggest savings first`,
     bestTag: "Top deals", bestChecked: (d) => `checked ${d}`, bestTitle: "Most valuable deals right now", bestAll: "See all top deals",
     tabLive: "Live deals", leadLive: "Live <em>deals</em>", leadLiveSub: (n, d) => `${n} offers in Switzerland · checked ${d}`, liveInfo: "",
@@ -59,6 +60,7 @@ export const STRINGS = {
     langLabel: "EN",
   },
   de: {
+    regionAll: "CH + USA", regionCH: "Schweiz", regionUS: "USA", offAny: "Jeder Rabatt", offSuffix: "%+ Rabatt", typeAll: "Alle Angebotsarten", sortEnds: "Endet bald",
     tabBest: "🔥 Top-Deals", leadBest: "Top-<em>Deals</em>", leadBestSub: (n) => `Die ${n} wertvollsten Live-Angebote · grösste Ersparnis zuerst`,
     bestTag: "Top-Deals", bestChecked: (d) => `geprüft am ${d}`, bestTitle: "Die wertvollsten Deals im Moment", bestAll: "Alle Top-Deals ansehen",
     tabLive: "Live-Deals", leadLive: "Live-<em>Deals</em>", leadLiveSub: (n, d) => `${n} Angebote in der Schweiz · geprüft am ${d}`, liveInfo: "",
@@ -114,6 +116,7 @@ export const STRINGS = {
     langLabel: "DE",
   },
   fr: {
+    regionAll: "CH + USA", regionCH: "Suisse", regionUS: "USA", offAny: "Toute remise", offSuffix: "%+ de remise", typeAll: "Tous types d'offres", sortEnds: "Bientôt terminé",
     tabBest: "🔥 Top offres", leadBest: "Top <em>offres</em>", leadBestSub: (n) => `Les ${n} offres live les plus avantageuses · plus grosse économie d'abord`,
     bestTag: "Top offres", bestChecked: (d) => `vérifiées le ${d}`, bestTitle: "Les offres les plus avantageuses du moment", bestAll: "Voir toutes les top offres",
     tabLive: "Offres live", leadLive: "Offres <em>live</em>", leadLiveSub: (n, d) => `${n} offres en Suisse · vérifiées le ${d}`, liveInfo: "",
@@ -169,6 +172,7 @@ export const STRINGS = {
     langLabel: "FR",
   },
   it: {
+    regionAll: "CH + USA", regionCH: "Svizzera", regionUS: "USA", offAny: "Qualsiasi sconto", offSuffix: "%+ di sconto", typeAll: "Tutti i tipi di offerta", sortEnds: "Scade presto",
     tabBest: "🔥 Top offerte", leadBest: "Top <em>offerte</em>", leadBestSub: (n) => `Le ${n} offerte live più convenienti · risparmio maggiore prima`,
     bestTag: "Top offerte", bestChecked: (d) => `verificate il ${d}`, bestTitle: "Le offerte più convenienti del momento", bestAll: "Vedi tutte le top offerte",
     tabLive: "Offerte live", leadLive: "Offerte <em>live</em>", leadLiveSub: (n, d) => `${n} offerte in Svizzera · verificate il ${d}`, liveInfo: "",
