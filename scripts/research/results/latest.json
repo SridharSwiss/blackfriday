@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-19",
+  "totalRaw": 65,
+  "totalValidated": 5,
+  "confirmed": 1,
+  "urlsWorking": 1,
+  "addedToWebpage": 1,
+  "totalDeals": 19,
+  "deals": [
+    {
+      "name": "Übersicht mit den besten Deals und Angebote der Schweiz - Preispirat",
+      "shop": "Preispirat",
+      "price": 18,
+      "was": 5,
+      "percent": 63,
+      "url": "https://www.preispirat.ch/deal/",
+      "sources": [
+        "Preispirat",
+        "Black-Friday.ch",
+        "Fust"
+      ],
+      "until": "2027-06-02",
+      "urlWorking": false
+    }
+  ]
+}
