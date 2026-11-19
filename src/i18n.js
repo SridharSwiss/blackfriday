@@ -4,6 +4,7 @@
 
 export const STRINGS = {
   en: {
+    waShare: "Share on WhatsApp", waWas: "was",
     sortBuy: "Most likely to buy", buyTip: "Buy score 0–100: how likely shoppers are to buy this deal — discount depth, CHF saved, price level, demand, brand, shop trust and urgency. A heuristic, not sales data.",
     regionAll: "CH + US", regionCH: "Switzerland", regionUS: "USA", offAny: "Any discount", offSuffix: "%+ off", typeAll: "All deal types", sortEnds: "Ending soon",
     tabBest: "🔥 Top deals", leadBest: "Top <em>deals</em>", leadBestSub: (n) => `The ${n} most valuable live offers · biggest savings first`,
@@ -61,6 +62,7 @@ export const STRINGS = {
     langLabel: "EN",
   },
   de: {
+    waShare: "Auf WhatsApp teilen", waWas: "statt",
     sortBuy: "Kaufwahrscheinlichkeit", buyTip: "Kaufscore 0–100: wie wahrscheinlich Kunden zugreifen – Rabatt, gesparte CHF, Preisniveau, Nachfrage, Marke, Shop-Vertrauen, Dringlichkeit. Eine Schätzung, keine Verkaufsdaten.",
     regionAll: "CH + USA", regionCH: "Schweiz", regionUS: "USA", offAny: "Jeder Rabatt", offSuffix: "%+ Rabatt", typeAll: "Alle Angebotsarten", sortEnds: "Endet bald",
     tabBest: "🔥 Top-Deals", leadBest: "Top-<em>Deals</em>", leadBestSub: (n) => `Die ${n} wertvollsten Live-Angebote · grösste Ersparnis zuerst`,
@@ -118,6 +120,7 @@ export const STRINGS = {
     langLabel: "DE",
   },
   fr: {
+    waShare: "Partager sur WhatsApp", waWas: "au lieu de",
     sortBuy: "Plus susceptible d'être acheté", buyTip: "Score d'achat 0–100 : probabilité d'achat — remise, CHF économisés, niveau de prix, demande, marque, confiance, urgence. Une estimation, pas des données de vente.",
     regionAll: "CH + USA", regionCH: "Suisse", regionUS: "USA", offAny: "Toute remise", offSuffix: "%+ de remise", typeAll: "Tous types d'offres", sortEnds: "Bientôt terminé",
     tabBest: "🔥 Top offres", leadBest: "Top <em>offres</em>", leadBestSub: (n) => `Les ${n} offres live les plus avantageuses · plus grosse économie d'abord`,
@@ -175,6 +178,7 @@ export const STRINGS = {
     langLabel: "FR",
   },
   it: {
+    waShare: "Condividi su WhatsApp", waWas: "invece di",
     sortBuy: "Più probabile da acquistare", buyTip: "Punteggio d'acquisto 0–100: probabilità d'acquisto — sconto, CHF risparmiati, prezzo, domanda, marca, fiducia, urgenza. Una stima, non dati di vendita.",
     regionAll: "CH + USA", regionCH: "Svizzera", regionUS: "USA", offAny: "Qualsiasi sconto", offSuffix: "%+ di sconto", typeAll: "Tutti i tipi di offerta", sortEnds: "Scade presto",
     tabBest: "🔥 Top offerte", leadBest: "Top <em>offerte</em>", leadBestSub: (n) => `Le ${n} offerte live più convenienti · risparmio maggiore prima`,

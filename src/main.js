@@ -160,6 +160,14 @@ let perPage = 12, mobileShown = 12;
 const money = (n, cur) => cur === "EUR" ? "€ " + n.toLocaleString("de-CH", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 }) : cur === "INR" ? "₹" + n.toLocaleString("en-IN") : cur === "USD" ? "$" + (Number.isInteger(n) ? n.toLocaleString("en-US") : n.toLocaleString("en-US", { minimumFractionDigits: 2 })) : "CHF " + fmt(n);
 const heartSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9-8.7C1.5 7.8 4 4.5 7.3 4.5c2 0 3.5 1.1 4.7 2.7 1.2-1.6 2.7-2.7 4.7-2.7 3.3 0 5.8 3.3 4.3 6.8-2 4.3-9 8.7-9 8.7z"/></svg>';
 const watched = d => state.watch.includes(d.id);
+const waSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-2.9-.4-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3z"/></svg>';
+// WhatsApp share link for one deal: name, price, discount, shop and a deep link back to this deal on the site
+const dealWa = d => {
+  const shop = d.shop && SHOPS[d.shop] ? SHOPS[d.shop].name : "";
+  const price = d.show != null ? money(d.show, d.cur) + (d.reg ? " (" + T("waWas") + " " + money(d.reg, d.cur) + (d.off ? ", −" + d.off + "%" : "") + ")" : "") : (d.percent ? "−" + d.percent + "%" : "");
+  const txt = "🔥 " + d.name + "\n" + [price, shop].filter(Boolean).join(" · ") + "\n" + location.origin + location.pathname + "#p-" + d.id;
+  return "https://wa.me/?text=" + encodeURIComponent(txt);
+};
 const fmtDay = (iso, full) => new Date(iso + "T12:00:00Z").toLocaleDateString(LANG === "en" ? "en-GB" : LANG + "-CH", { day: "numeric", month: "short", ...(full ? { year: "numeric" } : {}) });
 function toast(msg) {
   const t = $("toast"); t.textContent = msg; t.hidden = false;
@@ -230,7 +238,7 @@ function priceLine(d) {
 function card(d) {
   const badge = d.off ? `<span class="off">−${d.off}%</span>` : d.pick ? `<span class="off pick">Pick</span>` : "";
   return `<article class="card${d.pick ? " is-pick" : ""}">
-    <div class="tw">${thumb(d)}${badge}<button class="heart${watched(d) ? " on" : ""}" type="button" data-w="${d.id}" aria-pressed="${watched(d)}" aria-label="Save ${esc(d.name)} to My list">${heartSvg}</button></div>
+    <div class="tw">${thumb(d)}${badge}<button class="heart${watched(d) ? " on" : ""}" type="button" data-w="${d.id}" aria-pressed="${watched(d)}" aria-label="Save ${esc(d.name)} to My list">${heartSvg}</button><a class="wa" data-wa="${d.id}" href="${dealWa(d)}" target="_blank" rel="noopener" aria-label="${esc(T("waShare"))}: ${esc(d.name)}" title="${esc(T("waShare"))}">${waSvg}</a></div>
     <div class="body">
       <div class="top"><span class="r">${d.top ? `#<b>${d.rank}</b>`  : ""}</span><span class="c">${esc(d.cat)}</span>${d.buy != null ? `<span class="pill buy" title="${esc(T("buyTip"))}">🛒 ${d.buy}</span>` : ""}${d.isNew ? `<span class="pill new">${T("newBadge")}</span>` : ""}<span class="pill ${d.status}">${d.region === "live" ? esc(SHOPS[d.shop] ? SHOPS[d.shop].name : d.shop) : LABEL[d.status]}</span></div>
       <button class="name" type="button" data-d="${d.id}">${esc(d.name)}</button>
@@ -460,6 +468,7 @@ function openDetails(d, push = true) {
     ${d.note ? `<p class="note">${esc(d.note)}</p>` : ""}
     <div class="btns wrap">${shops}${hist}</div>
     <div class="actions">
+      <a class="act wa-act" data-wa="${d.id}" href="${dealWa(d)}" target="_blank" rel="noopener">${waSvg}<span>${T("waShare")}</span></a>
       <button class="act" type="button" id="m-watch" aria-pressed="${watched(d)}">${heartSvg}<span>${watched(d) ? T("savedToList") : T("saveToList")}</span></button>
       <button class="act" type="button" id="m-share"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12h.01M4 12a8 8 0 1 0 16 0 8 8 0 0 0-16 0"/><path d="M15 8l-6 4 6 4"/></svg><span>${T("share")}</span></button>
     </div>
@@ -543,6 +552,7 @@ const refresh = () => { state.page = 0; mobileShown = 12; save(); renderGrid(); 
 document.querySelectorAll("[data-tab]").forEach(b => b.addEventListener("click", () => showTab(b.dataset.tab)));
 document.querySelectorAll("[data-cat]").forEach(b => b.addEventListener("click", () => showTab("live", { cat: b.dataset.cat })));
 $("go-list").onclick = () => showTab("list");
+document.addEventListener("click", e => { const a = e.target.closest && e.target.closest("[data-wa]"); if (a) track("share", { via: "whatsapp", id: a.dataset.wa }); });
 $("b-more").onclick = e => { e.stopPropagation(); $("moresheet").hidden = !$("moresheet").hidden; };
 $("moresheet").onclick = e => { if (e.target.id === "moresheet") $("moresheet").hidden = true; };
 $("catChips").onclick = e => { const b = e.target.closest("[data-chip]"); if (!b) return; state.cat = b.dataset.chip; state.page = 0; mobileShown = 12; renderFilters(); renderGrid(); save(); };
