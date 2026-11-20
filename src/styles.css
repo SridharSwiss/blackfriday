@@ -731,3 +731,30 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
 .adcard .adc.inline u{grid-area:u;align-self:center;margin:0;white-space:nowrap}
 .adc .ap strong{white-space:nowrap}
 .adcard{display:block}.adcard .adc.inline{width:100%;box-sizing:border-box}
+
+/* Awin tyre partner cards */
+.adc.tyre{background:#1F3A5F;color:#fff}.adc.tyre .ap strong{color:#9FD3FF}.adc.tyre .ap .pt{font-style:normal;font-size:12px;opacity:.85}
+.adc.tyre u{background:#FFD200;color:#151314}
+.adcell{padding:0;border:0;background:transparent;box-shadow:none;display:block}.adcell .adc{height:100%;align-content:center;box-sizing:border-box}
+
+/* desktop: whole-page infinite scroll (no Prev/Next), status bar with progress */
+@media (min-width:761px) and (min-height:561px){
+  html,body{height:auto;overflow-y:auto}
+  .app{height:auto;overflow:visible}
+  .panel{overflow:visible}
+  .grid{overflow:visible;max-height:none}
+  #prev,#next{display:none}
+  #pager{position:relative;justify-content:center;gap:10px;padding:14px 0 28px;margin-top:6px}
+  #pager::before{content:"";position:absolute;left:25%;top:0;height:4px;width:calc(var(--p,0%) / 2);background:var(--red);border-radius:4px;transition:width .3s}
+  #pager::after{content:"";position:absolute;left:25%;top:0;height:4px;width:50%;background:var(--line);border-radius:4px;z-index:-1}
+}
+/* partner sections */
+.tyre-filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0 14px}.tyre-filters label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.tyre-filters select,.tyre-filters .search{font:600 14px var(--f-body);padding:7px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.tyregrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;align-content:start}
+.tyregrid .adc{height:100%}
+.adc.shop{background:var(--surface);color:var(--ink);border:1.5px solid var(--line)}
+.adc.shop img{width:100%;height:130px;object-fit:cover;border-radius:10px;background:#eee}
+.adc.shop .an{font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.5em}
+.adc.shop .sh{font-size:12px;color:var(--muted)}
+.adc.shop u{background:var(--red);color:#fff}

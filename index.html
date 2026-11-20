@@ -44,6 +44,8 @@
   <nav class="tabs gut" id="tabs" role="tablist" aria-label="Sections">
     <button class="tab" role="tab" id="t-live" aria-controls="p-products" data-tab="live">Live deals<span class="n" id="n-live"></span></button>
         <button class="tab" role="tab" id="t-list" aria-controls="p-products" data-tab="list">My list<span class="n" id="n-list">0</span></button>
+    <button class="tab" role="tab" id="t-tyres" aria-controls="p-tyres" data-tab="tyres">Winter tyres ❄</button>
+    <button class="tab" role="tab" id="t-sodeal" aria-controls="p-sodeal" data-tab="sodeal">SODEAL picks</button>
     <button class="tab" role="tab" id="t-calendar" aria-controls="p-calendar" data-tab="calendar">Deal calendar</button>
     <button class="tab" role="tab" id="t-retailers" aria-controls="p-retailers" data-tab="retailers">Retailers</button>
     <button class="tab" role="tab" id="t-guide" aria-controls="p-guide" data-tab="guide">Guide &amp; FAQ</button>
@@ -90,14 +92,26 @@
       </div>
       <div class="grid" id="grid"></div>
       <span class="sr" id="count" role="status"></span>
-      <div class="pager" id="pager">
+      <div class="pager" id="pager" hidden>
         <button type="button" id="prev" aria-label="Previous page">‹ Prev</button>
         <span class="info" id="info"></span>
         <button type="button" id="next" aria-label="Next page">Next ›</button>
       </div>
       <div class="more" id="more-wrap" hidden><button type="button" id="more">Show more</button><span class="info" id="info-m"></span></div>
+      <div id="sentinel" aria-hidden="true" style="height:1px"></div>
     </section>
 
+    <section class="panel flow" id="p-tyres" role="tabpanel" aria-labelledby="t-tyres" hidden>
+      <h2 id="tyre-h"></h2><p class="intro" id="tyre-intro"></p>
+      <div class="tyre-filters"><label>Size <select id="tyre-size"></select></label><label>Brand <select id="tyre-brand"></select></label><span class="info" id="tyre-info"></span></div>
+      <div class="tyregrid" id="tyre-grid"></div>
+    </section>
+    <section class="panel flow" id="p-sodeal" role="tabpanel" aria-labelledby="t-sodeal" hidden>
+      <h2 id="sod-h"></h2><p class="intro" id="sod-intro"></p>
+      <div class="tyre-filters"><input id="sod-q" type="search" class="search" aria-label="Search" placeholder="Search…"><select id="sod-sort" aria-label="Sort"><option value="">Recommended</option><option value="low">Price low–high</option><option value="high">Price high–low</option></select><span class="info" id="sod-info"></span></div>
+      <div class="tyregrid" id="sod-grid"></div>
+      <div class="more"><button type="button" id="sod-more" hidden>Show more</button></div><div id="sod-end" style="height:1px"></div>
+    </section>
     <section class="panel flow" id="p-calendar" role="tabpanel" aria-labelledby="t-calendar" hidden>
       <div class="titlerow"><h2 class="lead">Deal <em>calendar</em> 2026</h2><span class="sub">Switzerland and US</span></div>
       <ol class="cal" id="cal"></ol>
@@ -152,7 +166,8 @@
     <button type="button" data-tab="calendar">Deal calendar</button>
     <button type="button" data-tab="retailers">Retailers</button>
     <button type="button" data-tab="guide">Guide &amp; FAQ</button>
-    <button type="button" data-cat="Winter tyres">Winter tyres ❄</button>
+    <button type="button" data-tab="tyres" id="ms-tyres">Winter tyres ❄</button>
+    <button type="button" data-tab="sodeal">SODEAL picks</button>
   </div>
 </div>
 <footer class="legal"><button type="button" class="linkbtn" data-privacy>Privacy policy</button> · <button type="button" class="linkbtn" data-cookie-settings>Cookie settings</button></footer>

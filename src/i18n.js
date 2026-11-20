@@ -4,6 +4,9 @@
 
 export const STRINGS = {
   en: {
+    tabSodeal: "SODEAL picks", sodealIntro: "200 SODEAL.ch picks chosen for how likely they are to sell: impulse price band, known brands, gift and season items. Partner offers from the Awin feed, not discounts.", sodRec: "Recommended", sodLow: "Price low–high", sodHigh: "Price high–low", sodSearch: "Search…",
+    tabTyres: "Winter tyres ❄", tyreIntro: "Premium winter tyres from Awin partner shops. Price per tyre, set of 4 needed. Partner offers, not discounts.", tyreSize: "Size", tyreBrand: "Brand", tyreAll: "All", shipFee: "plus CHF {s} shipping", ofWord: "of",
+    tyreH: "Winter tyres", tyreGo: "To the offer", tyrePer: "per tyre",
     adLy1: "Unlimited 5G, half price", adLy2: "300 GB 5G for less", adLy3: "Switch your mobile plan",
     amzTop: "Amazon.de pick: most likely to be bought", amzNote: "Amazon price for Swiss delivery (CHF) — check at checkout", amzGo: "See on Amazon",
     lyAd: "Ad", lyTxt: "Lyca Mobile: unlimited 5G for CHF {p} / 28 days", lyWas: "was {w}", lyGo: "Get the deal", lyClose: "Close",
@@ -65,6 +68,9 @@ export const STRINGS = {
     langLabel: "EN",
   },
   de: {
+    tabSodeal: "SODEAL Auswahl", sodealIntro: "200 SODEAL.ch-Produkte mit hoher Kaufwahrscheinlichkeit: Impulspreis, bekannte Marken, Geschenk- und Saisonartikel. Partner-Angebote aus dem Awin-Feed, keine Rabatte.", sodRec: "Empfohlen", sodLow: "Preis aufsteigend", sodHigh: "Preis absteigend", sodSearch: "Suchen…",
+    tabTyres: "Winterreifen ❄", tyreIntro: "Premium-Winterreifen von Partner-Shops (Awin). Preis pro Reifen, ein Satz sind 4 Stück. Partner-Angebote, keine Rabatte.", tyreSize: "Grösse", tyreBrand: "Marke", tyreAll: "Alle", shipFee: "zzgl. CHF {s} Versand", ofWord: "von",
+    tyreH: "Winterreifen", tyreGo: "Zum Angebot", tyrePer: "pro Reifen",
     adLy1: "Unlimitiert 5G zum halben Preis", adLy2: "300 GB 5G günstiger", adLy3: "Jetzt Handy-Abo wechseln",
     amzTop: "Amazon.de Top-Pick: am wahrscheinlichsten gekauft", amzNote: "Amazon-Preis für Lieferung in die Schweiz (CHF) — beim Kauf prüfen", amzGo: "Bei Amazon ansehen",
     lyAd: "Anzeige", lyTxt: "Lyca Mobile: Unlimitiert 5G für CHF {p} / 28 Tage", lyWas: "statt {w}", lyGo: "Zum Deal", lyClose: "Schliessen",
@@ -126,6 +132,9 @@ export const STRINGS = {
     langLabel: "DE",
   },
   fr: {
+    tabSodeal: "Sélection SODEAL", sodealIntro: "200 articles SODEAL.ch choisis pour leur potentiel de vente : prix d’impulsion, marques connues, idées cadeaux et saison. Offres partenaires (Awin), pas des rabais.", sodRec: "Recommandés", sodLow: "Prix croissant", sodHigh: "Prix décroissant", sodSearch: "Rechercher…",
+    tabTyres: "Pneus hiver ❄", tyreIntro: "Pneus hiver premium de boutiques partenaires (Awin). Prix par pneu, un train = 4. Offres partenaires, pas des rabais.", tyreSize: "Dimension", tyreBrand: "Marque", tyreAll: "Tous", shipFee: "+ CHF {s} de livraison", ofWord: "sur",
+    tyreH: "Pneus hiver", tyreGo: "Voir l’offre", tyrePer: "par pneu",
     adLy1: "5G illimitée à moitié prix", adLy2: "300 Go 5G pour moins", adLy3: "Changez d’abonnement mobile",
     amzTop: "Amazon.de, le choix le plus probable", amzNote: "Prix Amazon pour livraison en Suisse (CHF) — à vérifier à la commande", amzGo: "Voir sur Amazon",
     lyAd: "Annonce", lyTxt: "Lyca Mobile : 5G illimitée pour CHF {p} / 28 jours", lyWas: "au lieu de {w}", lyGo: "Voir l’offre", lyClose: "Fermer",
@@ -187,6 +196,9 @@ export const STRINGS = {
     langLabel: "FR",
   },
   it: {
+    tabSodeal: "Selezione SODEAL", sodealIntro: "200 articoli SODEAL.ch scelti per probabilità di vendita: prezzo d’impulso, marche note, regali e stagione. Offerte partner (Awin), non sconti.", sodRec: "Consigliati", sodLow: "Prezzo crescente", sodHigh: "Prezzo decrescente", sodSearch: "Cerca…",
+    tabTyres: "Pneumatici invernali ❄", tyreIntro: "Pneumatici invernali premium da negozi partner (Awin). Prezzo a pneumatico, un treno = 4. Offerte partner, non sconti.", tyreSize: "Misura", tyreBrand: "Marca", tyreAll: "Tutti", shipFee: "+ CHF {s} di spedizione", ofWord: "di",
+    tyreH: "Pneumatici invernali", tyreGo: "All’offerta", tyrePer: "a pneumatico",
     adLy1: "5G illimitato a metà prezzo", adLy2: "300 GB 5G a meno", adLy3: "Cambia abbonamento mobile",
     amzTop: "Amazon.de, la scelta più probabile", amzNote: "Prezzo Amazon per consegna in Svizzera (CHF) — da verificare all’acquisto", amzGo: "Vedi su Amazon",
     lyAd: "Annuncio", lyTxt: "Lyca Mobile: 5G illimitato a CHF {p} / 28 giorni", lyWas: "invece di {w}", lyGo: "Vai all’offerta", lyClose: "Chiudi",

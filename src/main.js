@@ -7,6 +7,7 @@ import { SHOPINFO } from "./data/retailers.js";
 import { DEALS, isTyre } from "./data/products.js";
 import { US_RAW, US_SHOPINFO } from "./data/us.js";
 import CAT_US from "./data/catalogue-us.js";
+import { AWIN_TYRES, AWIN_SHOP } from "./data/awin-picks.js";
 import { LIVE_CH, SHOWCASES } from "./data/live-ch.js";
 import { EVENTS, FAQ as FAQ_EN, FAQ_I18N } from "./data/calendar.js";
 import { fmt, esc, ext } from "./lib/format.js";
@@ -162,7 +163,7 @@ const LABEL = { buy: T("statusBuy"), wait: T("statusWaitS"), track: T("statusTra
 
 /* ---------------- state ---------------- */
 const PRODUCT_TABS = ["live", "list"];
-const TABS = [...PRODUCT_TABS, "calendar", "retailers", "guide"];
+const TABS = [...PRODUCT_TABS, "tyres", "sodeal", "calendar", "retailers", "guide"];
 // Old tabs now live inside the Live deals page as filter presets
 const LEGACY = { top: {}, categories: {}, best: { minOff: 25, sort: "save" }, us: { region: "us" } };
 const defaults = { tab: "live", cat: "All", q: "", status: "all", sort: "rank", store: "all", price: "all", region: "all", minOff: 0, type: "all", page: 0, drops: false };
@@ -175,7 +176,7 @@ state.minOff = +state.minOff || 0; state.status = "all";
 const save = () => { try { localStorage.setItem("bf26v5", JSON.stringify(state)); } catch (e) {} };
 const $ = id => document.getElementById(id);
 const mobile = () => matchMedia("(max-width: 760px), (max-height: 560px)").matches;
-let perPage = 12, mobileShown = 12;
+let perPage = 12, mobileShown = 12, deskShown = 0, deskTotal = 0, gridSig = "";
 
 /* ---------------- helpers ---------------- */
 const money = (n, cur) => cur === "EUR" ? "€ " + n.toLocaleString("de-CH", { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 }) : cur === "INR" ? "₹" + n.toLocaleString("en-IN") : cur === "USD" ? "$" + (Number.isInteger(n) ? n.toLocaleString("en-US") : n.toLocaleString("en-US", { minimumFractionDigits: 2 })) : "CHF " + fmt(n);
@@ -300,6 +301,7 @@ function fit() {
     root.style.setProperty("--card-h", cardH + "px");
     root.style.setProperty("--gap", gap + "px");
     g.style.setProperty("--cols", targetCols);
+    g.style.maxHeight = "";
     perPage = targetCols * 6;
     return;
   }
@@ -337,6 +339,7 @@ function fit() {
   g.style.setProperty("--cols", targetCols);
 
   perPage = targetCols * rows;
+  g.style.maxHeight = "";
 }
 function emptyState() {
   if (state.tab === "list" && !state.watch.length)
@@ -356,21 +359,31 @@ const AD_LYCA = (() => {
   ];
 })();
 const AD_AMZ = LIVE.filter(x => x.shop === "amazon" && fresh(x) && x.now != null && x.reg && x.off >= 20 && x.rating >= 4.3 && x.reviews >= 1000).sort((a, b) => b.buy - a.buy).slice(0, 20).map(r => ({ k: "amz", t: "Amazon.de", h: "", r }));
+const AD_SHOP = AWIN_SHOP.map(r => ({ k: "shop", t: "SODEAL", h: "", r }));
 const adF = n => Number(n).toFixed(2);
 function adHTML(a, cls) {
+  if (a.k === "shop") {
+    const r = a.r;
+    return `<a class="adc shop ${cls || ""}" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="partner"><span class="ad">${T("lyAd")}</span><img src="${esc(r.img)}" alt="" loading="lazy" decoding="async"><span class="an">${esc(r.name)}</span><span class="ap"><strong>CHF ${adF(r.price)}</strong></span>${r.ship ? `<span class="sh">${T("shipFee").replace("{s}", adF(r.ship))}</span>` : ""}<u>${T("tyreGo")} →</u></a>`;
+  }
+  if (a.k === "tyre") {
+    const r = a.r;
+    return `<a class="adc tyre ${cls || ""}" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre"><span class="ad">${T("lyAd")}</span><span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${T("tyreH")} ${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${adF(r.price)}</strong><i class="pt">${T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
+  }
   const r = a.r, href = affLink(a.k === "lyca" ? "lyca" : "amazon", r.url);
   const stars = a.k === "amz" ? `<span class="st">★ ${r.rating}</span>` : "";
   return `<a class="adc ${cls || ""} ${a.k}" href="${href}" target="_blank" rel="sponsored nofollow noopener" data-ad="${a.k}"><span class="ad">${T("lyAd")}</span><span class="at">${a.t}</span>${a.h ? `<b class="ah">${esc(a.h)}</b>` : ""}<span class="an">${esc(r.name.replace(/\(.*?\)/g, "").trim().slice(0, 70))}</span><span class="ap"><strong>CHF ${adF(r.now)}</strong><s>${adF(r.reg)}</s><i>−${r.off}%</i></span>${stars}<u>${a.k === "lyca" ? T("lyGo") : T("amzGo")} →</u></a>`;
 }
 /* mobile: after every 5 deal cards insert an ad, alternating Lyca / Amazon (cycling through the top 10) */
 function withInlineAds(cards) {
-  if (!AD_LYCA.length && !AD_AMZ.length) return cards;
-  const out = []; let li = 0, ai = 0, n = 0;
+  const seq = ["lyca", "amz"], idx = { lyca: 0, amz: 0 }, pools = { lyca: AD_LYCA, amz: AD_AMZ };
+  if (!seq.some(k => pools[k].length)) return cards;
+  const out = []; let n = 0;
   cards.forEach((c, i) => {
     out.push(c);
     if ((i + 1) % 5 === 0) {
-      const lyca = n % 2 === 0 && AD_LYCA.length, a = lyca ? AD_LYCA[li++ % AD_LYCA.length] : AD_AMZ.length ? AD_AMZ[ai++ % AD_AMZ.length] : null;
-      n++; if (a) out.push(`<article class="card adcard">${adHTML(a, "inline t" + (n % 4))}</article>`);
+      const k = seq[n++ % seq.length], pool = pools[k];
+      if (pool.length) out.push(`<article class="card adcard">${adHTML(pool[idx[k]++ % pool.length], "inline t" + (n % 4))}</article>`);
     }
   });
   return out;
@@ -393,6 +406,9 @@ function withInlineAds(cards) {
 })();
 
 function renderGrid() {
+  const sig = [state.tab, state.q, state.store, state.price, state.status, state.region, state.minOff, state.type, state.drops, state.cat, state.sort].join("|");
+  const gridEl = $("grid");
+  if (sig !== gridSig) { gridSig = sig; deskShown = 0; mobileShown = 12; window.scrollTo({ top: 0 }); }
   fit();
   const l = list(), m = mobile();
   let vis;
@@ -402,14 +418,15 @@ function renderGrid() {
     $("info-m").textContent = `${vis.length} of ${l.length.toLocaleString("en-US")}`;
     $("pager").hidden = true;
   } else {
-    const pages = Math.max(1, Math.ceil(l.length / perPage));
-    state.page = Math.min(Math.max(0, state.page), pages - 1);
-    vis = l.slice(state.page * perPage, (state.page + 1) * perPage);
+    const want = Math.max(deskShown, perPage * 2);
+    vis = l.slice(0, want);
     $("pager").hidden = false; $("more-wrap").hidden = true;
-    $("info").textContent = l.length ? S.pageInfo(state.page + 1, pages, l.length.toLocaleString(LANG === "en" ? "en-US" : LANG)) : `0 ${T("deals")}`;
-    $("prev").disabled = state.page === 0; $("next").disabled = state.page >= pages - 1;
+    deskTotal = l.length;
+    $("info").textContent = l.length ? `${vis.length.toLocaleString(LANG === "en" ? "en-US" : LANG)} ${T("ofWord")} ${l.length.toLocaleString(LANG === "en" ? "en-US" : LANG)}` : `0 ${T("deals")}`;
+    $("pager").style.setProperty("--p", l.length ? Math.round(vis.length / l.length * 100) + "%" : "0%");
   }
-  $("grid").innerHTML = vis.length ? (m ? withInlineAds(vis.map(card)) : vis.map(card)).join("") : emptyState();
+  let html = vis.map(card);
+  $("grid").innerHTML = vis.length ? (m ? withInlineAds(html) : html).join("") : emptyState();
   $("count").textContent = `${l.length.toLocaleString(LANG === "en" ? "en-US" : LANG)} ${T("deals")}`;
   const filtered = state.region !== "all" || state.minOff > 0 || state.type !== "all" || state.drops || state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && (state.tab === "categories" || state.tab === "top")) || (state.cat !== "All" && (state.tab === "us" || state.tab === "live"));
   $("reset").hidden = !filtered;
@@ -484,10 +501,11 @@ function showTab(t, opts = {}) {
   track("tab", { tab: t });
   TABS.forEach(x => { const b = $("t-" + x); b.setAttribute("aria-selected", x === t); b.tabIndex = x === t ? 0 : -1; });
   document.querySelectorAll(".bottomnav [data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
-  $("b-more").classList.toggle("on", ["categories", "us", "calendar", "retailers", "guide"].includes(t));
+  $("b-more").classList.toggle("on", ["categories", "us", "tyres", "sodeal", "calendar", "retailers", "guide"].includes(t));
   const products = PRODUCT_TABS.includes(t);
   $("p-products").hidden = !products;
-  ["calendar", "retailers", "guide"].forEach(x => $("p-" + x).hidden = x !== t);
+  ["tyres", "sodeal", "calendar", "retailers", "guide"].forEach(x => $("p-" + x).hidden = x !== t);
+  if (t === "tyres") renderTyres(); if (t === "sodeal") renderSodeal();
   if (products) { renderPulse(); renderFilters(); renderGrid(); }
   if (!opts.noHash) { try { history.replaceState(null, "", "#" + (t === "categories" && state.cat === WINTER ? "winter" : t)); } catch (e) {} }
   $("moresheet").hidden = true;
@@ -700,7 +718,7 @@ if (langHtml) {
 // Translate static HTML labels when not English
 if (LANG !== "en") {
   // Tab bar
-  const tabMap = { "t-live": "tabLive", "t-best": "tabBest", "t-top": "tabTop", "t-categories": "tabCat", "t-us": "tabUS",
+  const tabMap = { "t-live": "tabLive", "t-best": "tabBest", "t-top": "tabTop", "t-categories": "tabCat", "t-tyres": "tabTyres", "t-sodeal": "tabSodeal", "t-us": "tabUS",
     "t-list": "tabList", "t-calendar": "tabCal", "t-retailers": "tabRetailers", "t-guide": "tabGuide" };
   for (const [id, key] of Object.entries(tabMap)) {
     const el = $(id); if (!el) continue;
@@ -897,3 +915,50 @@ if (ENABLED) {
   foot.parentNode.insertBefore(el, foot);
   el.addEventListener("click", e => { if (e.target.closest("[data-amz]")) track("amazon_banner", { id: r.id }); });
 })();
+
+/* Mobile and desktop: load the next deals automatically when the end of the list nears (mobile keeps a "Show more" button as fallback) */
+(() => {
+  const sent = document.getElementById("sentinel");
+  if (!sent || !("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver(es => {
+    if (es[0].isIntersecting && PRODUCT_TABS.includes(state.tab)) {
+      if (mobile()) { if (list().length > mobileShown) { mobileShown += 12; renderGrid(); } }
+      else if (Math.max(deskShown, perPage * 2) < deskTotal) { deskShown = Math.max(deskShown, perPage * 2) + perPage * 2; renderGrid(); }
+    }
+    io.unobserve(sent); setTimeout(() => io.observe(sent), 150);
+  }, { rootMargin: "700px 0px" });
+  io.observe(sent);
+})();
+
+/* ---------------- Awin partner sections (kept separate from the deal list) ---------------- */
+const fmtN = n => Number(n).toFixed(2);
+const tyreCard = r => `<a class="adc tyre tcard" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre"><span class="ad">${T("lyAd")}</span><span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${fmtN(r.price)}</strong><i class="pt">${T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
+function renderTyres() {
+  $("tyre-h").textContent = T("tabTyres"); $("tyre-intro").textContent = T("tyreIntro");
+  const sizes = [...new Set(AWIN_TYRES.map(r => r.size))], brands = [...new Set(AWIN_TYRES.map(r => r.brand))];
+  const ss = $("tyre-size"), bs = $("tyre-brand");
+  if (!ss.options.length) {
+    ss.innerHTML = `<option value="">${T("tyreAll")}</option>` + sizes.map(x => `<option>${x}</option>`).join("");
+    bs.innerHTML = `<option value="">${T("tyreAll")}</option>` + brands.map(x => `<option>${x}</option>`).join("");
+    ss.onchange = bs.onchange = renderTyres;
+  }
+  const list = AWIN_TYRES.filter(r => (!ss.value || r.size === ss.value) && (!bs.value || r.brand === bs.value)).sort((a, b) => a.size.localeCompare(b.size) || a.price - b.price);
+  $("tyre-grid").innerHTML = list.map(tyreCard).join("");
+  $("tyre-info").textContent = `${list.length} ${T("deals")}`;
+}
+const sodCard = r => adHTML({ k: "shop", r }, "sodc");
+let sodShown = 48;
+function renderSodeal() {
+  $("sod-h").textContent = T("tabSodeal"); $("sod-intro").textContent = T("sodealIntro");
+  const q = ($("sod-q").value || "").trim().toLowerCase(), sort = $("sod-sort").value;
+  const list = AWIN_SHOP.filter(r => !q || r.name.toLowerCase().includes(q) || (r.brand || "").toLowerCase().includes(q));
+  if (sort === "low") list.sort((a, b) => a.price - b.price); else if (sort === "high") list.sort((a, b) => b.price - a.price);
+  $("sod-grid").innerHTML = list.slice(0, sodShown).map(sodCard).join("");
+  $("sod-info").textContent = `${Math.min(sodShown, list.length)} ${T("ofWord")} ${list.length}`;
+  $("sod-more").hidden = list.length <= sodShown;
+}
+$("sod-q").oninput = () => { sodShown = 48; renderSodeal(); };
+$("sod-sort").onchange = () => { sodShown = 48; renderSodeal(); };
+$("sod-more").onclick = () => { sodShown += 48; renderSodeal(); };
+const sodIO = "IntersectionObserver" in window && new IntersectionObserver(es => { if (es[0].isIntersecting && !$("sod-more").hidden) { sodShown += 48; renderSodeal(); } }, { rootMargin: "600px" });
+if (sodIO) sodIO.observe($("sod-end"));
