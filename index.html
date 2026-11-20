@@ -103,11 +103,13 @@
 
     <section class="panel flow" id="p-tyres" role="tabpanel" aria-labelledby="t-tyres" hidden>
       <h2 id="tyre-h"></h2><p class="intro" id="tyre-intro"></p>
-      <div class="tyre-filters"><label>Size <select id="tyre-size"></select></label><label>Brand <select id="tyre-brand"></select></label><span class="info" id="tyre-info"></span></div>
+      <div class="chips" id="tyre-rims" role="group"></div><div class="chips" id="tyre-brands" role="group"></div>
+      <div class="tyre-filters"><label>Size <select id="tyre-size"></select></label><select id="tyre-sort" aria-label="Sort"><option value="">Size</option><option value="low">Price low–high</option><option value="high">Price high–low</option></select><span class="info" id="tyre-info"></span></div>
       <div class="tyregrid" id="tyre-grid"></div>
     </section>
     <section class="panel flow" id="p-sodeal" role="tabpanel" aria-labelledby="t-sodeal" hidden>
       <h2 id="sod-h"></h2><p class="intro" id="sod-intro"></p>
+      <div class="chips" id="sod-cats" role="group"></div>
       <div class="tyre-filters"><input id="sod-q" type="search" class="search" aria-label="Search" placeholder="Search…"><select id="sod-sort" aria-label="Sort"><option value="">Recommended</option><option value="low">Price low–high</option><option value="high">Price high–low</option></select><span class="info" id="sod-info"></span></div>
       <div class="tyregrid" id="sod-grid"></div>
       <div class="more"><button type="button" id="sod-more" hidden>Show more</button></div><div id="sod-end" style="height:1px"></div>

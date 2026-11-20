@@ -932,26 +932,58 @@ if (ENABLED) {
 
 /* ---------------- Awin partner sections (kept separate from the deal list) ---------------- */
 const fmtN = n => Number(n).toFixed(2);
-const tyreCard = r => `<a class="adc tyre tcard" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre"><span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${fmtN(r.price)}</strong><i class="pt">${T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
+const tyreCard = r => `<a class="adc tyre tcard" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre">${r.best ? `<span class="best">${T("tyreBest")}</span>` : ""}<span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${fmtN(r.price)}</strong><i class="pt">${T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
+const BESTW = { en: "Cheapest for size", de: "Günstigster dieser Grösse", fr: "Moins cher pour cette taille", it: "Più economico per misura" };
+const ALLW = { en: "All", de: "Alle", fr: "Tous", it: "Tutti" };
+const rimOf = r => (r.size.match(/R\s?(\d+)/) || [])[1] || "?";
+const chipRow = (el, items, cur, on) => {
+  el.innerHTML = items.map(([v, label, n]) => `<button type="button" data-v="${esc(v)}" aria-pressed="${cur === v}">${label}${n != null ? `<i>${n}</i>` : ""}</button>`).join("");
+  el.onclick = e => { const b = e.target.closest("button"); if (b) on(b.dataset.v === cur ? "" : b.dataset.v); };
+};
+let tyreRim = "", tyreBrand = "";
 function renderTyres() {
   $("tyre-h").textContent = T("tabTyres"); $("tyre-intro").textContent = T("tyreIntro");
-  const sizes = [...new Set(AWIN_TYRES.map(r => r.size))], brands = [...new Set(AWIN_TYRES.map(r => r.brand))];
-  const ss = $("tyre-size"), bs = $("tyre-brand");
-  if (!ss.options.length) {
-    ss.innerHTML = `<option value="">${T("tyreAll")}</option>` + sizes.map(x => `<option>${x}</option>`).join("");
-    bs.innerHTML = `<option value="">${T("tyreAll")}</option>` + brands.map(x => `<option>${x}</option>`).join("");
-    ss.onchange = bs.onchange = renderTyres;
-  }
-  const list = AWIN_TYRES.filter(r => (!ss.value || r.size === ss.value) && (!bs.value || r.brand === bs.value)).sort((a, b) => a.size.localeCompare(b.size) || a.price - b.price);
-  $("tyre-grid").innerHTML = list.map(tyreCard).join("");
+  const sizes = [...new Set(AWIN_TYRES.map(r => r.size))].sort();
+  const ss = $("tyre-size");
+  if (!ss.options.length) { ss.onchange = () => renderTyres(); $("tyre-sort").onchange = () => renderTyres(); }
+  ss.innerHTML = `<option value="">${T("tyreAll")}</option>` + sizes.map(x => `<option${x === ss.value ? " selected" : ""}>${x}</option>`).join("");
+  const sizeSel = ss.value, sort = $("tyre-sort").value;
+  const minBy = {}; AWIN_TYRES.forEach(r => { if (!minBy[r.size] || r.price < minBy[r.size]) minBy[r.size] = r.price; });
+  const cnt = (k, f) => AWIN_TYRES.filter(r => f(r) === k).length;
+  const rims = [...new Set(AWIN_TYRES.map(rimOf))].sort((a, b) => a - b);
+  const brands = [...new Set(AWIN_TYRES.map(r => r.brand))].sort();
+  chipRow($("tyre-rims"), [["", ALLW[LANG] || ALLW.en, AWIN_TYRES.length], ...rims.map(x => [x, `${T("tyreRim") || "Rim"} ${x}"`, cnt(x, rimOf)])], tyreRim, v => { tyreRim = v; renderTyres(); });
+  chipRow($("tyre-brands"), [["", ALLW[LANG] || ALLW.en], ...brands.map(x => [x, x, cnt(x, r => r.brand)])], tyreBrand, v => { tyreBrand = v; renderTyres(); });
+  const list = AWIN_TYRES.filter(r => (!tyreRim || rimOf(r) === tyreRim) && (!tyreBrand || r.brand === tyreBrand) && (!sizeSel || r.size === sizeSel))
+    .map(r => ({ ...r, best: r.price === minBy[r.size] }));
+  if (sort) list.sort((a, b) => sort === "low" ? a.price - b.price : b.price - a.price);
+  else list.sort((a, b) => rimOf(a) - rimOf(b) || a.size.localeCompare(b.size) || a.price - b.price);
+  let html = "", last = "";
+  list.forEach(r => { if (!sort && r.size !== last) { last = r.size; html += `<div class="tyrehead">${esc(r.size)}<small>${list.filter(x => x.size === r.size).length} · ${T("tyreFrom")} CHF ${fmtN(minBy[r.size])}</small></div>`; } html += tyreCard(r); });
+  $("tyre-grid").innerHTML = html;
   $("tyre-info").textContent = `${list.length} ${T("deals")}`;
 }
+/* SODEAL categories: keyword classifier on the German product name (first match wins) */
+const SCAT = [
+  ["xmas", "🎄", { en: "Christmas & lights", de: "Weihnachten & Licht", fr: "Noël & lumière", it: "Natale & luci" }, /weihnacht|girlande|led-lampe|laser|solar|leucht|lampe|licht|nachtlicht|kamin/i],
+  ["beauty", "💈", { en: "Beauty & grooming", de: "Beauty & Pflege", fr: "Beauté & soin", it: "Bellezza & cura" }, /remington|haarschneid|haarglätt|rasier|trimmer|epilier|lockenstab|haartrockn|multistyler|gesichts|bartschn|ohrrein|mitesser|spiegel/i],
+  ["kitchen", "🍳", { en: "Kitchen & appliances", de: "Küche & Geräte", fr: "Cuisine & appareils", it: "Cucina & elettrodomestici" }, /russell|toaster|wasserkocher|kocher|mixer|dampf|sushi|fritteuse|air fryer|küche|messer|korkenzieher|wein|grill|fondue|crêpe|zitrus|mühle|bügeleisen|staubsauger|mahlzeit|getränk|seifenspender|eier|aperitif|koch|auftau/i],
+  ["health", "💆", { en: "Health & relaxation", de: "Gesundheit & Entspannung", fr: "Santé & détente", it: "Salute & relax" }, /massage|kissen|nacken|kompress|bandage|knie|relief|schlaf|sitz|akupressur|migräne|wärm|heizdecke|gel-|orthop|fuss|fuß|sohle|pflaster|nasensauger|polster/i],
+  ["fashion", "🧣", { en: "Winter & clothing", de: "Winter & Kleidung", fr: "Hiver & vêtements", it: "Inverno & abbigliamento" }, /handschuh|schal|socken|leggings|boxershorts|hose|fleece|bademantel|decke|plaid|sweatshirt|hausschuh|plüsch/i],
+  ["outdoor", "🥾", { en: "Outdoor, travel & car", de: "Outdoor, Reisen & Auto", fr: "Outdoor, voyage & auto", it: "Outdoor, viaggio & auto" }, /wander|camping|reise|koffer|auto|kofferraum|strand|poncho|stock|stühle|mücken|fliegen|insekt|pumpe|sonnen|tasche|rucksack|wasserpistole|bewässerung/i],
+  ["fitness", "💪", { en: "Fitness", de: "Fitness", fr: "Fitness", it: "Fitness" }, /sport|widerstand|training/i],
+];
+const sodCat = r => { for (const [k, , , re] of SCAT) if (re.test(r.name + " " + (r.brand || ""))) return k; return "home"; };
+const SCAT_ALL = [...SCAT.map(([k, e, n]) => [k, e, n]), ["home", "🏠", { en: "Home & gadgets", de: "Haushalt & Gadgets", fr: "Maison & gadgets", it: "Maison & gadgets" }]];
+const SOD_CAT = new Map(AWIN_SHOP.map(r => [r, sodCat(r)]));
+let sodCatSel = "";
 const sodCard = r => adHTML({ k: "shop", r }, "sodc");
 let sodShown = 48;
 function renderSodeal() {
   $("sod-h").textContent = T("tabSodeal"); $("sod-intro").textContent = T("sodealIntro");
   const q = ($("sod-q").value || "").trim().toLowerCase(), sort = $("sod-sort").value;
-  const list = AWIN_SHOP.filter(r => !q || r.name.toLowerCase().includes(q) || (r.brand || "").toLowerCase().includes(q));
+  chipRow($("sod-cats"), [["", ALLW[LANG] || ALLW.en, AWIN_SHOP.length], ...SCAT_ALL.map(([k, e, n]) => [k, `${e} ${n[LANG] || n.en}`, [...SOD_CAT.values()].filter(v => v === k).length]).filter(x => x[2])], sodCatSel, v => { sodCatSel = v; sodShown = 48; renderSodeal(); });
+  const list = AWIN_SHOP.filter(r => (!sodCatSel || SOD_CAT.get(r) === sodCatSel) && (!q || r.name.toLowerCase().includes(q) || (r.brand || "").toLowerCase().includes(q)));
   if (sort === "low") list.sort((a, b) => a.price - b.price); else if (sort === "high") list.sort((a, b) => b.price - a.price);
   $("sod-grid").innerHTML = list.slice(0, sodShown).map(sodCard).join("");
   $("sod-info").textContent = `${Math.min(sodShown, list.length)} ${T("ofWord")} ${list.length}`;
