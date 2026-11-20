@@ -44,7 +44,7 @@ export function affLink(shop, url){
   if (c.network === "amazon" && c.tag){ u.searchParams.set("tag", c.tag); return u.toString(); }
   if (c.network === "awin" && c.link) return c.link;
   if (c.network === "awin" && c.mid && c.affid)
-    return `https://www.awin1.com/cread.php?awinmid=${c.mid}&awinaffid=${c.affid}&ued=${encodeURIComponent(url)}`;
+    return `https://www.awin1.com/cread.php?awinmid=${c.mid}&awinaffid=${c.affid}&clickref=${AFF.site}&ued=${encodeURIComponent(url)}`;
   if (c.network === "tradedoubler" && c.programId && c.siteId)
     return `https://clk.tradedoubler.com/click?p=${c.programId}&a=${c.siteId}&url=${encodeURIComponent(url)}`;
   u.searchParams.set("utm_source", AFF.site); u.searchParams.set("utm_medium","affiliate"); u.searchParams.set("utm_campaign","blackfriday2026");
