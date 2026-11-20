@@ -355,7 +355,7 @@ const AD_LYCA = (() => {
     { k: "lyca", t: "Lyca Mobile", h: T("adLy1"), r: tu }, { k: "lyca", t: "Lyca Mobile", h: T("adLy2"), r: mx }, { k: "lyca", t: "Lyca Mobile", h: T("adLy3"), r: tu }
   ];
 })();
-const AD_AMZ = LIVE.filter(x => x.shop === "amazon" && fresh(x) && x.now != null && x.reg && x.off >= 20 && x.rating >= 4.3 && x.reviews >= 1000).sort((a, b) => b.buy - a.buy).slice(0, 10).map(r => ({ k: "amz", t: "Amazon.de", h: "", r }));
+const AD_AMZ = LIVE.filter(x => x.shop === "amazon" && fresh(x) && x.now != null && x.reg && x.off >= 20 && x.rating >= 4.3 && x.reviews >= 1000).sort((a, b) => b.buy - a.buy).slice(0, 20).map(r => ({ k: "amz", t: "Amazon.de", h: "", r }));
 const adF = n => Number(n).toFixed(2);
 function adHTML(a, cls) {
   const r = a.r, href = affLink(a.k === "lyca" ? "lyca" : "amazon", r.url);
@@ -375,19 +375,20 @@ function withInlineAds(cards) {
   });
   return out;
 }
-/* desktop (≥1500px): two side rails, 3 ads each — Lyca + rotating Amazon top 10 */
+/* desktop (≥1500px): two side rails. A pinned Lyca ad on top, below it the Amazon.de deals most likely to be bought,
+   scrolling slowly and endlessly: left rail top→bottom, right rail bottom→top. Pauses on hover; static with reduced motion. */
 (() => {
   if (!AD_LYCA.length && !AD_AMZ.length) return;
-  const mk = (side, lyIdx, amzStart) => {
+  const mk = (side, lyIdx) => {
     const el = document.createElement("aside"); el.className = "rail rail-" + side; el.setAttribute("aria-label", T("lyAd"));
-    const slots = [AD_LYCA.length ? { kind: "l", pool: [AD_LYCA[lyIdx], AD_LYCA[(lyIdx + 2) % AD_LYCA.length]] } : null,
-      { kind: "a", pool: AD_AMZ.filter((_, i) => i % 2 === amzStart) }, { kind: "a", pool: AD_AMZ.filter((_, i) => i % 2 === amzStart).reverse() }].filter(x => x && x.pool.length);
-    let t = 0;
-    const draw = () => { el.innerHTML = slots.map(sl => adHTML(sl.pool[t % sl.pool.length], "rail-ad")).join(""); };
-    draw(); setInterval(() => { if (!el.matches(":hover")) { t++; draw(); } }, 12000);
+    const pool = side === "l" ? AD_AMZ : AD_AMZ.slice().reverse();
+    const cards = pool.map(a => adHTML(a, "rail-ad")).join("");
+    const dup = pool.map(a => adHTML(a, "rail-ad").replace("<a ", '<a tabindex="-1" aria-hidden="true" ')).join("");
+    el.innerHTML = (AD_LYCA.length ? adHTML(AD_LYCA[lyIdx], "rail-ad") : "") +
+      (pool.length ? `<div class="marq"><div class="track" style="--n:${pool.length}">${cards}${dup}</div></div>` : "");
     document.body.appendChild(el);
   };
-  mk("l", 0, 0); mk("r", 1, 1);
+  mk("l", 0); mk("r", 1);
   document.addEventListener("click", e => { const a = e.target.closest && e.target.closest("[data-ad]"); if (a) track("ad_click", { ad: a.dataset.ad }); });
 })();
 
