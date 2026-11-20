@@ -1046,3 +1046,13 @@ function renderForYou() {
 }
 $("foryou").onclick = e => $("grid").onclick(e);
 const _rg = renderGrid; renderGrid = function () { _rg.apply(this, arguments); renderForYou(); };
+
+/* mobile header: collapsible menu (search, updated, language, theme, account) */
+(() => {
+  const bar = document.querySelector("header.bar"), btn = $("hmenu"); if (!bar || !btn) return;
+  const set = o => { bar.classList.toggle("open", o); btn.setAttribute("aria-expanded", String(o)); };
+  btn.onclick = e => { e.stopPropagation(); set(!bar.classList.contains("open")); if (bar.classList.contains("open")) setTimeout(() => $("q")?.focus(), 50); };
+  document.addEventListener("click", e => { if (bar.classList.contains("open") && !bar.contains(e.target)) set(false); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") set(false); });
+  $("q").addEventListener("keydown", e => { if (e.key === "Enter" && matchMedia("(max-width:760px)").matches) setTimeout(() => set(false), 50); });
+})();
