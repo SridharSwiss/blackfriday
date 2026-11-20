@@ -82,7 +82,7 @@ const LIVE = LIVE_CH.filter(r => (!r.from || r.from <= TODAY) && TODAY <= (r.unt
   const off = r.price != null && r.was ? Math.round((1 - r.price / r.was) * 100) : (r.percent || null);
   return { region: "live", cur: r.cur || "CHF", id: uid("live-" + slug(r.shop + " " + r.name)), rank: i + 1, top: false, cat: r.cat, name: r.name, spec: r.spec || "",
     q: r.q || r.name, now: r.price ?? null, reg: r.was ?? null, low: null, best: null, show: r.price ?? null, off, save: r.was && r.price != null ? r.was - r.price : 0,
-    status: "live", note: r.note || null, rating: r.rating || null, reviews: r.reviews || null, pick: (off || 0) >= 30, shops: [r.shop], shop: r.shop, url: r.url || null, until: r.until || null, from: r.from || null,
+    status: "live", img: r.img || null, note: r.note || null, rating: r.rating || null, reviews: r.reviews || null, pick: (off || 0) >= 30, shops: [r.shop], shop: r.shop, url: r.url || null, until: r.until || null, from: r.from || null,
     checked: r.checked, code: r.code || null, percent: r.percent || null, type: r.type || null, src: r.src || [] };
 });
 // Most valuable live deals: at least 25 % off, ranked by the amount saved (EUR converted at an approximate rate, for ranking only)
@@ -379,7 +379,7 @@ function adHTML(a, cls) {
   }
   const r = a.r, href = affLink(a.k === "lyca" ? "lyca" : "amazon", r.url);
   const stars = a.k === "amz" ? `<span class="st">★ ${r.rating}</span>` : "";
-  return `<a class="adc ${cls || ""} ${a.k}" href="${href}" target="_blank" rel="sponsored nofollow noopener" data-ad="${a.k}"><span class="at">${a.t}</span>${a.h ? `<b class="ah">${esc(a.h)}</b>` : ""}<span class="an">${esc(r.name.replace(/\(.*?\)/g, "").trim().slice(0, 70))}</span><span class="ap"><strong>CHF ${adF(r.now)}</strong><s>${adF(r.reg)}</s><i class="${r.off > 70 ? "mega" : ""}">−${r.off}%</i></span>${stars}<u>${a.k === "lyca" ? T("lyGo") : T("amzGo")} →</u></a>`;
+  return `<a class="adc ${cls || ""} ${a.k}" href="${href}" target="_blank" rel="sponsored nofollow noopener" data-ad="${a.k}">${r.img ? `<img class="pimg" src="${esc(r.img)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">` : ""}<span class="at">${a.t}</span>${a.h ? `<b class="ah">${esc(a.h)}</b>` : ""}<span class="an">${esc(r.name.replace(/\(.*?\)/g, "").trim().slice(0, 70))}</span><span class="ap"><strong>CHF ${adF(r.now)}</strong><s>${adF(r.reg)}</s><i class="${r.off > 70 ? "mega" : ""}">−${r.off}%</i></span>${stars}<u>${a.k === "lyca" ? T("lyGo") : T("amzGo")} →</u></a>`;
 }
 /* mobile: after every 5 deal cards insert an ad, alternating Lyca / Amazon (cycling through the top 10) */
 function withInlineAds(cards) {

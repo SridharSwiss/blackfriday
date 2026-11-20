@@ -43,3 +43,9 @@ Re-run Phase B on **23 Nov** (Brack Black Week, Galaxus ramp) and **27 Nov** (Co
 - Awin merchant id **121580** (Lyca Mobile CH), publisher id **3132513**. `affLink("lyca", url)` builds `https://www.awin1.com/cread.php?awinmid=121580&awinaffid=3132513&clickref=aktion-ch&ued=<url>` for any lycamobile.ch URL; never hand-edit those ids.
 - Product feed (Awin CSV) gives the plan pages: `/de/bundle/hello-swiss-truly-ul` (list CHF 39.90), `/de/bundle/hello-swiss-max` (33.90), `/de/bundle/hello-swiss-l` (29), `-m` (24), `-s` (19). Rows in live-ch.js use these bundle URLs (NOT `#anchors`).
 - The home page lycamobile.ch/de/ shows the Black Friday discounted prices (Truly Unlimited 19.95, Max 24.95); a row exists only while a struck regular price is shown. Re-verify daily (see prompt step 2b); the site hides sponsored slots whose rows are older than yesterday.
+
+
+## Product pictures
+Rows may carry an optional `img` (https URL). Cards (`thumb()`), sponsored cards and partner tabs show it and fall back to the category illustration if it fails to load.
+Only use licensed sources: Awin/Tradedoubler product feeds (`aw_image_url`), Amazon Associates image links / Product Advertising API (after 3 qualifying sales), or brand press kits.
+Do not copy retailer og:image files for retailers without an image licence.
