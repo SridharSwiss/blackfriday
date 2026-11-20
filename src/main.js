@@ -364,15 +364,15 @@ const adF = n => Number(n).toFixed(2);
 function adHTML(a, cls) {
   if (a.k === "shop") {
     const r = a.r;
-    return `<a class="adc shop ${cls || ""}" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="partner"><span class="ad">${T("lyAd")}</span><img src="${esc(r.img)}" alt="" loading="lazy" decoding="async"><span class="an">${esc(r.name)}</span><span class="ap"><strong>CHF ${adF(r.price)}</strong></span>${r.ship ? `<span class="sh">${T("shipFee").replace("{s}", adF(r.ship))}</span>` : ""}<u>${T("tyreGo")} →</u></a>`;
+    return `<a class="adc shop ${cls || ""}" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="partner"><img src="${esc(r.img)}" alt="" loading="lazy" decoding="async"><span class="an">${esc(r.name)}</span><span class="ap"><strong>CHF ${adF(r.price)}</strong></span>${r.ship ? `<span class="sh">${T("shipFee").replace("{s}", adF(r.ship))}</span>` : ""}<u>${T("tyreGo")} →</u></a>`;
   }
   if (a.k === "tyre") {
     const r = a.r;
-    return `<a class="adc tyre ${cls || ""}" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre"><span class="ad">${T("lyAd")}</span><span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${T("tyreH")} ${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${adF(r.price)}</strong><i class="pt">${T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
+    return `<a class="adc tyre ${cls || ""}" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre"><span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${T("tyreH")} ${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${adF(r.price)}</strong><i class="pt">${T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
   }
   const r = a.r, href = affLink(a.k === "lyca" ? "lyca" : "amazon", r.url);
   const stars = a.k === "amz" ? `<span class="st">★ ${r.rating}</span>` : "";
-  return `<a class="adc ${cls || ""} ${a.k}" href="${href}" target="_blank" rel="sponsored nofollow noopener" data-ad="${a.k}"><span class="ad">${T("lyAd")}</span><span class="at">${a.t}</span>${a.h ? `<b class="ah">${esc(a.h)}</b>` : ""}<span class="an">${esc(r.name.replace(/\(.*?\)/g, "").trim().slice(0, 70))}</span><span class="ap"><strong>CHF ${adF(r.now)}</strong><s>${adF(r.reg)}</s><i>−${r.off}%</i></span>${stars}<u>${a.k === "lyca" ? T("lyGo") : T("amzGo")} →</u></a>`;
+  return `<a class="adc ${cls || ""} ${a.k}" href="${href}" target="_blank" rel="sponsored nofollow noopener" data-ad="${a.k}"><span class="at">${a.t}</span>${a.h ? `<b class="ah">${esc(a.h)}</b>` : ""}<span class="an">${esc(r.name.replace(/\(.*?\)/g, "").trim().slice(0, 70))}</span><span class="ap"><strong>CHF ${adF(r.now)}</strong><s>${adF(r.reg)}</s><i>−${r.off}%</i></span>${stars}<u>${a.k === "lyca" ? T("lyGo") : T("amzGo")} →</u></a>`;
 }
 /* mobile: after every 5 deal cards insert an ad, alternating Lyca / Amazon (cycling through the top 10) */
 function withInlineAds(cards) {
@@ -896,7 +896,7 @@ if (ENABLED) {
   const f = n => Number(n).toFixed(2);
   const el = document.createElement("div");
   el.className = "lyca-bn";
-  el.innerHTML = `<a class="lyca-go" href="${affLink("lyca", r.url)}" target="_blank" rel="sponsored nofollow noopener" data-lyca><span class="ad">${T("lyAd")}</span><b>${T("lyTxt").replace("{p}", f(r.now))}</b><s>${T("lyWas").replace("{w}", f(r.reg))}</s><u>${T("lyGo")} →</u></a><button type="button" class="lyca-x" aria-label="${T("lyClose")}">×</button>`;
+  el.innerHTML = `<a class="lyca-go" href="${affLink("lyca", r.url)}" target="_blank" rel="sponsored nofollow noopener" data-lyca><b>${T("lyTxt").replace("{p}", f(r.now))}</b><s>${T("lyWas").replace("{w}", f(r.reg))}</s><u>${T("lyGo")} →</u></a><button type="button" class="lyca-x" aria-label="${T("lyClose")}">×</button>`;
   const app = document.querySelector(".app");
   app.insertBefore(el, app.firstChild);
   el.querySelector(".lyca-x").addEventListener("click", () => { el.remove(); try { sessionStorage.setItem("lyca-bn", "1"); } catch (e) {} });
@@ -911,7 +911,7 @@ if (ENABLED) {
   const f = n => Number(n).toFixed(2);
   const el = document.createElement("aside");
   el.className = "amz-bn";
-  el.innerHTML = `<a href="${affLink("amazon", r.url)}" target="_blank" rel="sponsored nofollow noopener" data-amz><span class="ad">${T("lyAd")}</span><span class="tx"><b>${esc(r.name)}</b><small>${T("amzTop")} · ★ ${r.rating} · CHF ${f(r.now)} <s>${f(r.reg)}</s> −${r.off}%</small></span><u>${T("amzGo")} →</u></a><p>${T("amzNote")}</p>`;
+  el.innerHTML = `<a href="${affLink("amazon", r.url)}" target="_blank" rel="sponsored nofollow noopener" data-amz><span class="tx"><b>${esc(r.name)}</b><small>${T("amzTop")} · ★ ${r.rating} · CHF ${f(r.now)} <s>${f(r.reg)}</s> −${r.off}%</small></span><u>${T("amzGo")} →</u></a><p>${T("amzNote")}</p>`;
   foot.parentNode.insertBefore(el, foot);
   el.addEventListener("click", e => { if (e.target.closest("[data-amz]")) track("amazon_banner", { id: r.id }); });
 })();
@@ -932,7 +932,7 @@ if (ENABLED) {
 
 /* ---------------- Awin partner sections (kept separate from the deal list) ---------------- */
 const fmtN = n => Number(n).toFixed(2);
-const tyreCard = r => `<a class="adc tyre tcard" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre"><span class="ad">${T("lyAd")}</span><span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${fmtN(r.price)}</strong><i class="pt">${T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
+const tyreCard = r => `<a class="adc tyre tcard" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre"><span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${fmtN(r.price)}</strong><i class="pt">${T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
 function renderTyres() {
   $("tyre-h").textContent = T("tabTyres"); $("tyre-intro").textContent = T("tyreIntro");
   const sizes = [...new Set(AWIN_TYRES.map(r => r.size))], brands = [...new Set(AWIN_TYRES.map(r => r.brand))];
