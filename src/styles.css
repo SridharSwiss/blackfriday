@@ -225,10 +225,17 @@ main{min-height:0;height:100%;overflow:hidden;display:grid}
 #pupd b{color:var(--red)}
 #pupd::before{content:"";width:7px;height:7px;background:var(--red);border-radius:50%;flex:none}
 .linkbtn{background:none;border:0;padding:0;font:600 12.5px var(--f-body);color:var(--red);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
-.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;position:relative}
 .filters select{max-width:230px}
 .filters select:hover{border-color:var(--muted)}
 .filters #reset{margin-left:4px}
+/* custom chevron (pure CSS, no image) in place of the native OS control glyph - same small mark everywhere */
+.filters select{appearance:none;-webkit-appearance:none;background-color:var(--surface);background-repeat:no-repeat,no-repeat;background-size:7px 7px,7px 7px;padding-right:28px;
+  background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+  background-position:calc(100% - 17px) center,calc(100% - 12px) center}
+.filters select:hover,.filters select:focus-visible{
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%)}
+.filters .scrollhint{display:none}
 .infobar{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;padding:8px 12px;border-radius:8px;font-size:12.5px}
 .infobar[hidden]{display:none!important}
 .winterbar{background:color-mix(in srgb,var(--info) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--info) 35%,transparent)}
@@ -712,6 +719,7 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
   .rail-l{left:14px}.rail-r{right:14px}
 }
 @keyframes railUp{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes hintNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(-4px)}}
 @keyframes railDown{from{transform:translateY(-50%)}to{transform:translateY(0)}}
 @media (prefers-reduced-motion:reduce){.rail .track{animation:none}.rail .marq{overflow-y:auto}}
 
@@ -951,9 +959,15 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
   #p-products .head{gap:6px;margin-bottom:6px}
   #p-products .titlerow{min-height:0}#p-products .titlerow .lead{font-size:20px}
   #p-products .titlerow .sub{font-size:11px}
-  #p-products .filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;-webkit-mask-image:linear-gradient(90deg,#000 90%,transparent);mask-image:linear-gradient(90deg,#000 90%,transparent)}
+  #p-products .filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
   #p-products .filters::-webkit-scrollbar{display:none}
-  #p-products .filters select{flex:none;min-height:36px;font-size:13px;padding:6px 26px 6px 10px}
+  #p-products .filters select{flex:none;min-height:36px;font-size:13px;padding:6px 28px 6px 10px}
+  /* a small gold chip pinned to the right edge of the scrollable filter row - the clearest, most legible way
+     to say "there's more here, swipe" (a faded edge alone reads as a rendering glitch more than an invitation) */
+  .filters .scrollhint{display:grid;place-items:center;position:sticky;right:0;flex:none;width:26px;height:26px;margin-left:4px;
+    border-radius:999px;background:linear-gradient(135deg,var(--tag),color-mix(in srgb,var(--tag) 55%,var(--red)));
+    color:var(--tag-ink);font:700 15px/1 var(--f-body);box-shadow:0 2px 10px rgba(0,0,0,.28);animation:hintNudge 2.6s ease-in-out infinite;pointer-events:none}
+  @media (prefers-reduced-motion:reduce){.filters .scrollhint{animation:none}}
   #livebar{display:none!important}
   #pulse{display:flex;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;align-items:center;gap:10px;padding:6px 10px;scrollbar-width:none}
   #pulse::-webkit-scrollbar{display:none}

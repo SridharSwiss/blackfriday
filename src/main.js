@@ -513,7 +513,7 @@ function showTab(t, opts = {}) {
   track("tab", { tab: t });
   TABS.forEach(x => { const b = $("t-" + x); b.setAttribute("aria-selected", x === t); b.tabIndex = x === t ? 0 : -1; });
   document.querySelectorAll(".bottomnav [data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
-  $("b-more").classList.toggle("on", ["categories", "us", "tyres", "sodeal", "calendar", "retailers", "guide"].includes(t));
+  $("b-more").classList.toggle("on", ["categories", "us", "calendar", "retailers", "guide"].includes(t));
   const products = PRODUCT_TABS.includes(t);
   $("p-products").hidden = !products;
   ["tyres", "sodeal", "calendar", "retailers", "guide"].forEach(x => $("p-" + x).hidden = x !== t);
