@@ -899,3 +899,7 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
   .hmenu svg{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
   .bar.open .hmenu svg{transform:rotate(90deg)}
 }
+
+.adc .aart{display:grid;place-items:center;height:58px;color:var(--pr,#F3E2B3);background:rgba(255,255,255,.08);border-radius:10px;margin-bottom:2px}
+.adc .aart svg{height:48px;width:auto;fill:currentColor;filter:drop-shadow(0 4px 6px rgba(0,0,0,.35))}
+.adc.inline .aart{display:none}

@@ -19,6 +19,7 @@ import { initAuth, pullWatch, pushWatch, user as authUser } from "./lib/auth.js"
 import { initAccountUi } from "./lib/account-ui.js";
 import { STRINGS, detectLang, LANG_PATHS } from "./i18n.js";
 import * as INT from "./interest.js";
+import { artFor } from "./lib/art.js";
 
 /* ---------------- i18n ---------------- */
 const PAGE = window.__PAGE__ || null;
@@ -379,7 +380,7 @@ function adHTML(a, cls) {
   }
   const r = a.r, href = affLink(a.k === "lyca" ? "lyca" : "amazon", r.url);
   const stars = a.k === "amz" ? `<span class="st">★ ${r.rating}</span>` : "";
-  return `<a class="adc ${cls || ""} ${a.k}" href="${href}" target="_blank" rel="sponsored nofollow noopener" data-ad="${a.k}">${r.img ? `<img class="pimg" src="${esc(r.img)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">` : ""}<span class="at">${a.t}</span>${a.h ? `<b class="ah">${esc(a.h)}</b>` : ""}<span class="an">${esc(r.name.replace(/\(.*?\)/g, "").trim().slice(0, 70))}</span><span class="ap"><strong>CHF ${adF(r.now)}</strong><s>${adF(r.reg)}</s><i class="${r.off > 70 ? "mega" : ""}">−${r.off}%</i></span>${stars}<u>${a.k === "lyca" ? T("lyGo") : T("amzGo")} →</u></a>`;
+  return `<a class="adc ${cls || ""} ${a.k}" href="${href}" target="_blank" rel="sponsored nofollow noopener" data-ad="${a.k}">${r.img ? `<img class="pimg" src="${esc(r.img)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">` : `<span class="aart" aria-hidden="true"><svg viewBox="0 0 64 64">${artFor(a.k === "lyca" ? "Telecom" : r.cat)}</svg></span>`}<span class="at">${a.t}</span>${a.h ? `<b class="ah">${esc(a.h)}</b>` : ""}<span class="an">${esc(r.name.replace(/\(.*?\)/g, "").trim().slice(0, 70))}</span><span class="ap"><strong>CHF ${adF(r.now)}</strong><s>${adF(r.reg)}</s><i class="${r.off > 70 ? "mega" : ""}">−${r.off}%</i></span>${stars}<u>${a.k === "lyca" ? T("lyGo") : T("amzGo")} →</u></a>`;
 }
 /* mobile: after every 5 deal cards insert an ad, alternating Lyca / Amazon (cycling through the top 10) */
 function withInlineAds(cards) {
@@ -956,7 +957,8 @@ if (ENABLED) {
 
 /* ---------------- Awin partner sections (kept separate from the deal list) ---------------- */
 const fmtN = n => Number(n).toFixed(2);
-const tyreCard = r => `<a class="adc tyre tcard c-${r.c}" data-tc="${r.c}" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre">${r.img ? `<img class="pimg" src="${esc(r.img)}" alt="${esc(r.brand + " " + r.model)}" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : ""}${r.best ? `<span class="best">${T("tyreBest")}</span>` : ""}<span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${fmtN(r.price)}</strong><i class="pt">${r.c === "alloy" || r.c === "steel" ? T("tyrePerWheel") : T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
+const tyreCard = r => `<a class="adc tyre tcard c-${r.c}" data-tc="${r.c}" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre">${r.img ? `<img class="pimg" src="${esc(r.img)}" alt="${esc(r.brand + " " + r.model)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.outerHTML='<span class=aart><svg viewBox=\'0 0 64 64\'>'+window.__tyreArt+'</svg></span>'">` : ""}${r.best ? `<span class="best">${T("tyreBest")}</span>` : ""}<span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${fmtN(r.price)}</strong><i class="pt">${r.c === "alloy" || r.c === "steel" ? T("tyrePerWheel") : T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
+window.__tyreArt = artFor("Winter tyres");
 const BESTW = { en: "Cheapest for size", de: "Günstigster dieser Grösse", fr: "Moins cher pour cette taille", it: "Più economico per misura" };
 const ALLW = { en: "All", de: "Alle", fr: "Tous", it: "Tutti" };
 const rimOf = r => (r.size.match(/R\s?(\d+)/) || r.size.match(/(\d+)"/) || [])[1] || "?";
