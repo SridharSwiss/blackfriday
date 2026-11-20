@@ -936,3 +936,33 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
   #p-products .filters .linkbtn{flex:none;white-space:nowrap}
 }
 @media (min-width:1000px) and (max-width:1799px){ #p-products .filters #status{display:none} #p-products .filters select{max-width:128px} }
+
+/* ===== mobile density pass: cards start high on the screen ===== */
+@media (max-width:760px){
+  .lyca-bn .lyca-go{flex-wrap:nowrap;justify-content:space-between;gap:8px;padding:5px 38px 5px 10px;font-size:12px;min-height:0}
+  .lyca-bn .lyca-go b{flex:1;min-width:0;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lyca-bn .lyca-go s,.lyca-bn .lyca-go i{display:none}
+  .lyca-bn .lyca-go u{flex:none;padding:4px 10px;font-size:12px}
+  .lyca-bn .lyca-x{top:2px;right:2px;width:30px;height:30px}
+  .bar{padding-block:6px}
+  #pagehead{padding-block:4px}#pagehead p,#pagehead #pmore{display:none}
+  #pagehead h1{font-size:13px;margin:0;font-weight:700;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tabs{padding-block:5px}.tab{padding:7px 12px}
+  #p-products .head{gap:6px;margin-bottom:6px}
+  #p-products .titlerow{min-height:0}#p-products .titlerow .lead{font-size:20px}
+  #p-products .titlerow .sub{font-size:11px}
+  #p-products .filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;-webkit-mask-image:linear-gradient(90deg,#000 90%,transparent);mask-image:linear-gradient(90deg,#000 90%,transparent)}
+  #p-products .filters::-webkit-scrollbar{display:none}
+  #p-products .filters select{flex:none;min-height:36px;font-size:13px;padding:6px 26px 6px 10px}
+  #livebar{display:none!important}
+  #pulse{display:flex;flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;align-items:center;gap:10px;padding:6px 10px;scrollbar-width:none}
+  #pulse::-webkit-scrollbar{display:none}
+  .card{grid-template-columns:84px minmax(0,1fr)}
+  .card .body{padding:8px 10px;gap:4px}
+  .card .name{font-size:15px}
+  .card .price{font-size:19px}
+  .card .save{font-size:11.5px;padding:1px 7px}
+  .shop.primary{padding:9px 12px;font-size:13px}
+  .foryou{margin-bottom:10px;padding:10px 8px 2px}
+}
+@media (max-width:760px){#pulse,#pulse *{white-space:nowrap}#pulse>*{flex:none;flex-wrap:nowrap}#pulse{overflow-x:auto}}
