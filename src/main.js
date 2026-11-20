@@ -80,7 +80,7 @@ const LIVE = LIVE_CH.filter(r => (!r.from || r.from <= TODAY) && TODAY <= (r.unt
   const off = r.price != null && r.was ? Math.round((1 - r.price / r.was) * 100) : (r.percent || null);
   return { region: "live", cur: r.cur || "CHF", id: uid("live-" + slug(r.shop + " " + r.name)), rank: i + 1, top: false, cat: r.cat, name: r.name, spec: r.spec || "",
     q: r.q || r.name, now: r.price ?? null, reg: r.was ?? null, low: null, best: null, show: r.price ?? null, off, save: r.was && r.price != null ? r.was - r.price : 0,
-    status: "live", note: r.note || null, pick: (off || 0) >= 30, shops: [r.shop], shop: r.shop, url: r.url || null, until: r.until || null, from: r.from || null,
+    status: "live", note: r.note || null, rating: r.rating || null, reviews: r.reviews || null, pick: (off || 0) >= 30, shops: [r.shop], shop: r.shop, url: r.url || null, until: r.until || null, from: r.from || null,
     checked: r.checked, code: r.code || null, percent: r.percent || null, type: r.type || null, src: r.src || [] };
 });
 // Most valuable live deals: at least 25 % off, ranked by the amount saved (EUR converted at an approximate rate, for ranking only)
@@ -103,9 +103,30 @@ function buyScore(d) {
   const trust = d.region === "us" ? 3 : (TRUST[d.shop] ?? 6);
   const days = d.until ? (new Date(d.until + "T12:00:00Z") - Date.now()) / 864e5 : 99;
   const urg = days <= 3 ? 5 : days <= 7 ? 3 : 0;
-  return Math.round(Math.min(100, depth + saved + price + cat + brand + trust + urg));
+  // social proof (Amazon rows carry rating + review count): up to +8
+  const proof = d.rating && d.reviews ? Math.min(8, Math.max(0, (d.rating - 3.5) / 1.5) * Math.min(1, Math.log10(1 + d.reviews) / 3.5) * 8) : 0;
+  return Math.round(Math.min(100, depth + saved + price + cat + brand + trust + urg + proof));
 }
 [...LIVE, ...US].forEach(d => { d.buy = buyScore(d); });
+// The 25 hottest Galaxus/Digitec deals: best buy score among rows re-verified in the last 2 days (not listing-only rows), max 4 per category so the set is mixed
+const HOT = new Set();
+{
+  const cut = new Date(Date.now() - 2 * 864e5).toISOString().slice(0, 10), per = {};
+  for (const d of LIVE.filter(x => (x.shop === "galaxus" || x.shop === "digitec") && x.checked >= cut && !/sale listing/.test(x.note || "") && x.off >= 15).sort((a, b) => b.buy - a.buy)) {
+    if (HOT.size >= 25) break;
+    if ((per[d.cat] = (per[d.cat] || 0) + 1) > 4) continue;
+    HOT.add(d.id);
+  }
+}
+// "Recommended" order: buy-score ranked deals with Amazon (affiliate) deals and the hot Galaxus/Digitec picks woven in: 2 regular, 1 Amazon, 1 hot pick, repeat
+function mixRecommended(l) {
+  const by = (a, b) => (b.buy ?? 0) - (a.buy ?? 0) || (b.off || 0) - (a.off || 0);
+  const amz = l.filter(d => d.shop === "amazon").sort(by), hot = l.filter(d => HOT.has(d.id)).sort(by);
+  const used = new Set([...amz, ...hot].map(d => d.id)), rest = l.filter(d => !used.has(d.id)).sort(by);
+  const out = [], q = [[rest, 2], [amz, 1], [hot, 1]];
+  while (out.length < l.length) { let moved = false; for (const [a, n] of q) for (let i = 0; i < n && a.length; i++) { out.push(a.shift()); moved = true; } if (!moved) break; }
+  return out;
+}
 // Only discounted / deal items are shown: verified live CH deals + priced US deals. The old Top-100 tracker, the undiscounted catalogue and price-less lines are no longer listed.
 const ALL = LIVE.concat(US);
 const BY_ID = new Map(ALL.map(d => [d.id, d]));
@@ -219,6 +240,7 @@ function list() {
     az: (a, b) => a.name.localeCompare(b.name),
     ends: (a, b) => (a.until || "9999").localeCompare(b.until || "9999") || (b.off || 0) - (a.off || 0)
   };
+  if (state.sort === "rank" && state.tab === "live" && !term) return mixRecommended(l);
   return l.sort(by[state.sort] || by.rank);
 }
 function priceLine(d) {
