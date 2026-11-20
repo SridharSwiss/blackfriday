@@ -260,13 +260,17 @@ function priceLine(d) {
   const drop = d.drop ? `<span class="drop" title="${esc(S.dropTitle(money(d.was0, d.cur)))}">↓ ${money(d.drop, d.cur)}</span>` : "";
   return `<span class="price">${money(d.show, d.cur)}</span>${drop}${extra}`;
 }
+/* Category identity: emoji + hue per category so shoppers recognise the kind of deal at a glance */
+const CATUI = { TV: ["📺", 215], "Robot vacuums": ["🤖", 170], Cameras: ["📷", 265], Kitchen: ["🍳", 25], Home: ["🏠", 35], Beauty: ["💄", 330], "Mobile Plans & Internet": ["📶", 200], Telecom: ["📶", 200], Wearables: ["⌚", 185], Monitors: ["🖥️", 230], Computers: ["💻", 225], "PC Components": ["🧩", 240], Gaming: ["🎮", 285], Sports: ["🏃", 140], Sport: ["🏃", 140], Audio: ["🎧", 255], Appliances: ["🧺", 195], Coffee: ["☕", 20], Phones: ["📱", 205], Tablets: ["📲", 210], "Smart Home": ["💡", 50], Fashion: ["👗", 345], "Personal Care": ["🧴", 320], Accessories: ["👜", 300], Car: ["🚗", 5], LEGO: ["🧱", 55], "Baby & Kids": ["🧸", 40], Baby: ["🧸", 40], "Tools & DIY": ["🔧", 30], Tools: ["🔧", 30], Furniture: ["🛋️", 28], Pets: ["🐾", 120], Toys: ["🎲", 48], Shoes: ["👟", 355], "Bikes & E-mobility": ["🚲", 150], Networking: ["🌐", 215], Garden: ["🌿", 130], Health: ["❤️‍🩹", 350], Printers: ["🖨️", 235], Outdoor: ["⛺", 110], Travel: ["✈️", 195], Books: ["📚", 25], Food: ["🍽️", 15] };
+const catUI = c => CATUI[c] || ["🏷️", [...String(c)].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) % 360, 7)];
 const fmtN0 = n => n >= 100 ? Math.round(n).toLocaleString("de-CH") : n.toFixed(2);
 function card(d) {
   const badge = d.off ? `<span class="off${d.off > 70 ? " mega" : ""}">−${d.off}%</span>` : d.pick ? `<span class="off pick">Pick</span>` : "";
-  return `<article class="card${d.pick ? " is-pick" : ""}">
+  const [cI, cH] = catUI(d.cat);
+  return `<article class="card${d.pick ? " is-pick" : ""}" style="--cc:${cH}">
     <div class="tw">${thumb(d)}${badge}<button class="heart${watched(d) ? " on" : ""}" type="button" data-w="${d.id}" aria-pressed="${watched(d)}" aria-label="Save ${esc(d.name)} to My list">${heartSvg}</button><a class="wa" data-wa="${d.id}" href="${dealWa(d)}" target="_blank" rel="noopener" aria-label="${esc(T("waShare"))}: ${esc(d.name)}" title="${esc(T("waShare"))}">${waSvg}</a></div>
     <div class="body">
-      <div class="top"><span class="r">${d.top ? `#<b>${d.rank}</b>`  : ""}</span><span class="c">${esc(d.cat)}</span>${d.buy != null ? `<span class="pill buy" title="${esc(T("buyTip"))}">🛒 ${d.buy}</span>` : ""}${d.isNew ? `<span class="pill new">${T("newBadge")}</span>` : ""}<span class="pill ${d.status}">${d.region === "live" ? esc(SHOPS[d.shop] ? SHOPS[d.shop].name : d.shop) : LABEL[d.status]}</span></div>
+      <div class="top"><span class="r">${d.top ? `#<b>${d.rank}</b>`  : ""}</span><span class="c"><i aria-hidden="true">${cI}</i>${esc(d.cat)}</span>${d.buy != null ? `<span class="pill buy" title="${esc(T("buyTip"))}">🛒 ${d.buy}</span>` : ""}${d.isNew ? `<span class="pill new">${T("newBadge")}</span>` : ""}<span class="pill ${d.status}">${d.region === "live" ? esc(SHOPS[d.shop] ? SHOPS[d.shop].name : d.shop) : LABEL[d.status]}</span></div>
       <button class="name" type="button" data-d="${d.id}">${esc(d.name)}</button>
       <div class="priceline">${priceLine(d)}</div>${d.reg && d.show != null && d.reg > d.show && d.cur === "CHF" ? `<span class="save">${T("saveAmt").replace("{x}", fmtN0(d.reg - d.show))}</span>` : ""}
       <div class="btns">${(() => { const all = cardShops(d), vis = all.slice(0, 2), more = all.length - vis.length;
@@ -892,19 +896,35 @@ if (ENABLED) {
   initAuth().then(u => { $("acct").classList.toggle("on", !!u); if (u) { sync(); if (u.fresh) track("login"); if (u.recovery) openAccount(true); } });
 }
 
-/* Lyca Mobile top banner (Awin affiliate) — shown on open, dismissible per session */
+/* Top banner: rotates every 15 s through affiliate deals only. Lyca (Awin) has priority: it opens the rotation and returns after every
+   Amazon slide; Amazon slides are the highest buy-score deals verified today/yesterday. Dismissible per session, pauses on hover. */
 (() => {
-  const r = LIVE.find(x => x.shop === "lyca" && /Truly Unlimited/i.test(x.name));
-  if (!r) return;
+  const ly = [...new Map(AD_LYCA.map(a => [a.r.url, a.r])).values()];
+  const amz = AD_AMZ.slice(0, 5).map(a => a.r);
+  if (!ly.length && !amz.length) return;
   try { if (sessionStorage.getItem("lyca-bn") === "1") return; } catch (e) {}
   const f = n => Number(n).toFixed(2);
+  const seq = [];
+  if (amz.length) amz.forEach((r, j) => seq.push([["lyca", ly[j % Math.max(1, ly.length)]], ["amz", r]]));
+  else for (let j = 0; j < ly.length; j += 2) seq.push([["lyca", ly[j]], ["lyca", ly[(j + 1) % ly.length]]]);
+  if (!seq.length) return;
+  const slide = ([k, r]) => k === "lyca"
+    ? { href: affLink("lyca", r.url), ev: "lyca_banner", html: `<b>${/Truly/i.test(r.name) ? T("lyTxt").replace("{p}", f(r.now)) : "Lyca Mobile " + esc(r.name.replace(/^Lyca Mobile\s*/i, "")) + " · CHF " + f(r.now)}</b>${r.reg ? `<s>${T("lyWas").replace("{w}", f(r.reg))}</s>` : ""}<u>${T("lyGo")} →</u>`, cls: "" }
+    : { href: affLink("amazon", r.url), ev: "amazon_banner", html: `<b>${esc(r.name.replace(/\(.*?\)/g, "").trim().slice(0, 48))} · CHF ${f(r.now)}</b><s>${f(r.reg)}</s><i>−${r.off}%</i><u>${T("amzGo")} →</u>`, cls: " amzs" };
   const el = document.createElement("div");
   el.className = "lyca-bn";
-  el.innerHTML = `<a class="lyca-go" href="${affLink("lyca", r.url)}" target="_blank" rel="sponsored nofollow noopener" data-lyca><b>${T("lyTxt").replace("{p}", f(r.now))}</b><s>${T("lyWas").replace("{w}", f(r.reg))}</s><u>${T("lyGo")} →</u></a><button type="button" class="lyca-x" aria-label="${T("lyClose")}">×</button>`;
+  let i = 0, hold = false;
+  const paint = () => {
+    el.innerHTML = seq[i].map(pr => { const sl = slide(pr); return `<a class="lyca-go${sl.cls}" href="${sl.href}" target="_blank" rel="sponsored nofollow noopener" data-bn="${sl.ev}" data-p="${pr[1].now}">${sl.html}</a>`; }).join("") + `<button type="button" class="lyca-x" aria-label="${T("lyClose")}">×</button>`;
+    el.querySelector(".lyca-x").addEventListener("click", () => { clearInterval(tm); el.remove(); try { sessionStorage.setItem("lyca-bn", "1"); } catch (e) {} });
+    el.classList.remove("in"); void el.offsetWidth; el.classList.add("in");
+  };
+  paint();
   const app = document.querySelector(".app");
   app.insertBefore(el, app.firstChild);
-  el.querySelector(".lyca-x").addEventListener("click", () => { el.remove(); try { sessionStorage.setItem("lyca-bn", "1"); } catch (e) {} });
-  el.addEventListener("click", e => { if (e.target.closest("[data-lyca]")) track("lyca_banner", { price: r.now }); });
+  el.addEventListener("mouseenter", () => hold = true); el.addEventListener("mouseleave", () => hold = false);
+  const tm = setInterval(() => { if (hold || document.hidden || seq.length < 2) return; i = (i + 1) % seq.length; paint(); }, 15000);
+  el.addEventListener("click", e => { const a = e.target.closest("[data-bn]"); if (a) track(a.dataset.bn, { price: a.dataset.p }); });
 })();
 
 /* Bottom banner: the Amazon.de deal with the highest buy score (affiliate-tagged), placed above the footer */
