@@ -49,6 +49,7 @@ export const SHOPS = {
   sonos:{name:"Sonos", search:s=>`https://www.sonos.com/de-ch/search?q=${enc(s)}`},
   decathlon:{name:"Decathlon", search:s=>`https://www.decathlon.ch/de/search?Ntt=${enc(s)}`},
   aldi:{name:"Aldi Mobile", search:()=>"https://www.aldi-mobile.ch/"},
+  lyca:{name:"Lyca Mobile", search:()=>"https://www.lycamobile.ch/de/"},
   lebara:{name:"Lebara", search:()=>"https://www.lebara.ch/"},
   salt:{name:"Salt", search:()=>"https://www.salt.ch/"},
   wingo:{name:"Wingo", search:()=>"https://www.wingo.ch/"},
