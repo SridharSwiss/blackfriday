@@ -397,7 +397,7 @@ function withInlineAds(cards) {
     const base = side === "l" ? AD_AMZ : AD_AMZ.slice().reverse();
     const ly = AD_LYCA.length ? AD_LYCA[lyIdx] : null;
     const pool = ly ? [ly, ...base.slice(0, 4), AD_LYCA[1 - lyIdx] || ly, ...base.slice(4)] : base;
-    const one = (a, i, hide) => adHTML(a, "rail-ad t" + (i % 4)).replace("<a ", hide ? '<a tabindex="-1" aria-hidden="true" ' : "<a ");
+    const one = (a, i, hide) => adHTML(a, "rail-ad t" + (i % 5)).replace("<a ", hide ? '<a tabindex="-1" aria-hidden="true" ' : "<a ");
     el.innerHTML = pool.length ? `<div class="marq"><div class="track" style="--n:${pool.length}">${pool.map((a, i) => one(a, i)).join("")}${pool.map((a, i) => one(a, i, 1)).join("")}</div></div>` : "";
     document.body.appendChild(el);
   };
@@ -932,34 +932,45 @@ if (ENABLED) {
 
 /* ---------------- Awin partner sections (kept separate from the deal list) ---------------- */
 const fmtN = n => Number(n).toFixed(2);
-const tyreCard = r => `<a class="adc tyre tcard" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre">${r.best ? `<span class="best">${T("tyreBest")}</span>` : ""}<span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${fmtN(r.price)}</strong><i class="pt">${T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
+const tyreCard = r => `<a class="adc tyre tcard c-${r.c}" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre">${r.img ? `<img class="pimg" src="${esc(r.img)}" alt="${esc(r.brand + " " + r.model)}" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : ""}${r.best ? `<span class="best">${T("tyreBest")}</span>` : ""}<span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${fmtN(r.price)}</strong><i class="pt">${r.c === "alloy" || r.c === "steel" ? T("tyrePerWheel") : T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
 const BESTW = { en: "Cheapest for size", de: "Günstigster dieser Grösse", fr: "Moins cher pour cette taille", it: "Più economico per misura" };
 const ALLW = { en: "All", de: "Alle", fr: "Tous", it: "Tutti" };
-const rimOf = r => (r.size.match(/R\s?(\d+)/) || [])[1] || "?";
+const rimOf = r => (r.size.match(/R\s?(\d+)/) || r.size.match(/(\d+)"/) || [])[1] || "?";
+const TCAT = [
+  ["winter", "❄️", { en: "Winter tyres", de: "Winterreifen", fr: "Pneus hiver", it: "Pneumatici invernali" }],
+  ["suv", "🏔️", { en: "Winter SUV / 4x4", de: "Winter SUV / 4x4", fr: "Hiver SUV / 4x4", it: "Invernali SUV / 4x4" }],
+  ["allseason", "🌦️", { en: "All-season", de: "Ganzjahresreifen", fr: "Toutes saisons", it: "Quattro stagioni" }],
+  ["alloy", "✨", { en: "Alloy wheels", de: "Alufelgen", fr: "Jantes alu", it: "Cerchi in lega" }],
+  ["steel", "🔩", { en: "Steel wheels", de: "Stahlfelgen", fr: "Jantes acier", it: "Cerchi in acciaio" }],
+];
+const gKey = r => r.c + "|" + (r.c === "alloy" || r.c === "steel" ? rimOf(r) + '"' : r.size);
 const chipRow = (el, items, cur, on) => {
   el.innerHTML = items.map(([v, label, n]) => `<button type="button" data-v="${esc(v)}" aria-pressed="${cur === v}">${label}${n != null ? `<i>${n}</i>` : ""}</button>`).join("");
   el.onclick = e => { const b = e.target.closest("button"); if (b) on(b.dataset.v === cur ? "" : b.dataset.v); };
 };
-let tyreRim = "", tyreBrand = "";
+let tyreRim = "", tyreBrand = "", tyreCat = "winter";
 function renderTyres() {
   $("tyre-h").textContent = T("tabTyres"); $("tyre-intro").textContent = T("tyreIntro");
-  const sizes = [...new Set(AWIN_TYRES.map(r => r.size))].sort();
   const ss = $("tyre-size");
   if (!ss.options.length) { ss.onchange = () => renderTyres(); $("tyre-sort").onchange = () => renderTyres(); }
-  ss.innerHTML = `<option value="">${T("tyreAll")}</option>` + sizes.map(x => `<option${x === ss.value ? " selected" : ""}>${x}</option>`).join("");
+  const inCat = AWIN_TYRES.filter(r => r.c === tyreCat);
+  const sizes = [...new Set(inCat.map(r => r.size))].sort();
+  const keep = sizes.includes(ss.value) ? ss.value : "";
+  ss.innerHTML = `<option value="">${T("tyreAll")}</option>` + sizes.map(x => `<option${x === keep ? " selected" : ""}>${esc(x)}</option>`).join("");
   const sizeSel = ss.value, sort = $("tyre-sort").value;
-  const minBy = {}; AWIN_TYRES.forEach(r => { if (!minBy[r.size] || r.price < minBy[r.size]) minBy[r.size] = r.price; });
-  const cnt = (k, f) => AWIN_TYRES.filter(r => f(r) === k).length;
-  const rims = [...new Set(AWIN_TYRES.map(rimOf))].sort((a, b) => a - b);
-  const brands = [...new Set(AWIN_TYRES.map(r => r.brand))].sort();
-  chipRow($("tyre-rims"), [["", ALLW[LANG] || ALLW.en, AWIN_TYRES.length], ...rims.map(x => [x, `${T("tyreRim") || "Rim"} ${x}"`, cnt(x, rimOf)])], tyreRim, v => { tyreRim = v; renderTyres(); });
+  const minBy = {}; inCat.forEach(r => { const k = gKey(r); if (!minBy[k] || r.price < minBy[k]) minBy[k] = r.price; });
+  const cnt = (k, f) => inCat.filter(r => f(r) === k).length;
+  chipRow($("tyre-cats"), TCAT.map(([k, e, n]) => [k, `${e} ${n[LANG] || n.en}`, AWIN_TYRES.filter(r => r.c === k).length]), tyreCat, v => { if (v) { tyreCat = v; tyreRim = tyreBrand = ""; $("tyre-size").value = ""; renderTyres(); } });
+  const rims = [...new Set(inCat.map(rimOf))].sort((a, b) => a - b);
+  const brands = [...new Set(inCat.map(r => r.brand))].sort();
+  chipRow($("tyre-rims"), [["", ALLW[LANG] || ALLW.en, inCat.length], ...rims.map(x => [x, `${T("tyreRim") || "Rim"} ${x}"`, cnt(x, rimOf)])], tyreRim, v => { tyreRim = v; renderTyres(); });
   chipRow($("tyre-brands"), [["", ALLW[LANG] || ALLW.en], ...brands.map(x => [x, x, cnt(x, r => r.brand)])], tyreBrand, v => { tyreBrand = v; renderTyres(); });
-  const list = AWIN_TYRES.filter(r => (!tyreRim || rimOf(r) === tyreRim) && (!tyreBrand || r.brand === tyreBrand) && (!sizeSel || r.size === sizeSel))
-    .map(r => ({ ...r, best: r.price === minBy[r.size] }));
+  const list = inCat.filter(r => (!tyreRim || rimOf(r) === tyreRim) && (!tyreBrand || r.brand === tyreBrand) && (!sizeSel || r.size === sizeSel))
+    .map(r => ({ ...r, best: r.price === minBy[gKey(r)] }));
   if (sort) list.sort((a, b) => sort === "low" ? a.price - b.price : b.price - a.price);
-  else list.sort((a, b) => rimOf(a) - rimOf(b) || a.size.localeCompare(b.size) || a.price - b.price);
+  else list.sort((a, b) => rimOf(a) - rimOf(b) || gKey(a).localeCompare(gKey(b)) || a.price - b.price);
   let html = "", last = "";
-  list.forEach(r => { if (!sort && r.size !== last) { last = r.size; html += `<div class="tyrehead">${esc(r.size)}<small>${list.filter(x => x.size === r.size).length} · ${T("tyreFrom")} CHF ${fmtN(minBy[r.size])}</small></div>`; } html += tyreCard(r); });
+  list.forEach(r => { const k = gKey(r); if (!sort && k !== last) { last = k; html += `<div class="tyrehead">${esc(k.split("|")[1])}<small>${list.filter(x => gKey(x) === k).length} · ${T("tyreFrom")} CHF ${fmtN(minBy[k])}</small></div>`; } html += tyreCard(r); });
   $("tyre-grid").innerHTML = html;
   $("tyre-info").textContent = `${list.length} ${T("deals")}`;
 }
