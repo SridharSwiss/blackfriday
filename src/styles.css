@@ -966,3 +966,4 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
   .foryou{margin-bottom:10px;padding:10px 8px 2px}
 }
 @media (max-width:760px){#pulse,#pulse *{white-space:nowrap}#pulse>*{flex:none;flex-wrap:nowrap}#pulse{overflow-x:auto}}
+@media (max-width:760px){#pagehead{padding:0;min-height:0}#pagehead h1{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
