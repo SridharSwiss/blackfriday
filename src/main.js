@@ -941,17 +941,27 @@ if (ENABLED) {
   el.addEventListener("click", e => { if (e.target.closest("[data-amz]")) track("amazon_banner", { id: r.id }); });
 })();
 
-/* Mobile and desktop: load the next deals automatically when the end of the list nears (mobile keeps a "Show more" button as fallback) */
+/* Mobile and desktop: load the next deals automatically when the end of the list nears. Uses scroll position (works on every browser,
+   including iOS Safari / body scrollers) plus an IntersectionObserver; mobile keeps a "Show more" button as a last fallback. */
+const loadMore = () => {
+  if (!PRODUCT_TABS.includes(state.tab) || !$("p-products") || $("p-products").hidden) return false;
+  if (mobile()) { if (list().length > mobileShown) { mobileShown += 12; renderGrid(); return true; } }
+  else if (Math.max(deskShown, perPage * 2) < deskTotal) { deskShown = Math.max(deskShown, perPage * 2) + perPage * 2; renderGrid(); return true; }
+  return false;
+};
+const nearEnd = () => { const se = document.scrollingElement || document.documentElement; return se.scrollHeight - (se.scrollTop + window.innerHeight) < 1400; };
+let pend = false;
+const check = () => { if (pend) return; pend = true; requestAnimationFrame(() => { pend = false; let n = 0; while (nearEnd() && n++ < 6 && loadMore()); }); };
+window.addEventListener("scroll", check, { passive: true });
+document.addEventListener("scroll", check, { passive: true, capture: true });
+window.addEventListener("touchmove", check, { passive: true });
+window.addEventListener("touchend", check, { passive: true });
+window.addEventListener("resize", check);
+setInterval(check, 1500);
 (() => {
   const sent = document.getElementById("sentinel");
   if (!sent || !("IntersectionObserver" in window)) return;
-  const io = new IntersectionObserver(es => {
-    if (es[0].isIntersecting && PRODUCT_TABS.includes(state.tab)) {
-      if (mobile()) { if (list().length > mobileShown) { mobileShown += 12; renderGrid(); } }
-      else if (Math.max(deskShown, perPage * 2) < deskTotal) { deskShown = Math.max(deskShown, perPage * 2) + perPage * 2; renderGrid(); }
-    }
-    io.unobserve(sent); setTimeout(() => io.observe(sent), 150);
-  }, { rootMargin: "700px 0px" });
+  const io = new IntersectionObserver(es => { if (es[0].isIntersecting) loadMore(); io.unobserve(sent); setTimeout(() => io.observe(sent), 150); }, { rootMargin: "900px 0px" });
   io.observe(sent);
 })();
 
