@@ -344,6 +344,53 @@ function emptyState() {
   return `<div class="empty"><b>${T("emptySearch")}</b>${T("emptySearchSub")} <button class="linkbtn" type="button" data-reset>${T("resetFilters")}</button></div>`;
 }
 
+/* ---- Sponsored slots: Lyca (Awin) + top-10 Amazon.de by buy score. Only rows verified today/yesterday are used. ---- */
+const FRESH = plusDays(TODAY, -1);
+const fresh = x => x.checked && x.checked >= FRESH;
+const AD_LYCA = (() => {
+  const base = LIVE.filter(x => x.shop === "lyca" && fresh(x));
+  if (!base.length) return [];
+  const tu = base.find(x => /Truly/i.test(x.name)) || base[0], mx = base.find(x => /Max/i.test(x.name)) || base[0];
+  return [
+    { k: "lyca", t: "Lyca Mobile", h: T("adLy1"), r: tu }, { k: "lyca", t: "Lyca Mobile", h: T("adLy2"), r: mx }, { k: "lyca", t: "Lyca Mobile", h: T("adLy3"), r: tu }
+  ];
+})();
+const AD_AMZ = LIVE.filter(x => x.shop === "amazon" && fresh(x) && x.now != null && x.reg && x.off >= 20 && x.rating >= 4.3 && x.reviews >= 1000).sort((a, b) => b.buy - a.buy).slice(0, 10).map(r => ({ k: "amz", t: "Amazon.de", h: "", r }));
+const adF = n => Number(n).toFixed(2);
+function adHTML(a, cls) {
+  const r = a.r, href = affLink(a.k === "lyca" ? "lyca" : "amazon", r.url);
+  const stars = a.k === "amz" ? `<span class="st">★ ${r.rating}</span>` : "";
+  return `<a class="adc ${cls || ""} ${a.k}" href="${href}" target="_blank" rel="sponsored nofollow noopener" data-ad="${a.k}"><span class="ad">${T("lyAd")}</span><span class="at">${a.t}</span>${a.h ? `<b class="ah">${esc(a.h)}</b>` : ""}<span class="an">${esc(r.name.replace(/\(.*?\)/g, "").trim().slice(0, 70))}</span><span class="ap"><strong>CHF ${adF(r.now)}</strong><s>${adF(r.reg)}</s><i>−${r.off}%</i></span>${stars}<u>${a.k === "lyca" ? T("lyGo") : T("amzGo")} →</u></a>`;
+}
+/* mobile: after every 5 deal cards insert an ad, alternating Lyca / Amazon (cycling through the top 10) */
+function withInlineAds(cards) {
+  if (!AD_LYCA.length && !AD_AMZ.length) return cards;
+  const out = []; let li = 0, ai = 0, n = 0;
+  cards.forEach((c, i) => {
+    out.push(c);
+    if ((i + 1) % 5 === 0) {
+      const lyca = n % 2 === 0 && AD_LYCA.length, a = lyca ? AD_LYCA[li++ % AD_LYCA.length] : AD_AMZ.length ? AD_AMZ[ai++ % AD_AMZ.length] : null;
+      n++; if (a) out.push(`<article class="card adcard">${adHTML(a, "inline")}</article>`);
+    }
+  });
+  return out;
+}
+/* desktop (≥1500px): two side rails, 3 ads each — Lyca + rotating Amazon top 10 */
+(() => {
+  if (!AD_LYCA.length && !AD_AMZ.length) return;
+  const mk = (side, lyIdx, amzStart) => {
+    const el = document.createElement("aside"); el.className = "rail rail-" + side; el.setAttribute("aria-label", T("lyAd"));
+    const slots = [AD_LYCA.length ? { kind: "l", pool: [AD_LYCA[lyIdx], AD_LYCA[(lyIdx + 2) % AD_LYCA.length]] } : null,
+      { kind: "a", pool: AD_AMZ.filter((_, i) => i % 2 === amzStart) }, { kind: "a", pool: AD_AMZ.filter((_, i) => i % 2 === amzStart).reverse() }].filter(x => x && x.pool.length);
+    let t = 0;
+    const draw = () => { el.innerHTML = slots.map(sl => adHTML(sl.pool[t % sl.pool.length], "rail-ad")).join(""); };
+    draw(); setInterval(() => { if (!el.matches(":hover")) { t++; draw(); } }, 12000);
+    document.body.appendChild(el);
+  };
+  mk("l", 0, 0); mk("r", 1, 1);
+  document.addEventListener("click", e => { const a = e.target.closest && e.target.closest("[data-ad]"); if (a) track("ad_click", { ad: a.dataset.ad }); });
+})();
+
 function renderGrid() {
   fit();
   const l = list(), m = mobile();
@@ -361,7 +408,7 @@ function renderGrid() {
     $("info").textContent = l.length ? S.pageInfo(state.page + 1, pages, l.length.toLocaleString(LANG === "en" ? "en-US" : LANG)) : `0 ${T("deals")}`;
     $("prev").disabled = state.page === 0; $("next").disabled = state.page >= pages - 1;
   }
-  $("grid").innerHTML = vis.length ? vis.map(card).join("") : emptyState();
+  $("grid").innerHTML = vis.length ? (m ? withInlineAds(vis.map(card)) : vis.map(card)).join("") : emptyState();
   $("count").textContent = `${l.length.toLocaleString(LANG === "en" ? "en-US" : LANG)} ${T("deals")}`;
   const filtered = state.region !== "all" || state.minOff > 0 || state.type !== "all" || state.drops || state.q || state.store !== "all" || state.price !== "all" || state.status !== "all" || (state.cat !== "All" && (state.tab === "categories" || state.tab === "top")) || (state.cat !== "All" && (state.tab === "us" || state.tab === "live"));
   $("reset").hidden = !filtered;

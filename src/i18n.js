@@ -4,6 +4,7 @@
 
 export const STRINGS = {
   en: {
+    adLy1: "Unlimited 5G, half price", adLy2: "300 GB 5G for less", adLy3: "Switch your mobile plan",
     amzTop: "Amazon.de pick: most likely to be bought", amzNote: "Amazon price for Swiss delivery (CHF) — check at checkout", amzGo: "See on Amazon",
     lyAd: "Ad", lyTxt: "Lyca Mobile: unlimited 5G for CHF {p} / 28 days", lyWas: "was {w}", lyGo: "Get the deal", lyClose: "Close",
     waShare: "Share on WhatsApp", waWas: "was",
@@ -64,6 +65,7 @@ export const STRINGS = {
     langLabel: "EN",
   },
   de: {
+    adLy1: "Unlimitiert 5G zum halben Preis", adLy2: "300 GB 5G günstiger", adLy3: "Jetzt Handy-Abo wechseln",
     amzTop: "Amazon.de Top-Pick: am wahrscheinlichsten gekauft", amzNote: "Amazon-Preis für Lieferung in die Schweiz (CHF) — beim Kauf prüfen", amzGo: "Bei Amazon ansehen",
     lyAd: "Anzeige", lyTxt: "Lyca Mobile: Unlimitiert 5G für CHF {p} / 28 Tage", lyWas: "statt {w}", lyGo: "Zum Deal", lyClose: "Schliessen",
     waShare: "Auf WhatsApp teilen", waWas: "statt",
@@ -124,6 +126,7 @@ export const STRINGS = {
     langLabel: "DE",
   },
   fr: {
+    adLy1: "5G illimitée à moitié prix", adLy2: "300 Go 5G pour moins", adLy3: "Changez d’abonnement mobile",
     amzTop: "Amazon.de, le choix le plus probable", amzNote: "Prix Amazon pour livraison en Suisse (CHF) — à vérifier à la commande", amzGo: "Voir sur Amazon",
     lyAd: "Annonce", lyTxt: "Lyca Mobile : 5G illimitée pour CHF {p} / 28 jours", lyWas: "au lieu de {w}", lyGo: "Voir l’offre", lyClose: "Fermer",
     waShare: "Partager sur WhatsApp", waWas: "au lieu de",
@@ -184,6 +187,7 @@ export const STRINGS = {
     langLabel: "FR",
   },
   it: {
+    adLy1: "5G illimitato a metà prezzo", adLy2: "300 GB 5G a meno", adLy3: "Cambia abbonamento mobile",
     amzTop: "Amazon.de, la scelta più probabile", amzNote: "Prezzo Amazon per consegna in Svizzera (CHF) — da verificare all’acquisto", amzGo: "Vedi su Amazon",
     lyAd: "Annuncio", lyTxt: "Lyca Mobile: 5G illimitato a CHF {p} / 28 giorni", lyWas: "invece di {w}", lyGo: "Vai all’offerta", lyClose: "Chiudi",
     waShare: "Condividi su WhatsApp", waWas: "invece di",
