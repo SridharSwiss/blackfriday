@@ -1,5 +1,6 @@
 import { IMAGES } from "../data/images.js";
 import { esc } from "./format.js";
+import { artFor } from "./art.js";
 
 /* ---------- product pictures ----------
    1) window.IMAGES["Exact product name"] = licensed photo URL (data/images.js) → shown as a photo
@@ -63,5 +64,5 @@ export function thumb(d){
     return `<div class="thumb book" style="--h:${hue(title)}" role="img" aria-label="${esc(d.name)}"><div class="cover"><span class="t">${esc(title)}</span><span class="a">${esc(author)}</span></div>${img}</div>`;
   }
   const b = brandOf(d.name);
-  return `<div class="thumb" style="--h:${hue(b)}" role="img" aria-label="${esc(d.name)}"><svg viewBox="0 0 48 48" aria-hidden="true">${ICON[d.cat]||ICON._}</svg><span class="brand">${esc(b)}</span>${img}</div>`;
+  return `<div class="thumb" style="--h:${hue(b)}" role="img" aria-label="${esc(d.name)}"><svg class="art" viewBox="0 0 64 64" aria-hidden="true">${artFor(d.cat)}</svg><span class="brand">${esc(b)}</span>${img}</div>`;
 }

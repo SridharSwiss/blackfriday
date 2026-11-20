@@ -864,3 +864,6 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
 #b-live{animation:liveGlow 1.4s ease-in-out infinite;border-radius:999px}
 #b-live svg{animation:liveDot 1s steps(1,end) infinite;color:#FFD200}
 @media (prefers-reduced-motion:reduce){#b-live,#b-live svg{animation:none}}
+
+.thumb svg.art{fill:currentColor;stroke:none;width:58%;max-height:78%;filter:drop-shadow(0 6px 10px rgba(0,0,0,.25))}
+.card .thumb svg.art{width:64%}
