@@ -502,7 +502,12 @@ function updateCounts() {
 function showTab(t, opts = {}) {
   if (LEGACY[t]) { const m = LEGACY[t]; t = "live"; if (m.minOff) state.minOff = m.minOff; if (m.sort) state.sort = m.sort; state.region = m.region || "all"; if (!m.region) state.store = state.store; }
   if (!TABS.includes(t)) t = "live";
-  if (state.tab !== t && !opts.keep) { state.page = 0; mobileShown = 12; if (!opts.cat) state.cat = "All"; }
+  if (state.tab !== t && !opts.keep) {
+    state.page = 0; mobileShown = 12; if (!opts.cat) state.cat = "All";
+    /* a search term typed on one tab should not silently keep filtering every other tab you switch to -
+       that "stuck search" makes a tab with few/no matches look broken (e.g. infinite scroll stopping early) */
+    if (!opts.keepQ && state.q) { state.q = ""; const qEl = $("q"); if (qEl) qEl.value = ""; }
+  }
   if (opts.cat) state.cat = opts.cat;
   state.tab = t; save();
   track("tab", { tab: t });
@@ -871,7 +876,7 @@ $("pmore").onclick = () => { const o = $("pagehead").classList.toggle("open"); $
 if (location.hash) route();
 else if (PAGE && PAGE.path !== "/") {
   state.q = PAGE.q || ""; $("q").value = state.q;
-  showTab(PAGE.tab, { cat: PAGE.cat || undefined, noHash: true });
+  showTab(PAGE.tab, { cat: PAGE.cat || undefined, noHash: true, keepQ: true });
 } else showTab(state.tab, { keep: true });
 
 /* ---------------- consent, analytics, login ---------------- */
