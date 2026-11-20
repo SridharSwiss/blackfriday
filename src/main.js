@@ -394,11 +394,11 @@ function withInlineAds(cards) {
   if (!AD_LYCA.length && !AD_AMZ.length) return;
   const mk = (side, lyIdx) => {
     const el = document.createElement("aside"); el.className = "rail rail-" + side; el.setAttribute("aria-label", T("lyAd"));
-    const pool = side === "l" ? AD_AMZ : AD_AMZ.slice().reverse();
-    const cards = pool.map((a, i) => adHTML(a, "rail-ad t" + (i % 4))).join("");
-    const dup = pool.map((a, i) => adHTML(a, "rail-ad t" + (i % 4)).replace("<a ", '<a tabindex="-1" aria-hidden="true" ')).join("");
-    el.innerHTML = (AD_LYCA.length ? adHTML(AD_LYCA[lyIdx], "rail-ad") : "") +
-      (pool.length ? `<div class="marq"><div class="track" style="--n:${pool.length}">${cards}${dup}</div></div>` : "");
+    const base = side === "l" ? AD_AMZ : AD_AMZ.slice().reverse();
+    const ly = AD_LYCA.length ? AD_LYCA[lyIdx] : null;
+    const pool = ly ? [ly, ...base.slice(0, 4), AD_LYCA[1 - lyIdx] || ly, ...base.slice(4)] : base;
+    const one = (a, i, hide) => adHTML(a, "rail-ad t" + (i % 4)).replace("<a ", hide ? '<a tabindex="-1" aria-hidden="true" ' : "<a ");
+    el.innerHTML = pool.length ? `<div class="marq"><div class="track" style="--n:${pool.length}">${pool.map((a, i) => one(a, i)).join("")}${pool.map((a, i) => one(a, i, 1)).join("")}</div></div>` : "";
     document.body.appendChild(el);
   };
   mk("l", 0); mk("r", 1);

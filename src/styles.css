@@ -704,9 +704,9 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
 .rail{display:none}
 @media (min-width:1500px){
   body{padding-left:236px;padding-right:236px}
-  .rail{display:flex;flex-direction:column;gap:12px;position:fixed;top:96px;bottom:16px;width:208px;z-index:20}
-  .rail .marq{flex:1;min-height:0;overflow:hidden;-webkit-mask-image:linear-gradient(transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(transparent,#000 6%,#000 94%,transparent)}
-  .rail .track{display:grid;gap:12px;padding-bottom:12px;animation:railUp calc(var(--n,10) * 7s) linear infinite}
+  .rail{display:flex;flex-direction:column;gap:12px;position:fixed;top:8px;bottom:8px;width:208px;z-index:20}
+  .rail .marq{flex:1;min-height:0;overflow:hidden;-webkit-mask-image:linear-gradient(transparent,#000 3%,#000 97%,transparent);mask-image:linear-gradient(transparent,#000 3%,#000 97%,transparent)}
+  .rail .track{display:grid;gap:6px;padding-bottom:6px;animation:railUp calc(var(--n,10) * 7s) linear infinite}
   .rail-l .track{animation-name:railDown}
   .rail .marq:hover .track,.rail .marq:focus-within .track{animation-play-state:paused}
   .rail-l{left:14px}.rail-r{right:14px}
