@@ -790,3 +790,38 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
 @keyframes megaBlink{0%{background:#E8112D;color:#fff}20%{background:#FF8A00;color:#1a1000}40%{background:#FFD200;color:#1a1000}60%{background:#12B76A;color:#fff}80%{background:#2D7CFF;color:#fff}100%{background:#A23DF0;color:#fff}}
 .off.mega,.adc .ap i.mega{animation:megaBlink 1.6s steps(1,end) infinite;box-shadow:0 0 0 2px #fff8;transform-origin:center}
 @media (prefers-reduced-motion:reduce){.off.mega,.adc .ap i.mega{animation:none;background:linear-gradient(90deg,#E8112D,#FF8A00,#12B76A,#2D7CFF,#A23DF0);color:#fff}}
+
+/* ===== Luxe pass: jewel-tone sponsored cards, champagne-gold CTAs, calmer dark surfaces, higher-converting deal cards ===== */
+:root[data-theme="dark"]{--bg:#121018;--surface:#1B1822;--line:#2F2A3B;--muted:#B0A9BC}
+.adc{border-radius:16px;color:var(--fg,#FBF3E0);box-shadow:inset 0 0 0 1px rgba(233,216,166,.28),0 10px 26px -14px rgba(0,0,0,.55);transition:transform .2s,box-shadow .2s}
+.adc:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px rgba(233,216,166,.55),0 16px 30px -14px rgba(0,0,0,.6)}
+.adc.amz,.adc.tyre,.adc.shop{background:var(--bgi,var(--bg,#0F5D4B));color:var(--fg,#FBF3E0)}
+.adc.amz.t0{--bgi:linear-gradient(155deg,#0F6B55,#093D31);--fg:#FBF3E0;--btn:#E9D8A6;--btnfg:#1B2A22;--pr:#F3E2B3}
+.adc.amz.t1{--bgi:linear-gradient(155deg,#8A2346,#4F1228);--fg:#FDF1E4;--btn:#E9D8A6;--btnfg:#3A0F1E;--pr:#F6E2B8}
+.adc.amz.t2{--bgi:linear-gradient(155deg,#2548A8,#13276B);--fg:#F1F5FF;--btn:#E9D8A6;--btnfg:#131F4D;--pr:#F3E2B3}
+.adc.amz.t3{--bgi:linear-gradient(155deg,#5B3390,#32195A);--fg:#F6EFFF;--btn:#E9D8A6;--btnfg:#2A1450;--pr:#F3E2B3}
+.adc.amz.t4{--bgi:linear-gradient(155deg,#A8661C,#6B3A0A);--fg:#FFF4E0;--btn:#F6E7B8;--btnfg:#3A2005;--pr:#FFE9B0;box-shadow:inset 0 0 0 1px rgba(246,231,184,.4)}
+.adc.amz .ap strong,.adc.shop .ap strong,.adc.tyre .ap strong{color:var(--pr,#F3E2B3)}
+.adc.amz u,.adc.shop u,.adc.tyre u{background:var(--btn,#E9D8A6);color:var(--btnfg,#1B2A22);font-weight:800;padding:8px 14px;box-shadow:0 6px 14px -8px rgba(0,0,0,.6)}
+.rail .adc.lyca,.adcard .adc.lyca{background:linear-gradient(155deg,#1B2F7A,#0C1647)}
+.rail .adc.lyca .ap strong,.adcard .adc.lyca .ap strong{color:#F3E2B3}
+.rail .adc.lyca u,.adcard .adc.lyca u{background:#E9D8A6;color:#131F4D}
+.adc .at{opacity:.9;letter-spacing:.1em;color:var(--pr,#E9D8A6)}
+.adc .ap s{opacity:.7}
+.adc.tyre{--bgi:linear-gradient(155deg,#1B3F95,#0E2260);--btn:#E9D8A6;--btnfg:#131F4D;--pr:#F3E2B3}
+.adc.tyre.c-suv{--bgi:linear-gradient(155deg,#A8661C,#6B3A0A);--btnfg:#3A2005}
+.adc.tyre.c-alloy{--bgi:linear-gradient(155deg,#5B3390,#32195A);--btnfg:#2A1450}
+.adc.tyre.c-steel{--bgi:linear-gradient(155deg,#0F6B55,#093D31);--btnfg:#1B2A22}
+.adc.tyre.c-allseason{--bgi:linear-gradient(155deg,#8A2346,#4F1228);--btnfg:#3A0F1E}
+.adc.tyre,.adc.tyre.c-suv,.adc.tyre.c-alloy,.adc.tyre.c-steel,.adc.tyre.c-allseason{background:var(--bgi)}
+.adc.tyre .ah{color:var(--pr)}
+.tcard .pimg,.adc .pimg{background:#F4EFE6;border-radius:12px}
+.tcard .best{background:#E9D8A6;color:#2a1c05}
+/* main deal cards */
+.card{border-radius:12px;box-shadow:0 1px 0 rgba(255,255,255,.02),0 8px 22px -16px rgba(0,0,0,.5);transition:transform .18s,border-color .18s,box-shadow .18s}
+.card:hover{transform:translateY(-2px);border-color:#C9A24B;box-shadow:0 14px 28px -16px rgba(0,0,0,.6)}
+.card .save{display:inline-flex;align-items:center;gap:5px;font:700 12px var(--f-body);color:var(--good);background:color-mix(in srgb,var(--good) 14%,transparent);padding:2px 8px;border-radius:999px;width:max-content}
+.shop.primary{padding:8px 12px;font-size:12.5px;font-weight:800;border-radius:8px;box-shadow:0 6px 14px -8px var(--red);transition:transform .15s,filter .15s}
+.shop.primary:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.price{border-radius:6px}
+.foryou{background:linear-gradient(135deg,rgba(201,162,75,.14),rgba(91,51,144,.14));border-color:rgba(201,162,75,.35)}

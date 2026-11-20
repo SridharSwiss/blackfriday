@@ -260,6 +260,7 @@ function priceLine(d) {
   const drop = d.drop ? `<span class="drop" title="${esc(S.dropTitle(money(d.was0, d.cur)))}">↓ ${money(d.drop, d.cur)}</span>` : "";
   return `<span class="price">${money(d.show, d.cur)}</span>${drop}${extra}`;
 }
+const fmtN0 = n => n >= 100 ? Math.round(n).toLocaleString("de-CH") : n.toFixed(2);
 function card(d) {
   const badge = d.off ? `<span class="off${d.off > 70 ? " mega" : ""}">−${d.off}%</span>` : d.pick ? `<span class="off pick">Pick</span>` : "";
   return `<article class="card${d.pick ? " is-pick" : ""}">
@@ -267,7 +268,7 @@ function card(d) {
     <div class="body">
       <div class="top"><span class="r">${d.top ? `#<b>${d.rank}</b>`  : ""}</span><span class="c">${esc(d.cat)}</span>${d.buy != null ? `<span class="pill buy" title="${esc(T("buyTip"))}">🛒 ${d.buy}</span>` : ""}${d.isNew ? `<span class="pill new">${T("newBadge")}</span>` : ""}<span class="pill ${d.status}">${d.region === "live" ? esc(SHOPS[d.shop] ? SHOPS[d.shop].name : d.shop) : LABEL[d.status]}</span></div>
       <button class="name" type="button" data-d="${d.id}">${esc(d.name)}</button>
-      <div class="priceline">${priceLine(d)}</div>
+      <div class="priceline">${priceLine(d)}</div>${d.reg && d.show != null && d.reg > d.show && d.cur === "CHF" ? `<span class="save">${T("saveAmt").replace("{x}", fmtN0(d.reg - d.show))}</span>` : ""}
       <div class="btns">${(() => { const all = cardShops(d), vis = all.slice(0, 2), more = all.length - vis.length;
         return vis.map((s, k) => shopBtn(s, d, k === 0)).join("") + `<button class="shop ghost info" type="button" data-d="${d.id}" aria-label="${T("allSellers")}: ${esc(d.name)}">${more > 0 ? "+" + more : "i"}</button>`; })()}</div>
     </div></article>`;
