@@ -903,3 +903,24 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
 .adc .aart{display:grid;place-items:center;height:58px;color:var(--pr,#F3E2B3);background:rgba(255,255,255,.08);border-radius:10px;margin-bottom:2px}
 .adc .aart svg{height:48px;width:auto;fill:currentColor;filter:drop-shadow(0 4px 6px rgba(0,0,0,.35))}
 .adc.inline .aart{display:none}
+
+/* ===== tab menu: icon + pill style, sticky on desktop ===== */
+.tabs{display:flex;gap:6px;align-items:center;padding-block:8px;border-bottom:1px solid var(--line)}
+.tab{display:inline-flex;align-items:center;gap:7px;padding:9px 15px;border-radius:999px;border:1.5px solid transparent;background:transparent;color:var(--muted);font-weight:700;transition:background .18s,color .18s,transform .18s,border-color .18s}
+.tab::before{font-size:15px;line-height:1;filter:saturate(1.1)}
+.tab[data-tab="list"]::before{content:"♥";color:#E8463A}
+.tab[data-tab="tyres"]::before{content:"❄️"}
+.tab[data-tab="sodeal"]::before{content:"✨"}
+.tab[data-tab="calendar"]::before{content:"📅"}
+.tab[data-tab="retailers"]::before{content:"🏬"}
+.tab[data-tab="guide"]::before{content:"💡"}
+.tab:hover{color:var(--ink);background:color-mix(in srgb,var(--ink) 8%,transparent);transform:translateY(-1px)}
+.tab[aria-selected="true"]:not([data-tab="live"]){background:var(--ink);color:var(--bg);border-color:var(--ink);box-shadow:0 8px 18px -10px rgba(0,0,0,.6)}
+.tab .n{font:700 11px var(--f-mono);min-width:20px;text-align:center;padding:1px 6px;border-radius:999px;background:color-mix(in srgb,var(--ink) 14%,transparent);color:inherit;opacity:1}
+.tab[data-tab="live"] .n{background:rgba(0,0,0,.28);color:#fff}
+.tab[data-tab="list"] .n:empty,.tab[data-tab="list"] .n[data-z="1"]{display:none}
+.tab[data-tab="tyres"],.tab[data-tab="sodeal"]{color:color-mix(in srgb,var(--ink) 82%,transparent)}
+@media (max-width:760px){
+  .tabs{-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent);padding-right:24px}
+  .tab{padding:8px 13px;font-size:14px;flex:none}
+}
