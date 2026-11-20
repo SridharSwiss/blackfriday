@@ -49,3 +49,5 @@ export function affLink(shop, url){
   u.searchParams.set("utm_source", AFF.site); u.searchParams.set("utm_medium","affiliate"); u.searchParams.set("utm_campaign","blackfriday2026");
   return u.toString();
 }
+/* Lyca "HandyAbos" generic Awin banner link (linkid 4760842): all Lyca phone plans */
+export const LYCA_ABOS = (ref = "aktion-ch") => `https://www.awin1.com/awclick.php?gid=594442&mid=121580&awinaffid=3132513&linkid=4760842&clickref=${ref}`;
