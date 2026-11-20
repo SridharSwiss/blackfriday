@@ -723,3 +723,11 @@ select{border-radius:10px;padding:8px 10px;transition:border-color .15s}
 .adc.amz.t2{--bg:#fff;--fg:#151314;--btn:#D52B1E;--btnfg:#fff;box-shadow:inset 0 0 0 2px #151314}
 .adc.amz.t3{--bg:#FFF1B8;--fg:#151314;--btn:#1E7A46;--btnfg:#fff}
 .adc.amz.t1 .ap s{opacity:.8}
+/* inline ads span the full grid row on every width and lay out horizontally */
+.adcard{grid-column:1/-1;grid-row:auto}
+.adcard .adc.inline{display:grid;grid-template-columns:1fr auto;grid-template-areas:"ad ad" "at at" "ah u" "an u" "ap u" "st u";align-items:center;column-gap:14px;padding:14px 16px;min-height:0}
+.adcard .adc.inline .ad{grid-area:ad}.adcard .adc.inline .at{grid-area:at}.adcard .adc.inline .ah{grid-area:ah}
+.adcard .adc.inline .an{grid-area:an}.adcard .adc.inline .ap{grid-area:ap;flex-wrap:nowrap}.adcard .adc.inline .st{grid-area:st}
+.adcard .adc.inline u{grid-area:u;align-self:center;margin:0;white-space:nowrap}
+.adc .ap strong{white-space:nowrap}
+.adcard{display:block}.adcard .adc.inline{width:100%;box-sizing:border-box}
