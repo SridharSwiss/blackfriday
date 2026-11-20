@@ -26,11 +26,10 @@ export const AFF = {
   reifenonline: { network:"none" },                           // Awin tracked short link (tidd.ly)                           // price tracker, not a shop
   orellfuessli: { network:null, mid:"", affid:"" },
   toppreise:    { network:null },
-  // Awin (publisher 121580): either a tracking link used as-is ("link"), or mid + affid to deep-link any URL
-  lyca:         { network:"awin", mid:"", affid:"121580",
-                  link:"https://www.lycamobile.ch/de/?utm_source=awin&utm_medium=affiliate&utm_campaign=3132513&sv1=affiliate&sv_campaign_id=3132513&awc=121580_1795207183_874679d2ffc4a906fb08e11c84b28b4f" }
+  // Awin: merchant (programme) id 121580 = Lyca Mobile CH, publisher id 3132513 = aktions.ch. Any lycamobile.ch URL becomes a deep link.
+  lyca:         { network:"awin", mid:"121580", affid:"3132513" }
 };
-export const AWIN_PUBLISHER_ID = "121580";
+export const AWIN_PUBLISHER_ID = "3132513";
 /* Amazon.de storefront (Associates storefront link with tracking ID blackfrida08d-21) */
 export const AMAZON_DE_STOREFRONT = "https://www.amazon.de/-/en?&linkCode=ll2&tag=blackfrida08d-21&linkId=d55ffac3c37f35b1d1be9412b65e8c83&ref_=as_li_ss_tl";
 export const AMAZON_DE_BLACKFRIDAY = "https://www.amazon.de/-/en/blackfriday?_encoding=UTF8&pf_rd_p=a17ed1e1-132b-4bd6-8a81-ad71dce3051f&pf_rd_s=nav-sitewide-msg&pf_rd_t=4201&pf_rd_i=navbar-4201&pf_rd_m=A1PA6795UKMFR9&pf_rd_r=8TF06FPZ7SRRT33AMHZF&linkCode=sl2&tag=blackfrida08d-21&linkId=3fa4726efee60c06abc0a83589529983&ref_=as_li_ss_tl";
