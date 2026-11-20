@@ -4,6 +4,7 @@
 
 export const STRINGS = {
   en: {
+    lyAd: "Ad", lyTxt: "Lyca Mobile: unlimited 5G for CHF {p} / 28 days", lyWas: "was {w}", lyGo: "Get the deal", lyClose: "Close",
     waShare: "Share on WhatsApp", waWas: "was",
     sortBuy: "Most likely to buy", buyTip: "Buy score 0–100: how likely shoppers are to buy this deal — discount depth, CHF saved, price level, demand, brand, shop trust and urgency. A heuristic, not sales data.",
     regionAll: "CH + US", regionCH: "Switzerland", regionUS: "USA", offAny: "Any discount", offSuffix: "%+ off", typeAll: "All deal types", sortEnds: "Ending soon",
@@ -62,6 +63,7 @@ export const STRINGS = {
     langLabel: "EN",
   },
   de: {
+    lyAd: "Anzeige", lyTxt: "Lyca Mobile: Unlimitiert 5G für CHF {p} / 28 Tage", lyWas: "statt {w}", lyGo: "Zum Deal", lyClose: "Schliessen",
     waShare: "Auf WhatsApp teilen", waWas: "statt",
     sortBuy: "Kaufwahrscheinlichkeit", buyTip: "Kaufscore 0–100: wie wahrscheinlich Kunden zugreifen – Rabatt, gesparte CHF, Preisniveau, Nachfrage, Marke, Shop-Vertrauen, Dringlichkeit. Eine Schätzung, keine Verkaufsdaten.",
     regionAll: "CH + USA", regionCH: "Schweiz", regionUS: "USA", offAny: "Jeder Rabatt", offSuffix: "%+ Rabatt", typeAll: "Alle Angebotsarten", sortEnds: "Endet bald",
@@ -120,6 +122,7 @@ export const STRINGS = {
     langLabel: "DE",
   },
   fr: {
+    lyAd: "Annonce", lyTxt: "Lyca Mobile : 5G illimitée pour CHF {p} / 28 jours", lyWas: "au lieu de {w}", lyGo: "Voir l’offre", lyClose: "Fermer",
     waShare: "Partager sur WhatsApp", waWas: "au lieu de",
     sortBuy: "Plus susceptible d'être acheté", buyTip: "Score d'achat 0–100 : probabilité d'achat — remise, CHF économisés, niveau de prix, demande, marque, confiance, urgence. Une estimation, pas des données de vente.",
     regionAll: "CH + USA", regionCH: "Suisse", regionUS: "USA", offAny: "Toute remise", offSuffix: "%+ de remise", typeAll: "Tous types d'offres", sortEnds: "Bientôt terminé",
@@ -178,6 +181,7 @@ export const STRINGS = {
     langLabel: "FR",
   },
   it: {
+    lyAd: "Annuncio", lyTxt: "Lyca Mobile: 5G illimitato a CHF {p} / 28 giorni", lyWas: "invece di {w}", lyGo: "Vai all’offerta", lyClose: "Chiudi",
     waShare: "Condividi su WhatsApp", waWas: "invece di",
     sortBuy: "Più probabile da acquistare", buyTip: "Punteggio d'acquisto 0–100: probabilità d'acquisto — sconto, CHF risparmiati, prezzo, domanda, marca, fiducia, urgenza. Una stima, non dati di vendita.",
     regionAll: "CH + USA", regionCH: "Svizzera", regionUS: "USA", offAny: "Qualsiasi sconto", offSuffix: "%+ di sconto", typeAll: "Tutti i tipi di offerta", sortEnds: "Scade presto",

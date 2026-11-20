@@ -821,3 +821,18 @@ if (ENABLED) {
   const openAccount = initAccountUi(LANG, () => { $("acct").classList.toggle("on", !!authUser()); });
   initAuth().then(u => { $("acct").classList.toggle("on", !!u); if (u) { sync(); if (u.fresh) track("login"); if (u.recovery) openAccount(true); } });
 }
+
+/* Lyca Mobile top banner (Awin affiliate) — shown on open, dismissible per session */
+(() => {
+  const r = LIVE.find(x => x.shop === "lyca" && /Truly Unlimited/i.test(x.name));
+  if (!r) return;
+  try { if (sessionStorage.getItem("lyca-bn") === "1") return; } catch (e) {}
+  const f = n => Number(n).toFixed(2);
+  const el = document.createElement("div");
+  el.className = "lyca-bn";
+  el.innerHTML = `<a class="lyca-go" href="${affLink("lyca", r.url)}" target="_blank" rel="sponsored nofollow noopener" data-lyca><span class="ad">${T("lyAd")}</span><b>${T("lyTxt").replace("{p}", f(r.now))}</b><s>${T("lyWas").replace("{w}", f(r.reg))}</s><u>${T("lyGo")} →</u></a><button type="button" class="lyca-x" aria-label="${T("lyClose")}">×</button>`;
+  const app = document.querySelector(".app");
+  app.insertBefore(el, app.firstChild);
+  el.querySelector(".lyca-x").addEventListener("click", () => { el.remove(); try { sessionStorage.setItem("lyca-bn", "1"); } catch (e) {} });
+  el.addEventListener("click", e => { if (e.target.closest("[data-lyca]")) track("lyca_banner", { price: r.now }); });
+})();
