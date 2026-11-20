@@ -18,6 +18,7 @@ import { track } from "./lib/track.js";
 import { initAuth, pullWatch, pushWatch, user as authUser } from "./lib/auth.js";
 import { initAccountUi } from "./lib/account-ui.js";
 import { STRINGS, detectLang, LANG_PATHS } from "./i18n.js";
+import * as INT from "./interest.js";
 
 /* ---------------- i18n ---------------- */
 const PAGE = window.__PAGE__ || null;
@@ -121,7 +122,8 @@ const HOT = new Set();
 }
 // "Recommended" order: buy-score ranked deals with Amazon (affiliate) deals and the hot Galaxus/Digitec picks woven in: 2 regular, 1 Amazon, 1 hot pick, repeat
 function mixRecommended(l) {
-  const by = (a, b) => (b.buy ?? 0) - (a.buy ?? 0) || (b.off || 0) - (a.off || 0);
+  const bs = d => (d.buy ?? 0) + Math.min(18, INT.score(d) * 1.5);
+  const by = (a, b) => bs(b) - bs(a) || (b.off || 0) - (a.off || 0);
   const amz = l.filter(d => d.shop === "amazon").sort(by), hot = l.filter(d => HOT.has(d.id)).sort(by);
   const used = new Set([...amz, ...hot].map(d => d.id)), rest = l.filter(d => !used.has(d.id)).sort(by);
   const out = [], q = [[rest, 2], [amz, 1], [hot, 1]];
@@ -259,7 +261,7 @@ function priceLine(d) {
   return `<span class="price">${money(d.show, d.cur)}</span>${drop}${extra}`;
 }
 function card(d) {
-  const badge = d.off ? `<span class="off">−${d.off}%</span>` : d.pick ? `<span class="off pick">Pick</span>` : "";
+  const badge = d.off ? `<span class="off${d.off > 70 ? " mega" : ""}">−${d.off}%</span>` : d.pick ? `<span class="off pick">Pick</span>` : "";
   return `<article class="card${d.pick ? " is-pick" : ""}">
     <div class="tw">${thumb(d)}${badge}<button class="heart${watched(d) ? " on" : ""}" type="button" data-w="${d.id}" aria-pressed="${watched(d)}" aria-label="Save ${esc(d.name)} to My list">${heartSvg}</button><a class="wa" data-wa="${d.id}" href="${dealWa(d)}" target="_blank" rel="noopener" aria-label="${esc(T("waShare"))}: ${esc(d.name)}" title="${esc(T("waShare"))}">${waSvg}</a></div>
     <div class="body">
@@ -372,7 +374,7 @@ function adHTML(a, cls) {
   }
   const r = a.r, href = affLink(a.k === "lyca" ? "lyca" : "amazon", r.url);
   const stars = a.k === "amz" ? `<span class="st">★ ${r.rating}</span>` : "";
-  return `<a class="adc ${cls || ""} ${a.k}" href="${href}" target="_blank" rel="sponsored nofollow noopener" data-ad="${a.k}"><span class="at">${a.t}</span>${a.h ? `<b class="ah">${esc(a.h)}</b>` : ""}<span class="an">${esc(r.name.replace(/\(.*?\)/g, "").trim().slice(0, 70))}</span><span class="ap"><strong>CHF ${adF(r.now)}</strong><s>${adF(r.reg)}</s><i>−${r.off}%</i></span>${stars}<u>${a.k === "lyca" ? T("lyGo") : T("amzGo")} →</u></a>`;
+  return `<a class="adc ${cls || ""} ${a.k}" href="${href}" target="_blank" rel="sponsored nofollow noopener" data-ad="${a.k}"><span class="at">${a.t}</span>${a.h ? `<b class="ah">${esc(a.h)}</b>` : ""}<span class="an">${esc(r.name.replace(/\(.*?\)/g, "").trim().slice(0, 70))}</span><span class="ap"><strong>CHF ${adF(r.now)}</strong><s>${adF(r.reg)}</s><i class="${r.off > 70 ? "mega" : ""}">−${r.off}%</i></span>${stars}<u>${a.k === "lyca" ? T("lyGo") : T("amzGo")} →</u></a>`;
 }
 /* mobile: after every 5 deal cards insert an ad, alternating Lyca / Amazon (cycling through the top 10) */
 function withInlineAds(cards) {
@@ -402,7 +404,7 @@ function withInlineAds(cards) {
     document.body.appendChild(el);
   };
   mk("l", 0); mk("r", 1);
-  document.addEventListener("click", e => { const a = e.target.closest && e.target.closest("[data-ad]"); if (a) track("ad_click", { ad: a.dataset.ad }); });
+  document.addEventListener("click", e => { const q = e.target.closest && e.target.closest("[data-tc],[data-sc]"); if (q) INT.bumpKey("x", q.dataset.tc ? "t:" + q.dataset.tc : "s:" + q.dataset.sc, 3); const a = e.target.closest && e.target.closest("[data-ad]"); if (a) track("ad_click", { ad: a.dataset.ad }); });
 })();
 
 function renderGrid() {
@@ -527,6 +529,7 @@ function chart(d) {
 }
 let opener = null;
 function openDetails(d, push = true) {
+  INT.bumpDeal(d, 2);
   if ($("modal").hidden) opener = document.activeElement;
   const rows = [];
   if (d.region === "live") {
@@ -584,7 +587,7 @@ function toggleWatch(id) {
   const i = state.watch.indexOf(id);
   if (i >= 0) state.watch.splice(i, 1); else state.watch.unshift(id);
   save(); updateCounts();
-  if (i < 0) track("watch", { deal: id });
+  if (i < 0) { track("watch", { deal: id }); INT.bumpDeal(BY_ID.get(id), 4); }
   pushWatch(id, i < 0);
   toast(i >= 0 ? T("removedToast") : T("savedToast"));
   if (PRODUCT_TABS.includes(state.tab)) { if (state.tab === "list") renderFilters(); renderGrid(); }
@@ -631,8 +634,7 @@ function tick() {
   $("cd-m").textContent = p(Math.floor(ms % 36e5 / 6e4));
 }
 function applyTheme() {
-  if (state.theme) document.documentElement.setAttribute("data-theme", state.theme);
-  else document.documentElement.removeAttribute("data-theme");
+  document.documentElement.setAttribute("data-theme", state.theme || "dark");
 }
 
 /* ---------------- events ---------------- */
@@ -643,8 +645,8 @@ $("go-list").onclick = () => showTab("list");
 document.addEventListener("click", e => { const a = e.target.closest && e.target.closest("[data-wa]"); if (a) track("share", { via: "whatsapp", id: a.dataset.wa }); });
 $("b-more").onclick = e => { e.stopPropagation(); $("moresheet").hidden = !$("moresheet").hidden; };
 $("moresheet").onclick = e => { if (e.target.id === "moresheet") $("moresheet").hidden = true; };
-$("catChips").onclick = e => { const b = e.target.closest("[data-chip]"); if (!b) return; state.cat = b.dataset.chip; state.page = 0; mobileShown = 12; renderFilters(); renderGrid(); save(); };
-$("catSel").onchange = e => { state.cat = e.target.value; state.page = 0; mobileShown = 12; renderFilters(); renderGrid(); save(); try { history.replaceState(null, "", "#" + (state.cat === WINTER ? "winter" : state.tab)); } catch (er) {} };
+$("catChips").onclick = e => { const b = e.target.closest("[data-chip]"); if (!b) return; state.cat = b.dataset.chip; if (state.cat !== "All") INT.bumpKey("c", state.cat, 2); state.page = 0; mobileShown = 12; renderFilters(); renderGrid(); save(); };
+$("catSel").onchange = e => { state.cat = e.target.value; if (state.cat !== "All") INT.bumpKey("c", state.cat, 2); state.page = 0; mobileShown = 12; renderFilters(); renderGrid(); save(); try { history.replaceState(null, "", "#" + (state.cat === WINTER ? "winter" : state.tab)); } catch (er) {} };
 $("store").onchange = e => { state.store = e.target.value; refresh(); };
 $("price").onchange = e => { state.price = e.target.value; refresh(); };
 $("region").onchange = e => { state.region = e.target.value; refresh(); };
@@ -673,7 +675,7 @@ $("grid").onclick = e => {
 };
 $("modal").onclick = e => { if (e.target.id === "modal") closeDetails(); };
 $("theme").onclick = () => {
-  const dark = state.theme ? state.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  const dark = (state.theme || "dark") === "dark";
   state.theme = dark ? "light" : "dark"; save(); applyTheme();
 };
 document.addEventListener("keydown", e => {
@@ -873,6 +875,7 @@ document.addEventListener("click", e => {
   const deal = (a.closest(".card") || a.closest(".sheet") || document).querySelector("[data-d]")?.dataset.d || null;
   let shop = a.querySelector(".sn")?.textContent || a.querySelector(".fp-shop")?.textContent || ""; if (!shop) { try { shop = new URL(a.href).hostname; } catch (x) {} }
   track("outbound", { deal, shop: shop.slice(0, 40) });
+  if (deal) INT.bumpDeal(BY_ID.get(deal), 3);
 });
 initConsent(LANG);
 track("pageview");
@@ -932,7 +935,7 @@ if (ENABLED) {
 
 /* ---------------- Awin partner sections (kept separate from the deal list) ---------------- */
 const fmtN = n => Number(n).toFixed(2);
-const tyreCard = r => `<a class="adc tyre tcard c-${r.c}" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre">${r.img ? `<img class="pimg" src="${esc(r.img)}" alt="${esc(r.brand + " " + r.model)}" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : ""}${r.best ? `<span class="best">${T("tyreBest")}</span>` : ""}<span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${fmtN(r.price)}</strong><i class="pt">${r.c === "alloy" || r.c === "steel" ? T("tyrePerWheel") : T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
+const tyreCard = r => `<a class="adc tyre tcard c-${r.c}" data-tc="${r.c}" href="${r.url}" target="_blank" rel="sponsored nofollow noopener" data-ad="tyre">${r.img ? `<img class="pimg" src="${esc(r.img)}" alt="${esc(r.brand + " " + r.model)}" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : ""}${r.best ? `<span class="best">${T("tyreBest")}</span>` : ""}<span class="at">${esc(r.m)}.ch · Partner</span><b class="ah">${esc(r.size)}</b><span class="an">${esc(r.brand + " " + r.model)}</span><span class="ap"><strong>CHF ${fmtN(r.price)}</strong><i class="pt">${r.c === "alloy" || r.c === "steel" ? T("tyrePerWheel") : T("tyrePer")}</i></span><u>${T("tyreGo")} →</u></a>`;
 const BESTW = { en: "Cheapest for size", de: "Günstigster dieser Grösse", fr: "Moins cher pour cette taille", it: "Più economico per misura" };
 const ALLW = { en: "All", de: "Alle", fr: "Tous", it: "Tutti" };
 const rimOf = r => (r.size.match(/R\s?(\d+)/) || r.size.match(/(\d+)"/) || [])[1] || "?";
@@ -948,7 +951,7 @@ const chipRow = (el, items, cur, on) => {
   el.innerHTML = items.map(([v, label, n]) => `<button type="button" data-v="${esc(v)}" aria-pressed="${cur === v}">${label}${n != null ? `<i>${n}</i>` : ""}</button>`).join("");
   el.onclick = e => { const b = e.target.closest("button"); if (b) on(b.dataset.v === cur ? "" : b.dataset.v); };
 };
-let tyreRim = "", tyreBrand = "", tyreCat = "winter";
+let tyreRim = "", tyreBrand = "", tyreCat = INT.topKey("x").startsWith("t:") ? INT.topKey("x").slice(2) : "winter";
 function renderTyres() {
   $("tyre-h").textContent = T("tabTyres"); $("tyre-intro").textContent = T("tyreIntro");
   const ss = $("tyre-size");
@@ -988,13 +991,14 @@ const sodCat = r => { for (const [k, , , re] of SCAT) if (re.test(r.name + " " +
 const SCAT_ALL = [...SCAT.map(([k, e, n]) => [k, e, n]), ["home", "🏠", { en: "Home & gadgets", de: "Haushalt & Gadgets", fr: "Maison & gadgets", it: "Maison & gadgets" }]];
 const SOD_CAT = new Map(AWIN_SHOP.map(r => [r, sodCat(r)]));
 let sodCatSel = "";
-const sodCard = r => adHTML({ k: "shop", r }, "sodc");
+const sodCard = r => adHTML({ k: "shop", r }, "sodc").replace("<a ", `<a data-sc="${SOD_CAT.get(r)}" `);
 let sodShown = 48;
 function renderSodeal() {
   $("sod-h").textContent = T("tabSodeal"); $("sod-intro").textContent = T("sodealIntro");
   const q = ($("sod-q").value || "").trim().toLowerCase(), sort = $("sod-sort").value;
   chipRow($("sod-cats"), [["", ALLW[LANG] || ALLW.en, AWIN_SHOP.length], ...SCAT_ALL.map(([k, e, n]) => [k, `${e} ${n[LANG] || n.en}`, [...SOD_CAT.values()].filter(v => v === k).length]).filter(x => x[2])], sodCatSel, v => { sodCatSel = v; sodShown = 48; renderSodeal(); });
   const list = AWIN_SHOP.filter(r => (!sodCatSel || SOD_CAT.get(r) === sodCatSel) && (!q || r.name.toLowerCase().includes(q) || (r.brand || "").toLowerCase().includes(q)));
+  if (!sort && !q) list.sort((a, b) => INT.get("x", "s:" + SOD_CAT.get(b)) - INT.get("x", "s:" + SOD_CAT.get(a)));
   if (sort === "low") list.sort((a, b) => a.price - b.price); else if (sort === "high") list.sort((a, b) => b.price - a.price);
   $("sod-grid").innerHTML = list.slice(0, sodShown).map(sodCard).join("");
   $("sod-info").textContent = `${Math.min(sodShown, list.length)} ${T("ofWord")} ${list.length}`;
@@ -1005,3 +1009,19 @@ $("sod-sort").onchange = () => { sodShown = 48; renderSodeal(); };
 $("sod-more").onclick = () => { sodShown += 48; renderSodeal(); };
 const sodIO = "IntersectionObserver" in window && new IntersectionObserver(es => { if (es[0].isIntersecting && !$("sod-more").hidden) { sodShown += 48; renderSodeal(); } }, { rootMargin: "600px" });
 if (sodIO) sodIO.observe($("sod-end"));
+
+/* ---------------- "Picked for you" shelf (on-device interest profile) ---------------- */
+function renderForYou() {
+  const el = $("foryou"); if (!el) return;
+  const on = state.tab === "live" && state.cat === "All" && !state.q && state.store === "all" && state.price === "all" && !state.drops && state.type === "all" && state.minOff === 0 && state.region === "all";
+  if (!on || INT.total() < 3) { el.hidden = true; el.innerHTML = ""; return; }
+  const cats = Object.entries(JSON.parse(localStorage.getItem("bf_interest_v1") || "{}").c || {}).sort((a, b) => b[1] - a[1]).slice(0, 2).map(x => x[0]);
+  const picks = LIVE.filter(d => d.show != null && d.off >= 15 && cats.includes(d.cat) && !INT.seen(d.id) && !state.watch.includes(d.id))
+    .sort((a, b) => ((b.buy ?? 0) + INT.score(b) * 2) - ((a.buy ?? 0) + INT.score(a) * 2)).slice(0, 12);
+  if (picks.length < 4) { el.hidden = true; el.innerHTML = ""; return; }
+  el.hidden = false;
+  el.innerHTML = `<div class="fy-h"><b>${T("fyH")}</b><span>${T("fyWhy").replace("{c}", esc(cats.join(" · ")))}</span><button type="button" class="fy-x">${T("fyClear")}</button></div><div class="fy-row">${picks.map(card).join("")}</div>`;
+  el.querySelector(".fy-x").onclick = () => { INT.reset(); renderForYou(); renderGrid(); };
+}
+$("foryou").onclick = e => $("grid").onclick(e);
+const _rg = renderGrid; renderGrid = function () { _rg.apply(this, arguments); renderForYou(); };
