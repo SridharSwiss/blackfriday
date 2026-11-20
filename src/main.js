@@ -476,7 +476,6 @@ function renderFilters() {
   if (state.type !== "all" && !types.includes(state.type)) state.type = "all";
   $("type").innerHTML = `<option value="all">${T("typeAll")}</option>` + types.map(x => `<option value="${esc(x)}"${x === state.type ? " selected" : ""}>${esc(x)}</option>`).join("");
   $("region").hidden = $("minoff").hidden = $("type").hidden = t !== "live";
-  $("livebar").hidden = t !== "live";
   $("clear-list").hidden = !(t === "list" && state.watch.length);
   const locN = n => n.toLocaleString(LANG === "en" ? "en-US" : LANG);
   const lead = {
