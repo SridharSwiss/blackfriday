@@ -42,6 +42,7 @@ export function affLink(shop, url){
   const u = new URL(url);
   if (c.network === "amazon" && c.tag){ u.searchParams.set("tag", c.tag); return u.toString(); }
   if (c.network === "awin" && c.link) return c.link;
+  if (shop === "lyca" && /hello-swiss-max/.test(url || "")) return LYCA_MAX();   // official Awin banner link (300 GB 5G, CHF 24.95)
   if (c.network === "awin" && c.mid && c.affid)
     return `https://www.awin1.com/cread.php?awinmid=${c.mid}&awinaffid=${c.affid}&clickref=${AFF.site}&ued=${encodeURIComponent(url)}`;
   if (c.network === "tradedoubler" && c.programId && c.siteId)
@@ -51,3 +52,4 @@ export function affLink(shop, url){
 }
 /* Lyca "HandyAbos" generic Awin banner link (linkid 4760842): all Lyca phone plans */
 export const LYCA_ABOS = (ref = "aktion-ch") => `https://www.awin1.com/awclick.php?gid=594442&mid=121580&awinaffid=3132513&linkid=4760842&clickref=${ref}`;
+export const LYCA_MAX = (ref = "aktion-ch") => `https://www.awin1.com/awclick.php?gid=594442&mid=121580&awinaffid=3132513&linkid=4856758&clickref=${ref}`;
