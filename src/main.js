@@ -836,3 +836,16 @@ if (ENABLED) {
   el.querySelector(".lyca-x").addEventListener("click", () => { el.remove(); try { sessionStorage.setItem("lyca-bn", "1"); } catch (e) {} });
   el.addEventListener("click", e => { if (e.target.closest("[data-lyca]")) track("lyca_banner", { price: r.now }); });
 })();
+
+/* Bottom banner: the Amazon.de deal with the highest buy score (affiliate-tagged), placed above the footer */
+(() => {
+  const r = LIVE.filter(x => x.shop === "amazon" && x.now != null && x.reg && x.off >= 20 && x.rating >= 4.3 && x.reviews >= 1000).sort((a, b) => b.buy - a.buy)[0];
+  const foot = document.querySelector("footer.legal");
+  if (!r || !foot) return;
+  const f = n => Number(n).toFixed(2);
+  const el = document.createElement("aside");
+  el.className = "amz-bn";
+  el.innerHTML = `<a href="${affLink("amazon", r.url)}" target="_blank" rel="sponsored nofollow noopener" data-amz><span class="ad">${T("lyAd")}</span><span class="tx"><b>${esc(r.name)}</b><small>${T("amzTop")} · ★ ${r.rating} · CHF ${f(r.now)} <s>${f(r.reg)}</s> −${r.off}%</small></span><u>${T("amzGo")} →</u></a><p>${T("amzNote")}</p>`;
+  foot.parentNode.insertBefore(el, foot);
+  el.addEventListener("click", e => { if (e.target.closest("[data-amz]")) track("amazon_banner", { id: r.id }); });
+})();

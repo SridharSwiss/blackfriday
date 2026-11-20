@@ -4,6 +4,7 @@
 
 export const STRINGS = {
   en: {
+    amzTop: "Amazon.de pick: most likely to be bought", amzNote: "Amazon price for Swiss delivery (CHF) — check at checkout", amzGo: "See on Amazon",
     lyAd: "Ad", lyTxt: "Lyca Mobile: unlimited 5G for CHF {p} / 28 days", lyWas: "was {w}", lyGo: "Get the deal", lyClose: "Close",
     waShare: "Share on WhatsApp", waWas: "was",
     sortBuy: "Most likely to buy", buyTip: "Buy score 0–100: how likely shoppers are to buy this deal — discount depth, CHF saved, price level, demand, brand, shop trust and urgency. A heuristic, not sales data.",
@@ -63,6 +64,7 @@ export const STRINGS = {
     langLabel: "EN",
   },
   de: {
+    amzTop: "Amazon.de Top-Pick: am wahrscheinlichsten gekauft", amzNote: "Amazon-Preis für Lieferung in die Schweiz (CHF) — beim Kauf prüfen", amzGo: "Bei Amazon ansehen",
     lyAd: "Anzeige", lyTxt: "Lyca Mobile: Unlimitiert 5G für CHF {p} / 28 Tage", lyWas: "statt {w}", lyGo: "Zum Deal", lyClose: "Schliessen",
     waShare: "Auf WhatsApp teilen", waWas: "statt",
     sortBuy: "Kaufwahrscheinlichkeit", buyTip: "Kaufscore 0–100: wie wahrscheinlich Kunden zugreifen – Rabatt, gesparte CHF, Preisniveau, Nachfrage, Marke, Shop-Vertrauen, Dringlichkeit. Eine Schätzung, keine Verkaufsdaten.",
@@ -122,6 +124,7 @@ export const STRINGS = {
     langLabel: "DE",
   },
   fr: {
+    amzTop: "Amazon.de, le choix le plus probable", amzNote: "Prix Amazon pour livraison en Suisse (CHF) — à vérifier à la commande", amzGo: "Voir sur Amazon",
     lyAd: "Annonce", lyTxt: "Lyca Mobile : 5G illimitée pour CHF {p} / 28 jours", lyWas: "au lieu de {w}", lyGo: "Voir l’offre", lyClose: "Fermer",
     waShare: "Partager sur WhatsApp", waWas: "au lieu de",
     sortBuy: "Plus susceptible d'être acheté", buyTip: "Score d'achat 0–100 : probabilité d'achat — remise, CHF économisés, niveau de prix, demande, marque, confiance, urgence. Une estimation, pas des données de vente.",
@@ -181,6 +184,7 @@ export const STRINGS = {
     langLabel: "FR",
   },
   it: {
+    amzTop: "Amazon.de, la scelta più probabile", amzNote: "Prezzo Amazon per consegna in Svizzera (CHF) — da verificare all’acquisto", amzGo: "Vedi su Amazon",
     lyAd: "Annuncio", lyTxt: "Lyca Mobile: 5G illimitato a CHF {p} / 28 giorni", lyWas: "invece di {w}", lyGo: "Vai all’offerta", lyClose: "Chiudi",
     waShare: "Condividi su WhatsApp", waWas: "invece di",
     sortBuy: "Più probabile da acquistare", buyTip: "Punteggio d'acquisto 0–100: probabilità d'acquisto — sconto, CHF risparmiati, prezzo, domanda, marca, fiducia, urgenza. Una stima, non dati di vendita.",
