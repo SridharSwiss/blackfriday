@@ -22,7 +22,7 @@ import * as INT from "./interest.js";
 import { artFor } from "./lib/art.js";
 
 /* ---------------- i18n ---------------- */
-const PAGE = window.__PAGE__ || null;
+const PAGE = (() => { try { const d = document.documentElement.dataset.page; return d ? JSON.parse(d) : null; } catch (e) { return null; } })();
 const LANG = (PAGE?.lang) || detectLang();
 const S = STRINGS[LANG] || STRINGS.en;
 const T = key => S[key] ?? STRINGS.en[key] ?? key;

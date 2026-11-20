@@ -129,11 +129,11 @@ function pageHtml(tpl, p, base, d) {
     KEYWORDS[p.path] ? `<meta name="keywords" content="${esc(KEYWORDS[p.path].join(", "))}">` : "",
     `<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">`,
     `<link rel="alternate" type="text/plain" title="LLM summary" href="${base}/llms.txt">`,
-    `<script>window.__PAGE__=${JSON.stringify({ path: p.path, lang: p.lang, tab: p.tab, cat: p.cat || null, q: p.q || null })}</script>`,
+
     jsonLd(p, url, base, d)
   ].filter(Boolean).join("\n");
   return tpl
-    .replace(/<html lang="[^"]*">/, `<html lang="${HREFLANG[p.lang]}">`)
+    .replace(/<html lang="[^"]*"( data-theme="dark")?>/, `<html lang="${HREFLANG[p.lang]}"$1 data-page='${esc(JSON.stringify({ path: p.path, lang: p.lang, tab: p.tab, cat: p.cat || null, q: p.q || null }))}'>`)
     .replace(/<title>[^<]*<\/title>/, `<title>${esc(p.title)}</title>`)
     .replace(/(<meta name="description" content=")[^"]*/, `$1${esc(p.description)}`)
     .replace(/(<meta property="og:title" content=")[^"]*/, `$1${esc(p.title)}`)
