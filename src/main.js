@@ -470,7 +470,7 @@ function renderFilters() {
   $("winterbar").hidden = !(t === "categories" && state.cat === WINTER);
   $("usbar").hidden = !(t === "live" && state.region === "us");
   $("region").innerHTML = [["all", "regionAll"], ["ch", "regionCH"], ["us", "regionUS"]].map(([v, k]) => `<option value="${v}">${T(k)}</option>`).join("");
-  $("minoff").innerHTML = `<option value="0">${T("offAny")}</option>` + [10, 20, 30, 50].map(n => `<option value="${n}">${n} ${T("offSuffix")}</option>`).join("");
+  $("minoff").innerHTML = `<option value="0">${T("offAny")}</option>` + [10, 20, 30, 50, 75].map(n => `<option value="${n}">${n} ${T("offSuffix")}</option>`).join("");
   $("region").value = state.region; $("minoff").value = String(state.minOff);
   const types = [...new Set(p.map(d => d.type).filter(Boolean))].sort();
   if (state.type !== "all" && !types.includes(state.type)) state.type = "all";
