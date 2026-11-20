@@ -39,8 +39,13 @@ const dateStr = (iso, lang) => new Date(iso + "T12:00:00Z").toLocaleDateString(L
 
 function itemsFull(p, d) {
   if (p.tab === "live" || p.tab === "best") {
-    const l = d.LIVE.map(r => ({ name: r.name, spec: [r.spec, r.shop, r.percent && r.price == null ? `−${r.percent}%` : "", r.code ? "Code " + r.code : "", r.until ? "bis " + r.until.split("-").reverse().join(".") : ""].filter(Boolean).join(" · "), price: r.price, reg: r.was, cur: r.cur || "CHF" }));
-    return p.tab === "best" ? l.filter(x => x.price != null && x.reg && x.price <= x.reg * 0.75) : l;
+    const l = d.LIVE.map(r => ({ name: r.name, spec: [r.spec, r.shop, r.percent && r.price == null ? `−${r.percent}%` : "", r.code ? "Code " + r.code : "", r.until ? "bis " + r.until.split("-").reverse().join(".") : ""].filter(Boolean).join(" · "), price: r.price, reg: r.was, cur: r.cur || "CHF", url: r.url || null, rating: r.rating || null, reviews: r.reviews || null, until: r.until || null }));
+    if (p.tab === "best") return l.filter(x => x.price != null && x.reg && x.price <= x.reg * 0.75);
+    /* crawlable snapshot only (this array never feeds the live app): surface rated items first so the
+       static HTML list and its matching JSON-LD actually carry AggregateRating instead of it being
+       buried past the first 100 rows — real items either way, just reordered for richer rich-results */
+    const rated = l.filter(x => x.rating), unrated = l.filter(x => !x.rating);
+    return rated.concat(unrated);
   }
   if (p.tab === "us") return d.US.map(r => ({ name: r[1], spec: r[2], price: r[3], reg: r[4], cur: "USD" }));
   if (p.tab === "categories" && p.cat === "Winter tyres") return d.WINTER_TYRES.map(r => ({ name: r[1], spec: r[2] || "" }));
@@ -102,14 +107,19 @@ function jsonLd(p, url, base, d) {
   if (items.length) out.push({ "@context": "https://schema.org", "@type": "ItemList", name: p.h1, numberOfItems: items.length,
     itemListElement: items.map((x, i) => ({ "@type": "ListItem", position: i + 1,
       item: x.price != null ? { "@type": "Product", name: x.name, description: x.spec || undefined,
-        offers: { "@type": "AggregateOffer", lowPrice: x.price, priceCurrency: x.cur, offerCount: 1, availability: "https://schema.org/InStock" } }
+        aggregateRating: x.rating ? { "@type": "AggregateRating", ratingValue: x.rating, reviewCount: x.reviews || 1, bestRating: 5, worstRating: 1 } : undefined,
+        offers: { "@type": "AggregateOffer", url: x.url || undefined, lowPrice: x.price, priceCurrency: x.cur, offerCount: 1,
+          priceValidUntil: x.until || undefined, availability: "https://schema.org/InStock" } }
         : { "@type": "Thing", name: x.name } })) });
   if (p.tab === "calendar") out.push({ "@context": "https://schema.org", "@type": "ItemList", name: "Black Friday 2026 dates",
     itemListElement: d.EVENTS.map((e, i) => ({ "@type": "ListItem", position: i + 1, item: {
       "@type": "Event", name: e.title, startDate: e.date, endDate: e.date, description: e.text,
       eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode", eventStatus: "https://schema.org/EventScheduled",
       location: { "@type": "VirtualLocation", url } } })) });
-  if (["guide", "calendar"].includes(p.tab) || p.group === "home") out.push({ "@context": "https://schema.org", "@type": "FAQPage",
+  /* the #faq markup is injected into every page's static HTML (see pageHtml below), just inside a tab panel that
+     starts hidden until JS activates it — Google explicitly allows FAQ rich results for accordion/tab content that
+     is present in the initial HTML, so this schema is safe to emit on every page, not only guide/calendar/home. */
+  out.push({ "@context": "https://schema.org", "@type": "FAQPage",
     mainEntity: faqFor(p.lang, d).map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) });
   return out.map(ld).join("\n");
 }
