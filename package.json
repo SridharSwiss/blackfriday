@@ -10,7 +10,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "catalogue": "node scripts/build-catalogue.mjs",
-    "emails": "node scripts/email-templates.mjs"
+    "emails": "node scripts/email-templates.mjs",
+    "images:amazon": "node scripts/images/amazon-pa-api.mjs"
   },
   "engines": {
     "node": ">=18"
