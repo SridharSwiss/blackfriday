@@ -27,9 +27,9 @@ const OUT_PATH = new URL("../../src/data/category-images.js", import.meta.url);
 /* Every distinct category string used across live-ch.js, catalogue.js and top100.js, mapped to a clear,
    unambiguous Wikimedia Commons search term. A handful share a term on purpose (e.g. "Sport"/"Sports"/
    "Sports & Outdoor" all search "sporting goods") since they're the same idea under different labels.
-   Negative keywords (-painting -portrait etc.) keep fine-art search results (Commons is full of digitised
-   paintings/photographs tagged with everyday nouns) from being picked for product categories. */
-const NEG = "-painting -portrait -drawing -illustration -sculpture -museum -artwork -engraving -postage -stamp -poster -map -coat_of_arms -coin -currency -banknote";
+   A result's own title is checked afterwards (BAD_TITLE below) to reject fine-art/diagrams/flags that
+   Commons tags with everyday nouns; putting that many negative terms directly into the search query itself
+   turned out to over-restrict it to zero results for almost every term, so filtering happens post-fetch. */
 const QUERY = {
   "Accessories": "phone case",
   "Apparel": "folded clothes retail",
@@ -127,7 +127,7 @@ async function lookup(term, attempt = 1) {
     action: "query",
     format: "json",
     generator: "search",
-    gsrsearch: `filetype:bitmap ${term} ${NEG}`,
+    gsrsearch: `filetype:bitmap ${term}`,
     gsrnamespace: "6",
     gsrlimit: "8",
     prop: "imageinfo",
