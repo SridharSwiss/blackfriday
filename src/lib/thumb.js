@@ -79,12 +79,17 @@ export const hue = s => { let x=0; for (const c of s) x=(x*31+c.charCodeAt(0))>>
 export const brandOf = n => (TWO.find(b=>n.startsWith(b+" ")) || n.split(" ")[0]).replace(/[–:]$/,"");
 const brandCatPhoto = d => BRAND_CAT_IMAGES[`${brandOf(d.name)}|${d.cat}`];
 const subtypePhoto = d => SUBTYPE_IMAGES[subtypeOf(d.name, d.cat)];
+// The same photo-resolution chain used everywhere a deal's picture is shown: grid cards (thumb(),
+// below), and the animated Amazon/Lyca ad cards and side rails in main.js (adHTML/rail-ad), which
+// otherwise only had a real photo when the deal object itself carried one (almost never, for
+// Amazon-shop deals) and fell back straight to the SVG icon.
+export const photoFor = d => IMAGES[d.name] || brandCatPhoto(d) || subtypePhoto(d) || CATEGORY_IMAGES[d.cat] || d.img || null;
 // Whether a deal has a real product photo (licensed exact-match, brand+category fallback, subtype
 // fallback, or category photo) rather than just the generated SVG illustration - used to sort
 // photographed deals first.
-export const hasPhoto = d => Boolean(IMAGES[d.name] || brandCatPhoto(d) || subtypePhoto(d) || CATEGORY_IMAGES[d.cat] || d.img);
+export const hasPhoto = d => Boolean(photoFor(d));
 export function thumb(d){
-  const photo = IMAGES[d.name] || brandCatPhoto(d) || subtypePhoto(d) || CATEGORY_IMAGES[d.cat] || d.img;
+  const photo = photoFor(d);
   const img = photo ? `<img src="${esc(photo)}" alt="${esc(d.name)}" loading="lazy" onerror="this.remove()">` : "";
   if (d.cat==="Books" && d.name.includes(" – ")){
     const [author,title] = d.name.split(" – ");

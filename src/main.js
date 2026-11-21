@@ -11,7 +11,7 @@ import { AWIN_TYRES, AWIN_SHOP } from "./data/awin-picks.js";
 import { LIVE_CH, SHOWCASES } from "./data/live-ch.js";
 import { EVENTS, FAQ as FAQ_EN, FAQ_I18N } from "./data/calendar.js";
 import { fmt, esc, ext } from "./lib/format.js";
-import { thumb } from "./lib/thumb.js";
+import { thumb, photoFor } from "./lib/thumb.js";
 import { ENABLED } from "./config/backend.js";
 import { initConsent, getConsent, onConsent } from "./lib/consent.js";
 import { track } from "./lib/track.js";
@@ -388,7 +388,8 @@ function adHTML(a, cls) {
   }
   const r = a.r, href = affLink(a.k === "lyca" ? "lyca" : "amazon", r.url);
   const stars = a.k === "amz" ? `<span class="st">★ ${r.rating}</span>` : "";
-  return `<a class="adc ${cls || ""} ${a.k}" href="${href}" target="_blank" rel="sponsored nofollow noopener" data-ad="${a.k}">${r.img ? `<img class="pimg" src="${esc(r.img)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">` : `<span class="aart" aria-hidden="true"><svg viewBox="0 0 64 64">${artFor(a.k === "lyca" ? "Telecom" : r.cat)}</svg></span>`}<span class="at">${a.t}</span>${a.h ? `<b class="ah">${esc(a.h)}</b>` : ""}<span class="an">${esc(r.name.replace(/\(.*?\)/g, "").trim().slice(0, 70))}</span><span class="ap"><strong>CHF ${adF(r.now)}</strong><s>${adF(r.reg)}</s><i class="${r.off > 70 ? "mega" : ""}">−${r.off}%</i></span>${stars}<u>${a.k === "lyca" ? T("lyGo") : T("amzGo")} →</u></a>`;
+  const pic = photoFor(r);
+  return `<a class="adc ${cls || ""} ${a.k}" href="${href}" target="_blank" rel="sponsored nofollow noopener" data-ad="${a.k}">${pic ? `<img class="pimg" src="${esc(pic)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">` : `<span class="aart" aria-hidden="true"><svg viewBox="0 0 64 64">${artFor(a.k === "lyca" ? "Telecom" : r.cat)}</svg></span>`}<span class="at">${a.t}</span>${a.h ? `<b class="ah">${esc(a.h)}</b>` : ""}<span class="an">${esc(r.name.replace(/\(.*?\)/g, "").trim().slice(0, 70))}</span><span class="ap"><strong>CHF ${adF(r.now)}</strong><s>${adF(r.reg)}</s><i class="${r.off > 70 ? "mega" : ""}">−${r.off}%</i></span>${stars}<u>${a.k === "lyca" ? T("lyGo") : T("amzGo")} →</u></a>`;
 }
 /* mobile: after every 5 deal cards insert an ad, alternating Lyca / Amazon (cycling through the top 10) */
 function withInlineAds(cards) {
