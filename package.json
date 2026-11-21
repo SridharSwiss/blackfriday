@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "catalogue": "node scripts/build-catalogue.mjs",
     "emails": "node scripts/email-templates.mjs",
-    "images:amazon": "node scripts/images/amazon-pa-api.mjs"
+    "images:amazon": "node scripts/images/amazon-pa-api.mjs",
+    "images:icecat": "node scripts/images/icecat.mjs"
   },
   "engines": {
     "node": ">=18"
