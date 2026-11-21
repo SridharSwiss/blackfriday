@@ -5,4 +5,9 @@
    scripts/images/category-stock.mjs for how this is generated. A category without an entry here just
    keeps the generated SVG illustration. */
 export const CATEGORY_IMAGES = {
+  "Accessories": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Smartphone_case_cover_black.jpg/960px-Smartphone_case_cover_black.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "Appliances": "https://upload.wikimedia.org/wikipedia/commons/5/52/Minna_M3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "Audio": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/JBL_Flip_3_bluetooth_speaker_%28DSCF2653%29.jpg/960px-JBL_Flip_3_bluetooth_speaker_%28DSCF2653%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "Baby": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/Children-sitting-in-the-new-type-of-stroller-142340819115.jpg/960px-Children-sitting-in-the-new-type-of-stroller-142340819115.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "Baby & Kids": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/Children-sitting-in-the-new-type-of-stroller-142340819115.jpg/960px-Children-sitting-in-the-new-type-of-stroller-142340819115.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
 };
