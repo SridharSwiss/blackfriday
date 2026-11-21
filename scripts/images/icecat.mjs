@@ -63,6 +63,7 @@ const BRANDS = [
   "Kindle", "Xiaomi", "DJI", "GoPro", "Panasonic", "Hisense", "TCL", "Epson", "Brother", "AEG",
   "Electrolux", "Gaggia", "Jura", "WMF", "Tefal", "Rowenta", "Kenwood", "KitchenAid",
   "Anker", "Amazon", "Google", "Dreame", "Novamatic", "Liebeskind",
+  "Ring", "Einhell", "Beurer", "Maxi-Cosi",
 ];
 // Words that look like codes but are units/specs, not model numbers - exclude these false positives.
 const NOT_A_CODE = /^(GB|TB|MB|KB|CHF|USD|EUR|WH|KWH|MAH|INCH|CM|MM|HZ|FPS|MP|OLED|LED|UHD|QLED|4K|8K|5G|WIFI|USB|HDMI)$/i;
