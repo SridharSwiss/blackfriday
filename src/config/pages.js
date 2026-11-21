@@ -188,6 +188,12 @@ export const PAGES = [
     h1: "Black Friday Gaming PC & Laptop Schweiz 2026",
     intro: "Gaming-Laptops, Grafikkarten und komplette Gaming-PCs gehören zu den teuersten, aber auch am stärksten reduzierten Produkten am Black Friday. Wir vergleichen Preise bei Digitec, Galaxus, Brack und Amazon.de." },
 
+  { path: "/de/black-friday-kamera-schweiz/", lang: "de", tab: "categories", cat: "Cameras", priority: 0.6,
+    title: "Black Friday Kamera Schweiz 2026: Sony, Canon & GoPro | Aktions.ch",
+    description: "Systemkameras, Objektive, Action-Cams und Drohnen am Black Friday 2026: Sony, Canon, Fujifilm, Nikon, GoPro und DJI im Preisvergleich.",
+    h1: "Black Friday Kamera & Drohne Schweiz 2026",
+    intro: "Fust, MediaMarkt und Manor führen 2026 eigene Black-Friday-Rubriken für Foto und Video. Wir vergleichen Systemkameras von Sony, Canon, Fujifilm und Nikon sowie Action-Cams von GoPro und Insta360 und Drohnen von DJI bei Digitec, Brack, fnac und Amazon.de." },
+
   { path: "/de/black-friday-galaxus-digitec-2026/", lang: "de", tab: "calendar", priority: 0.8,
     title: "Galaxus & Digitec Black Friday 2026: ab 16.11. | Aktions.ch",
     description: "Digitec und Galaxus starten die Black Friday Weeks am 16. November 2026: über 1000 Angebote bis 30.11. Alle Daten und Top-Deals in CHF.",
@@ -269,6 +275,7 @@ export const KEYWORDS = {
   "/de/black-friday-reisen-fluege-schweiz/": ["SWISS Flugangebote Black Friday", "Edelweiss Air Black Friday", "easyJet Schweiz Black Friday", "Hotelcard Black Friday", "Wellness Hotel Schweiz Black Friday", "Therme Vals Black Friday", "Europa-Park Tickets Black Friday Schweiz", "Skipass Black Friday Schweiz", "SBB Tageskarte Black Friday", "Halbtax Black Friday Aktion", "Autobahnvignette 2027 Black Friday"],
   "/de/black-friday-smartphones-schweiz/": ["Samsung Galaxy S26 Black Friday Schweiz", "Samsung Schweiz Black Friday"],
   "/de/black-friday-gaming-pc-laptop-schweiz/": ["Gaming Laptop Black Friday Schweiz", "Gaming PC Black Friday Schweiz", "HP Store Schweiz Black Friday", "Lenovo Schweiz Black Friday", "Dell Schweiz Black Friday"],
+  "/de/black-friday-kamera-schweiz/": ["Kamera Black Friday Schweiz", "Fotokamera Black Friday Schweiz", "Sony Alpha Black Friday Schweiz", "Canon EOS Black Friday Schweiz", "Fujifilm X-T5 Black Friday Schweiz", "GoPro Black Friday Schweiz", "DJI Drohne Black Friday Schweiz", "Systemkamera Black Friday Schweiz", "Welche Kamera lohnt sich am Black Friday in der Schweiz?"],
   "/fr/black-friday-2026-date-suisse/": ["Black Friday 2026 date", "date Black Friday Suisse", "Black Week 2026 Suisse", "Cyber Monday 2026 Suisse", "Quand a lieu le Black Friday 2026 en Suisse ?"],
   "/it/black-friday-2026-data-svizzera/": ["Black Friday 2026 data", "data Black Friday Svizzera", "Black Week 2026 Svizzera", "Cyber Monday 2026 Svizzera", "Quando è il Black Friday 2026 in Svizzera?"],
   "/en/black-friday-2026-date-switzerland/": ["Black Friday 2026 date Switzerland", "when is Black Friday 2026", "Black Week 2026 Switzerland", "Cyber Monday 2026 Switzerland", "Galaxus Black Friday 2026 date", "When does Black Friday start in Switzerland?"]
