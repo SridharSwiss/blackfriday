@@ -18,6 +18,7 @@
     "node": ">=18"
   },
   "devDependencies": {
+    "undici": "^8.13.1",
     "vite": "^5.4.21"
   }
 }

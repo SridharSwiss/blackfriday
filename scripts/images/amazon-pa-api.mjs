@@ -31,6 +31,10 @@
 
 import fs from "fs";
 import crypto from "node:crypto";
+import { ProxyAgent, setGlobalDispatcher } from "undici";
+
+const proxyUrl = process.env.HTTPS_PROXY || process.env.https_proxy;
+if (proxyUrl) setGlobalDispatcher(new ProxyAgent(proxyUrl));
 
 const ACCESS_KEY = process.env.AMAZON_PA_ACCESS_KEY;
 const SECRET_KEY = process.env.AMAZON_PA_SECRET_KEY;

@@ -32,6 +32,10 @@
    catalogue. */
 
 import fs from "fs";
+import { ProxyAgent, setGlobalDispatcher } from "undici";
+
+const proxyUrl = process.env.HTTPS_PROXY || process.env.https_proxy;
+if (proxyUrl) setGlobalDispatcher(new ProxyAgent(proxyUrl));
 
 const SHOPNAME = process.env.ICECAT_SHOPNAME || "openicecat-live"; // public demo account if nothing is set
 const API_TOKEN = process.env.ICECAT_API_TOKEN || null;
