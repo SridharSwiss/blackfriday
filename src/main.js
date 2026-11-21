@@ -171,7 +171,15 @@ const TABS = [...PRODUCT_TABS, "tyres", "sodeal", "calendar", "retailers", "guid
 const LEGACY = { top: {}, categories: {}, best: { minOff: 25, sort: "save" }, us: { region: "us" } };
 const defaults = { tab: "live", cat: "All", q: "", status: "all", sort: "rank", store: "all", price: "all", region: "all", minOff: 0, type: "all", page: 0, drops: false };
 let state = { ...defaults, watch: [], theme: "" };
-try { Object.assign(state, JSON.parse(localStorage.getItem("bf26v5") || "{}")); } catch (e) {}
+// Only the saved-deals list and theme survive a page refresh - every filter, search term and tab
+// choice always starts fresh so a reload shows all deals, never a stale filtered view.
+try {
+  const saved = JSON.parse(localStorage.getItem("bf26v5") || "{}");
+  if (saved && typeof saved === "object") {
+    if (Array.isArray(saved.watch)) state.watch = saved.watch;
+    if (typeof saved.theme === "string") state.theme = saved.theme;
+  }
+} catch (e) {}
 state.watch = Array.isArray(state.watch) ? state.watch.filter(id => BY_ID.has(id)) : [];
 if (!MEM) state.drops = false;
 if (!TABS.includes(state.tab)) state.tab = "live";
