@@ -11,7 +11,7 @@ import { AWIN_TYRES, AWIN_SHOP } from "./data/awin-picks.js";
 import { LIVE_CH, SHOWCASES } from "./data/live-ch.js";
 import { EVENTS, FAQ as FAQ_EN, FAQ_I18N } from "./data/calendar.js";
 import { fmt, esc, ext } from "./lib/format.js";
-import { thumb, photoFor } from "./lib/thumb.js";
+import { thumb, photoFor, hasExactPhoto } from "./lib/thumb.js";
 import { ENABLED } from "./config/backend.js";
 import { initConsent, getConsent, onConsent } from "./lib/consent.js";
 import { track } from "./lib/track.js";
@@ -252,8 +252,16 @@ function list() {
     az: (a, b) => a.name.localeCompare(b.name),
     ends: (a, b) => (a.until || "9999").localeCompare(b.until || "9999") || (b.off || 0) - (a.off || 0)
   };
-  if (state.sort === "rank" && state.tab === "live" && !term) return mixRecommended(l);
-  return l.sort(by[state.sort] || by.rank);
+  const sorted = state.sort === "rank" && state.tab === "live" && !term ? mixRecommended(l) : l.sort(by[state.sort] || by.rank);
+  return exactPhotoFirst(sorted);
+}
+// Deals with their own exact licensed photo (not a brand/subtype fallback) float to the top, highest
+// discount first; everything else keeps whatever order the sort above already gave it.
+function exactPhotoFirst(arr) {
+  const exact = [], rest = [];
+  for (const d of arr) (hasExactPhoto(d) ? exact : rest).push(d);
+  exact.sort((a, b) => (b.off || 0) - (a.off || 0));
+  return [...exact, ...rest];
 }
 function priceLine(d) {
   if (d.region === "live") {

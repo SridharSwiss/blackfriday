@@ -1,31 +1,158 @@
 import { IMAGES } from "../data/images.js";
-import { BRAND_CAT_IMAGES, SUBTYPE_IMAGES, CATEGORY_IMAGES } from "../data/category-images.js";
+import { NORM_CAT, BRAND_CAT_POOLS, SUBTYPE_POOLS, CATEGORY_IMAGES } from "../data/category-images.js";
 import { esc } from "./format.js";
 import { artFor } from "./art.js";
 
 /* ---------- product pictures ----------
    1) IMAGES["Exact product name"] = licensed photo URL (data/images.js) → shown as a photo of that SKU
-   2) otherwise BRAND_CAT_IMAGES["Brand|Category"] = a REAL photo already licensed for another product
-      of the same brand and category (data/category-images.js, built by
+   2) otherwise BRAND_CAT_POOLS["Brand|Subtype"] = REAL photos already licensed for other products of
+      the same brand and same visual subtype (data/category-images.js, built by
       scripts/images/brand-category-fallback.mjs) → e.g. any other Samsung TV's photo for a Samsung TV
-      with none of its own; never crosses brand or category, so a watch never gets a TV's photo
-   3) otherwise SUBTYPE_IMAGES[subtype] = a REAL photo of the same visually-interchangeable product
-      type from ANY brand (e.g. a Samsung earbuds photo standing in for Apple earbuds) - split finely
-      enough (see subtypeOf in that build script) that a soundbar can never get an earbuds photo
+      with none of its own; never crosses brand or subtype, so a watch never gets a TV's photo and a
+      Samsung soundbar never gets a Samsung earbuds photo just because both are "Audio"
+   3) otherwise SUBTYPE_POOLS[subtype] = REAL photos of the same visually-interchangeable product type
+      from ANY brand (e.g. a Samsung earbuds photo standing in for Apple earbuds, or any sneaker's
+      photo for any other sneaker - "shoes are shoes") - split finely enough (see subtypeOf below) that
+      a soundbar can never get an earbuds photo, a toothbrush never a shaver, a dryer never a fridge
    4) otherwise CATEGORY_IMAGES[d.cat] = a free-license generic photo of the category (currently empty -
       kept as a slot for future AI-generated category art once that's available)
-   5) otherwise an illustration drawn from the category and brand, so every product still has a picture */
-// Mirrors subtypeOf() in scripts/images/brand-category-fallback.mjs - keep both in sync.
+   5) otherwise an illustration drawn from the category and brand, so every product still has a picture
+   Both pools (2) and (3) can hold several photos per bucket; pickFromPool() below picks one per
+   product with a stable hash of the product's own name, so the same product always shows the same
+   picture (no flicker across reloads) while different products in the same bucket get visual variety. */
+// Mirrors normCat()/subtypeOf() in scripts/images/brand-category-fallback.mjs - keep both in sync.
+const normCat = cat => NORM_CAT[cat] || cat;
 function subtypeOf(name, cat) {
-  if (cat === "Audio") {
-    if (/sound ?bar/i.test(name)) return "Audio:soundbar";
-    if (/ear ?(buds|phones)|kopfhörer|in-ear|buds\b/i.test(name)) return "Audio:earbuds";
-    if (/headphone|over-ear|on-ear/i.test(name)) return "Audio:headphones";
-    if (/lautsprecher|speaker|boombox/i.test(name)) return "Audio:speaker";
+  const c = normCat(cat);
+  if (c === "Audio") {
+    if (/sound ?bar|\bLG\s+DS[A-Z]*\d/i.test(name)) return "Audio:soundbar";
+    if (/headphone|over-ear|on-ear|airpods max|\bwh-/i.test(name)) return "Audio:headphones";
+    if (/ear ?(buds|phones)|kopfhörer|in-ear|buds|airpods|\bwf-/i.test(name)) return "Audio:earbuds";
+    if (/lautsprecher|speaker|boombox|homepod|\bsrs-|ult field|^logitech z\d{3}/i.test(name)) return "Audio:speaker";
     return "Audio:other";
   }
-  return cat;
+  if (c === "Beauty" || c === "Personal Care" || c === "Appliances") {
+    if (/toothbrush|zahnbürste|zahnbuerste/i.test(name)) return "PersonalCare:toothbrush";
+    if (/\bipl\b|epilat/i.test(name)) return "PersonalCare:ipl";
+    if (/trimmer|grooming kit|beard/i.test(name)) return "PersonalCare:trimmer";
+    if (/shaver|razor|rasierer/i.test(name)) return "PersonalCare:shaver";
+    if (/curler|airwrap|hair ?dryer|haartrockner|styler|hairwrap|multistyler|airstyler|dampfbuerste|dampfbuegel|ironing|\biron\b/i.test(name)) return "PersonalCare:styling";
+    if (/thermometer/i.test(name)) return "PersonalCare:thermometer";
+    if (/eau de |parfum|cologne|fragrance/i.test(name)) return "Beauty:fragrance";
+    if (/adventskalender|advent calendar/i.test(name)) return "Beauty:giftset";
+  }
+  if (c === "Appliances") {
+    if (/\bset\b.+\+/i.test(name) || /waschtrockner|washer-dryer|washer dryer/i.test(name)) return "Appliances:washerdryer";
+    if (/kühlschrank|kuehlschrank|gefrier|freezer|fridge|food ?center|weinkühl|weinkuehl/i.test(name)) return "Appliances:fridge";
+    if (/trockner|tumble dryer|\bdryer\b/i.test(name)) return "Appliances:dryer";
+    if (/waschmaschine|washing machine/i.test(name)) return "Appliances:washer";
+    if (/\bWW\d/i.test(name)) return "Appliances:washer";
+    if (/\bDV\d/i.test(name)) return "Appliances:dryer";
+    if (/\b(RF|RS|RB)\d/i.test(name)) return "Appliances:fridge";
+    if (/geschirrspüler|geschirrspueler|dishwasher/i.test(name)) return "Appliances:dishwasher";
+    if (/vacuum|staubsauger/i.test(name)) return "Appliances:vacuum";
+    if (/coffee machine|kaffeevollautomat|bean-to-cup/i.test(name)) return "Appliances:coffee";
+    if (/kettle|wasserkocher/i.test(name)) return "Appliances:kettle";
+    if (/mower|rasenmäher|rasenmaeher/i.test(name)) return "Appliances:mower";
+    if (/radiator|heater|heizung/i.test(name)) return "Appliances:heater";
+    if (/treadmill|laufband/i.test(name)) return "Appliances:treadmill";
+    if (/\boven\b|backofen|\bherd\b/i.test(name)) return "Appliances:oven";
+    return "Appliances:other";
+  }
+  if (c === "Beauty" || c === "Personal Care") return "Beauty:other";
+  if (c === "Cameras") {
+    if (/\d+\s?-?\s?\d*mm|\blens\b/i.test(name)) return "Cameras:lens";
+    return "Cameras:body";
+  }
+  if (c === "Gaming") {
+    if (/^(ps5|pc|xbox|nintendo switch)\s*[–-]\s/i.test(name)) return "Gaming:digital";
+    if (/game pass|\bpoints\b|\b\d+ months?\b/i.test(name)) return "Gaming:digital";
+    if (/controller|dualsense/i.test(name)) return "Gaming:controller";
+    if (/\bvr\d?\b|vr headset|psvr|quest \d/i.test(name)) return "Gaming:vr";
+    if (/facecam|capture|hd60|key light/i.test(name)) return "Gaming:capture";
+    if (/\bcamera\b/i.test(name)) return "Gaming:camera";
+    if (/headset|\barctis\b|stealth \d|recon \d|\bkraken\b|inzone h/i.test(name)) return "Gaming:headset";
+    if (/keyboard|\bk70\b|\bk213\b|blackwidow|apex pro/i.test(name)) return "Gaming:keyboard";
+    if (/driving force|\bwheel\b|shift lever|\bhotas\b|flightdeck/i.test(name)) return "Gaming:wheel";
+    if (/gaming-stuhl|racing chair|\bdesk\b|ultradesk/i.test(name)) return "Gaming:furniture";
+    if (/carrying case|screen protector|microsd|charging station|disc drive|console cover/i.test(name)) return "Gaming:accessory";
+    if (/\bg\d{3}\b|lightspeed|\bhero\b|deathadder|viper v\d/i.test(name)) return "Gaming:mouse";
+    if (/switch|rog ally|legion go|steam deck|\bclaw\b/i.test(name)) return "Gaming:handheld";
+    return "Gaming:console";
+  }
+  if (c === "Computers") {
+    if (/\bmouse\b/i.test(name)) return "Computers:mouse";
+    if (/\bdisplay\b/i.test(name)) return "Computers:monitor";
+    if (/\bnuc\b|mini[- ]pc\b/i.test(name)) return "Computers:minipc";
+    if (/\btower\b/i.test(name)) return "Computers:tower";
+    return "Computers:laptop";
+  }
+  if (c === "Accessories") {
+    if (/airtag/i.test(name)) return "Accessories:tracker";
+    if (/crayon|\bpencil\b/i.test(name)) return "Accessories:stylus";
+    if (/\bcase\b|folio/i.test(name)) return "Accessories:case";
+    if (/power adapter|\bcharger\b/i.test(name)) return "Accessories:charger";
+    if (/\bmk\d{3}\b/i.test(name)) return "Accessories:combo";
+    if (/mx ergo|trackball/i.test(name)) return "Accessories:trackball";
+    if (/keyboard|\bk\d{3}\b|mx keys|mx mechanical/i.test(name)) return "Accessories:keyboard";
+    if (/webcam|\bc9\d{2}\b|\bc2\d{2}\b|\bbrio\b/i.test(name)) return "Accessories:webcam";
+    if (/headset|zone vibe|\bh\d{3}\b/i.test(name)) return "Accessories:headset";
+    if (/\bmouse\b|mx anywhere|mx master|mx vertical|\blift\b|pebble|\bm\d{3}\b/i.test(name)) return "Accessories:mouse";
+    if (/\b\d+\s?(gb|tb)\b/i.test(name)) return "Accessories:storage";
+    return "Accessories:other";
+  }
+  if (c === "PC Components") {
+    if (/motherboard|mainboard|\bstrix b\d/i.test(name)) return "PCComponents:motherboard";
+    if (/\bssd\b|\b\d+\s?(gb|tb)\b/i.test(name)) return "PCComponents:storage";
+    return "PCComponents:other";
+  }
+  if (c === "Phones") {
+    if (/\bz ?flip\d?|\bz ?fold\d?|\bfold\d\b|\bflip\d\b/i.test(name)) return "Phones:foldable";
+    return "Phones:slab";
+  }
+  if (c === "Home") {
+    if (/vacuum/i.test(name)) return "Home:vacuum";
+    if (/purifier/i.test(name)) return "Home:purifier";
+    if (/humidifier/i.test(name)) return "Home:humidifier";
+    return "Home:other";
+  }
+  if (c === "Printers") {
+    if (/selphy|photo printer/i.test(name)) return "Printers:photo";
+    return "Printers:office";
+  }
+  if (c === "TV") {
+    if (/projector|home cinema|\bEH-/i.test(name)) return "TV:projector";
+    return `TV:${sizeBucket(tvSizeOf(name))}`;
+  }
+  return c;
 }
+// Mirrors tvSizeOf()/sizeBucket() in scripts/images/brand-category-fallback.mjs - keep in sync.
+function tvSizeOf(name) {
+  let m = name.match(/(\d{2,3})\s*(?:"|inch|zoll)\b/i);
+  if (m) return +m[1];
+  const parts = name.split(" ");
+  if (parts[1] && /^\d{2,3}/.test(parts[1])) return +parts[1].match(/^\d{2,3}/)[0];
+  if ((m = name.match(/\b(?:QE|UE|QN|MRE)(\d{2})/i))) return +m[1];
+  if ((m = name.match(/OLED(\d{2})/i))) return +m[1];
+  if ((m = name.match(/K-(\d{2})/i))) return +m[1];
+  return null;
+}
+function sizeBucket(inches) {
+  if (inches == null) return "unknown";
+  if (inches <= 43) return "small";
+  if (inches <= 75) return "medium";
+  return "large";
+}
+// A stable (non-cryptographic) hash of a string, used to pick one photo per product out of a pool
+// A stable (non-cryptographic) hash of a string, used to pick one photo per product out of a pool
+// deterministically - the same product always shows the same picture across reloads, while
+// different products sharing a bucket get visual variety instead of all showing an identical photo.
+function stableHash(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+  return h >>> 0;
+}
+const pickFromPool = (pool, name) => pool && pool.length ? pool[stableHash(name) % pool.length] : undefined;
 export const ICON = {
  "Phones":'<rect x="14" y="5" width="20" height="38" rx="4"/><path d="M21 37h6"/>',
  "Audio":'<path d="M10 30v-4a14 14 0 0 1 28 0v4"/><rect x="7" y="28" width="9" height="13" rx="2"/><rect x="32" y="28" width="9" height="13" rx="2"/>',
@@ -77,13 +204,15 @@ export const ICON = {
 export const TWO = ["The Ordinary","La Roche-Posay","Ultimate Ears","Bowers & Wilkins","Black Diamond","The North Face","Under Armour","Hugo Boss","Calvin Klein","Polo Ralph Lauren","Ralph Lauren","Tommy Hilfiger","Fred Perry","Le Creuset","Big Green Egg","Home Assistant","Peak Design","Dr. Martens","New Balance","Paco Rabanne","Jean Paul Gaultier","Giorgio Armani","Carolina Herrera","Estée Lauder","Charlotte Tilbury","Rare Beauty","Beauty of Joseon","Paula's Choice","Caran d'Ache","Brändi Dog","Hot Wheels","Fisher-Price","Hans im Glück","Bang & Olufsen","Maison Francis Kurkdjian","Le Labo","Kuhn Rikon","Betty Bossi","Amazon Basics","Amazon Essentials","Concept2","Sea to Summit","Fjällräven","Viktor & Rolf","Thierry Mugler","Narciso Rodriguez","Jil Sander","Daniel Wellington","Herman Miller","Secretlab","Lian Li","be quiet!","Western Digital","Bambu Lab","Tour de Suisse","Busch & Müller","Pegasus Spiele","Lululemon"];
 export const hue = s => { let x=0; for (const c of s) x=(x*31+c.charCodeAt(0))>>>0; return x%360; };
 export const brandOf = n => (TWO.find(b=>n.startsWith(b+" ")) || n.split(" ")[0]).replace(/[–:]$/,"");
-const brandCatPhoto = d => BRAND_CAT_IMAGES[`${brandOf(d.name)}|${d.cat}`];
-const subtypePhoto = d => SUBTYPE_IMAGES[subtypeOf(d.name, d.cat)];
+const brandCatPhoto = d => pickFromPool(BRAND_CAT_POOLS[`${brandOf(d.name)}|${subtypeOf(d.name, d.cat)}`], d.name);
+const subtypePhoto = d => pickFromPool(SUBTYPE_POOLS[subtypeOf(d.name, d.cat)], d.name);
 // The same photo-resolution chain used everywhere a deal's picture is shown: grid cards (thumb(),
 // below), and the animated Amazon/Lyca ad cards and side rails in main.js (adHTML/rail-ad), which
 // otherwise only had a real photo when the deal object itself carried one (almost never, for
 // Amazon-shop deals) and fell back straight to the SVG icon.
 export const photoFor = d => IMAGES[d.name] || brandCatPhoto(d) || subtypePhoto(d) || CATEGORY_IMAGES[d.cat] || d.img || null;
+// Whether this exact SKU has its own licensed photo (tier 1 only - not a brand/subtype fallback).
+export const hasExactPhoto = d => Boolean(IMAGES[d.name]);
 // Whether a deal has a real product photo (licensed exact-match, brand+category fallback, subtype
 // fallback, or category photo) rather than just the generated SVG illustration - used to sort
 // photographed deals first.
