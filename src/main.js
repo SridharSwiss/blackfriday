@@ -11,7 +11,7 @@ import { AWIN_TYRES, AWIN_SHOP } from "./data/awin-picks.js";
 import { LIVE_CH, SHOWCASES } from "./data/live-ch.js";
 import { EVENTS, FAQ as FAQ_EN, FAQ_I18N } from "./data/calendar.js";
 import { fmt, esc, ext } from "./lib/format.js";
-import { thumb, hasPhoto } from "./lib/thumb.js";
+import { thumb } from "./lib/thumb.js";
 import { ENABLED } from "./config/backend.js";
 import { initConsent, getConsent, onConsent } from "./lib/consent.js";
 import { track } from "./lib/track.js";
@@ -124,7 +124,7 @@ const HOT = new Set();
 // "Recommended" order: buy-score ranked deals with Amazon (affiliate) deals and the hot Galaxus/Digitec picks woven in: 2 regular, 1 Amazon, 1 hot pick, repeat
 function mixRecommended(l) {
   const bs = d => (d.buy ?? 0) + Math.min(18, INT.score(d) * 1.5);
-  const by = (a, b) => (hasPhoto(b) - hasPhoto(a)) || bs(b) - bs(a) || (b.off || 0) - (a.off || 0);
+  const by = (a, b) => bs(b) - bs(a) || (b.off || 0) - (a.off || 0);
   const amz = l.filter(d => d.shop === "amazon").sort(by), hot = l.filter(d => HOT.has(d.id)).sort(by);
   const used = new Set([...amz, ...hot].map(d => d.id)), rest = l.filter(d => !used.has(d.id)).sort(by);
   const out = [], q = [[rest, 2], [amz, 1], [hot, 1]];
@@ -253,8 +253,7 @@ function list() {
     ends: (a, b) => (a.until || "9999").localeCompare(b.until || "9999") || (b.off || 0) - (a.off || 0)
   };
   if (state.sort === "rank" && state.tab === "live" && !term) return mixRecommended(l);
-  const cmp = by[state.sort] || by.rank;
-  return l.sort((a, b) => (hasPhoto(b) - hasPhoto(a)) || cmp(a, b));
+  return l.sort(by[state.sort] || by.rank);
 }
 function priceLine(d) {
   if (d.region === "live") {
