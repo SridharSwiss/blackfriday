@@ -13,12 +13,13 @@
     "emails": "node scripts/email-templates.mjs",
     "images:amazon": "node scripts/images/amazon-pa-api.mjs",
     "images:icecat": "node scripts/images/icecat.mjs",
-    "images:category": "node scripts/images/category-stock.mjs"
+    "images:awin": "node scripts/images/awin-feed.mjs"
   },
   "engines": {
     "node": ">=18"
   },
   "devDependencies": {
+    "csv-parse": "^7.0.3",
     "undici": "^8.13.1",
     "vite": "^5.4.21"
   }
