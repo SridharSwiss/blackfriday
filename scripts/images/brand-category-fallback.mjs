@@ -27,6 +27,22 @@ const SOURCES = [
 const TWO = ["The Ordinary","La Roche-Posay","Ultimate Ears","Bowers & Wilkins","Black Diamond","The North Face","Under Armour","Hugo Boss","Calvin Klein","Polo Ralph Lauren","Ralph Lauren","Tommy Hilfiger","Fred Perry","Le Creuset","Big Green Egg","Home Assistant","Peak Design","Dr. Martens","New Balance","Paco Rabanne","Jean Paul Gaultier","Giorgio Armani","Carolina Herrera","Estée Lauder","Charlotte Tilbury","Rare Beauty","Beauty of Joseon","Paula's Choice","Caran d'Ache","Brändi Dog","Hot Wheels","Fisher-Price","Hans im Glück","Bang & Olufsen","Maison Francis Kurkdjian","Le Labo","Kuhn Rikon","Betty Bossi","Amazon Basics","Amazon Essentials","Concept2","Sea to Summit","Fjällräven","Viktor & Rolf","Thierry Mugler","Narciso Rodriguez","Jil Sander","Daniel Wellington","Herman Miller","Secretlab","Lian Li","be quiet!","Western Digital","Bambu Lab","Tour de Suisse","Busch & Müller","Pegasus Spiele","Lululemon"];
 const brandOf = n => (TWO.find(b => n.startsWith(b + " ")) || n.split(" ")[0]).replace(/[–:]$/, "");
 
+// A single "cat" is sometimes a mix of visually very different products (e.g. "Audio" covers both
+// soundbars and earbuds) - a soundbar must never fall back to an earbuds photo, or vice versa. This
+// splits the handful of mixed categories into tighter visual buckets, used ONLY for the cross-brand
+// (same-subtype, any-brand) fallback tier below, not for the brand+category tier above it, which
+// already keys on the raw category and is tight enough (same brand narrows it plenty).
+function subtypeOf(name, cat) {
+  if (cat === "Audio") {
+    if (/sound ?bar/i.test(name)) return "Audio:soundbar";
+    if (/ear ?(buds|phones)|kopfhörer|in-ear|buds\b/i.test(name)) return "Audio:earbuds";
+    if (/headphone|over-ear|on-ear/i.test(name)) return "Audio:headphones";
+    if (/lautsprecher|speaker|boombox/i.test(name)) return "Audio:speaker";
+    return "Audio:other";
+  }
+  return cat;
+}
+
 function collectNameCat() {
   // name -> category, first occurrence wins
   const out = new Map();
@@ -60,35 +76,54 @@ async function main() {
   const nameCat = collectNameCat();
 
   const table = {}; // "Brand|Category" -> url, first real photo found wins
+  const subtypeTable = {}; // "subtype" (same visual bucket, any brand) -> url
   let used = 0, skippedNoCat = 0;
   for (const [name, url] of Object.entries(IMAGES)) {
     const cat = nameCat.get(name);
     if (!cat) { skippedNoCat++; continue; }
     const key = `${brandOf(name)}|${cat}`;
     if (!table[key]) { table[key] = url; used++; }
+    const sub = subtypeOf(name, cat);
+    if (!subtypeTable[sub]) subtypeTable[sub] = url;
   }
-  console.log(`${Object.keys(IMAGES).length} licensed photos -> ${used} distinct brand+category fallback entries (${skippedNoCat} photos had no matching product/category in our data).`);
+  console.log(`${Object.keys(IMAGES).length} licensed photos -> ${used} distinct brand+category entries, ${Object.keys(subtypeTable).length} cross-brand subtype entries (${skippedNoCat} photos had no matching product/category in our data).`);
 
   const body = Object.entries(table).sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([k, v]) => `  ${JSON.stringify(k)}: ${JSON.stringify(v)},`).join("\n");
+  const subtypeBody = Object.entries(subtypeTable).sort((a, b) => a[0].localeCompare(b[0]))
     .map(([k, v]) => `  ${JSON.stringify(k)}: ${JSON.stringify(v)},`).join("\n");
 
   const header = `/* BRAND_CAT_IMAGES: for a product with no exact licensed photo of its own (images.js), a REAL
    photo of another product from the SAME brand and SAME category - e.g. any other Samsung TV's
    photo for a Samsung TV that has none of its own. Built from the photos already in images.js
    (see scripts/images/brand-category-fallback.mjs) - never a different brand, never a different
-   category, so a watch never gets a TV's photo. Regenerate by re-running that script after adding
-   more photos to images.js.
-   CATEGORY_IMAGES: kept as a last-resort generic-category fallback (used only when nothing of the
-   same brand+category exists yet); empty for now since AI-generated category art is blocked on
-   Gamma workspace credits. */
+   category, so a watch never gets a TV's photo.
+
+   SUBTYPE_IMAGES: when even that fails, a REAL photo of the same VISUAL SUBTYPE from ANY brand -
+   e.g. a Samsung earbuds photo for an Apple earbuds product with no photo of its own (same kind of
+   object, genuinely interchangeable-looking). This is deliberately only as coarse as it's safe to
+   be: subtypeOf() in this script splits any category that mixes visually different products (today
+   just "Audio" - soundbars vs. earbuds vs. headphones vs. speakers) so a soundbar can never get an
+   earbuds photo or vice versa. Every other category falls back to its raw name here, which is
+   safe because thumb.js never reaches this tier for a product whose own category already has a
+   same-brand photo (BRAND_CAT_IMAGES is checked first).
+
+   CATEGORY_IMAGES: kept as the final, raw-category fallback slot for future AI-generated category
+   art if that becomes available again; empty for now.
+
+   Regenerate all three by re-running scripts/images/brand-category-fallback.mjs after adding more
+   photos to images.js. */
 export const BRAND_CAT_IMAGES = {
 ${body}
+};
+export const SUBTYPE_IMAGES = {
+${subtypeBody}
 };
 export const CATEGORY_IMAGES = {
 };
 `;
   fs.writeFileSync(CATEGORY_IMAGES_PATH, header);
-  console.log(`Wrote ${Object.keys(table).length} entries to src/data/category-images.js`);
+  console.log(`Wrote ${Object.keys(table).length} brand+category and ${Object.keys(subtypeTable).length} subtype entries to src/data/category-images.js`);
 }
 
 main();

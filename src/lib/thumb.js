@@ -1,5 +1,5 @@
 import { IMAGES } from "../data/images.js";
-import { BRAND_CAT_IMAGES, CATEGORY_IMAGES } from "../data/category-images.js";
+import { BRAND_CAT_IMAGES, SUBTYPE_IMAGES, CATEGORY_IMAGES } from "../data/category-images.js";
 import { esc } from "./format.js";
 import { artFor } from "./art.js";
 
@@ -9,9 +9,23 @@ import { artFor } from "./art.js";
       of the same brand and category (data/category-images.js, built by
       scripts/images/brand-category-fallback.mjs) → e.g. any other Samsung TV's photo for a Samsung TV
       with none of its own; never crosses brand or category, so a watch never gets a TV's photo
-   3) otherwise CATEGORY_IMAGES[d.cat] = a free-license generic photo of the category (currently empty -
+   3) otherwise SUBTYPE_IMAGES[subtype] = a REAL photo of the same visually-interchangeable product
+      type from ANY brand (e.g. a Samsung earbuds photo standing in for Apple earbuds) - split finely
+      enough (see subtypeOf in that build script) that a soundbar can never get an earbuds photo
+   4) otherwise CATEGORY_IMAGES[d.cat] = a free-license generic photo of the category (currently empty -
       kept as a slot for future AI-generated category art once that's available)
-   4) otherwise an illustration drawn from the category and brand, so every product still has a picture */
+   5) otherwise an illustration drawn from the category and brand, so every product still has a picture */
+// Mirrors subtypeOf() in scripts/images/brand-category-fallback.mjs - keep both in sync.
+function subtypeOf(name, cat) {
+  if (cat === "Audio") {
+    if (/sound ?bar/i.test(name)) return "Audio:soundbar";
+    if (/ear ?(buds|phones)|kopfhörer|in-ear|buds\b/i.test(name)) return "Audio:earbuds";
+    if (/headphone|over-ear|on-ear/i.test(name)) return "Audio:headphones";
+    if (/lautsprecher|speaker|boombox/i.test(name)) return "Audio:speaker";
+    return "Audio:other";
+  }
+  return cat;
+}
 export const ICON = {
  "Phones":'<rect x="14" y="5" width="20" height="38" rx="4"/><path d="M21 37h6"/>',
  "Audio":'<path d="M10 30v-4a14 14 0 0 1 28 0v4"/><rect x="7" y="28" width="9" height="13" rx="2"/><rect x="32" y="28" width="9" height="13" rx="2"/>',
@@ -64,12 +78,13 @@ export const TWO = ["The Ordinary","La Roche-Posay","Ultimate Ears","Bowers & Wi
 export const hue = s => { let x=0; for (const c of s) x=(x*31+c.charCodeAt(0))>>>0; return x%360; };
 export const brandOf = n => (TWO.find(b=>n.startsWith(b+" ")) || n.split(" ")[0]).replace(/[–:]$/,"");
 const brandCatPhoto = d => BRAND_CAT_IMAGES[`${brandOf(d.name)}|${d.cat}`];
-// Whether a deal has a real product photo (licensed exact-match, brand+category fallback, or
-// category photo) rather than just the generated SVG illustration - used to sort photographed
-// deals first.
-export const hasPhoto = d => Boolean(IMAGES[d.name] || brandCatPhoto(d) || CATEGORY_IMAGES[d.cat] || d.img);
+const subtypePhoto = d => SUBTYPE_IMAGES[subtypeOf(d.name, d.cat)];
+// Whether a deal has a real product photo (licensed exact-match, brand+category fallback, subtype
+// fallback, or category photo) rather than just the generated SVG illustration - used to sort
+// photographed deals first.
+export const hasPhoto = d => Boolean(IMAGES[d.name] || brandCatPhoto(d) || subtypePhoto(d) || CATEGORY_IMAGES[d.cat] || d.img);
 export function thumb(d){
-  const photo = IMAGES[d.name] || brandCatPhoto(d) || CATEGORY_IMAGES[d.cat] || d.img;
+  const photo = IMAGES[d.name] || brandCatPhoto(d) || subtypePhoto(d) || CATEGORY_IMAGES[d.cat] || d.img;
   const img = photo ? `<img src="${esc(photo)}" alt="${esc(d.name)}" loading="lazy" onerror="this.remove()">` : "";
   if (d.cat==="Books" && d.name.includes(" – ")){
     const [author,title] = d.name.split(" – ");

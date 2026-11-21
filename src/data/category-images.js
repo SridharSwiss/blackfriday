@@ -2,11 +2,22 @@
    photo of another product from the SAME brand and SAME category - e.g. any other Samsung TV's
    photo for a Samsung TV that has none of its own. Built from the photos already in images.js
    (see scripts/images/brand-category-fallback.mjs) - never a different brand, never a different
-   category, so a watch never gets a TV's photo. Regenerate by re-running that script after adding
-   more photos to images.js.
-   CATEGORY_IMAGES: kept as a last-resort generic-category fallback (used only when nothing of the
-   same brand+category exists yet); empty for now since AI-generated category art is blocked on
-   Gamma workspace credits. */
+   category, so a watch never gets a TV's photo.
+
+   SUBTYPE_IMAGES: when even that fails, a REAL photo of the same VISUAL SUBTYPE from ANY brand -
+   e.g. a Samsung earbuds photo for an Apple earbuds product with no photo of its own (same kind of
+   object, genuinely interchangeable-looking). This is deliberately only as coarse as it's safe to
+   be: subtypeOf() in this script splits any category that mixes visually different products (today
+   just "Audio" - soundbars vs. earbuds vs. headphones vs. speakers) so a soundbar can never get an
+   earbuds photo or vice versa. Every other category falls back to its raw name here, which is
+   safe because thumb.js never reaches this tier for a product whose own category already has a
+   same-brand photo (BRAND_CAT_IMAGES is checked first).
+
+   CATEGORY_IMAGES: kept as the final, raw-category fallback slot for future AI-generated category
+   art if that becomes available again; empty for now.
+
+   Regenerate all three by re-running scripts/images/brand-category-fallback.mjs after adding more
+   photos to images.js. */
 export const BRAND_CAT_IMAGES = {
   "Apple|Accessories": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F6cc2afdbdf26de8e7fbfc35b9303b9ca.jpg%3Fv%3D1756122459&feedId=851&k=2aaf38cfeba4a6cafc598b7aaeb8103fcaf6d41a",
   "Apple|Audio": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2F-YmDdzLZc0WkLJf9HrNHPg.c-r.jpg&feedId=851&k=275561559b13bd25f2b6cab2b720e872b6774c37",
@@ -73,6 +84,33 @@ export const BRAND_CAT_IMAGES = {
   "Xiaomi|Home": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Ai05.appmifile.com%2F669_item_ro%2F19%2F12%2F2025%2F73cb9dd87582d6e7e57f07289b760edc.png&feedId=851&k=fba4438ecae369a41fd1e05befdcdf06cbf61152",
   "Xiaomi|Phones": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Ai05.appmifile.com%2F873_item_ro%2F05%2F09%2F2025%2Fc2fc32e86082e513f3dfb104e7f0982c.png&feedId=851&k=1c681aac1efef10294664becfce76b32bce2d42b",
   "Xiaomi|Tablets": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Ai05.appmifile.com%2F703_item_ro%2F26%2F02%2F2025%2Fc5bea07fd4efe9d234cd7eb3f8f9ea71.png&feedId=851&k=76e8c34b42d8d584722b37a13ad62332ad332e41",
+};
+export const SUBTYPE_IMAGES = {
+  "Accessories": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Aasset.re-in.de%2Fisa%2F160267%2Fc1%2F-%2Fde%2F1712827_BB_00_FB%2F1712827_BB_00_FB.jpg%3Fy%3D500%26x%3D500%26align%3Dcenter&feedId=35537&k=33a7c8cf4e8e2a991c5f5172ee922b5429abf7a1",
+  "Appliances": "https://images.icecat.biz/img/gallery_mediums/8e49e9cd35d35b7dc52bada046a0762944ba0453.jpg",
+  "Audio:earbuds": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2FxK8c-DboRE-_5C-W_g-nEA.c-r.jpg&feedId=851&k=85770fa6e82491c34feeb9ed0a46b6b929b2bbfa",
+  "Audio:other": "https://images.icecat.biz/img/gallery_mediums/927abd8752c4145c515b884abe537397c286a984.jpg",
+  "Audio:soundbar": "https://images.icecat.biz/img/gallery_mediums/3043863f6b7acf6ce14045ebfd0390f86bf89e25.jpg",
+  "Beauty": "https://images.icecat.biz/img/gallery_mediums/ce9826d0f41e703e550526a9dd0d3ded653f4e15.jpg",
+  "Bikes & E-mobility": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2Fd7524c92d4ce47c71381d5e6c465d24b.jpg%3Fv%3D1756120661&feedId=851&k=85c8fa75a360a57b00716dbd6a5d03cf65cfcee2",
+  "Cameras": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Awww.pro-camera.co.uk%2Facatalog%2FCanonEOSR5II%2BRF24-105f4L-1.jpg&feedId=851&k=5144f5c996a278fe60b4e76bc172d34ab8a019e4",
+  "Computers": "https://images.icecat.biz/img/gallery_mediums/5efefc9d20f295463847ae8fe467d6e0a48a14f2.jpg",
+  "Gaming": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Aasset.re-in.de%2Fisa%2F160267%2Fc1%2F-%2Fde%2F002865505PI00%2F002865505PI00.jpg%3Fy%3D500%26x%3D500%26align%3Dcenter&feedId=24181&k=6c707b0463c2a24b2e8314b2e8761d351d1c2c87",
+  "Home": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Ai05.appmifile.com%2F669_item_ro%2F19%2F12%2F2025%2F73cb9dd87582d6e7e57f07289b760edc.png&feedId=851&k=fba4438ecae369a41fd1e05befdcdf06cbf61152",
+  "Kitchen": "https://images.icecat.biz/img/gallery_mediums/f062f2246475951aa5874ee6ddfddcc82a8269f8.jpg",
+  "Monitors": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2FKwu-W_GWo0a-GVxS1YgCQg.c-r.jpg&feedId=851&k=c28597b4e7191f7d526fdca7a4bbe3b87454fab3",
+  "Networking": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2Fsj0U9YPvAkOr5QcNJ58wGg.c-r.jpg&feedId=851&k=4c04247cdb6d6b886fb08e308446ff7f8f2a0396",
+  "PC Components": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Aasset.re-in.de%2Fisa%2F160267%2Fc1%2F-%2Fde%2F003401966PI00%2F003401966PI00.jpg%3Fy%3D500%26x%3D500%26align%3Dcenter&feedId=35537&k=fe78d0351a0471d3b3c0b0f87de79df3813028d2",
+  "Personal Care": "https://images.icecat.biz/img/gallery_mediums/ff4331b0e5ba63db5fa73f838be56f758d554307.jpg",
+  "Phones": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F9e30b99e77f2abbc40ad7cf9bd318b21beb3b88e0ce7f4049e4be29df4111708_66d16379-8d5d-466a-aede-d9011923f037.jpg%3Fv%3D1789109871&feedId=851&k=ad279239205729751da50911cf12ae054336a8e8",
+  "Printers": "https://images.icecat.biz/img/gallery_mediums/5a11162ffc245147649a45cc615b2a370dfb3cdd.jpg",
+  "Robot vacuums": "https://images.icecat.biz/img/gallery_mediums/a90258939757bdd1d1441b177e1f613739a534bf.jpg",
+  "Shoes & Sneakers": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0965%2F4314%2F6361%2Ffiles%2FA4240460-8462-4654-8DB6-2AFF7B986C00.jpg%3Fv%3D1786650601&feedId=851&k=b3c02e6acbe35b6006b5be6f8533135b89defc56",
+  "Smart Home": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2F5P6LLNvAp0aklgSdX0h1Qw.c-r.jpg&feedId=851&k=f681f82fd01058ec34ce362daf71ad479d88a2fd",
+  "Software & VPN": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Aentrepreneurship.ieee.org%2Fwp-content%2Fuploads%2F2018%2F02%2FImage-Coming-Soon-Placeholder-e1518111259296.png&feedId=851&k=b5f367e4a4c93acfb69af9b7df937b3ce28d5aed",
+  "Tablets": "https://images.icecat.biz/img/gallery_mediums/a4626687aa30da38db717b8a9552a89b6349a527.jpg",
+  "TV": "https://images.icecat.biz/img/gallery_mediums/3509289133531e4aff2a59cd9afa14424e8870cb.jpg",
+  "Wearables": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2Ff2e86e75a51674d1bb28c0bec8e450bf.jpg%3Fv%3D1775034981&feedId=851&k=fa6ed08ce76fd888bb32b556dfab9922c871cf80",
 };
 export const CATEGORY_IMAGES = {
 };
