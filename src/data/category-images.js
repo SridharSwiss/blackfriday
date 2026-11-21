@@ -1,7 +1,78 @@
-/* One AI-generated illustration per visual category (matching the archetypes in src/lib/art.js's ART/MAP),
-   used as a fallback picture when a product has no exact licensed photo in images.js: a real, original
-   piece of artwork representing "a TV" / "a coffee machine" / etc., not a claim that it's the exact SKU on
-   that card, and not a stock or retailer photo. Generated with an AI image model in a consistent flat
-   illustration style. A category without an entry here just keeps the generated SVG illustration. */
+/* BRAND_CAT_IMAGES: for a product with no exact licensed photo of its own (images.js), a REAL
+   photo of another product from the SAME brand and SAME category - e.g. any other Samsung TV's
+   photo for a Samsung TV that has none of its own. Built from the photos already in images.js
+   (see scripts/images/brand-category-fallback.mjs) - never a different brand, never a different
+   category, so a watch never gets a TV's photo. Regenerate by re-running that script after adding
+   more photos to images.js.
+   CATEGORY_IMAGES: kept as a last-resort generic-category fallback (used only when nothing of the
+   same brand+category exists yet); empty for now since AI-generated category art is blocked on
+   Gamma workspace credits. */
+export const BRAND_CAT_IMAGES = {
+  "Apple|Accessories": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F6cc2afdbdf26de8e7fbfc35b9303b9ca.jpg%3Fv%3D1756122459&feedId=851&k=2aaf38cfeba4a6cafc598b7aaeb8103fcaf6d41a",
+  "Apple|Audio": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2F-YmDdzLZc0WkLJf9HrNHPg.c-r.jpg&feedId=851&k=275561559b13bd25f2b6cab2b720e872b6774c37",
+  "APPLE|Audio": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2FtxzWQIWV7UapBJYQk86VDg.c-r.jpg&feedId=851&k=088d64ceff94439e2291f8bded79112e5959a523",
+  "Apple|Computers": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2F0JaIQge5bEaRwtsSYsVG5Q.c-r.jpg&feedId=851&k=f7892e1a62d045c70743296a397114930e16bb13",
+  "Apple|Phones": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F7a5158d57ca384a99a696d88e28c0786.jpg%3Fv%3D1769172106&feedId=851&k=331260fe0b78d0f15ae7ffe5a41b2fc47958714c",
+  "APPLE|Phones": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2FNaXlM5oRTUauulw_jeZLcQ.c-r.jpg&feedId=851&k=0060115214c72cd2ecdafdc6654fe658d46069ae",
+  "Apple|Tablets": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2FumJ_G1f7fkK0SqcAuTEjhw.c-r_e194d790-030c-4bb1-9bf2-8b676c94795a.jpg%3Fv%3D1793685876&feedId=851&k=f91ba58cbbf7fa2f9ac15287e8efca0542d63645",
+  "Apple|Wearables": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2Ff2e86e75a51674d1bb28c0bec8e450bf.jpg%3Fv%3D1775034981&feedId=851&k=fa6ed08ce76fd888bb32b556dfab9922c871cf80",
+  "ASUS|Computers": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2Fr3lHKB28wUGu5SrFhDgsRA.c-r.jpg&feedId=851&k=a9b4306524e4fb34fd3cf884f560ae948fb0c6e1",
+  "ASUS|Gaming": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F2cbac479dd7a99221790bd38824e3356.jpg%3Fv%3D1793158622&feedId=851&k=ed92c35fbcc0eeb74f12d5c79023578e56c21d3c",
+  "ASUS|Monitors": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2FKwu-W_GWo0a-GVxS1YgCQg.c-r.jpg&feedId=851&k=c28597b4e7191f7d526fdca7a4bbe3b87454fab3",
+  "ASUS|Networking": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2Fsj0U9YPvAkOr5QcNJ58wGg.c-r.jpg&feedId=851&k=4c04247cdb6d6b886fb08e308446ff7f8f2a0396",
+  "ASUS|PC Components": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F80529d0a982cef1f337ed27fb3bbbc1b.jpg%3Fv%3D1776754145&feedId=851&k=f9bbe56a6116b287c099c19cefd91a48e034c104",
+  "Braun|Appliances": "https://images.icecat.biz/img/gallery_mediums/88e1cb64de4ad5e73eccec85478a8234ca298987.jpg",
+  "BRAUN|Beauty": "https://images.icecat.biz/img/gallery_mediums/ce9826d0f41e703e550526a9dd0d3ded653f4e15.jpg",
+  "Braun|Personal Care": "https://images.icecat.biz/img/gallery_mediums/ff4331b0e5ba63db5fa73f838be56f758d554307.jpg",
+  "Brother|Printers": "https://images.icecat.biz/img/gallery_mediums/5a11162ffc245147649a45cc615b2a370dfb3cdd.jpg",
+  "Canon|Cameras": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Awww.pro-camera.co.uk%2Facatalog%2FCanonEOSR5II%2BRF24-105f4L-1.jpg&feedId=851&k=5144f5c996a278fe60b4e76bc172d34ab8a019e4",
+  "Canon|Printers": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2Fjk-baBKKYi6lcquVsg_xAQ.c-r.png&feedId=851&k=98db5e55abfc31246e7a39e5de69048c3f07a6e1",
+  "Dell|Computers": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F0aa318cfe74838162a40fad2dbde695d.jpg%3Fv%3D1790482062&feedId=851&k=4f5b1ef6865dff6618dae5f0d07c0e48a7855eae",
+  "Dell|Monitors": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2FVyDpKnoYxEGxNZQs6yxlvQ.c-r.jpg&feedId=851&k=254d7da07112209cab2797ba782c3ce2c47e6e6c",
+  "Electrolux|Kitchen": "https://images.icecat.biz/img/gallery_mediums/f062f2246475951aa5874ee6ddfddcc82a8269f8.jpg",
+  "Epson|TV": "https://images.icecat.biz/img/gallery_mediums/a3586e3900979fa1280e17713de7813179392a4e.jpg",
+  "Hisense|TV": "https://images.icecat.biz/img/gallery_mediums/d43c9c31bf65ac07cf96cdef0dcf74fad6654fa9.jpg",
+  "HP|Computers": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F9ac52d6453e0ded2bafa1d6bb2cf8d54_53ec8159-de1d-4ca8-b381-0ff58c8d5fb3.jpg%3Fv%3D1786601982&feedId=851&k=0283d0735267ff37e50d53d15f3756b8966278b8",
+  "HP|Printers": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F92d1475b8d54f50dbd0501b163afb95b.jpg%3Fv%3D1773989439&feedId=851&k=84f3a45da8e5f7c06cfb892e6361bc559c16a6a1",
+  "Lenovo|Computers": "https://images.icecat.biz/img/gallery_mediums/5efefc9d20f295463847ae8fe467d6e0a48a14f2.jpg",
+  "Lenovo|Gaming": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2Fwestcoast-40-2.jpg%3Fv%3D1792876095&feedId=851&k=a13dfc592891a2057d2f32eebe7b52a6c7e80d6e",
+  "Lenovo|Monitors": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2Fb1aa2ce5eefc6d1addb95cdc0221453c8e8de5de4a7604ea552b188439126d59.jpg%3Fv%3D1789109834&feedId=851&k=444319dbd13ba5d717641d24f1bb3cc5bf9b17ba",
+  "Lenovo|Tablets": "https://images.icecat.biz/img/gallery_mediums/3ece11b1232a4efdde1ced47eb33cba46cb4d0f5.jpg",
+  "LG|Appliances": "https://images.icecat.biz/img/gallery_mediums/8e49e9cd35d35b7dc52bada046a0762944ba0453.jpg",
+  "LG|Audio": "https://images.icecat.biz/img/gallery_mediums/3043863f6b7acf6ce14045ebfd0390f86bf89e25.jpg",
+  "LG|TV": "https://images.icecat.biz/img/gallery_mediums/3509289133531e4aff2a59cd9afa14424e8870cb.jpg",
+  "Logitech|Accessories": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Aasset.re-in.de%2Fisa%2F160267%2Fc1%2F-%2Fde%2F001948153PI00%2F001948153PI00.jpg%3Fy%3D500%26x%3D500%26align%3Dcenter&feedId=24181&k=b11e8f462e6f5d8b41c4cad756844d85633bcaf4",
+  "Logitech|Audio": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Aasset.re-in.de%2Fisa%2F160267%2Fc1%2F-%2Fde%2F002304594PI00%2F002304594PI00.jpg%3Fy%3D500%26x%3D500%26align%3Dcenter&feedId=24181&k=0ac8de1ce3f47073e4666f3d092342e2e2a3e208",
+  "Logitech|Computers": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.ipcstore.net%2Fimg%2F104723.jpg%3Fv%3D1790283208&feedId=24181&k=d077d338a1a7ca5d0bddb57c2499850e92783f68",
+  "Logitech|Gaming": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Aasset.re-in.de%2Fisa%2F160267%2Fc1%2F-%2Fde%2F002127569PI00%2F002127569PI00.jpg%3Fy%3D500%26x%3D500%26align%3Dcenter&feedId=24181&k=1523b8ff0a1384e252987e71648c7ef699ab1736",
+  "Microsoft|Accessories": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2FE9O4--dBhEarXz-Qkf-59g.c-r.jpg&feedId=851&k=d13404295762b511fc83d96fb1c4240cbbee670d",
+  "Microsoft|Gaming": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2FH-mXEqCKSSaebplDSnVwiw.c-r.png&feedId=851&k=dab10d527867f0a88c9ee27302c1e10b9d065a80",
+  "Microsoft|Software & VPN": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Aentrepreneurship.ieee.org%2Fwp-content%2Fuploads%2F2018%2F02%2FImage-Coming-Soon-Placeholder-e1518111259296.png&feedId=851&k=b5f367e4a4c93acfb69af9b7df937b3ce28d5aed",
+  "Microsoft|Tablets": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2Fb414f81eafd55d4a70878113701de918_6cbf2a7a-5f2b-41db-a849-35ebe69bfb15.jpg%3Fv%3D1756098271&feedId=851&k=532b60a8672b496dc3577b011f97b609379b173f",
+  "Nike|Shoes & Sneakers": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0965%2F4314%2F6361%2Ffiles%2FA4240460-8462-4654-8DB6-2AFF7B986C00.jpg%3Fv%3D1786650601&feedId=851&k=b3c02e6acbe35b6006b5be6f8533135b89defc56",
+  "Nintendo|Gaming": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Aentrepreneurship.ieee.org%2Fwp-content%2Fuploads%2F2018%2F02%2FImage-Coming-Soon-Placeholder-e1518111259296.png&feedId=851&k=b5f367e4a4c93acfb69af9b7df937b3ce28d5aed",
+  "Philips|Monitors": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2FcBPwC3ruYUqWflmoLxB7uA.c-r.jpg&feedId=851&k=db11c929059cad158f9c422dbb2fa2acef8a3498",
+  "Philips|Smart Home": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Amedia.stockinthechannel.com%2Fpic%2F5P6LLNvAp0aklgSdX0h1Qw.c-r.jpg&feedId=851&k=f681f82fd01058ec34ce362daf71ad479d88a2fd",
+  "Philips|TV": "https://images.icecat.biz/img/gallery_mediums/7a65c1160d236b930b4ea17667655877fe9b450e.jpg",
+  "Roborock|Robot vacuums": "https://images.icecat.biz/img/gallery_mediums/a90258939757bdd1d1441b177e1f613739a534bf.jpg",
+  "Samsung|Accessories": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Aasset.re-in.de%2Fisa%2F160267%2Fc1%2F-%2Fde%2F1712827_BB_00_FB%2F1712827_BB_00_FB.jpg%3Fy%3D500%26x%3D500%26align%3Dcenter&feedId=35537&k=33a7c8cf4e8e2a991c5f5172ee922b5429abf7a1",
+  "Samsung|Appliances": "https://images.icecat.biz/img/gallery/babfb0400488b761efc6f1133065cda936c85c7d.jpg",
+  "Samsung|Audio": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F27f4a3639c403237bdd6e4eb9df9a77f.jpg%3Fv%3D1780044551&feedId=851&k=6952f0925afeb02a954772e9a35d53ff50fe123d",
+  "Samsung|Monitors": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2FxQkWz9mf-EytHHljS-2Rzg.c-r.jpg%3Fv%3D1793660596&feedId=851&k=b90451b29f5a7a37707b877c97b60c1f60c5d047",
+  "Samsung|PC Components": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Aasset.re-in.de%2Fisa%2F160267%2Fc1%2F-%2Fde%2F003401966PI00%2F003401966PI00.jpg%3Fy%3D500%26x%3D500%26align%3Dcenter&feedId=35537&k=fe78d0351a0471d3b3c0b0f87de79df3813028d2",
+  "Samsung|Phones": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F9e30b99e77f2abbc40ad7cf9bd318b21beb3b88e0ce7f4049e4be29df4111708_66d16379-8d5d-466a-aede-d9011923f037.jpg%3Fv%3D1789109871&feedId=851&k=ad279239205729751da50911cf12ae054336a8e8",
+  "SAMSUNG|Phones": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F8d1e3521087ab4f07e4db7e40c7ef47c.jpg%3Fv%3D1776586034&feedId=851&k=0dd37da0f72bb5b4c3b35b4678d1d4aa8f90e90c",
+  "Samsung|Tablets": "https://images.icecat.biz/img/gallery_mediums/a4626687aa30da38db717b8a9552a89b6349a527.jpg",
+  "Samsung|TV": "https://images.icecat.biz/img/gallery_mediums/353898984e4e62c736a447f078c1ea036fc7f940.jpg",
+  "Samsung|Wearables": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F89ff4ddfee46370c53ce836eb883591fd058160ed6b55d67cc7f19047ee7718f.jpg%3Fv%3D1785477344&feedId=851&k=9c0b00498ee1d5a4666d6b08fe4eb30e33a4565a",
+  "Sony|Audio": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Aasset.re-in.de%2Fisa%2F160267%2Fc1%2F-%2Fde%2F003279401PI00%2F003279401PI00.jpg%3Fy%3D500%26x%3D500%26align%3Dcenter&feedId=24181&k=5f978b8e58ecbbfbaf6e682a3f2c7706d426f6da",
+  "Sony|Gaming": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Aasset.re-in.de%2Fisa%2F160267%2Fc1%2F-%2Fde%2F002865505PI00%2F002865505PI00.jpg%3Fy%3D500%26x%3D500%26align%3Dcenter&feedId=24181&k=6c707b0463c2a24b2e8314b2e8761d351d1c2c87",
+  "Sony|TV": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2F94ecc00d114560a9c9c867e7e02cbf14ffb1d8d50dfc1455c35b7140e7a094b7.jpg%3Fv%3D1787896241&feedId=851&k=d0d64ad40199f9f299f01d684ec1b922fbd757eb",
+  "TCL|TV": "https://images.icecat.biz/img/gallery_mediums/67a8b63e2c99acf3937619b27492ce898b90f6a0.jpg",
+  "Xiaomi|Bikes & E-mobility": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Acdn.shopify.com%2Fs%2Ffiles%2F1%2F0607%2F0190%2F0965%2Ffiles%2Fd7524c92d4ce47c71381d5e6c465d24b.jpg%3Fv%3D1756120661&feedId=851&k=85c8fa75a360a57b00716dbd6a5d03cf65cfcee2",
+  "Xiaomi|Home": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Ai05.appmifile.com%2F669_item_ro%2F19%2F12%2F2025%2F73cb9dd87582d6e7e57f07289b760edc.png&feedId=851&k=fba4438ecae369a41fd1e05befdcdf06cbf61152",
+  "Xiaomi|Phones": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Ai05.appmifile.com%2F873_item_ro%2F05%2F09%2F2025%2Fc2fc32e86082e513f3dfb104e7f0982c.png&feedId=851&k=1c681aac1efef10294664becfce76b32bce2d42b",
+  "Xiaomi|Tablets": "https://images2.productserve.com/?w=200&h=200&bg=white&trim=5&t=letterbox&url=ssl%3Ai05.appmifile.com%2F703_item_ro%2F26%2F02%2F2025%2Fc5bea07fd4efe9d234cd7eb3f8f9ea71.png&feedId=851&k=76e8c34b42d8d584722b37a13ad62332ad332e41",
+};
 export const CATEGORY_IMAGES = {
 };

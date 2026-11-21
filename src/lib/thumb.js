@@ -1,13 +1,17 @@
 import { IMAGES } from "../data/images.js";
-import { CATEGORY_IMAGES } from "../data/category-images.js";
+import { BRAND_CAT_IMAGES, CATEGORY_IMAGES } from "../data/category-images.js";
 import { esc } from "./format.js";
 import { artFor } from "./art.js";
 
 /* ---------- product pictures ----------
    1) IMAGES["Exact product name"] = licensed photo URL (data/images.js) → shown as a photo of that SKU
-   2) otherwise CATEGORY_IMAGES[d.cat] = a free-license generic photo of the category (data/category-images.js)
-      → shown as a real but non-exact representative photo, so almost every card has an actual picture
-   3) otherwise an illustration drawn from the category and brand, so every product still has a picture */
+   2) otherwise BRAND_CAT_IMAGES["Brand|Category"] = a REAL photo already licensed for another product
+      of the same brand and category (data/category-images.js, built by
+      scripts/images/brand-category-fallback.mjs) → e.g. any other Samsung TV's photo for a Samsung TV
+      with none of its own; never crosses brand or category, so a watch never gets a TV's photo
+   3) otherwise CATEGORY_IMAGES[d.cat] = a free-license generic photo of the category (currently empty -
+      kept as a slot for future AI-generated category art once that's available)
+   4) otherwise an illustration drawn from the category and brand, so every product still has a picture */
 export const ICON = {
  "Phones":'<rect x="14" y="5" width="20" height="38" rx="4"/><path d="M21 37h6"/>',
  "Audio":'<path d="M10 30v-4a14 14 0 0 1 28 0v4"/><rect x="7" y="28" width="9" height="13" rx="2"/><rect x="32" y="28" width="9" height="13" rx="2"/>',
@@ -59,8 +63,13 @@ export const ICON = {
 export const TWO = ["The Ordinary","La Roche-Posay","Ultimate Ears","Bowers & Wilkins","Black Diamond","The North Face","Under Armour","Hugo Boss","Calvin Klein","Polo Ralph Lauren","Ralph Lauren","Tommy Hilfiger","Fred Perry","Le Creuset","Big Green Egg","Home Assistant","Peak Design","Dr. Martens","New Balance","Paco Rabanne","Jean Paul Gaultier","Giorgio Armani","Carolina Herrera","Estée Lauder","Charlotte Tilbury","Rare Beauty","Beauty of Joseon","Paula's Choice","Caran d'Ache","Brändi Dog","Hot Wheels","Fisher-Price","Hans im Glück","Bang & Olufsen","Maison Francis Kurkdjian","Le Labo","Kuhn Rikon","Betty Bossi","Amazon Basics","Amazon Essentials","Concept2","Sea to Summit","Fjällräven","Viktor & Rolf","Thierry Mugler","Narciso Rodriguez","Jil Sander","Daniel Wellington","Herman Miller","Secretlab","Lian Li","be quiet!","Western Digital","Bambu Lab","Tour de Suisse","Busch & Müller","Pegasus Spiele","Lululemon"];
 export const hue = s => { let x=0; for (const c of s) x=(x*31+c.charCodeAt(0))>>>0; return x%360; };
 export const brandOf = n => (TWO.find(b=>n.startsWith(b+" ")) || n.split(" ")[0]).replace(/[–:]$/,"");
+const brandCatPhoto = d => BRAND_CAT_IMAGES[`${brandOf(d.name)}|${d.cat}`];
+// Whether a deal has a real product photo (licensed exact-match, brand+category fallback, or
+// category photo) rather than just the generated SVG illustration - used to sort photographed
+// deals first.
+export const hasPhoto = d => Boolean(IMAGES[d.name] || brandCatPhoto(d) || CATEGORY_IMAGES[d.cat] || d.img);
 export function thumb(d){
-  const photo = IMAGES[d.name] || CATEGORY_IMAGES[d.cat] || d.img;
+  const photo = IMAGES[d.name] || brandCatPhoto(d) || CATEGORY_IMAGES[d.cat] || d.img;
   const img = photo ? `<img src="${esc(photo)}" alt="${esc(d.name)}" loading="lazy" onerror="this.remove()">` : "";
   if (d.cat==="Books" && d.name.includes(" – ")){
     const [author,title] = d.name.split(" – ");
