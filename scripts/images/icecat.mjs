@@ -37,15 +37,20 @@ import { ProxyAgent, setGlobalDispatcher } from "undici";
 const proxyUrl = process.env.HTTPS_PROXY || process.env.https_proxy;
 if (proxyUrl) setGlobalDispatcher(new ProxyAgent(proxyUrl));
 
+const BRAND_FILTER = (process.argv[2] || "").toLowerCase() || null; // optional: node icecat.mjs "Anker" - look up just one brand
 const SHOPNAME = process.env.ICECAT_SHOPNAME || "openicecat-live"; // public demo account if nothing is set
 const API_TOKEN = process.env.ICECAT_API_TOKEN || null;
 const CONTENT_TOKEN = process.env.ICECAT_CONTENT_TOKEN || null;
 const LANG = process.env.ICECAT_LANG || "EN";
 
 const IMAGES_PATH = new URL("../../src/data/images.js", import.meta.url);
+// live-ch.js stores products as {"name":"..."} objects; catalogue.js/top100.js store them as
+// ["category","name","spec",...] tuples - each file needs its own name-extraction regex, and
+// products.js itself is skipped since it only *computes* these at runtime (no literal "name":"...").
 const SOURCES = [
-  { path: new URL("../../src/data/products.js", import.meta.url), kind: "products" },
-  { path: new URL("../../src/data/live-ch.js", import.meta.url), kind: "liveCh" },
+  { path: new URL("../../src/data/live-ch.js", import.meta.url), re: /"name":"((?:[^"\\]|\\.)*)"/g },
+  { path: new URL("../../src/data/catalogue.js", import.meta.url), re: /\["[^"]+","((?:[^"\\]|\\.)*)"/g },
+  { path: new URL("../../src/data/top100.js", import.meta.url), re: /\["[^"]+","((?:[^"\\]|\\.)*)"/g },
 ];
 
 /* Recognised brands worth looking up (mirrors the BRANDS regex already used in src/main.js for
@@ -57,12 +62,19 @@ const BRANDS = [
   "Xbox", "Microsoft", "Asus", "Acer", "Blaupunkt", "Yaber", "Sharp", "Canon", "Nikon", "Fitbit",
   "Kindle", "Xiaomi", "DJI", "GoPro", "Panasonic", "Hisense", "TCL", "Epson", "Brother", "AEG",
   "Electrolux", "Gaggia", "Jura", "WMF", "Tefal", "Rowenta", "Kenwood", "KitchenAid",
+  "Anker", "Amazon", "Google", "Dreame", "Novamatic", "Liebeskind",
 ];
 // Words that look like codes but are units/specs, not model numbers - exclude these false positives.
 const NOT_A_CODE = /^(GB|TB|MB|KB|CHF|USD|EUR|WH|KWH|MAH|INCH|CM|MM|HZ|FPS|MP|OLED|LED|UHD|QLED|4K|8K|5G|WIFI|USB|HDMI)$/i;
 
 function extractBrandCode(name) {
-  const brand = BRANDS.find(b => new RegExp(`\\b${b.replace(/[äÄ]/g, "[äÄ]")}\\b`, "i").test(name));
+  // De'Longhi is written with an apostrophe in our data but Icecat's own brand name has none -
+  // allow an optional apostrophe between "De" and "Longhi" when matching, while still sending
+  // the apostrophe-free brand name ("DeLonghi") to the API.
+  const brand = BRANDS.find(b => {
+    const pat = b === "DeLonghi" ? "De'?Longhi" : b.replace(/[äÄ]/g, "[äÄ]");
+    return new RegExp(`\\b${pat}\\b`, "i").test(name);
+  });
   if (!brand) return null;
   // A model code: alnum token, 4+ chars, mixes letters and digits, not a unit/spec word.
   const tokens = name.match(/\b[A-Za-z0-9][A-Za-z0-9-]{3,}\b/g) || [];
@@ -73,9 +85,9 @@ function extractBrandCode(name) {
 function collectCandidates() {
   const seen = new Set();
   const out = [];
-  for (const { path } of SOURCES) {
+  for (const { path, re } of SOURCES) {
     const src = fs.readFileSync(path, "utf8");
-    const nameRe = /"name":"((?:[^"\\]|\\.)*)"/g;
+    const nameRe = new RegExp(re.source, re.flags);
     let m;
     while ((m = nameRe.exec(src)) !== null) {
       const name = m[1].replace(/\\"/g, '"');
@@ -84,7 +96,7 @@ function collectCandidates() {
       if (hit) { seen.add(name); out.push({ name, ...hit }); }
     }
   }
-  return out;
+  return BRAND_FILTER ? out.filter(c => c.brand.toLowerCase() === BRAND_FILTER) : out;
 }
 
 async function lookup(brand, code) {
