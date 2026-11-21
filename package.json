@@ -12,7 +12,8 @@
     "catalogue": "node scripts/build-catalogue.mjs",
     "emails": "node scripts/email-templates.mjs",
     "images:amazon": "node scripts/images/amazon-pa-api.mjs",
-    "images:icecat": "node scripts/images/icecat.mjs"
+    "images:icecat": "node scripts/images/icecat.mjs",
+    "images:category": "node scripts/images/category-stock.mjs"
   },
   "engines": {
     "node": ">=18"

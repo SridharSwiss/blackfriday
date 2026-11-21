@@ -1,10 +1,13 @@
 import { IMAGES } from "../data/images.js";
+import { CATEGORY_IMAGES } from "../data/category-images.js";
 import { esc } from "./format.js";
 import { artFor } from "./art.js";
 
 /* ---------- product pictures ----------
-   1) window.IMAGES["Exact product name"] = licensed photo URL (data/images.js) → shown as a photo
-   2) otherwise an illustration drawn from the category and brand, so every product has a picture */
+   1) IMAGES["Exact product name"] = licensed photo URL (data/images.js) → shown as a photo of that SKU
+   2) otherwise CATEGORY_IMAGES[d.cat] = a free-license generic photo of the category (data/category-images.js)
+      → shown as a real but non-exact representative photo, so almost every card has an actual picture
+   3) otherwise an illustration drawn from the category and brand, so every product still has a picture */
 export const ICON = {
  "Phones":'<rect x="14" y="5" width="20" height="38" rx="4"/><path d="M21 37h6"/>',
  "Audio":'<path d="M10 30v-4a14 14 0 0 1 28 0v4"/><rect x="7" y="28" width="9" height="13" rx="2"/><rect x="32" y="28" width="9" height="13" rx="2"/>',
@@ -57,7 +60,7 @@ export const TWO = ["The Ordinary","La Roche-Posay","Ultimate Ears","Bowers & Wi
 export const hue = s => { let x=0; for (const c of s) x=(x*31+c.charCodeAt(0))>>>0; return x%360; };
 export const brandOf = n => (TWO.find(b=>n.startsWith(b+" ")) || n.split(" ")[0]).replace(/[–:]$/,"");
 export function thumb(d){
-  const photo = IMAGES[d.name] || d.img;
+  const photo = IMAGES[d.name] || CATEGORY_IMAGES[d.cat] || d.img;
   const img = photo ? `<img src="${esc(photo)}" alt="${esc(d.name)}" loading="lazy" onerror="this.remove()">` : "";
   if (d.cat==="Books" && d.name.includes(" – ")){
     const [author,title] = d.name.split(" – ");
